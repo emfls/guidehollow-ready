@@ -38,11 +38,16 @@ const refs=[
 ---
 <Base title="공식 재난 정보와 자료 출처" description="비상시 행동요령의 근거가 되는 행정안전부·국민안전24·기상청 공식 자료를 주제별로 정리했습니다.">
 <div class="container narrow">
- <header class="page-intro"><span class="eyebrow">OFFICIAL SOURCES</span><h1>상황별 공식 지침을<br/>원문으로 확인하세요</h1><p>이 페이지의 링크는 재난 정보와 행동요령을 확인하기 위한 자료입니다. 실시간 경보를 제공하거나 정부·지자체 지시를 대체하지 않습니다.</p></header>
+ <header class="page-intro"><span class="eyebrow">OFFICIAL SOURCES</span><h1>상황별 공식 지침을 원문으로 확인하세요</h1><p>이 페이지의 링크는 재난 정보와 행동요령을 확인하기 위한 자료입니다. 실시간 경보를 제공하거나 정부·지자체 지시를 대체하지 않습니다.</p></header>
  <section class="readable"><div class="info-note"><strong>정보 확인 순서</strong><p>실제 경보가 있으면 해당 지역의 재난문자·정부방송·현장 지시를 우선하세요. 이 사이트에 인용한 내용은 사전 학습용으로, 공식 원문이 개정되면 달라질 수 있습니다.</p></div><p>자료 유형에 따라 확인할 내용이 다릅니다. <strong>행동요령</strong>은 대처 방법을 설명하고, <strong>지도·시설조회</strong>는 위치 후보를 보여주며, <strong>속보·발효현황</strong>은 시시각각 바뀝니다. 지도에서 장소가 검색되거나 속보 페이지가 열렸다는 사실로 현재 접근 가능·대피 가능·위험 해제 여부를 판단하지 마세요.</p><p>아래 공식 자료의 확인일: <time datetime={verified}>2026년 10월 28일</time>. 확인일은 원문이 발행되거나 마지막으로 개정된 날짜를 뜻하지 않습니다. 2026년 홍보책자와 비상급수 안내의 게시일은 각 링크 설명에 따로 표시했습니다.</p></section>
+ <div class="section-head source-section-head"><h2>자주 찾는 공식 자료</h2><p>대피 장소·경보·행동요령에 바로 접근할 수 있어요.</p></div>
  <div class="source-grid">
- {refs.map(item=><a href={item.href} target="_blank" rel="noopener noreferrer" class="source-card"><span>{item.agency}</span><strong>{item.title}</strong><p>{item.detail}</p><b>{item.agency.includes('해외') ? '해외 참고자료 열기 ↗' : item.agency.includes('서울특별시') ? '서울시 안내 확인 ↗' : '공식 원문 보기 ↗'}</b></a>)}
+ {refs.slice(0,6).map(item=><a href={item.href} target="_blank" rel="noopener noreferrer" class="source-card"><span>{item.agency}</span><strong>{item.title}</strong><p>{item.detail}</p><b>{item.agency.includes('해외') ? '해외 참고자료 열기 ↗' : item.agency.includes('서울특별시') ? '서울시 안내 확인 ↗' : '공식 원문 보기 ↗'}</b></a>)}
  </div>
+ <details class="guide-extra source-all-resources">
+  <summary>다른 공식 자료 {refs.length-6}개 펼쳐보기 <span aria-hidden="true">⌄</span></summary>
+  <div class="source-grid">{refs.slice(6).map(item=><a href={item.href} target="_blank" rel="noopener noreferrer" class="source-card"><span>{item.agency}</span><strong>{item.title}</strong><p>{item.detail}</p><b>{item.agency.includes('해외') ? '해외 참고자료 열기 ↗' : item.agency.includes('서울특별시') ? '서울시 안내 확인 ↗' : '공식 원문 보기 ↗'}</b></a>)}</div>
+ </details>
  <section class="readable">
   <h2>민방공 경보음만으로 공습과 핵 경보를 구분할 수 없습니다</h2>
   <p>행정안전부와 국민안전24의 민방위 경보 기준에 따르면 <strong>공습경보와 핵 경보에는 모두 사이렌 1분과 음성방송</strong>을 사용합니다. 두 경보의 실제 대응이 달라질 수 있으므로 사이렌의 소리만 듣고 유형을 추측하지 말고 방송·재난문자로 경보 이름과 대상 지역을 확인하세요. 급박한 위협 아래에서는 확인 때문에 즉각적인 보호 행동을 지연하지 않습니다.</p>

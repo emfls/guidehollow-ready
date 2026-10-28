@@ -5,7 +5,7 @@ import { sources } from '../data/resources';
  <header class="stock-header">
   <span class="eyebrow">HOME STOCK RECORD</span>
   <h2 id="stock-title">우리 집 비축품 관리표</h2>
-  <p>집에 있는 식량과 물부터 기록하고 <strong>수량·보관 장소·소비기한·교체일</strong>을 점검하세요. 이 기록은 체크리스트의 72시간 완료율과 별개이며, 식품 안전성을 자동 판정하지 않습니다.</p>
+  <p>집에 있는 물과 식량을 기록해 두세요. <strong>수량·보관 장소·교체일</strong>을 한눈에 확인할 수 있습니다.</p>
  </header>
  <div class="stock-warning">
   <strong>보관·교체 날짜는 품목에 따라 다릅니다</strong>
@@ -74,7 +74,8 @@ import { sources } from '../data/resources';
   <div class="stock-asof"><strong>기기 날짜 기준</strong> <time id="stock-asof">날짜 확인 중</time></div>
   <button type="button" id="stock-clear" class="stock-clear">비축품 기록 전체 삭제</button>
  </div>
- <section class="stock-backup" aria-labelledby="stock-backup-title">
+ <details class="stock-backup guide-extra" aria-labelledby="stock-backup-title">
+  <summary>비축품 기록 백업·복원 (필요할 때만) <span aria-hidden="true">⌄</span></summary>
   <div class="stock-backup-intro">
    <h3 id="stock-backup-title">비축품 기록 백업·복원</h3>
    <p id="stock-backup-help">이 브라우저의 비축품 기록만 <strong>JSON 파일</strong>로 내보내거나, 이 사이트에서 받은 파일을 다시 불러올 수 있습니다. 파일은 서버로 전송되지 않습니다. <strong>가져오기는 기존 비축품 기록을 전부 교체</strong>하며 체크리스트의 체크 상태와 가족 선택은 건드리지 않습니다.</p>
@@ -86,7 +87,7 @@ import { sources } from '../data/resources';
    <input id="stock-import" type="file" accept=".json,application/json" aria-describedby="stock-backup-help"/>
   </div>
   <p id="stock-backup-status" role="status" aria-live="polite" class="stock-backup-status"></p>
- </section>
+ </details>
  <div id="stock-stale" class="stock-stale" role="alert" hidden><strong>다른 탭에서 비축품 기록이 변경됐습니다.</strong> 이전 화면에서 저장하면 새 기록이 사라질 수 있어 변경을 차단했습니다. 입력 중인 내용이 있다면 따로 메모한 뒤 새로고침하세요. <button id="stock-reload" type="button">현재 기록 새로 불러오기</button></div>
  <section id="stock-recovery" class="stock-recovery" aria-labelledby="stock-recovery-title" hidden>
   <h3 id="stock-recovery-title">읽을 수 없는 비축품 기록 복구</h3>

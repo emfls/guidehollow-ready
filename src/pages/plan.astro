@@ -10,10 +10,13 @@ const chemicalAccidentGuide='https://safekorea.go.kr/safekorea-kor/acts/nacts/ac
 ---
 <Base title="가족 비상연락·대피 계획" description="공식 민방위 대피시설과 대체 장소, 연락 두절 시 행동, 영유아·이동지원 준비를 인쇄용 카드로 정리합니다.">
 <div class="container">
- <header class="page-intro"><span class="eyebrow">FAMILY PLAN</span><h1>연락이 끊겨도<br/>가족이 같은 계획을 따르도록</h1><p>평소에 작성해 함께 확인하는 비상계획입니다. 실제 경보 시에는 약속 장소보다 공식 대피 지시와 현장 안전이 우선입니다.</p></header>
+ <header class="page-intro"><span class="eyebrow">FAMILY PLAN</span><h1>연락이 끊겨도 가족이 같은 계획을 따르도록</h1><p>평소에 작성해 함께 확인하는 비상계획입니다. 실제 경보 시에는 약속 장소보다 공식 대피 지시와 현장 안전이 우선입니다.</p></header>
  <div class="emergency-panel"><div><span class="tag">중요</span><strong>한 곳만 정하지 말고 대체 장소와 경로를 준비하세요</strong><p>공습·화학 공격·산업시설 화학사고·침수는 필요한 대피 장소가 다를 수 있습니다. 사전에 정한 지하 시설이라도 침수나 오염 위험이 있으면 무조건 진입하지 마세요.</p></div><a class="btn primary" href="/situations/">상황별 행동요령 →</a></div>
+ <nav class="guide-quick-links" aria-label="가족 계획 빠른 이동">
+  <a href="#plan-find-shelter">① 대피시설 찾기</a><a href="#plan-family-contact">② 가족 연락 약속</a><a href="#plan-paper-card">③ 인쇄 카드 쓰기</a>
+ </nav>
  <section class="readable">
-  <h2>1. 생활권별 공식 대피시설과 경로 확인</h2>
+  <h2 id="plan-find-shelter">1. 생활권별 공식 대피시설과 경로 확인</h2>
   <p>국민안전24·안전디딤돌 앱에서 <strong>민방위 대피시설</strong>을 검색해 집·직장·학교에서 접근 가능한 후보를 확인하세요. 평상시 도보 경로와 대체 경로를 살펴보고 건물명·출입구 등 필요한 정보를 종이에 적습니다.</p>
   <ol>
    <li><a href={shelter} target="_blank" rel="noopener noreferrer">국민안전24 시설안전지도 ↗</a>를 엽니다.</li>
@@ -30,7 +33,7 @@ const chemicalAccidentGuide='https://safekorea.go.kr/safekorea-kor/acts/nacts/ac
   <h3>침수·정전 동시 발생 시 연락 방법</h3>
   <p><strong>침수된 지하공간에 물건이나 차량을 확인하러 들어가지 않습니다.</strong> 대피 시에는 지하계단·지하주차장을 피하고, 정전 상황에서 승강기에 갇힌 가족이 있다면 비상통화장치 또는 119로 구조를 요청하도록 약속하세요. 한국전력 일반 정전 신고·전기 상담 번호는 <strong>123</strong>입니다.</p>
   <p><a href="/situations/#flood">침수 첫 행동 →</a> · <a href="/situations/#power">정전·승강기 대응 →</a> · <a href="/situations/#lifeline-response">복합 상황 안내 →</a></p>
-  <h2>3. 연락 두절 시의 행동 합의</h2>
+  <h2 id="plan-family-contact">3. 연락 두절 시의 행동 합의</h2>
   <p>가족별로 일상적으로 머무는 장소, 공식 대피 지시가 있을 때의 행동, 대피 후 안전 확인 방법을 미리 합의하세요. 비상시에는 긴급 신고나 공식 통신 안내가 우선이므로 불필요한 통화를 줄입니다.</p>
   <p>한 사람이 연락되지 않는다고 위험지역으로 되돌아가지 마세요. 각자가 안전을 확보한 후 연락을 시도하고, 미리 정한 예비 연락 담당자에게 상황을 알리도록 계획합니다.</p>
   <h3>경보가 울려도 사이렌 소리만으로 종류를 정하지 않기</h3>
@@ -42,6 +45,8 @@ const chemicalAccidentGuide='https://safekorea.go.kr/safekorea-kor/acts/nacts/ac
   <p>가족끼리는 대피 이후 <strong>① 각자 안전한 곳에서 상태 확인 ② 예비 연락 담당자에게 현재 위치 전달 ③ 이동 허용 뒤 재합류</strong> 순서로 합의하세요. 연락되지 않는 사람을 찾으러 위험 지역으로 다시 들어가지 않으며, 필요하면 현장 관계자에게 구조 요청을 전달합니다.</p>
   <p>영유아와 학생이 학교·돌봄기관에 있다면 해당 기관의 비상 연락·보호자 인계 절차를 미리 확인하고, 현장 통제와 기관의 인계 안내를 따르세요.</p>
   <p><a href="/situations/#all-clear">민방공 경보해제 안내 →</a> · <a href="/situations/#contamination">오염 노출 후 행동요령 →</a></p>
+  <details class="guide-extra">
+  <summary>가족별·재난별 대피계획 자세히 보기 <span aria-hidden="true">⌄</span></summary>
   <h2>5. 가족 구성원별 이동·돌봄 준비</h2>
   <p>영유아는 분유·이유식·기저귀·보온과 보호자 분담을, 고령자·장애인은 이동 보조와 계단 이동 시 도움을 줄 사람을 확인하세요. 처방약·안경·보청기·충전기처럼 매일 필요한 물품도 따로 기록합니다.</p>
   <h2>6. 목적지보다 공식 경보가 우선</h2>
@@ -78,10 +83,11 @@ const chemicalAccidentGuide='https://safekorea.go.kr/safekorea-kor/acts/nacts/ac
   <p>영유아는 아기띠 등으로 안전하게 안고 이동하며, 아동은 보호자와 떨어지지 않도록 합니다. 거동이 어려운 가족은 미리 조력자를 정하고 연락방법·이동수단을 함께 적습니다. 대피 명령을 받으면 물건을 챙기느라 출발을 미루지 마세요.</p>
   <p>진화가 발표되어도 바로 귀가하지 말고 지자체의 귀가 허용·도로 통제·전기 및 수도 상태를 확인하세요. <a href={wildfireGuide} target="_blank" rel="noopener noreferrer">국민안전24 산불 행동요령 원문 ↗</a></p>
   <p><a href="/situations/#wildfire">산불 대피 핵심 행동 →</a> · <a href="/situations/#shelter-types">재난별 대피장소 선택 기준 →</a></p>
+  </details>
   <h2>10. 인쇄 후 가족과 함께 확인</h2>
   <p>이 카드에는 개인정보가 들어갑니다. 공용기기에서 인쇄한 뒤 출력물을 챙기고, 외부에 게시하거나 사진을 공개하지 마세요. 주소·담당자·시설 정보가 바뀌면 다시 작성하세요.</p>
  </section>
- <section class="worksheet" aria-label="인쇄용 가족 비상 계획">
+ <section class="worksheet" id="plan-paper-card" aria-label="인쇄용 가족 비상 계획">
   <div class="worksheet-head"><div><span class="section-label">PRINTABLE PLAN</span><h2>우리 가족 비상연락 카드</h2><p>인쇄해 손으로 작성하세요. 이 사이트는 연락처를 입력받거나 서버에 저장하지 않습니다.</p></div><button type="button" class="btn primary print-button" onclick="window.print()">인쇄하기</button></div>
   <div class="blank-row"><strong>가족 연락 담당자 / 예비 담당자</strong><span aria-label="직접 적는 칸"></span></div>
   <div class="blank-row"><strong>연락처 / 예비 연락처</strong><span></span></div>
