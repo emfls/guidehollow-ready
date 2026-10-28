@@ -1,0 +1,89 @@
+---
+import Base from '../layouts/Base.astro';
+import { sources } from '../data/resources';
+const verifiedFlashlightUrl='https://link.coupang.com/a/idtdhvDZ3A';
+const verifiedFlashlightImage='https://thumbnail1.coupangcdn.com/thumbnails/remote/212x212ex/image/vendor_inventory/9c13/0524ccbea15e678332b3299a00596c66101a6e50f267850bb9970650169a.jpg';
+const groups=[
+ {id:'water',number:'01',icon:'💧',title:'마실 물',tag:'가장 먼저',description:'가족이 3일 동안 마시고 기본적으로 사용할 물을 준비하세요.',need:'해외 CDC 참고: 1명당 하루 약 3.8L × 3일. 가족 수·기후·건강 상태에 따라 더 필요할 수 있어요.',guide:'/buying/food/',guideText:'물 준비 방법'},
+ {id:'food',number:'02',icon:'🥫',title:'바로 먹는 음식',tag:'식량',description:'전기가 끊겨도 데우지 않고 먹을 수 있는 식품을 3일치 챙기세요.',need:'통조림·상온 간편식·평소 먹는 간식. 알레르기와 소비기한도 확인하세요.',guide:'/buying/food/',guideText:'비상식량 고르기'},
+ {id:'light',number:'03',icon:'🔦',title:'손전등 + 건전지',tag:'구매 상품 검증',description:'밤에 정전돼도 휴대전화 배터리를 쓰지 않고 주변을 밝힐 수 있어요.',need:'손전등 1개 이상, 알맞은 여분 건전지. 손전등이 이미 있다면 켜지는지부터 확인하세요.',guide:'/reviews/fenix-e20-v2-flashlight/',guideText:'손전등 상세 보기',verified:true},
+ {id:'power',number:'04',icon:'🔋',title:'전원·정보 수단',tag:'정전 대비',description:'휴대전화를 충전하고, 인터넷이 안 될 때도 소식을 들을 방법이 필요해요.',need:'충전된 보조배터리·케이블·건전지 또는 수동식 라디오.',guide:'/buying/gear/',guideText:'전원·라디오 선택법'},
+ {id:'medical',number:'05',icon:'🩹',title:'구급·위생용품',tag:'가족별 조절',description:'상처를 돌보고, 물이 부족할 때도 기본 위생을 지킬 수 있도록 준비하세요.',need:'기본 구급용품·평소 복용약·휴지·물티슈·쓰레기봉투. 의약품은 개인별 확인.',guide:'/checklist/#kit-medical',guideText:'구급·위생 체크'},
+ {id:'carry',number:'06',icon:'🎒',title:'가방·옷·연락처',tag:'대피 준비',description:'급하게 이동해야 할 때 중요한 물건을 찾느라 시간을 쓰지 않도록 하세요.',need:'튼튼한 신발·보온용 옷·종이 연락처·가벼운 가방·필수 서류 사본.',guide:'/plan/',guideText:'가족 대피 계획'},
+] as const;
+---
+<Base title="우리 집 비상 준비 장바구니: 6가지부터 챙기세요" description="물·음식·손전등·보조배터리·구급용품·가족 대피 준비를 한 화면에서 확인하세요. 집에 있는 것은 체크하고 부족한 것만 구매하세요.">
+<div class="container starter-hub">
+ <header class="starter-hub-hero">
+  <div class="starter-hub-copy"><span class="eyebrow">OUR FAMILY READY KIT</span><h1>우리 집 비상용품,<br/><em>이 6가지부터 준비하세요</em></h1>
+   <p>한 가지씩 검색하느라 헤매지 않도록 <strong>필수 준비물만 한 장에</strong> 모았습니다. 이미 집에 있는 건 체크하고, 부족한 것만 채우세요.</p>
+   <a href="#starter-cards" class="btn primary">6가지 준비물 확인하기 ↓</a>
+  </div>
+  <aside class="starter-progress" aria-label="준비 현황">
+    <span>MY READY LIST</span><strong><span id="starter-ready-count">0</span><small> / 6가지</small></strong>
+    <p id="starter-ready-status" aria-live="polite">집에 있는 물건부터 표시해 보세요</p>
+    <progress id="starter-ready-progress" max="6" value="0" aria-label="6가지 기본 준비물 점검 현황">0/6</progress>
+    <small>체크 결과는 이 브라우저에만 저장됩니다</small>
+  </aside>
+ </header>
+ <div class="starter-notice"><strong>물건을 샀다고 대비가 모두 끝나는 것은 아닙니다.</strong><span>대피시설과 가족 연락 방법까지 확인해야 합니다. 구매 전 집에 있는 물건을 먼저 활용하세요.</span></div>
+ <section id="starter-cards" class="starter-list-section" aria-labelledby="starter-list-title">
+  <div class="starter-list-heading"><div><span class="section-label">YOUR FIRST 6</span><h2 id="starter-list-title">먼저 챙길 기본 6가지</h2><p>체크는 '충분한 양과 작동 상태까지 확인했다'는 뜻으로 사용하세요.</p></div><button id="starter-reset" class="starter-reset" type="button">체크 초기화</button></div>
+  <div class="starter-set-grid">
+   {groups.map(g=><article class="starter-set-card">
+     <div class="starter-set-card-top"><span class="starter-set-index">{g.number}</span><span class="starter-set-emoji" aria-hidden="true">{g.icon}</span><span class="starter-set-tag">{g.tag}</span></div>
+     <h3>{g.title}</h3><p class="starter-set-desc">{g.description}</p>
+     {'verified' in g && g.verified &&
+      <a class="starter-set-product" href="/reviews/fenix-e20-v2-flashlight/"><img src={verifiedFlashlightImage} width="92" height="92" loading="lazy" referrerpolicy="no-referrer" decoding="async" alt="페닉스 E20 V2.0 손전등"/><span><strong>페닉스 E20 V2.0</strong><small>AA 건전지 2개로 작동</small><em>제품 장단점 보기 →</em></span></a>}
+     <p class="starter-set-need"><strong>이 정도를 준비하세요</strong>{g.need}</p>
+     <div class="starter-set-actions">
+      {'verified' in g && g.verified && <a href={verifiedFlashlightUrl} rel="sponsored nofollow noopener noreferrer" target="_blank" class="starter-buy-now">쿠팡에서 손전등 보기 ↗</a>}
+      <a href={g.guide} class="starter-guide-link">{g.guideText} →</a>
+     </div>
+     <label class="starter-owned"><input class="starter-owned-checkbox" type="checkbox" data-starter-id={g.id}/><span>우리 집에 충분히 준비돼 있어요</span></label>
+    </article>)}
+  </div>
+  <p class="starter-affiliate-notice">손전등 구매 버튼은 쿠팡파트너스 제휴 링크입니다. 이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다. 다른 품목에는 아직 검증되지 않은 상품 광고를 붙이지 않았습니다.</p>
+ </section>
+ <section class="starter-special" aria-labelledby="starter-special-title">
+  <div><span class="section-label">FAMILY ADD-ONS</span><h2 id="starter-special-title">우리 가족에게 필요한 건 더 챙기세요</h2><p>아기·어르신·반려동물이 함께라면 기본 세트만으로는 부족할 수 있습니다.</p></div>
+  <div class="starter-special-links"><a href="/checklist/#kit-baby">🍼 영유아 기저귀·수유용품 →</a><a href="/checklist/#kit-care">💊 복용약·돌봄 용품 →</a><a href="/checklist/#kit-pet">🐾 반려동물 사료·이동장 →</a></div>
+ </section>
+ <section class="starter-final-steps" aria-labelledby="starter-final-title">
+  <h2 id="starter-final-title">물건을 챙긴 다음 꼭 할 일</h2>
+  <div><a href="/plan/"><b>01</b><span><strong>가족 연락·만날 장소 정하기</strong><small>전화가 안 될 때 누구에게, 어디로 갈지</small></span><span aria-hidden="true">→</span></a>
+   <a href="/situations/"><b>02</b><span><strong>상황별 대피 방법 확인하기</strong><small>공습·화재·침수·지진에 따라 다릅니다</small></span><span aria-hidden="true">→</span></a>
+   <a href="/checklist/"><b>03</b><span><strong>자세한 22개 기본 체크리스트 점검</strong><small>수량·유효기간·예비품까지 빠짐없이</small></span><span aria-hidden="true">→</span></a>
+  </div>
+ </section>
+ <footer class="starter-source"><p>기본 준비 항목은 <a href={sources.supplies} target="_blank" rel="noopener noreferrer">국민안전24 비상대비 물자</a>와 <a href={sources.readyKit} target="_blank" rel="noopener noreferrer">미국 Ready.gov 비상용품 안내</a>를 참고했습니다. 하루 물 3.8L는 <a href={sources.waterGuide} target="_blank" rel="noopener noreferrer">미국 CDC의 참고 권장량</a>으로, 국내 의무 기준은 아닙니다. 실제 수량은 가족 구성과 건강 상태에 맞게 늘려야 합니다.</p></footer>
+ <noscript><p class="info-note">자바스크립트를 끄면 체크 현황의 저장과 진행률은 작동하지 않습니다. 목록을 종이로 기록해도 됩니다.</p></noscript>
+</div>
+<script>
+const starterCheckboxes=[...document.querySelectorAll<HTMLInputElement>('.starter-owned-checkbox')];
+const starterKey='guidehollow-ready-starter-set-v1';
+const counter=document.querySelector<HTMLElement>('#starter-ready-count');
+const progress=document.querySelector<HTMLProgressElement>('#starter-ready-progress');
+const status=document.querySelector<HTMLElement>('#starter-ready-status');
+function starterUpdate(){
+ const n=starterCheckboxes.filter(x=>x.checked).length;
+ if(counter)counter.textContent=String(n);
+ if(progress)progress.value=n;
+ if(status)status.textContent=n===6?'기본 6개 분야 점검 완료 · 대피·연락 계획도 확인하세요':n===0?'집에 있는 물건부터 표시해 보세요':n+'개 확인 · 부족한 품목을 이어서 준비하세요';
+}
+try{
+ const old=JSON.parse(localStorage.getItem(starterKey)||'[]');
+ if(Array.isArray(old))starterCheckboxes.forEach(x=>x.checked=old.includes(x.dataset.starterId));
+}catch{}
+starterUpdate();
+starterCheckboxes.forEach(x=>x.addEventListener('change',()=>{
+ try{localStorage.setItem(starterKey,JSON.stringify(starterCheckboxes.filter(c=>c.checked).map(c=>c.dataset.starterId)))}catch{}
+ starterUpdate();
+}));
+document.querySelector('#starter-reset')?.addEventListener('click',()=>{
+ starterCheckboxes.forEach(x=>x.checked=false);
+ try{localStorage.removeItem(starterKey)}catch{}
+ starterUpdate();
+});
+</script>
+</Base>
