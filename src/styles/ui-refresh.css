@@ -487,3 +487,64 @@ a:hover{color:#176446}
  .home-kit-banner>span{display:none}
  .starter-set-card{min-height:0}
 }
+
+/* Strong readability overrides for Astro-scoped stock/checklist forms.
+   Component local CSS has higher specificity: keep the light app design consistent. */
+main .stock-section{background:transparent!important;color:#253b43!important;border-color:#e0e8e6!important}
+main .stock-section :is(.stock-form,.stock-summary,.stock-card,.stock-backup,.stock-filter label,.water-coverage,.water-coverage-results>div){
+ background:#fff!important;border-color:#dfe8e6!important;box-shadow:none!important;
+}
+main .stock-section .stock-warning{background:#fff8eb!important;border-color:#eadbbe!important}
+main .stock-section :is(.stock-header h2,.stock-header p,.stock-form label,.stock-summary strong,.stock-name,.stock-facts,.stock-kind,.stock-backup h3,.water-coverage-head h3){color:#29434a!important}
+main .stock-section :is(.stock-header p,.stock-facts,.stock-note,.stock-backup p,.stock-summary,.water-coverage-status,.water-coverage-excluded){color:#526b74!important}
+main .stock-section .stock-grid :is(input,select),
+main .stock-section .water-coverage-head input,
+main .stock-section .stock-backup-actions input{
+ background:#fff!important;color:#233942!important;border-color:#bdcbc7!important;min-width:0;
+}
+main .stock-section :is(.stock-edit,.stock-remove,.stock-backup-button,.stock-recovery-actions button){background:#f2f7f3!important;color:#215b41!important;border-color:#d0e1d5!important}
+main .stock-section .stock-card.stock-editing{background:#eff7ef!important;border-color:#87bca0!important}
+main .stock-section .stock-filter label{color:#345b46!important}
+main .family-select{background:#fff!important;color:#2b4249!important;border-color:#dfe8e6!important}
+main .family-select legend{color:#24583e!important}
+main .family-select p{color:#5c6d76!important}
+main .family-option{background:#f5f8f6!important;color:#28433e!important;border-color:#dce6e1!important}
+main .family-option:has(input:checked){background:#e8f4ed!important;border-color:#8dbba1!important}
+main .family-option :is(span,small){color:#2e5042!important}
+main .missing-toggle{background:#f7faf7!important;color:#2a6246!important;border-color:#d1e3d7!important}
+main .copy-fallback-wrap{background:#fff!important;color:#2e4149!important;border-color:#dce8e1!important}
+main .copy-fallback-wrap textarea{background:#fff!important;color:#233e47!important;border-color:#b8ccc3!important}
+main .check-backup.guide-extra{background:#fff!important;border-color:#dae7dc!important}
+main .check-backup.guide-extra h2,main .check-backup.guide-extra p{color:#335449!important}
+main .check-backup-actions input::file-selector-button,main .stock-backup-actions input::file-selector-button{background:#eaf4ed!important;color:#276c4b!important}
+main .water-estimator{background:#f1f7f3!important;color:#283f46!important;border-color:#d7e7db!important}
+main .water-estimator h3{color:#245e43!important}
+main .water-form label{color:#355d4b!important}
+main .water-form input{background:#fff!important;border-color:#b3cbbc!important;color:#234139!important}
+main .water-result span,main .water-estimator>p{color:#536d61!important}
+main .water-result output{color:#1c6745!important}
+main .family-guides section{background:#fff!important;border-color:#e0e8e8!important}
+main .family-guides h3{color:#245b42!important}
+main .table-help,main .table-scroll-note{color:#6a797e!important}
+main .comparison-scroll caption{color:#255741!important}
+.source-card strong{color:#243c43;font-size:1.03rem;line-height:1.45;min-height:2.9em;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;overflow-wrap:anywhere}
+.source-card p{color:#63747a!important;font-size:.84rem;line-height:1.6;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;min-height:4.8em}
+.source-card b{margin-top:auto;padding-top:13px;color:#1c714a}
+.review-directory-card h3{min-height:2.8em;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.review-directory-card p{min-height:3.15em;-webkit-line-clamp:2!important}
+.starter-set-card .starter-guide-link{margin-top:auto}
+@media(max-width:760px){
+ main .stock-section .stock-grid{grid-template-columns:1fr!important}
+ main .stock-section .stock-list{grid-template-columns:1fr!important}
+ main .stock-section .stock-card{flex-wrap:wrap!important}
+ main .stock-section .stock-card :is(.stock-actions,.stock-card-actions){flex-wrap:wrap}
+ main .stock-section :is(input,select,textarea){font-size:16px}
+ main .check-actions{display:flex;flex-wrap:wrap;gap:8px}
+ main .check-actions :is(.btn,.quiet-button){flex:1 1 125px;min-height:44px}
+ .review-directory-card h3{min-height:0}
+ .review-directory-card p{min-height:0}
+}
+@media print{
+ main .water-estimator,main .stock-section .stock-card,main .check-group{background:#fff!important;color:#111!important}
+ main .stock-section :is(.stock-header h2,.stock-name,.stock-facts){color:#111!important}
+}
