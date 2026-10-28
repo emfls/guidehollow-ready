@@ -14,7 +14,9 @@ const refs=[
  {agency:'행정안전부 · 국민안전24',title:'민방공 경보해제의 의미와 신호',detail:'민방공 경보 종류 중 경보해제의 기준, 음성방송 방식 및 경보 단계 안내',href:'https://www.safekorea.go.kr/safekorea-kor/edtr/clns/cdal/civilDefenseAlarm.do?menuSn=57'},
  {agency:'행정안전부 · 국민안전24',title:'화학사고 대피소 공식 지도',detail:'대피시설에서 화학사고 대피소를 따로 선택. 지도 표시가 실시간 개방·수용 가능 여부를 보증하지 않음',href:'https://www.safekorea.go.kr/safekorea-kor/flsm/flsm/facilitiesSafteyMap.do?menuSn=234'},
  {agency:'행정안전부 · 국민안전24',title:'화학사고재난 단계별 국민행동요령',detail:'누출 현장 발견 시 이탈·119 신고, 재난문자 수신 후 실내 대기, 주민대피명령 시 이동, 복귀 후 오염 식수·물품 주의',href:'https://safekorea.go.kr/safekorea-kor/acts/nacts/action-guide.do?actsHeaderTitle=%ED%99%94%ED%95%99%EC%82%AC%EA%B3%A0%EC%9E%AC%EB%82%9C&category=chemicalAccidentDisaster&menuSn=4'},
- {agency:'행정안전부 · 국민안전24',title:'화생방무기 대응·자가 제염',detail:'화학물질 노출 시 세척과 오염 의복 처리, 핵·방사능 낙진 노출 후 자가 제염 안내',href:'https://safekorea.go.kr/safekorea-kor/acts/nacts/action-guide.do?actsHeaderTitle=%ED%99%94%EC%83%9D%EB%B0%A9%EB%AC%B4%EA%B8%B0&category=chemicalandBiologicalWeapons&menuSn=4'},
+ {agency:'행정안전부 · 국민안전24',title:'화생방무기 대응·자가 제염',detail:'화학무기 노출 후 흐르는 물 15분 이상 세척과 오염 의복 분리, 핵·방사능 낙진 후 온수·비누·샴푸 세척과 린스 미사용 안내',href:'https://safekorea.go.kr/safekorea-kor/acts/nacts/action-guide.do?actsHeaderTitle=%ED%99%94%EC%83%9D%EB%B0%A9%EB%AC%B4%EA%B8%B0&category=chemicalandBiologicalWeapons&menuSn=4'},
+ {agency:'미국 CDC · 해외 보충자료',title:'방사능 비상시 자가 제염 절차',detail:'겉옷 제거, 비누와 물로 부드럽게 세척, 샤워 불가 시 젖은 천으로 노출 부위 닦기. 한국 정부 지침이 우선',href:'https://www.cdc.gov/radiation-emergencies/prevention/self-decontaminate.html'},
+ {agency:'미국 CDC · 해외 보충자료',title:'방사능 피폭과 오염·요오드화칼륨 복용 FAQ',detail:'피폭과 방사성 물질 오염의 차이, 실내 대피, 요오드화칼륨은 당국 지시 없이 복용하지 않아야 함',href:'https://www.cdc.gov/radiation-emergencies/faq/index.html'},
  {agency:'행정안전부 · 국민안전24',title:'민방공경보 단계별 행동요령',detail:'경계경보·공습경보 등 단계별 대피 준비와 행동 확인',href:'https://safekorea.go.kr/safekorea-kor/acts/nacts/action-guide.do?actsHeaderTitle=%EB%AF%BC%EB%B0%A9%EA%B3%B5%EA%B2%BD%EB%B3%B4&category=civlAirDefenseWarning&menuSn=4'},
  {agency:'행정안전부 · 국민안전24',title:'지진해일 긴급대피 행동요령',detail:'해안에서 지진이 발생하거나 지진해일 특보가 있을 때 높은 곳으로 이동하고 반복 파도에 대비',href:'https://safekorea.go.kr/safekorea-kor/em/emergency/emergency_eq3.html'},
  {agency:'행정안전부 · 국민안전24',title:'산사태 발생 전·중·후 행동요령',detail:'위험 신호·예보 사전 확인과 실제 산사태 발생·대피명령 시 즉시 이동을 구분. 토사 진행 방향과 계곡 회피',href:'https://safekorea.go.kr/safekorea-kor/acts/nacts/action-guide.do?actsHeaderTitle=%EC%82%B0%EC%82%AC%ED%83%9C&category=landSlide&menuSn=4'},
@@ -58,6 +60,10 @@ const refs=[
   <h2>산불 대피와 귀가 시 주의</h2>
   <p>국민안전24의 산불 행동요령에 따라 산림 인근 거주자와 야외 활동자는 산불의 진행 경로에서 벗어나고, 재난문자·지자체 대피 안내에 따라 산에서 떨어진 안전한 곳으로 이동합니다. 영유아·노인·장애인의 이동 지원 방법도 미리 정해두세요.</p>
   <p>진화가 끝난 뒤에도 현장 위험이 사라졌다고 단정하지 마세요. 지자체의 귀가 안내, 주택·전기·수도 시설 상태와 남은 불씨 위험을 확인한 뒤 안전하게 이동해야 합니다.</p>
+  <h2>핵폭발 직후와 방사능 낙진 대피는 구별하세요</h2>
+  <p><strong>핵폭발 직후</strong>의 섬광·충격파·낙하물 위험에서는 먼저 몸을 보호해야 합니다. 낙진 위험이 이어질 때는 튼튼한 건물의 지하 또는 외벽·지붕과 떨어진 중앙 공간에 머물며 공식 방송을 확인하세요. 민방공 경보해제만으로 오염구역의 출입이 안전하다고 간주해서는 안 됩니다.</p>
+  <p><strong>방사선 피폭</strong>은 방사선에 노출되는 것이고, <strong>방사성 물질 오염</strong>은 방사성 물질이 피부·옷이나 몸 안에 있는 상태입니다. 피폭됐다고 모두 오염된 것은 아닙니다. 몸이나 의복에 낙진이 묻었을 가능성이 있다면 안전한 실내에서 겉옷을 조심히 벗고 부드럽게 씻습니다. 물이 없는 경우 젖은 천 등으로 노출 피부를 닦는 방법은 위 CDC 자료에 별도 설명돼 있습니다.</p>
+  <p>린스는 방사성 물질을 머리카락에 붙게 할 수 있으므로 사용하지 않습니다. <strong>갑상샘방호약품(요오드화칼륨)은 모든 방사선에 대한 예방약이 아니며, 보건·방재 당국 지시 없이 임의로 복용하지 마세요.</strong> 약품 안내와 해외 보충자료는 대한민국의 공식 대피·복용 지침을 대체하지 않습니다.</p>
   <h2>경보해제와 오염 노출 이후</h2>
   <p>국민안전24에는 민방공 <strong>경보해제</strong>의 의미와 행동요령이 정리되어 있습니다. 경보해제는 추가 공격이 예상되지 않는 단계이므로 정부 방송을 계속 확인해야 하며, 위험 시설·오염지역의 안전이 보증됐다는 의미로 확대하지 마세요.</p>
   <p>화학물질 및 방사성 물질에 노출됐다면 두 상황의 제염 방법을 구별하고, 해당 지역의 구조·보건당국 지침을 우선하세요. 화학무기 대피요령의 세척 시간은 알려지지 않은 산업용 화학물질에 그대로 적용하는 지침이 아닙니다. 피부 세척과 오염 의복 처리 안내는 위의 <strong>화생방무기 대응·자가 제염</strong> 자료를 확인하세요.</p>
