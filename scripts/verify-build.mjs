@@ -67,6 +67,8 @@ const starter=file('starter-kit/index.html');
 if(!starter.includes('우리 집 비상 준비')||!starter.includes('guidehollow-ready-starter-set-v1')||!starter.includes('페닉스 E20 V2.0')||!starter.includes('idtdhvDZ3A'))throw Error('Starter kit missing functional checklist or vetted shopping product');
 if(starter.includes('iframe')||starter.includes('한 번에 구매 완료'))throw Error('Unsafe iframe or misleading whole-kit purchase claim');
 if(!starter.includes('id="starter-personal"')||!starter.includes('id="starter-missing-count"')||!starter.includes('id="starter-people"')||!starter.includes('id="starter-water-owned"'))throw Error('Household calculator or missing-item overview not generated');
+if(!starter.includes('id="starter-detail-bridge"')||!starter.includes('data-base-ids=')||!starter.includes('data-crosswalk=')||!starter.includes('id="starter-detail-done"')||!starter.includes('guidehollow-ready-check-v1'))throw Error('Non-destructive 22-item detail bridge missing');
+if(!starter.includes('완료로 자동 처리하지 않습니다')||!design.includes('.starter-detail-areas'))throw Error('Broad and detailed check statuses must remain distinct');
 if(!starter.includes('미체크는 미보유 확정이 아닙니다')||!starter.includes('현재 가격·재고·판매자·배송은 쿠팡에서 확인하세요'))throw Error('Shopping area lacks non-coercive disclosure of verification limits');
 if(!starter.includes('data-missing-for="water"')||!starter.includes('data-missing-for="light"')||!starter.includes('id="starter-show-unchecked"')||!starter.includes('id="starter-copy-missing"'))throw Error('Missing-only product decision tool incomplete');
 if((starter.match(/https:\/\/link\.coupang\.com\/a\/idtdhvDZ3A/g)||[]).length<1)throw Error('Approved affiliate link lost');
