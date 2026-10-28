@@ -69,7 +69,8 @@ import { sources } from '../data/resources';
  </section>
  <div class="stock-summary">
   <div><strong>등록된 비축품</strong> <span id="stock-total">0건</span></div>
-  <div><strong>30일 이내 확인</strong> <span id="stock-due">0건</span></div>
+  <div><strong>30일 이내·기한 경과</strong> <span id="stock-due">0건</span></div>
+  <div><strong>날짜 미기록</strong> <span id="stock-undated">0건</span></div>
   <button type="button" id="stock-clear" class="stock-clear">비축품 기록 전체 삭제</button>
  </div>
  <section class="stock-backup" aria-labelledby="stock-backup-title">
@@ -96,7 +97,12 @@ import { sources } from '../data/resources';
   <p id="stock-recovery-status" class="stock-recovery-status" role="status" aria-live="polite"></p>
  </section>
  <p class="stock-note" id="stock-privacy">계정 없이 브라우저 내부 저장소에만 보관합니다. 다른 기기와 동기화되지 않으며 서버로 보내지 않습니다. 공용 기기에서는 삭제하고, 처방약명 등 민감한 정보는 기록하지 마세요.</p>
+ <div class="stock-filter">
+  <label for="stock-attention-only"><input id="stock-attention-only" type="checkbox" /><span><strong>점검할 품목만 보기</strong> · 기한이 지났거나 30일 이내, 또는 날짜를 입력하지 않은 품목</span></label>
+  <p id="stock-filter-status" role="status" aria-live="polite">전체 비축품을 표시합니다. 필터는 기록을 삭제하지 않으며 인쇄 목록에도 적용됩니다.</p>
+ </div>
  <ul id="stock-list" class="stock-list" aria-label="우리 집 비축품 목록"></ul>
+ <p id="stock-filter-empty" class="stock-empty" hidden>현재 필터 기준으로 점검할 품목이 없습니다. 전체 목록으로 돌아가 다른 품목의 보관 상태도 확인하세요.</p>
  <p id="stock-empty" class="stock-empty">등록된 비축품이 없습니다. 집에 있는 물품부터 추가하세요.</p>
  <p class="stock-note">목록의 <strong>편집</strong> 버튼으로 기존 품목의 수량·소비기한·교체 예정일을 수정하세요. 날짜가 없는 품목은 ‘날짜 미기록’으로 남습니다. 보관 상태와 실제 소비기한은 직접 확인해야 합니다. 최대 60건까지 기록할 수 있으며 필요할 때 인쇄할 수 있습니다.</p>
  <noscript><p>자바스크립트가 꺼져 있으면 저장 기능을 사용할 수 없습니다. 종이에 품목·수량·위치·기한을 적어 관리하세요.</p></noscript>
@@ -141,6 +147,10 @@ const staleWarning=document.querySelector<HTMLElement>('#stock-stale');
 const reloadButton=document.querySelector<HTMLButtonElement>('#stock-reload');
 const total=document.querySelector<HTMLElement>('#stock-total');
 const due=document.querySelector<HTMLElement>('#stock-due');
+const undated=document.querySelector<HTMLElement>('#stock-undated');
+const attentionOnly=document.querySelector<HTMLInputElement>('#stock-attention-only');
+const filterStatus=document.querySelector<HTMLElement>('#stock-filter-status');
+const filterEmpty=document.querySelector<HTMLElement>('#stock-filter-empty');
 let items:StockItem[]=[];
 let editingId:string|null=null;
 let canPersist=true;
@@ -340,6 +350,9 @@ function render(){
  if(!list)return;
  const fragment=document.createDocumentFragment();
  let attention=0;
+ let missingDates=0;
+ let visible=0;
+ const filterActive=Boolean(attentionOnly?.checked);
  const sorted=[...items].sort((a,b)=>{
   if(!a.date&&b.date)return 1;
   if(a.date&&!b.date)return -1;
@@ -349,6 +362,11 @@ function render(){
   const remaining=item.date?daysUntil(item.date):null;
   const urgent=remaining!==null&&remaining<=30;
   if(urgent)attention++;
+  if(remaining===null)missingDates++;
+  const needsReview=urgent||remaining===null;
+  // Keep the item currently being edited visible until its edit is complete.
+  if(filterActive&&!needsReview&&item.id!==editingId)continue;
+  visible++;
   const li=document.createElement('li');
   li.className='stock-card';
   if(item.id===editingId)li.classList.add('stock-editing');
@@ -383,7 +401,12 @@ function render(){
  list.replaceChildren(fragment);
  if(total)total.textContent=items.length+'건';
  if(due)due.textContent=attention+'건';
+ if(undated)undated.textContent=missingDates+'건';
  if(empty)empty.hidden=items.length>0;
+ if(filterEmpty)filterEmpty.hidden=!filterActive||items.length===0||visible>0;
+ if(filterStatus)filterStatus.textContent=filterActive
+  ?'점검 대상 '+(attention+missingDates)+'건 · '+visible+'건 표시. 편집 중인 품목은 예외적으로 표시될 수 있습니다. 인쇄에도 필터가 적용됩니다.'
+  :'전체 '+items.length+'건 표시 · 점검 대상 '+(attention+missingDates)+'건. 필터를 선택해 점검할 품목만 볼 수 있습니다.';
  renderWaterCoverage();
 }
 backupExport?.addEventListener('click',()=>{
@@ -450,6 +473,7 @@ backupImport?.addEventListener('change',async()=>{
 });
 kind?.addEventListener('change',updateKind);
 coveragePeople?.addEventListener('input',renderWaterCoverage);
+attentionOnly?.addEventListener('change',render);
 form?.addEventListener('submit',(event)=>{
  event.preventDefault();
  if(!form.reportValidity()||!kind||!itemName||!quantity||!unit||!place||!date)return;
@@ -576,6 +600,12 @@ render();
 .stock-stale strong{display:block}
 .stock-stale button{min-height:44px;background:#253d42;border:1px solid #c5e1db;color:#f4faf7;border-radius:8px;font-weight:750;padding:9px 13px;margin-top:8px;cursor:pointer}
 .stock-stale button:focus-visible{outline:3px solid #fff;outline-offset:3px}
+.stock-filter{margin:12px 0 15px;color:#e4edec}
+.stock-filter label{display:flex;gap:10px;align-items:flex-start;border:1px solid #617877;border-radius:10px;background:#253b41;padding:12px 14px;cursor:pointer;line-height:1.65;font-size:.86rem}
+.stock-filter label input{width:20px;height:20px;flex:none;accent-color:#efb974;margin-top:3px}
+.stock-filter label:focus-within{outline:3px solid #ffd18b;outline-offset:2px}
+.stock-filter strong{color:#ffe0b2}
+.stock-filter p{margin:7px 2px;color:#c8d9d8;font-size:.79rem;line-height:1.65}
 .stock-summary{display:flex;flex-wrap:wrap;gap:16px;align-items:center;border:1px solid #41575d;border-radius:13px;padding:15px 19px;margin-bottom:12px;background:#20333b;color:#eef3f1}
 .stock-summary>div{font-size:.88rem}
 .stock-summary>div strong{margin-right:7px;color:#c6dad8}
@@ -598,5 +628,5 @@ render();
 .stock-empty[hidden]{display:none!important}
 @media(max-width:800px){.water-coverage-results{grid-template-columns:1fr 1fr}.stock-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.stock-list{grid-template-columns:1fr}}
 @media(max-width:540px){.stock-backup{padding:15px}.stock-backup-actions{align-items:stretch;flex-direction:column}.stock-backup-button{width:100%}.water-coverage{padding:16px}.water-coverage-head{display:block}.water-coverage-head label{max-width:160px;margin-bottom:13px}.water-coverage-results{grid-template-columns:1fr}.water-coverage-results>div{padding:13px}.stock-section{padding-top:26px}.stock-form{padding:16px}.stock-grid{grid-template-columns:1fr}.stock-summary{align-items:flex-start}.stock-clear{margin-left:0;width:100%;min-height:44px}.stock-form-bottom .btn,.stock-cancel{width:100%}.stock-card{padding:15px 13px}}
-@media print{.stock-backup,.stock-stale,.stock-recovery{display:none!important}.water-coverage,.water-coverage-results>div{background:white!important;color:#111!important;border-color:#999!important}.water-coverage-head h3,.water-coverage-results output,.water-coverage-status,.water-coverage-excluded,.water-coverage .stock-note{color:#111!important}.water-coverage-head input{background:white!important;color:#111!important}.stock-form,.stock-clear,.stock-remove,.stock-edit,.stock-warning{display:none!important}.stock-section{border-color:#999}.stock-header h2,.stock-name,.stock-facts,.stock-kind,.stock-status,.stock-header p,.stock-summary,.stock-note{color:#111!important}.stock-card,.stock-summary{background:white!important;border-color:#aaa!important;break-inside:avoid}.stock-list{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media print{.stock-backup,.stock-stale,.stock-recovery,.stock-filter label{display:none!important}.stock-filter p{color:#111!important}.water-coverage,.water-coverage-results>div{background:white!important;color:#111!important;border-color:#999!important}.water-coverage-head h3,.water-coverage-results output,.water-coverage-status,.water-coverage-excluded,.water-coverage .stock-note{color:#111!important}.water-coverage-head input{background:white!important;color:#111!important}.stock-form,.stock-clear,.stock-remove,.stock-edit,.stock-warning{display:none!important}.stock-section{border-color:#999}.stock-header h2,.stock-name,.stock-facts,.stock-kind,.stock-status,.stock-header p,.stock-summary,.stock-note{color:#111!important}.stock-card,.stock-summary{background:white!important;border-color:#aaa!important;break-inside:avoid}.stock-list{grid-template-columns:repeat(2,minmax(0,1fr))}}
 </style>
