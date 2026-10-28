@@ -60,7 +60,7 @@ const initialTotal=checkGroups.filter(g=>!('audience' in g)).reduce((sum,g)=>sum
  <section class="check-sources" aria-label="기준과 출처">
   <strong>검수 기준 · 2026년 10월 28일</strong>
   <p>국내 기준: <a href={sources.supplies} target="_blank" rel="noopener noreferrer">국민안전24 비상대비 물자 준비</a>. 추가 참고: <a href={sources.waterGuide} target="_blank" rel="noopener noreferrer">미국 CDC 비상 식수</a>, <a href={sources.infantGuide} target="_blank" rel="noopener noreferrer">미국 CDC 영유아 수유</a>, <a href={sources.readyKit} target="_blank" rel="noopener noreferrer">미국 Ready.gov 비상물품</a>. 해외 자료의 수량은 국내 의무 기준이 아닙니다.</p>
-  <p>이 페이지는 계정·서버 저장 없이 동작합니다. 공용 기기라면 사용 후 ‘체크만 초기화’를 누르고 가족 유형 선택도 해제하세요. 브라우저 저장 기능이 제한된 경우 체크 상태는 유지되지 않을 수 있습니다.</p>
+  <p>체크 상태와 가족 선택은 이 기기의 브라우저 내부 저장소(localStorage)에만 남으며 계정·서버로 전송되지 않습니다. 공용 기기라면 사용 후 ‘체크만 초기화’를 누르고 가족 유형 선택도 해제하세요. 비축품 기록은 별도 저장이므로 필요하면 관리표에서 따로 삭제하세요. 브라우저 저장 기능이 제한된 경우 체크 상태는 유지되지 않을 수 있습니다.</p>
  </section>
  <noscript><p class="info-note">자바스크립트가 꺼져 있으면 체크 상태 저장과 자동 진행률·가족별 필터가 동작하지 않습니다. 인쇄 후 종이로 표시해도 됩니다.</p></noscript>
 </div>
