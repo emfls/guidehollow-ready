@@ -43,7 +43,8 @@ import { sources } from '../data/resources';
    </label>
   </div>
   <div class="stock-form-bottom">
-   <button class="btn primary" type="submit">비축품 추가</button>
+   <button id="stock-submit" class="btn primary" type="submit">비축품 추가</button>
+   <button id="stock-cancel" class="stock-cancel" type="button" hidden>편집 취소</button>
    <span id="stock-feedback" role="status" aria-live="polite" class="stock-feedback"></span>
   </div>
  </form>
@@ -55,7 +56,7 @@ import { sources } from '../data/resources';
  <p class="stock-note" id="stock-privacy">계정 없이 브라우저 내부 저장소에만 보관합니다. 다른 기기와 동기화되지 않으며 서버로 보내지 않습니다. 공용 기기에서는 삭제하고, 처방약명 등 민감한 정보는 기록하지 마세요.</p>
  <ul id="stock-list" class="stock-list" aria-label="우리 집 비축품 목록"></ul>
  <p id="stock-empty" class="stock-empty">등록된 비축품이 없습니다. 집에 있는 물품부터 추가하세요.</p>
- <p class="stock-note">날짜가 없는 품목은 ‘날짜 미기록’으로 남습니다. 보관 상태와 실제 소비기한은 직접 확인해야 합니다. 최대 60건까지 기록할 수 있으며 필요할 때 인쇄할 수 있습니다.</p>
+ <p class="stock-note">목록의 <strong>편집</strong> 버튼으로 기존 품목의 수량·소비기한·교체 예정일을 수정하세요. 날짜가 없는 품목은 ‘날짜 미기록’으로 남습니다. 보관 상태와 실제 소비기한은 직접 확인해야 합니다. 최대 60건까지 기록할 수 있으며 필요할 때 인쇄할 수 있습니다.</p>
  <noscript><p>자바스크립트가 꺼져 있으면 저장 기능을 사용할 수 없습니다. 종이에 품목·수량·위치·기한을 적어 관리하세요.</p></noscript>
 </section>
 <script>
@@ -73,12 +74,15 @@ const unit=document.querySelector<HTMLSelectElement>('#stock-unit');
 const place=document.querySelector<HTMLInputElement>('#stock-place');
 const date=document.querySelector<HTMLInputElement>('#stock-date');
 const dateLabel=document.querySelector<HTMLElement>('#stock-date-label');
+const submitButton=document.querySelector<HTMLButtonElement>('#stock-submit');
+const cancelButton=document.querySelector<HTMLButtonElement>('#stock-cancel');
 const list=document.querySelector<HTMLUListElement>('#stock-list');
 const empty=document.querySelector<HTMLElement>('#stock-empty');
 const feedback=document.querySelector<HTMLElement>('#stock-feedback');
 const total=document.querySelector<HTMLElement>('#stock-total');
 const due=document.querySelector<HTMLElement>('#stock-due');
 let items:StockItem[]=[];
+let editingId:string|null=null;
 let canPersist=true;
 const kinds=['food','bottled','filled','other'];
 const units=['개','팩','인분','L'];
@@ -137,6 +141,30 @@ function updateKind(){
  else if(unit.value==='L')unit.value='개';
  dateLabel.textContent=k==='filled'?'다음 물 교체 예정일':k==='other'?'다음 상태 점검일':'포장에 표시된 소비기한';
 }
+function finishEditing(){
+ editingId=null;
+ if(form)form.reset();
+ updateKind();
+ if(submitButton)submitButton.textContent='비축품 추가';
+ if(cancelButton)cancelButton.hidden=true;
+}
+function beginEditing(item:StockItem){
+ if(!form||!kind||!itemName||!quantity||!unit||!place||!date)return;
+ editingId=item.id;
+ kind.value=item.kind;
+ updateKind();
+ itemName.value=item.name;
+ quantity.value=String(item.quantity);
+ unit.value=item.unit;
+ place.value=item.place;
+ date.value=item.date;
+ if(submitButton)submitButton.textContent='변경사항 저장';
+ if(cancelButton)cancelButton.hidden=false;
+ if(feedback)feedback.textContent='「'+item.name+'」 편집 중입니다. 변경사항을 저장하거나 취소할 수 있습니다.';
+ render();
+ form.scrollIntoView({block:'start'});
+ itemName.focus({preventScroll:true});
+}
 function appendText(tag:string,text:string,cls?:string):HTMLElement{
  const el=document.createElement(tag);
  el.textContent=text;
@@ -158,6 +186,7 @@ function render(){
   if(urgent)attention++;
   const li=document.createElement('li');
   li.className='stock-card';
+  if(item.id===editingId)li.classList.add('stock-editing');
   const details=document.createElement('div');
   details.className='stock-details';
   details.append(appendText('span',kindNames[item.kind],'stock-kind'));
@@ -168,13 +197,22 @@ function render(){
   const status=remaining===null?'날짜 미기록':remaining<0?'관리 날짜 지남':remaining===0?'관리 날짜 오늘':remaining<=30?remaining+'일 이내 확인':'관리 날짜 예정';
   const label=item.kind==='filled'?'교체 예정':item.kind==='other'?'점검 예정':'표시 소비기한';
   details.append(appendText('span',item.date?label+': '+item.date+' · '+status:status,urgent?'stock-status stock-alert':'stock-status'));
+  const actions=document.createElement('div');
+  actions.className='stock-card-actions';
+  const edit=document.createElement('button');
+  edit.type='button';
+  edit.className='stock-edit';
+  edit.textContent='편집';
+  edit.dataset.edit=item.id;
+  edit.setAttribute('aria-label',item.name+' 기록 편집');
   const remove=document.createElement('button');
   remove.type='button';
   remove.className='stock-remove';
   remove.textContent='삭제';
   remove.dataset.remove=item.id;
-  remove.setAttribute('aria-label',item.name+' 항목 삭제');
-  li.append(details,remove);
+  remove.setAttribute('aria-label',item.name+' 기록 삭제');
+  actions.append(edit,remove);
+  li.append(details,actions);
   fragment.append(li);
  }
  list.replaceChildren(fragment);
@@ -186,7 +224,7 @@ kind?.addEventListener('change',updateKind);
 form?.addEventListener('submit',(event)=>{
  event.preventDefault();
  if(!form.reportValidity()||!kind||!itemName||!quantity||!unit||!place||!date)return;
- if(items.length>=CAPACITY){if(feedback)feedback.textContent='최대 60건까지 등록할 수 있습니다. 먼저 오래된 항목을 삭제하세요.';return;}
+ if(editingId===null&&items.length>=CAPACITY){if(feedback)feedback.textContent='최대 60건까지 등록할 수 있습니다. 먼저 오래된 항목을 삭제하세요.';return;}
  const k=kind.value as Kind;
  const name=itemName.value.trim();
  const qty=Number(quantity.value);
@@ -198,19 +236,39 @@ form?.addEventListener('submit',(event)=>{
   return;
  }
  const id=typeof crypto!=='undefined'&&'randomUUID' in crypto?crypto.randomUUID():String(Date.now())+'-'+Math.random().toString(36).slice(2);
- items.push({id,kind:k,name:name.slice(0,48),quantity:qty,unit:selectedUnit,place:place.value.trim().slice(0,32),date:when});
- persist('비축품 1건을 추가했습니다.');
+ const nextItem:StockItem={id,kind:k,name:name.slice(0,48),quantity:qty,unit:selectedUnit,place:place.value.trim().slice(0,32),date:when};
+ if(editingId!==null){
+  const index=items.findIndex(x=>x.id===editingId);
+  if(index<0){finishEditing();if(feedback)feedback.textContent='편집할 기록을 찾지 못했습니다. 다시 선택하세요.';render();return;}
+  nextItem.id=items[index].id;
+  items[index]=nextItem;
+ }else{
+  items.push(nextItem);
+ }
+ const updated=editingId!==null;
+ finishEditing();
+ persist(updated?'기록의 수량·날짜 등 변경사항을 저장했습니다.':'비축품 1건을 추가했습니다.');
  render();
- form.reset();
- updateKind();
  itemName.focus();
 });
+cancelButton?.addEventListener('click',()=>{
+ finishEditing();
+ if(feedback)feedback.textContent='변경사항을 저장하지 않고 편집을 취소했습니다.';
+ render();
+});
 list?.addEventListener('click',event=>{
+ const editButton=(event.target as HTMLElement).closest<HTMLButtonElement>('button[data-edit]');
+ if(editButton){
+  const item=items.find(x=>x.id===editButton.dataset.edit);
+  if(item)beginEditing(item);
+  return;
+ }
  const button=(event.target as HTMLElement).closest<HTMLButtonElement>('button[data-remove]');
  if(!button)return;
  const target=items.find(x=>x.id===button.dataset.remove);
  if(!target||!confirm('「'+target.name+'」 기록을 삭제할까요?'))return;
  items=items.filter(x=>x.id!==target.id);
+ if(editingId===target.id)finishEditing();
  persist('비축품 기록을 삭제했습니다.');
  render();
 });
@@ -218,6 +276,7 @@ document.querySelector('#stock-clear')?.addEventListener('click',()=>{
  if(!items.length){if(feedback)feedback.textContent='삭제할 기록이 없습니다.';return;}
  if(!confirm('이 기기의 비축품 기록 '+items.length+'건을 전부 삭제할까요? 체크리스트 완료 표시는 유지됩니다.'))return;
  items=[];
+ finishEditing();
  persist('비축품 기록을 전부 삭제했습니다.');
  render();
 });
@@ -234,16 +293,18 @@ render();
 .stock-warning strong{color:#d1f0e0}
 .stock-warning p{margin:4px 0 0}
 .stock-warning a{color:#a5e9d6;text-decoration:underline;text-underline-offset:3px}
-.stock-form{background:#192934;border:1px solid #3f565e;border-radius:16px;padding:23px;margin-bottom:18px}
+.stock-form{background:#192934;border:1px solid #3f565e;border-radius:16px;padding:23px;margin-bottom:18px;scroll-margin-top:115px}
 .stock-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px}
 .stock-grid label{display:flex;flex-direction:column;gap:7px;color:#e9f0f0;font-weight:750;font-size:.86rem;min-width:0}
 .stock-grid label small{color:#b2c7ca;font-weight:450}
 .stock-grid input,.stock-grid select{border:1px solid #768e95;background:#12212b;color:#f8f9f8;min-height:47px;border-radius:9px;padding:10px 12px;font:inherit;max-width:100%;min-width:0}
 .stock-grid input::placeholder{color:#b3c2c5}
-.stock-grid input:focus-visible,.stock-grid select:focus-visible,.stock-remove:focus-visible,.stock-clear:focus-visible{outline:3px solid #ffd18b;outline-offset:2px}
+.stock-grid input:focus-visible,.stock-grid select:focus-visible,.stock-edit:focus-visible,.stock-remove:focus-visible,.stock-clear:focus-visible,.stock-cancel:focus-visible{outline:3px solid #ffd18b;outline-offset:2px}
 .stock-grid select:disabled{opacity:.7}
 .stock-form-bottom{display:flex;flex-wrap:wrap;align-items:center;gap:14px;margin-top:20px}
-.stock-form-bottom .btn{min-height:46px}
+.stock-form-bottom .btn,.stock-cancel{min-height:46px}
+.stock-cancel{border:1px solid #83969b;color:#e7efec;background:transparent;padding:10px 16px;border-radius:9px}
+.stock-cancel[hidden]{display:none!important}
 .stock-feedback{font-size:.83rem;color:#c6d7d9}
 .stock-summary{display:flex;flex-wrap:wrap;gap:16px;align-items:center;border:1px solid #41575d;border-radius:13px;padding:15px 19px;margin-bottom:12px;background:#20333b;color:#eef3f1}
 .stock-summary>div{font-size:.88rem}
@@ -254,15 +315,18 @@ render();
 .stock-list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
 .stock-card{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding:17px 16px;border:1px solid #40565d;border-radius:13px;background:#1c2c36;min-width:0}
 .stock-details{display:grid;gap:6px;min-width:0;overflow-wrap:anywhere}
+.stock-editing{border-color:#efb974;background:#233e44}
+.stock-card-actions{display:flex;flex-direction:column;gap:8px;flex:none}
 .stock-kind{font-size:.72rem;color:#a3d6ca}
 .stock-name{color:#f5f7f6;font-size:1rem;line-height:1.5}
 .stock-facts{color:#c9d7d8;font-size:.85rem;line-height:1.55}
 .stock-status{font-size:.79rem;color:#c0cfd0;line-height:1.5}
 .stock-alert{color:#ffd09c;font-weight:750}
-.stock-remove{flex:none;min-height:39px;padding:8px 11px;background:#273d46;border:1px solid #5a7076;color:#e5efed;border-radius:8px;font-size:.83rem}
+.stock-remove,.stock-edit{flex:none;min-height:40px;padding:8px 11px;background:#273d46;border:1px solid #5a7076;color:#e5efed;border-radius:8px;font-size:.83rem}
+.stock-edit{border-color:#a1cfbc;color:#c8f4dd}
 .stock-empty{color:#b9cdd0;padding:19px;border:1px dashed #5c7479;border-radius:12px}
 .stock-empty[hidden]{display:none!important}
 @media(max-width:800px){.stock-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.stock-list{grid-template-columns:1fr}}
-@media(max-width:540px){.stock-section{padding-top:26px}.stock-form{padding:16px}.stock-grid{grid-template-columns:1fr}.stock-summary{align-items:flex-start}.stock-clear{margin-left:0;width:100%;min-height:44px}.stock-form-bottom .btn{width:100%}.stock-card{padding:15px 13px}}
-@media print{.stock-form,.stock-clear,.stock-remove,.stock-warning{display:none!important}.stock-section{border-color:#999}.stock-header h2,.stock-name,.stock-facts,.stock-kind,.stock-status,.stock-header p,.stock-summary,.stock-note{color:#111!important}.stock-card,.stock-summary{background:white!important;border-color:#aaa!important;break-inside:avoid}.stock-list{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:540px){.stock-section{padding-top:26px}.stock-form{padding:16px}.stock-grid{grid-template-columns:1fr}.stock-summary{align-items:flex-start}.stock-clear{margin-left:0;width:100%;min-height:44px}.stock-form-bottom .btn,.stock-cancel{width:100%}.stock-card{padding:15px 13px}}
+@media print{.stock-form,.stock-clear,.stock-remove,.stock-edit,.stock-warning{display:none!important}.stock-section{border-color:#999}.stock-header h2,.stock-name,.stock-facts,.stock-kind,.stock-status,.stock-header p,.stock-summary,.stock-note{color:#111!important}.stock-card,.stock-summary{background:white!important;border-color:#aaa!important;break-inside:avoid}.stock-list{grid-template-columns:repeat(2,minmax(0,1fr))}}
 </style>
