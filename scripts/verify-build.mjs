@@ -11,6 +11,8 @@ for(const p of pages){
  if(!html.includes('noindex, follow'))throw Error('Premature search indexing: '+p);
  if(!html.includes('ready.guidehollow.com'))throw Error('Wrong canonical host: '+p);
 }
+const design=readFileSync('src/styles/ui-refresh.css','utf8');
+for(const rule of ['.mobile-tabbar','.review-directory-grid','.starter-set-grid','@media(max-width:530px)','word-break:keep-all','grid-auto-rows:1fr']) if(!design.includes(rule))throw Error('Mobile-first shared design contract missing: '+rule);
 const home=file('index.html');
 if (!home.includes('mobile-tabbar') || !home.includes('aria-label="모바일 빠른 메뉴"')) throw Error('Unified mobile navigation missing');
 if (!home.includes('name="theme-color" content="#ffffff"')) throw Error('Night operations browser theme is missing');

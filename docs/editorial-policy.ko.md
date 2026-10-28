@@ -18,3 +18,7 @@
 - https://news.seoul.go.kr/safe/archives/516212
 - https://www.foodsafetykorea.go.kr/
 - https://www.ready.gov/kit
+
+## 공통 사용자 경험 기준 (모든 작업 채팅)
+
+사용자가 빠르게 읽고 행동할 수 있도록 [모바일 UI 및 쉬운 원고 통합 가이드](./ui-editorial-guide.ko.md)를 따른다. 카드 높이·버튼 위치·한 카드 한 행동, 기술 자료의 접기, 재난 첫 행동의 상시 노출, 쿠팡 정확 상품만 연결, 320px 이상 모바일 가독성을 새로운 PR의 검수 항목으로 삼는다.

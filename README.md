@@ -34,17 +34,18 @@ Use Node 24 locally; Astro 7 requires Node >=22.23.4.
 
 - `src/pages/index.astro`: practical first screen, official emergency links
 - `src/pages/situations.astro`: emergency situations (not a live alert service)
-- `src/pages/checklist.astro`: browser-only progress + printable preparedness list
+- `src/pages/checklist.astro`: browser-only progress + household stock/expiry management + printable preparedness list
 - `src/pages/plan.astro`: printable family emergency plan, no personal data collection
 - `src/pages/buying/{food,gear}.astro`: evidence-first advice, no affiliate links
 - `src/pages/sources.astro`: government/official references
-- `src/content/reviews/*.md`: future fully validated model-specific buyer guides
+- `src/content/reviews/*.md`: published source-backed model guides; detailed evidence is displayed progressively below an easy summary
 - `src/pages/reviews/[slug].astro`: disclosure and product evidence before link
 - `src/content.config.ts`: rejects unverifiable featured products and invalid partner HTML
 - `src/lib/partner-code.ts`: parses a product-specific static Coupang `<a>` HTML; never renders raw scripts/iframes
 - `docs/editorial-policy.ko.md`: emergency safety, ad disclosure, search and product quality policy
+- `docs/ui-editorial-guide.ko.md`: **all chat workstreams' common mobile UI, equal-height card, short-form writing and product UX standard**
 
-**No affiliate links have been added.** Neither model-level product tests nor current Coupang partner URLs have yet been verified. Never create fake recommendations, stock, prices or discounts.
+**A product-matched Coupang Partners link is active for the Fenix E20 V2.0 flashlight only.** Every other item remains unlinked until its exact product and option are verified. Never create fake recommendations, stock, prices or discounts.
 
 ## Naver Search Advisor
 
