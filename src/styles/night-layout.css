@@ -596,3 +596,5 @@ main{min-width:0}
 .starter-secondary-affiliates-grid a[href^="https://link.coupang.com/"]{background:#eebc7d;color:#17232a;border-color:#eebc7d}
 @media(max-width:680px){.starter-secondary-affiliates{padding:16px}.starter-secondary-affiliates-grid{grid-template-columns:1fr}.partner-model-pending{padding:15px}.partner-check-action{width:100%}}
 @media print{.partner-check-action,.starter-secondary-affiliates-grid a[href^="https://link.coupang.com/"]{display:none!important}}
+
+.review-featured-fallback{display:grid;place-items:center;width:100%;min-height:135px;font-size:3.1rem;background:#293f45;border-radius:11px}
