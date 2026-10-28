@@ -85,6 +85,7 @@ import { sources } from '../data/resources';
   </div>
   <p id="stock-backup-status" role="status" aria-live="polite" class="stock-backup-status"></p>
  </section>
+ <div id="stock-stale" class="stock-stale" role="alert" hidden><strong>다른 탭에서 비축품 기록이 변경됐습니다.</strong> 이전 화면에서 저장하면 새 기록이 사라질 수 있어 변경을 차단했습니다. 입력 중인 내용이 있다면 따로 메모한 뒤 새로고침하세요. <button id="stock-reload" type="button">현재 기록 새로 불러오기</button></div>
  <p class="stock-note" id="stock-privacy">계정 없이 브라우저 내부 저장소에만 보관합니다. 다른 기기와 동기화되지 않으며 서버로 보내지 않습니다. 공용 기기에서는 삭제하고, 처방약명 등 민감한 정보는 기록하지 마세요.</p>
  <ul id="stock-list" class="stock-list" aria-label="우리 집 비축품 목록"></ul>
  <p id="stock-empty" class="stock-empty">등록된 비축품이 없습니다. 집에 있는 물품부터 추가하세요.</p>
@@ -123,11 +124,15 @@ const cancelButton=document.querySelector<HTMLButtonElement>('#stock-cancel');
 const list=document.querySelector<HTMLUListElement>('#stock-list');
 const empty=document.querySelector<HTMLElement>('#stock-empty');
 const feedback=document.querySelector<HTMLElement>('#stock-feedback');
+const staleWarning=document.querySelector<HTMLElement>('#stock-stale');
+const reloadButton=document.querySelector<HTMLButtonElement>('#stock-reload');
 const total=document.querySelector<HTMLElement>('#stock-total');
 const due=document.querySelector<HTMLElement>('#stock-due');
 let items:StockItem[]=[];
 let editingId:string|null=null;
 let canPersist=true;
+let savedRaw:string|null=null;
+let stale=false;
 const kinds=['food','bottled','filled','other'];
 const units=['개','팩','인분','L'];
 function isDate(s:string):boolean {
@@ -158,6 +163,7 @@ function valid(x:unknown):x is StockItem{
 }
 try{
  const raw=localStorage.getItem(STORAGE);
+ savedRaw=raw;
  if(raw!==null){
   const parsed:unknown=JSON.parse(raw);
   if(!Array.isArray(parsed)||parsed.length>CAPACITY||!parsed.every(valid)
@@ -168,14 +174,41 @@ try{
  canPersist=false;
  if(feedback)feedback.textContent='비축품 저장 기록이 손상되었거나 접근이 차단되었습니다. 기존 데이터를 보호하기 위해 추가·편집·삭제를 차단했습니다.';
 }
+// Prevent a stale tab from overwriting changes made in a different tab.
+function currentStock():boolean{
+ if(stale){if(staleWarning)staleWarning.hidden=false;return false;}
+ try{
+  if(localStorage.getItem(STORAGE)===savedRaw)return true;
+ }catch{
+  canPersist=false;
+  if(feedback)feedback.textContent='브라우저 저장소에 접근할 수 없어 변경을 중지했습니다.';
+  return false;
+ }
+ stale=true;
+ if(staleWarning)staleWarning.hidden=false;
+ if(feedback)feedback.textContent='다른 탭에서 비축품 기록이 바뀌었습니다. 새로고침 후 다시 시도하세요.';
+ return false;
+}
+window.addEventListener('storage',(event)=>{
+ if(event.key!==STORAGE&&event.key!==null)return;
+ stale=true;
+ if(staleWarning)staleWarning.hidden=false;
+ if(feedback)feedback.textContent='다른 탭의 변경이 확인되었습니다. 이 탭의 변경·복원을 중단했습니다.';
+});
+reloadButton?.addEventListener('click',()=>{
+ if(confirm('이 탭에서 입력 중인 미저장 변경을 버리고 최신 비축품 기록을 불러올까요?'))window.location.reload();
+});
 // The in-memory list is updated only after a successful persistent write.
 function persist(nextItems:StockItem[],message:string):boolean{
  if(!canPersist){
   if(feedback)feedback.textContent='기존 저장 기록이 손상되었거나 접근할 수 없습니다. 변경을 차단해 원본을 보호합니다.';
   return false;
  }
+ if(!currentStock())return false;
  try{
-  localStorage.setItem(STORAGE,JSON.stringify(nextItems));
+  const nextRaw=JSON.stringify(nextItems);
+  localStorage.setItem(STORAGE,nextRaw);
+  savedRaw=nextRaw;
   items=nextItems;
   if(feedback)feedback.textContent=message;
   return true;
@@ -299,6 +332,10 @@ function render(){
  renderWaterCoverage();
 }
 backupExport?.addEventListener('click',()=>{
+ if(!canPersist||!currentStock()){
+  if(backupStatus)backupStatus.textContent='현재 비축품 기록을 확인할 수 없어 백업하지 않았습니다. 다른 탭의 변경이 있었다면 새로고침하세요.';
+  return;
+ }
  if(!items.length){
   if(backupStatus)backupStatus.textContent='백업할 기록이 없습니다. 비축품을 먼저 추가하세요.';
   return;
@@ -326,6 +363,7 @@ backupImport?.addEventListener('change',async()=>{
  if(!file)return;
  try{
   if(!canPersist)throw Error('기존 비축품 기록을 읽을 수 없어 복원을 차단했습니다. 먼저 브라우저 저장소의 원본을 확인하세요.');
+  if(!currentStock())throw Error('다른 탭에서 비축품 기록이 변경됐습니다. 새로고침 후 복원하세요.');
   if(file.size===0||file.size>MAX_BACKUP_BYTES)throw Error('파일 크기가 유효하지 않습니다. 64KB 이하의 백업 JSON만 가져올 수 있습니다.');
   const parsed:unknown=JSON.parse(await file.text());
   if(!parsed||typeof parsed!=='object')throw Error('이 사이트의 비축품 백업 파일이 아닙니다.');
@@ -339,8 +377,11 @@ backupImport?.addEventListener('change',async()=>{
    if(backupStatus)backupStatus.textContent='기록 복원을 취소했습니다. 기존 데이터는 유지됩니다.';
    return;
   }
+  if(!currentStock())throw Error('복원 확인 중 다른 탭의 데이터가 변경됐습니다. 새로고침 후 복원하세요.');
   // Commit to browser storage before changing the in-memory record.
-  localStorage.setItem(STORAGE,JSON.stringify(restored));
+  const restoredRaw=JSON.stringify(restored);
+  localStorage.setItem(STORAGE,restoredRaw);
+  savedRaw=restoredRaw;
   items=restored;
   finishEditing();
   render();
@@ -466,6 +507,11 @@ render();
 .stock-backup-button:focus-visible,.stock-backup-actions input:focus-visible,.stock-backup-actions input::file-selector-button:focus-visible{outline:3px solid #ffd18b;outline-offset:2px}
 .stock-backup-status{color:#f0d4a5;font-size:.83rem;line-height:1.6;margin:11px 0 0}
 .stock-backup-status:empty{display:none}
+.stock-stale{background:#523429;border:2px solid #ffd08e;border-radius:12px;color:#fff1d7;line-height:1.75;padding:15px 17px;margin:12px 0;font-size:.88rem}
+.stock-stale[hidden]{display:none!important}
+.stock-stale strong{display:block}
+.stock-stale button{min-height:44px;background:#253d42;border:1px solid #c5e1db;color:#f4faf7;border-radius:8px;font-weight:750;padding:9px 13px;margin-top:8px;cursor:pointer}
+.stock-stale button:focus-visible{outline:3px solid #fff;outline-offset:3px}
 .stock-summary{display:flex;flex-wrap:wrap;gap:16px;align-items:center;border:1px solid #41575d;border-radius:13px;padding:15px 19px;margin-bottom:12px;background:#20333b;color:#eef3f1}
 .stock-summary>div{font-size:.88rem}
 .stock-summary>div strong{margin-right:7px;color:#c6dad8}
@@ -488,5 +534,5 @@ render();
 .stock-empty[hidden]{display:none!important}
 @media(max-width:800px){.water-coverage-results{grid-template-columns:1fr 1fr}.stock-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.stock-list{grid-template-columns:1fr}}
 @media(max-width:540px){.stock-backup{padding:15px}.stock-backup-actions{align-items:stretch;flex-direction:column}.stock-backup-button{width:100%}.water-coverage{padding:16px}.water-coverage-head{display:block}.water-coverage-head label{max-width:160px;margin-bottom:13px}.water-coverage-results{grid-template-columns:1fr}.water-coverage-results>div{padding:13px}.stock-section{padding-top:26px}.stock-form{padding:16px}.stock-grid{grid-template-columns:1fr}.stock-summary{align-items:flex-start}.stock-clear{margin-left:0;width:100%;min-height:44px}.stock-form-bottom .btn,.stock-cancel{width:100%}.stock-card{padding:15px 13px}}
-@media print{.stock-backup{display:none!important}.water-coverage,.water-coverage-results>div{background:white!important;color:#111!important;border-color:#999!important}.water-coverage-head h3,.water-coverage-results output,.water-coverage-status,.water-coverage-excluded,.water-coverage .stock-note{color:#111!important}.water-coverage-head input{background:white!important;color:#111!important}.stock-form,.stock-clear,.stock-remove,.stock-edit,.stock-warning{display:none!important}.stock-section{border-color:#999}.stock-header h2,.stock-name,.stock-facts,.stock-kind,.stock-status,.stock-header p,.stock-summary,.stock-note{color:#111!important}.stock-card,.stock-summary{background:white!important;border-color:#aaa!important;break-inside:avoid}.stock-list{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media print{.stock-backup,.stock-stale{display:none!important}.water-coverage,.water-coverage-results>div{background:white!important;color:#111!important;border-color:#999!important}.water-coverage-head h3,.water-coverage-results output,.water-coverage-status,.water-coverage-excluded,.water-coverage .stock-note{color:#111!important}.water-coverage-head input{background:white!important;color:#111!important}.stock-form,.stock-clear,.stock-remove,.stock-edit,.stock-warning{display:none!important}.stock-section{border-color:#999}.stock-header h2,.stock-name,.stock-facts,.stock-kind,.stock-status,.stock-header p,.stock-summary,.stock-note{color:#111!important}.stock-card,.stock-summary{background:white!important;border-color:#aaa!important;break-inside:avoid}.stock-list{grid-template-columns:repeat(2,minmax(0,1fr))}}
 </style>
