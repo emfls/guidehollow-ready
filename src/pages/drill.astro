@@ -75,7 +75,7 @@ const exercises = [
         button.addEventListener('click', () => {
           buttons.forEach((b) => b.setAttribute('aria-pressed', String(b === button)));
           const correct = button.getAttribute('data-answer') === 'correct';
-          if (result) {
+          if (result instanceof HTMLElement) {
             result.hidden = false;
             result.classList.toggle('drill-result--correct', correct);
             result.textContent = (correct ? '맞는 첫 행동입니다. ' : '다른 행동을 선택해 보세요. ') + (card.getAttribute('data-explanation') ?? '');
