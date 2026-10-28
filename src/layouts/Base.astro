@@ -26,6 +26,7 @@ const path=Astro.url.pathname;
  <meta property="og:description" content={description}/>
  <meta property="og:url" content={canonical}/>
  <link rel="icon" type="image/svg+xml" href="/favicon.svg"/>
+ <link rel="alternate" type="application/rss+xml" title="GuideHollow Ready RSS" href="/rss.xml"/>
 </head>
 <body>
  <a class="skip-link" href="#main">본문으로 건너뛰기</a>
@@ -49,7 +50,7 @@ const path=Astro.url.pathname;
  <footer class="site-footer">
   <div class="container footer-grid">
    <div><strong>GUIDEHOLLOW <span>READY</span></strong><p>상황별 재난 행동요령과<br/>가정의 비상 준비를 위한 안내.</p></div>
-   <div class="footer-links"><a href="/about/">사이트 소개·편집 원칙</a><a href="/disclosure/">광고·제휴 고지</a><a href="/privacy/">개인정보 안내</a><a href="/sources/">공식 자료 모음</a></div>
+   <div class="footer-links"><a href="/about/">사이트 소개·편집 원칙</a><a href="/disclosure/">광고·제휴 고지</a><a href="/privacy/">개인정보 안내</a><a href="/sources/">공식 자료 모음</a><a href="/rss.xml">RSS 구독</a></div>
   </div>
   <div class="container footer-bottom">© 2026 GuideHollow Ready · 비공식 민간 정보 사이트 · <a href="https://guidehollow.com/" rel="noopener noreferrer">GuideHollow</a></div>
  </footer>

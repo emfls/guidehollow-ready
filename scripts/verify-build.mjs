@@ -1,6 +1,6 @@
 import {existsSync,readFileSync,readdirSync} from 'node:fs';
 import {join} from 'node:path';
-const required=['index.html','CNAME','.nojekyll','favicon.svg','robots.txt','sitemap.xml','situations/index.html','checklist/index.html','plan/index.html','buying/food/index.html','buying/gear/index.html','about/index.html','disclosure/index.html','privacy/index.html','sources/index.html'];
+const required=['index.html','CNAME','.nojekyll','favicon.svg','robots.txt','sitemap.xml','rss.xml','situations/index.html','checklist/index.html','plan/index.html','buying/food/index.html','buying/gear/index.html','about/index.html','disclosure/index.html','privacy/index.html','sources/index.html'];
 const file=(p)=>readFileSync(join('dist',p),'utf8');
 for(const p of required)if(!existsSync(join('dist',p)))throw Error('Build missing '+p);
 if(file('CNAME').trim()!=='ready.guidehollow.com')throw Error('CNAME mismatch');
@@ -20,6 +20,10 @@ const heroHeading = home.match(/<h1(?:\s[^>]*)?>([\s\S]*?)<\/h1>/)?.[1] ?? '';
 if(!heroHeading.includes('전시·재난 대비,') || !heroHeading.includes('필요한 준비부터.') || /<br\s*\/?>/i.test(heroHeading))throw Error('Main headline should flow without forced line breaks');
 if(home.includes('class="status-dot"')||home.includes('class="eyebrow-dot"')||home.includes('R<span>·</span>'))throw Error('Decorative pseudo-status lights should not appear');
 
+const feed=file('rss.xml');
+if (!feed.includes('<rss version="2.0"')||!feed.includes('<language>ko-KR</language>')||!feed.includes('/situations/')||!feed.includes('실시간 재난 경보가 아닙니다'))throw Error('RSS feed is missing safety entries or metadata');
+if (!home.includes('type="application/rss+xml"')||!home.includes('href="/rss.xml"'))throw Error('RSS feed discovery link missing');
+if (feed.includes('sample-draft'))throw Error('Draft appeared in RSS');
 const check=file('checklist/index.html');
 if(!check.includes('data-key="water-bottles"')||!check.includes('ready-progress')||!check.includes('localStorage'))throw Error('Interactive checklist incomplete');
 if(!file('plan/index.html').includes('가족 비상연락 카드'))throw Error('Printable family plan missing');

@@ -22,6 +22,10 @@ const initialTotal=checkGroups.filter(g=>!('audience' in g)).reduce((sum,g)=>sum
   <p>이 목록은 정전·단수 등 초기 72시간을 준비하는 출발점입니다. <a href={sources.supplies} target="_blank" rel="noopener noreferrer">국민안전24의 비상대비 물자 안내</a>는 별도로 <strong>식량·식수 30일분</strong>을 권고합니다. 3일분만으로 전시 대비가 끝났다고 생각하지 마세요. 과도한 한 번 구매보다 단계적 비축과 순환 교체가 중요합니다.</p>
  </div>
 
+ <nav class="check-category-nav" aria-label="준비물 분야별 바로가기">
+ <strong>준비 항목 바로가기</strong>
+ <div>{checkGroups.filter(g=>!('audience' in g)).map((group,i)=><a href={'#kit-'+group.id}><b>{String(i+1).padStart(2,'0')}</b>{group.name}<span aria-hidden="true">↓</span></a>)}</div>
+ </nav>
  <fieldset class="family-select" aria-describedby="family-help">
   <legend>해당하는 가족 상황을 선택하세요</legend>
   <p id="family-help">선택한 경우에만 추가 항목이 보이고 준비율에 포함됩니다. 선택 상태도 이 브라우저에만 저장됩니다.</p>
@@ -39,8 +43,8 @@ const initialTotal=checkGroups.filter(g=>!('audience' in g)).reduce((sum,g)=>sum
  </div>
 
  <div class="check-groups">
-  {checkGroups.map(group=><section class="check-group" data-audience={'audience' in group?group.audience:undefined}>
-   <div class="check-group-heading"><div><h2>{group.name}</h2><p>{group.detail}</p></div><span data-group-progress>{group.items.length}개 항목</span></div>
+  {checkGroups.map((group,i)=><section class="check-group" id={'kit-'+group.id} data-audience={'audience' in group?group.audience:undefined}>
+   <div class="check-group-heading"><div><span class="check-card-index">준비 {String(i+1).padStart(2,'0')}</span><h2>{group.name}</h2><p>{group.detail}</p></div><span data-group-progress>{group.items.length}개 항목</span></div>
    <div class="check-items">{group.items.map(item=><label class="check-item" for={item.id}>
     <input type="checkbox" class="kit-check" id={item.id} data-key={item.id} />
     <span class="check-copy"><strong>{item.text}</strong><small>{item.hint}</small></span>
