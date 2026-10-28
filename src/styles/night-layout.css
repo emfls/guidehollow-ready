@@ -488,3 +488,72 @@ main{min-width:0}
 @media(max-width:820px){.starter-missing-list li{flex-direction:column;align-items:stretch}.starter-missing-row-actions{justify-content:stretch;flex:none}.starter-missing-list a{max-width:none;flex:1}}
 @media(max-width:360px){.starter-missing-list li{flex-direction:column;align-items:stretch}.starter-missing-row-actions{width:100%;justify-content:stretch}.starter-missing-list a{max-width:none;flex:1}}
 @media print{.starter-personal{background:white!important;color:#111!important;border-color:#aaa}.starter-personal *{color:#111!important}.starter-missing-actions,.starter-water-calc input,.starter-emergency-link{display:none!important}}
+
+/* 2026-10-28: reduced-choice home, original dark Night Operations theme preserved */
+.site-nav{gap:12px}
+.site-nav a{min-height:44px;display:inline-flex;align-items:center;padding:0 10px}
+.hero.brief-hero{display:block;min-height:0;margin:13px 0 0;padding:24px 28px;max-width:none}
+.hero.brief-hero .hero-copy{max-width:none}
+.hero.brief-hero h1{font-size:clamp(1.78rem,3.2vw,2.65rem);max-width:none;line-height:1.25;margin:10px 0}
+.hero.brief-hero .lead{font-size:.94rem;line-height:1.68;margin:0;max-width:850px}
+.hero.brief-hero .brief-meta{font-size:.73rem;margin:10px 0 0}
+.home-routine-heading{margin:18px 0 0;align-items:center;min-height:36px;padding:0 4px}
+.home-routine-heading span{font-size:.95rem}
+.dashboard-section{padding:22px 0}
+.dashboard-section .section-head{margin-bottom:12px}
+.dashboard-section .section-head p{font-size:.86rem}
+.quick-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.quick-grid .brief-card{border-radius:15px;padding:17px;min-height:175px}
+.quick-grid .brief-card h3{margin:5px 0}
+.quick-grid .brief-card p{font-size:.83rem;line-height:1.55}
+.quick-grid .brief-card small{font-size:.73rem}
+.quick-grid .brief-card-icon{margin-bottom:7px}
+.quick-grid .brief-card-action{padding-top:7px}
+.home-checklist-progress{display:block;margin-top:10px;color:#eec78f;font-size:.79rem;font-weight:850}
+.home-checklist-meter{display:block;height:5px;max-width:210px;overflow:hidden;background:#365059;border-radius:99px;margin:6px 0 0}
+.home-checklist-meter>span{display:block;background:#eebd80;border-radius:inherit;height:100%;width:0;transition:width .2s}
+.situation-hub-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.situation-hub-grid .situation-hub-card{min-height:155px;border-radius:15px;padding:17px;border-left:1px solid #4d6771;align-items:flex-start}
+.situation-hub-grid .situation-hub-card .situation-hub-icon{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:#30474b;color:#f3c58c;font-size:1.3rem;margin:0}
+.situation-hub-grid .situation-hub-card h3{margin:8px 0 2px;font-size:1.03rem}
+.situation-hub-grid .situation-hub-card p{font-size:.78rem;margin:0;line-height:1.5}
+.situation-hub-grid .situation-hub-card>span:last-child{margin-top:auto;padding-top:8px;font-size:.75rem}
+.home-other-alerts{display:inline-flex;align-items:center;min-height:44px;margin:8px 0 0;border:1px solid #5a7c73;color:#bbebd9;font-size:.83rem;font-weight:850;padding:8px 14px;border-radius:11px;background:#233b3a}
+.home-other-alerts:hover{color:#fff;border-color:#a9dec8}
+.home-kit-banner{margin-top:14px}
+.home-resource-links{grid-template-columns:repeat(2,minmax(0,1fr))}
+.hub-caution{margin-top:8px}
+@media(max-width:1000px){.quick-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:800px){.site-nav{display:none}.mobile-tabbar a{min-height:54px}.mobile-tabbar a>small{letter-spacing:0}.hero.brief-hero{margin:13px 0 0;padding:20px 22px}}
+@media(max-width:540px){
+ .emergency-home-action{border-radius:16px}
+ .emergency-home-card{border-radius:12px}
+ .emergency-home-heading h2{line-height:1.42}
+ .home-routine-heading{align-items:flex-start;margin:13px 0 1px;gap:0}
+ .hero.brief-hero{padding:18px 16px;margin:7px 0 0}
+ .hero.brief-hero h1{font-size:clamp(1.7rem,6vw,2.05rem)}
+ .hero.brief-hero .lead{font-size:.87rem}
+ .dashboard-section{padding:20px 0}
+ .quick-grid{grid-template-columns:1fr;gap:10px}
+ .quick-grid .brief-card{min-height:0;display:grid;grid-template-columns:34px 1fr;column-gap:13px;align-items:center;padding:14px}
+ .quick-grid .brief-card-icon{grid-row:1/5;align-self:start;width:34px;height:34px;margin:0;border-radius:10px}
+ .quick-grid .brief-card small,.quick-grid .brief-card h3,.quick-grid .brief-card p,.quick-grid .brief-card-action,.quick-grid .home-checklist-progress{grid-column:2}
+ .quick-grid .brief-card h3{font-size:1.03rem;margin:2px 0}
+ .quick-grid .brief-card p{font-size:.81rem;margin:0}
+ .quick-grid .home-checklist-progress{margin-top:6px}
+ .quick-grid .brief-card-action{margin:4px 0 0;padding:0}
+ .situation-hub-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:7px}
+ .situation-hub-grid .situation-hub-card{min-height:107px;display:flex;align-items:center;justify-content:flex-start;padding:10px 5px;border-radius:12px}
+ .situation-hub-grid .situation-hub-card .situation-hub-icon{width:41px;height:41px;font-size:1.12rem;flex:none}
+ .situation-hub-grid .situation-hub-card h3{font-size:.84rem;line-height:1.3;margin:7px 0 0;text-align:center}
+ .situation-hub-grid .situation-hub-card p,.situation-hub-grid .situation-hub-card>span:last-child{display:none}
+ .home-other-alerts{width:100%;justify-content:center;text-align:center;font-size:.81rem}
+ .home-resource-links{grid-template-columns:1fr}
+}
+@media(prefers-reduced-motion:reduce){.home-checklist-meter>span{transition:none}}
+/* Emergency instructions: never truncate, clamp or scroll-hide critical action steps. */
+.instant-step-card,.instant-step-card ol,.instant-step-card li,.instant-card-warning,.instant-card-head,.instant-intro p{max-height:none;min-height:0;overflow:visible;white-space:normal;text-overflow:clip;-webkit-line-clamp:unset;line-clamp:unset;overflow-wrap:break-word;word-break:keep-all}
+.instant-steps-grid{grid-auto-rows:auto;align-items:stretch}
+.instant-step-card li{height:auto;flex-shrink:0}
+.instant-card-warning{height:auto;flex-shrink:0}
+.instant-shortcuts a{display:inline-flex;align-items:center;justify-content:center}
