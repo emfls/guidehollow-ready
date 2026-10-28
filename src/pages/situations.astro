@@ -34,6 +34,7 @@ const situations = [
 <div class="container">
  <header class="page-intro"><span class="eyebrow">IN AN EMERGENCY</span><h1>경보 종류부터 확인하고<br/><em>상황에 맞게 대피하세요</em></h1><p>미리 읽어두는 행동요령입니다. 현재 경보를 표시하는 페이지가 아니며, 실제 상황에서는 재난문자·공공방송·현장 지시를 우선합니다.</p></header>
  <div class="emergency-panel"><div><span class="tag">가장 먼저</span><strong>공습은 지하 대피, 화학 공격은 외부공기 차단 등 대피 방법이 다릅니다</strong><p>경보 이름·해당 지역·대피 지시를 확인하세요. 침수 위험이 있는 지하공간으로 무조건 내려가지 마세요.</p></div><a class="btn primary" href={official.emergency} target="_blank" rel="noopener noreferrer">국민안전24 행동요령 ↗</a></div>
+ <p class="readable"><strong>후속 대응 바로가기:</strong> <a href="#all-clear">경보해제 시 행동 ↓</a> · <a href="#contamination">화학·방사능 오염 노출 후 조치 ↓</a></p>
  <nav class="readable" aria-label="상황별 행동요령 바로가기"><p><strong>바로 이동:</strong> {situations.map((item,i)=><> <a href={'#'+item.id}>{item.name}</a>{i<situations.length-1?' · ':''}</>)} · <a href="#contamination">오염 노출 후 조치</a></p></nav>
  <div class="situation-list">
  {situations.map((item,i)=><section class="situation-card" id={item.id} aria-labelledby={item.id+'-title'}>
