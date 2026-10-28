@@ -37,6 +37,21 @@ const initialTotal=checkGroups.filter(g=>!('audience' in g)).reduce((sum,g)=>sum
   </div>
  </fieldset>
 
+ <section id="check-damaged" class="check-damaged" aria-labelledby="check-damaged-title" hidden>
+  <h2 id="check-damaged-title">읽을 수 없는 기록 복구</h2>
+  <p>저장된 체크리스트 기록의 형식이 올바르지 않아 해당 기록의 자동 저장을 중지했습니다. <strong>먼저 원본 파일을 보관</strong>한 뒤 필요한 기록만 초기화하세요. 정상적으로 저장된 다른 기록과 비축품 목록은 유지됩니다.</p>
+  <div id="check-damaged-progress" class="check-damaged-group" hidden>
+   <h3>체크 완료 기록</h3>
+   <button type="button" id="check-save-damaged-progress">손상된 체크 원본 저장</button>
+   <button type="button" id="check-reset-damaged-progress">체크 완료 기록만 초기화</button>
+  </div>
+  <div id="check-damaged-family" class="check-damaged-group" hidden>
+   <h3>가족 유형 선택 기록</h3>
+   <button type="button" id="check-save-damaged-family">손상된 가족 선택 원본 저장</button>
+   <button type="button" id="check-reset-damaged-family">가족 유형만 초기화</button>
+  </div>
+  <p id="check-damaged-status" class="check-damaged-status" role="status" aria-live="polite"></p>
+ </section>
  <div id="check-stale" class="check-stale" role="alert" hidden><strong>다른 탭에서 체크리스트 기록이 변경됐습니다.</strong> 이 탭의 이전 기록으로 덮어쓰지 않도록 저장과 복원을 차단했습니다. 입력 중인 내용을 확인한 후 <button id="check-reload" type="button">최신 체크리스트 불러오기</button>를 선택하세요.</div>
  <div class="check-actions">
   <label class="missing-toggle" for="only-missing"><input type="checkbox" id="only-missing" /><span>미준비 항목만 보기</span></label>
@@ -107,12 +122,23 @@ const importChecks=document.querySelector<HTMLInputElement>('#import-checks');
 const backupStatus=document.querySelector<HTMLElement>('#check-backup-status');
 const staleNotice=document.querySelector<HTMLElement>('#check-stale');
 const reloadChecks=document.querySelector<HTMLButtonElement>('#check-reload');
+const damagedArea=document.querySelector<HTMLElement>('#check-damaged');
+const damagedProgress=document.querySelector<HTMLElement>('#check-damaged-progress');
+const damagedFamily=document.querySelector<HTMLElement>('#check-damaged-family');
+const damagedStatus=document.querySelector<HTMLElement>('#check-damaged-status');
 let savedChecksRaw:string|null=null;
 let savedFamilyRaw:string|null=null;
 let staleChecks=false;
 let staleFamilies=false;
 let canSaveChecks=true;
 let canSaveFamilies=true;
+let damagedCheck=false;
+let damagedFamilyRecord=false;
+function updateDamagedView(){
+ if(damagedArea)damagedArea.hidden=!damagedCheck&&!damagedFamilyRecord;
+ if(damagedProgress)damagedProgress.hidden=!damagedCheck;
+ if(damagedFamily)damagedFamily.hidden=!damagedFamilyRecord;
+}
 function readSelection(key:string,known:Set<string>):string[]{
  const raw=localStorage.getItem(key);
  if(key===STORAGE)savedChecksRaw=raw;
@@ -220,6 +246,8 @@ try{
  boxes.forEach(x=>x.checked=stored.includes(x.dataset.key||''));
 }catch{
  canSaveChecks=false;
+ damagedCheck=savedChecksRaw!==null;
+ updateDamagedView();
  if(note)note.textContent='저장된 체크 기록을 읽을 수 없습니다. 기존 원본은 덮어쓰지 않습니다.';
 }
 try{
@@ -227,9 +255,62 @@ try{
  audiences.forEach(x=>x.checked=filters.includes(x.dataset.audienceKey||''));
 }catch{
  canSaveFamilies=false;
+ damagedFamilyRecord=savedFamilyRaw!==null;
+ updateDamagedView();
  if(note)note.textContent='저장된 가족 선택 기록을 읽을 수 없습니다. 기존 원본은 덮어쓰지 않습니다.';
 }
 applyFamilyFilters();
+function downloadDamaged(key:string,filename:string){
+ const eligible=key===STORAGE?damagedCheck:damagedFamilyRecord;
+ if(!eligible||!currentSelection(key))return;
+ const raw=key===STORAGE?savedChecksRaw:savedFamilyRaw;
+ if(raw===null)return;
+ try{
+  const url=URL.createObjectURL(new Blob([raw],{type:'text/plain;charset=utf-8'}));
+  const link=document.createElement('a');
+  link.href=url;
+  link.download=filename;
+  document.body.append(link);
+  link.click();
+  link.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),1000);
+  if(damagedStatus)damagedStatus.textContent='손상된 원본 파일의 다운로드를 요청했습니다. 실제 저장 위치를 확인하세요.';
+ }catch{
+  if(damagedStatus)damagedStatus.textContent='원본 파일을 만들 수 없습니다. 기록을 초기화하기 전 브라우저 저장 데이터를 별도로 보관하세요.';
+ }
+}
+function resetDamaged(key:string){
+ const eligible=key===STORAGE?damagedCheck:damagedFamilyRecord;
+ if(!eligible||!currentSelection(key))return;
+ const name=key===STORAGE?'체크 완료 기록':'가족 유형 선택 기록';
+ if(!confirm('손상된 '+name+'을 초기화할까요? 되돌릴 수 없으므로 먼저 원본 파일을 저장하세요.'))return;
+ if(!currentSelection(key))return;
+ try{
+  localStorage.setItem(key,'[]');
+  if(key===STORAGE){
+   savedChecksRaw='[]';
+   canSaveChecks=true;
+   damagedCheck=false;
+   boxes.forEach(x=>x.checked=false);
+   update();
+  }else{
+   savedFamilyRaw='[]';
+   canSaveFamilies=true;
+   damagedFamilyRecord=false;
+   audiences.forEach(x=>x.checked=false);
+   applyFamilyFilters();
+  }
+  updateDamagedView();
+  if(damagedStatus)damagedStatus.textContent=name+'을 초기화했습니다. 다른 체크·비축품 기록은 그대로 유지됩니다.';
+  if(note)note.textContent=name+' 초기화를 저장했습니다.';
+ }catch{
+  if(damagedStatus)damagedStatus.textContent='저장소 접근 실패로 초기화하지 못했습니다. 이전 원본은 유지됩니다.';
+ }
+}
+document.querySelector('#check-save-damaged-progress')?.addEventListener('click',()=>downloadDamaged(STORAGE,'guidehollow-ready-damaged-checks.txt'));
+document.querySelector('#check-reset-damaged-progress')?.addEventListener('click',()=>resetDamaged(STORAGE));
+document.querySelector('#check-save-damaged-family')?.addEventListener('click',()=>downloadDamaged(FAMILY_STORAGE,'guidehollow-ready-damaged-family.txt'));
+document.querySelector('#check-reset-damaged-family')?.addEventListener('click',()=>resetDamaged(FAMILY_STORAGE));
 function checkedIds():string[]{
  return boxes.filter(x=>x.checked).map(x=>x.dataset.key).filter((v):v is string=>Boolean(v));
 }
@@ -312,6 +393,9 @@ importChecks?.addEventListener('change',async()=>{
   savedFamilyRaw=nextFamilyRaw;
   canSaveChecks=true;
   canSaveFamilies=true;
+  damagedCheck=false;
+  damagedFamilyRecord=false;
+  updateDamagedView();
   const checked=new Set(completed);
   const family=new Set(chosen);
   boxes.forEach(x=>x.checked=checked.has(x.dataset.key||''));
@@ -380,6 +464,8 @@ document.querySelector('#reset-list')?.addEventListener('click',()=>{
   localStorage.removeItem(STORAGE);
   savedChecksRaw=null;
   canSaveChecks=true;
+  damagedCheck=false;
+  updateDamagedView();
   boxes.forEach(x=>x.checked=false);
   if(note)note.textContent='체크 항목을 초기화했습니다. 가족 유형 선택은 유지됩니다.';
  }catch{
@@ -410,6 +496,16 @@ document.querySelector('#print-list')?.addEventListener('click',()=>window.print
 .copy-fallback-wrap label{display:block;color:#e9f2ed;margin:0 0 9px;font-size:.86rem;font-weight:700}
 .copy-fallback-wrap textarea{display:block;width:100%;min-height:140px;max-width:100%;resize:vertical;background:#11252e;border:1px solid #819da3;border-radius:8px;color:#f4f8f6;padding:10px;font:inherit;line-height:1.6}
 .copy-fallback-wrap textarea:focus-visible{outline:3px solid #ffd58f;outline-offset:2px}
+.check-damaged{border:2px solid #e8c38c;border-radius:14px;padding:18px 20px;margin:18px 0;background:#49332d;color:#ffecdc}
+.check-damaged[hidden],.check-damaged-group[hidden]{display:none!important}
+.check-damaged h2{font-size:1.14rem;color:#ffdbad;margin:0 0 9px}
+.check-damaged h3{font-size:.97rem;color:#fff2df;margin:0 0 10px}
+.check-damaged p{font-size:.86rem;line-height:1.8;margin:8px 0}
+.check-damaged-group{border-top:1px solid #896754;padding:12px 0 7px}
+.check-damaged-group button{background:#23434b;border:1px solid #b6d1c8;border-radius:9px;min-height:44px;padding:9px 12px;margin:0 8px 8px 0;color:#f6fff9;font-weight:750;cursor:pointer}
+.check-damaged-group button:focus-visible{outline:3px solid #fff;outline-offset:2px}
+.check-damaged-status{color:#ffdcac}
+.check-damaged-status:empty{display:none}
 .check-stale{padding:15px 18px;margin:15px 0;border:2px solid #edc58b;background:#533628;border-radius:12px;color:#fff2da;font-size:.89rem;line-height:1.8}
 .check-stale[hidden]{display:none!important}
 .check-stale strong{display:block}
@@ -432,7 +528,7 @@ document.querySelector('#print-list')?.addEventListener('click',()=>window.print
 .check-sources a{color:#a8e8d7;text-decoration:underline;text-underline-offset:3px}
 @media(max-width:740px){.check-backup{padding:15px}.check-backup-actions{flex-direction:column;align-items:stretch}.check-backup-actions .btn{width:100%}.family-options{grid-template-columns:1fr}.family-select{padding:16px}.family-option{min-height:54px}.check-actions{gap:10px}.check-actions button{min-height:44px}}
 @media print{
- .family-select,.check-actions,.copy-fallback-wrap,.check-backup,.check-stale{display:none!important}
+ .family-select,.check-actions,.copy-fallback-wrap,.check-backup,.check-stale,.check-damaged{display:none!important}
  .check-sources{color:#222;border-color:#888}
  .check-sources strong{color:#222}
  .check-sources a{color:#222}
