@@ -104,6 +104,17 @@ const MAX_BACKUP_BYTES=16384;
 const exportChecks=document.querySelector<HTMLButtonElement>('#export-checks');
 const importChecks=document.querySelector<HTMLInputElement>('#import-checks');
 const backupStatus=document.querySelector<HTMLElement>('#check-backup-status');
+let canSaveChecks=true;
+let canSaveFamilies=true;
+function readSelection(key:string,known:Set<string>):string[]{
+ const raw=localStorage.getItem(key);
+ if(raw===null)return [];
+ const value:unknown=JSON.parse(raw);
+ if(!Array.isArray(value)||value.length>known.size
+  ||!value.every(x=>typeof x==='string'&&known.has(x))
+  ||new Set(value).size!==value.length)throw Error('invalid stored selection');
+ return value as string[];
+}
 function selectedBoxes(){
  return boxes.filter(x=>!x.closest<HTMLElement>('.check-group')?.hidden);
 }
@@ -152,20 +163,33 @@ function applyFamilyFilters(){
  update();
 }
 function saveChecks(){
+ if(!canSaveChecks){
+  if(note)note.textContent='기존 체크 기록을 읽을 수 없습니다. 원본 보호를 위해 저장을 중지했습니다. 백업 복원 또는 체크 초기화를 이용하세요.';
+  update();
+  return;
+ }
  try{
   localStorage.setItem(STORAGE,JSON.stringify(boxes.filter(x=>x.checked).map(x=>x.dataset.key)));
   if(note)note.textContent='체크 결과를 이 기기에 저장했습니다.';
  }catch{
-  if(note)note.textContent='저장이 차단되어 현재 화면에서만 유지됩니다.';
+  if(note)note.textContent='브라우저 저장이 차단되어 변경은 이 화면에서만 유지됩니다.';
  }
  update();
 }
 try{
- const stored=JSON.parse(localStorage.getItem(STORAGE)||'[]');
- if(Array.isArray(stored))boxes.forEach(x=>x.checked=stored.includes(x.dataset.key));
- const filters=JSON.parse(localStorage.getItem(FAMILY_STORAGE)||'[]');
- if(Array.isArray(filters))audiences.forEach(x=>x.checked=filters.includes(x.dataset.audienceKey));
-}catch{if(note)note.textContent='저장된 상태를 읽지 못했습니다. 현재 화면에서 다시 체크하세요.';}
+ const stored=readSelection(STORAGE,new Set(boxes.map(x=>x.dataset.key).filter((x):x is string=>Boolean(x))));
+ boxes.forEach(x=>x.checked=stored.includes(x.dataset.key||''));
+}catch{
+ canSaveChecks=false;
+ if(note)note.textContent='저장된 체크 기록을 읽을 수 없습니다. 기존 원본은 덮어쓰지 않습니다.';
+}
+try{
+ const filters=readSelection(FAMILY_STORAGE,new Set(audiences.map(x=>x.dataset.audienceKey).filter((x):x is string=>Boolean(x))));
+ audiences.forEach(x=>x.checked=filters.includes(x.dataset.audienceKey||''));
+}catch{
+ canSaveFamilies=false;
+ if(note)note.textContent='저장된 가족 선택 기록을 읽을 수 없습니다. 기존 원본은 덮어쓰지 않습니다.';
+}
 applyFamilyFilters();
 function checkedIds():string[]{
  return boxes.filter(x=>x.checked).map(x=>x.dataset.key).filter((v):v is string=>Boolean(v));
@@ -174,6 +198,10 @@ function selectedAudiences():string[]{
  return audiences.filter(x=>x.checked).map(x=>x.dataset.audienceKey).filter((v):v is string=>Boolean(v));
 }
 exportChecks?.addEventListener('click',()=>{
+ if(!canSaveChecks||!canSaveFamilies){
+  if(backupStatus)backupStatus.textContent='기존 기록을 읽지 못해 화면 상태를 정확한 백업으로 보장할 수 없습니다. 원본을 확인하거나 정상 백업 파일을 복원하세요.';
+  return;
+ }
  try{
   const completed=checkedIds();
   const chosen=selectedAudiences();
@@ -226,10 +254,13 @@ importChecks?.addEventListener('change',async()=>{
     if(oldChecks===null)localStorage.removeItem(STORAGE);else localStorage.setItem(STORAGE,oldChecks);
     if(oldFamily===null)localStorage.removeItem(FAMILY_STORAGE);else localStorage.setItem(FAMILY_STORAGE,oldFamily);
    }catch{rolledBack=false;}
+   if(!rolledBack){canSaveChecks=false;canSaveFamilies=false;}
    throw Error(rolledBack
     ?'브라우저 저장소에 기록할 수 없어 가져오기를 취소했습니다. 기존 기록은 유지됩니다.'
     :'저장 오류로 일부 기록만 바뀌었을 수 있습니다. 페이지를 새로 열어 상태를 재확인하세요.');
   }
+  canSaveChecks=true;
+  canSaveFamilies=true;
   const checked=new Set(completed);
   const family=new Set(chosen);
   boxes.forEach(x=>x.checked=checked.has(x.dataset.key||''));
@@ -277,17 +308,27 @@ document.querySelector('#copy-missing')?.addEventListener('click',async()=>{
  }
 });
 audiences.forEach(x=>x.addEventListener('change',()=>{
+ if(!canSaveFamilies){
+  if(note)note.textContent='저장된 가족 선택 기록을 읽지 못해 변경을 저장하지 않았습니다. 원본 보호를 위해 백업 복원 후 저장하세요.';
+  applyFamilyFilters();
+  return;
+ }
  try{
   localStorage.setItem(FAMILY_STORAGE,JSON.stringify(audiences.filter(a=>a.checked).map(a=>a.dataset.audienceKey)));
   if(note)note.textContent='가족 유형을 이 기기에 저장했습니다.';
- }catch{if(note)note.textContent='가족 유형을 저장하지 못했습니다.';}
+ }catch{if(note)note.textContent='가족 유형을 저장하지 못했습니다. 현재 화면에서만 유지됩니다.';}
  applyFamilyFilters();
 }));
 document.querySelector('#reset-list')?.addEventListener('click',()=>{
  if(!confirm('체크한 항목을 모두 초기화할까요? 가족 유형 선택은 유지됩니다.'))return;
- boxes.forEach(x=>x.checked=false);
- try{localStorage.removeItem(STORAGE);}catch{}
- if(note)note.textContent='모든 체크를 초기화했습니다.';
+ try{
+  localStorage.removeItem(STORAGE);
+  canSaveChecks=true;
+  boxes.forEach(x=>x.checked=false);
+  if(note)note.textContent='체크 항목을 초기화했습니다. 가족 유형 선택은 유지됩니다.';
+ }catch{
+  if(note)note.textContent='초기화가 저장되지 않았습니다. 브라우저 저장 기능을 확인하세요.';
+ }
  update();
 });
 document.querySelector('#print-list')?.addEventListener('click',()=>window.print());
