@@ -4,7 +4,7 @@ import Base from '../layouts/Base.astro';
 const official = {
  emergency: 'https://safekorea.go.kr/safekorea-kor/acts/nacts/action-guide.do?actsHeaderTitle=%EB%B9%84%EC%83%81%EC%82%AC%ED%83%9C&category=stateOfEmergency&menuSn=4',
  chemical: 'https://safekorea.go.kr/safekorea-kor/acts/nacts/action-guide.do?actsHeaderTitle=%ED%99%94%EC%83%9D%EB%B0%A9%EB%AC%B4%EA%B8%B0&category=chemicalandBiologicalWeapons&menuSn=4',
- chemicalAccident: 'https://www.safekorea.go.kr/safekorea-kor/flsm/flsm/facilitiesSafteyMap.do?menuSn=234',
+ chemicalAccident: 'https://safekorea.go.kr/safekorea-kor/acts/nacts/action-guide.do?actsHeaderTitle=%ED%99%94%ED%95%99%EC%82%AC%EA%B3%A0%EC%9E%AC%EB%82%9C&category=chemicalAccidentDisaster&menuSn=4',
  civilAlarm: 'https://www.safekorea.go.kr/safekorea-kor/edtr/clns/cdal/civilDefenseAlarm.do?menuSn=57',
  alarms: 'https://www.mois.go.kr/frt/sub/a06/b12/civildefensework/screen.do',
  shelter: 'https://www.safekorea.go.kr/safekorea-kor/flsm/flsm/facilitiesSafteyMap.do',
@@ -24,7 +24,7 @@ const situations = [
  {id:'warning',name:'경계경보',time:'공격이 예상될 때',points:['방송·재난문자로 경보 종류와 지역, 대피 지시를 확인합니다.','가까운 민방위 대피시설과 이동 경로를 점검하고, 어린이·노약자는 안내에 따라 미리 대피를 준비합니다.','비상물품을 준비하고 주변 사람에게 경보 내용을 알립니다.'],why:'경계경보와 공습경보의 행동은 다릅니다. 정부의 대피 지시가 있으면 준비보다 대피가 우선입니다.',href:official.emergency},
  {id:'air-raid',name:'공습경보·포격',time:'공격이 임박하거나 진행될 때',points:['가까운 민방위 대피시설, 지하철역·지하시설 또는 콘크리트 건물 안쪽의 창문 없는 곳으로 신속히 대피합니다.','고층 건물에서는 엘리베이터 대신 계단을 이용합니다. 운전 중이라면 안전한 곳에 정차한 뒤 대피합니다.','대피한 뒤에는 정부 안내방송을 계속 확인하고 현장 관리자의 지시를 따릅니다.'],why:'호우·침수 위험이 있는 저지대 지하공간은 피하고, 지역 상황에 맞는 안전한 곳을 선택해야 합니다. 모든 지하공간이 공식 지정 대피소는 아닙니다.',href:official.emergency},
  {id:'chemical',name:'화학 공격·화생방경보',time:'화학물질 오염이 확인되거나 우려될 때',points:['경보 내용을 확인하고 오염 지역과 외부 공기의 유입을 피합니다. 화학 공격 시에는 외부 공기를 차단할 수 있는 높은 층의 실내 공간이 안내됩니다.','실내에서는 창문·출입문을 닫고 외부 공기를 들여오는 환기·냉방기기 등을 멈춥니다.','공습 때문에 지하에 대피 중이라도 화학 공격이 확인되면 동일한 지하 대피가 적절하지 않을 수 있으므로 정부·현장 지시에 따라 비오염 구역으로 이동합니다.'],why:'일반 마스크나 젖은 수건은 화학작용제 전용 방독면과 같은 보호 성능이 아닙니다. 무작정 지하로 이동하지 마세요.',href:official.chemical},
- {id:'chemical-accident',name:'산업시설 화학사고·유해물질 누출',time:'공장·운송시설 등에서 화학물질 유출이 발생했을 때',points:['실외 유출이 의심된다면 오염된 지역과 멀어지고 가까운 안전한 건물 안에서 문·창문을 닫고 외부 공기 유입을 차단합니다. 건물 내부에서 유출된 경우에는 그 공간을 벗어납니다.','재난문자·방송·소방당국에서 물질 종류와 실내 대기 또는 이동 지시를 확인합니다. 물질에 따라 대피 방향·높이가 달라질 수 있으므로 임의로 지하 또는 고층을 선택하지 않습니다.','지자체의 주민대피명령이 내려오면 안내한 경로를 이용해 지정된 화학사고 대피장소로 이동합니다. 귀가·환기는 공식 복귀 안내를 받은 뒤 진행합니다.'],why:'화학사고는 화학무기 공격과 같지 않습니다. 일반 마스크는 유해가스를 막는 방독면을 대신하지 못합니다. 호흡곤란·눈이나 피부의 심한 이상이 있으면 119에 알립니다.',href:official.chemicalAccident},
+ {id:'chemical-accident',name:'산업시설 화학사고·유해물질 누출',time:'공장·운송시설 등에서 화학물질 유출이 발생했을 때',points:['누출을 직접 발견했다면 오염 현장에서 최대한 멀리 벗어나 안전한 장소에서 119에 신고합니다. 사고 위치와 보이는 색·냄새·증상 등 확인 가능한 상황을 알립니다.','재난문자·방송으로 사고 소식을 받았다면 별도 대피 지시가 없는 한 안전한 실내에 머물며 외부 공기 유입을 막고 추가 안내를 확인합니다. 건물 안에서 누출됐다면 오염된 공간에서 벗어나야 합니다.','주민대피명령이 내려오면 경찰·지자체가 안내한 경로와 장소로 이동합니다. 복귀 후에는 오염 가능성이 있는 식수·음식물을 먹거나 물건을 맨손으로 만지지 말고 후속 안내를 따릅니다.'],why:'사고 현장을 직접 목격한 경우와 외부 사고를 재난문자로 안내받은 경우의 첫 행동은 다릅니다. 이동 방향은 사고 위치와 풍향·현장 통제에 따라 달라지며, 일반 마스크는 유해가스용 보호구가 아닙니다.',href:official.chemicalAccident},
  {id:'biological',name:'생물학 공격 의심',time:'오염 또는 집단 감염 관련 안내가 있을 때',points:['오염이 의심되는 물질·장소·환자와의 접촉을 피하고 호흡기를 보호합니다.','정부·지자체에서 정한 장소 또는 실내로 이동하고, 임의의 장거리 이동으로 확산 위험을 높이지 않습니다.','위생을 유지하고 보건당국의 검사·치료·예방접종 지시를 따릅니다.'],why:'증상만으로 공격 여부를 판단하거나 임의로 치료하지 마세요. 보건당국의 공식 발표가 우선입니다.',href:official.chemical},
  {id:'nuclear',name:'핵 경보·방사능 낙진',time:'핵 공격 경보 또는 방사능 위험 안내 시',points:['신속히 민방위 대피시설, 지하철역 등 지하시설이나 콘크리트 건물의 창문 없는 안쪽으로 대피합니다.','폭발 순간 대피할 여유가 없다면 지형·지물을 이용해 엎드려 눈과 귀를 가리고 입을 벌려 몸을 보호합니다.','폭풍과 낙하물이 멈춘 뒤에는 낙진 노출을 줄일 수 있는 실내 깊은 곳에 머물며 정부의 이동·제염 안내를 기다립니다.'],why:'핵·방사능 대피는 화학물질 대피와 다릅니다. 특정 건물이 안전하다고 보증하거나 독자적인 대피 종료 시점을 제시하지 않습니다.',href:official.chemical},
  {id:'all-clear',name:'민방공 경보해제',time:'정부가 경보해제를 발표했을 때',points:['공식 방송·재난문자로 경보해제 대상 지역과 후속 지시를 확인합니다.','안전한 범위에서 부상자 구조를 돕되, 추가 공격 가능성에 대비하고 정부 방송을 계속 듣습니다.','오염·화재·건물 손상 위험이 남아 있다면 함부로 밖으로 나가거나 귀가하지 말고 해당 위험에 대한 별도 안내를 따릅니다.'],why:'경보해제는 추가 공격이 예상되지 않는다는 경보 단계입니다. 모든 지역의 통행·시설 이용·오염 위험이 해소됐다는 보증이 아닙니다.',href:official.civilAlarm},
@@ -56,7 +56,7 @@ const situations = [
     <summary>나머지 행동 단계 보기 <span aria-hidden="true">⌄</span></summary>
     <ol start="2">{item.points.slice(1).map(p=><li>{p}</li>)}</ol>
    </details>
-   <a href={item.href} target="_blank" rel="noopener noreferrer" class="text-link">{item.id==='chemical-accident' ? '정부 화학사고 대피소 지도 조회 ↗' : '정부·공식 안내 원문 확인 ↗'}</a>
+   <a href={item.href} target="_blank" rel="noopener noreferrer" class="text-link">정부·공식 안내 원문 확인 ↗</a>
   </section>)}
  </div>
  <section class="readable" id="shelter-types" aria-labelledby="shelter-types-title">
@@ -81,7 +81,7 @@ const situations = [
  </section>
  <section class="readable" id="contamination" aria-labelledby="contamination-title">
   <h2 id="contamination-title">화학·방사성 물질에 노출됐을 때</h2>
-  <p>먼저 <strong>현장 위험과 재난문자에 따라 실내 차단 또는 오염 구역 이탈 중 안전한 조치를 선택</strong>하고, 현장 구조대·정부 지시를 따르세요. 화학물질 오염과 방사성 낙진은 대응이 다릅니다.</p>
+  <p>먼저 <strong>누출 현장을 직접 발견했다면 멀리 벗어나고, 외부 사고를 재난문자로 알게 됐다면 대피 지시 전까지 안전한 실내에서 추가 안내를 확인</strong>하세요. 화학물질 오염과 방사성 낙진은 대응이 다르므로 현장 구조대·정부 지시를 따릅니다.</p>
   <h3>화학물질이 피부·옷에 묻은 경우</h3>
   <ol>
    <li>오염 구역에서 떨어진 안전한 곳에서 오염된 옷을 벗어 추가 접촉을 줄입니다. 옷은 밀폐할 수 있는 봉투·용기에 따로 보관합니다.</li>
