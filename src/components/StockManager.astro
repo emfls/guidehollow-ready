@@ -72,6 +72,19 @@ import { sources } from '../data/resources';
   <div><strong>30일 이내 확인</strong> <span id="stock-due">0건</span></div>
   <button type="button" id="stock-clear" class="stock-clear">비축품 기록 전체 삭제</button>
  </div>
+ <section class="stock-backup" aria-labelledby="stock-backup-title">
+  <div class="stock-backup-intro">
+   <h3 id="stock-backup-title">비축품 기록 백업·복원</h3>
+   <p id="stock-backup-help">이 브라우저의 비축품 기록만 <strong>JSON 파일</strong>로 내보내거나, 이 사이트에서 받은 파일을 다시 불러올 수 있습니다. 파일은 서버로 전송되지 않습니다. <strong>가져오기는 기존 비축품 기록을 전부 교체</strong>하며 체크리스트의 체크 상태와 가족 선택은 건드리지 않습니다.</p>
+   <p>내보낸 파일에는 품목명·보관 위치·기한이 포함될 수 있습니다. 공용 기기나 공유 폴더에 파일을 남기지 마세요. 파일은 개인정보 없이 보관하고, 복원 전 현재 기록도 백업하세요.</p>
+  </div>
+  <div class="stock-backup-actions">
+   <button type="button" id="stock-export" class="stock-backup-button">JSON 파일로 백업</button>
+   <label for="stock-import">백업 JSON 불러오기</label>
+   <input id="stock-import" type="file" accept=".json,application/json" aria-describedby="stock-backup-help"/>
+  </div>
+  <p id="stock-backup-status" role="status" aria-live="polite" class="stock-backup-status"></p>
+ </section>
  <p class="stock-note" id="stock-privacy">계정 없이 브라우저 내부 저장소에만 보관합니다. 다른 기기와 동기화되지 않으며 서버로 보내지 않습니다. 공용 기기에서는 삭제하고, 처방약명 등 민감한 정보는 기록하지 마세요.</p>
  <ul id="stock-list" class="stock-list" aria-label="우리 집 비축품 목록"></ul>
  <p id="stock-empty" class="stock-empty">등록된 비축품이 없습니다. 집에 있는 물품부터 추가하세요.</p>
@@ -83,6 +96,9 @@ type Kind='food'|'bottled'|'filled'|'other';
 type Unit='개'|'팩'|'인분'|'L';
 type StockItem={id:string;kind:Kind;name:string;quantity:number;unit:Unit;place:string;date:string};
 const STORAGE='guidehollow-ready-stock-v1';
+const BACKUP_FORMAT='guidehollow-ready-stock';
+const BACKUP_VERSION=1;
+const MAX_BACKUP_BYTES=65536;
 const CAPACITY=60;
 const kindNames:Record<Kind,string>={food:'상온 비상식량',bottled:'시판 생수',filled:'직접 담은 물',other:'생활 소모품'};
 const form=document.querySelector<HTMLFormElement>('#stock-form');
@@ -93,6 +109,9 @@ const unit=document.querySelector<HTMLSelectElement>('#stock-unit');
 const place=document.querySelector<HTMLInputElement>('#stock-place');
 const date=document.querySelector<HTMLInputElement>('#stock-date');
 const dateLabel=document.querySelector<HTMLElement>('#stock-date-label');
+const backupExport=document.querySelector<HTMLButtonElement>('#stock-export');
+const backupImport=document.querySelector<HTMLInputElement>('#stock-import');
+const backupStatus=document.querySelector<HTMLElement>('#stock-backup-status');
 const coveragePeople=document.querySelector<HTMLInputElement>('#coverage-people');
 const coverageRequired=document.querySelector<HTMLOutputElement>('#coverage-required');
 const coverageKnown=document.querySelector<HTMLOutputElement>('#coverage-known');
@@ -271,6 +290,60 @@ function render(){
  if(empty)empty.hidden=items.length>0;
  renderWaterCoverage();
 }
+backupExport?.addEventListener('click',()=>{
+ if(!items.length){
+  if(backupStatus)backupStatus.textContent='백업할 기록이 없습니다. 비축품을 먼저 추가하세요.';
+  return;
+ }
+ try{
+  const payload=JSON.stringify({format:BACKUP_FORMAT,version:BACKUP_VERSION,exportedAt:new Date().toISOString(),items},null,2);
+  const blob=new Blob([payload],{type:'application/json;charset=utf-8'});
+  const href=URL.createObjectURL(blob);
+  const link=document.createElement('a');
+  const now=new Date();
+  const day=[now.getFullYear(),String(now.getMonth()+1).padStart(2,'0'),String(now.getDate()).padStart(2,'0')].join('-');
+  link.href=href;
+  link.download='guidehollow-ready-stock-'+day+'.json';
+  document.body.append(link);
+  link.click();
+  link.remove();
+  setTimeout(()=>URL.revokeObjectURL(href),1000);
+  if(backupStatus)backupStatus.textContent=items.length+'건의 백업 파일 저장을 요청했습니다. 브라우저 다운로드 위치를 확인하세요.';
+ }catch{
+  if(backupStatus)backupStatus.textContent='백업 파일을 생성하지 못했습니다. 브라우저 다운로드 제한을 확인하세요.';
+ }
+});
+backupImport?.addEventListener('change',async()=>{
+ const file=backupImport.files?.[0];
+ if(!file)return;
+ try{
+  if(!canPersist)throw Error('현재 브라우저의 저장 기록을 읽을 수 없어 가져오기가 차단되었습니다.');
+  if(file.size===0||file.size>MAX_BACKUP_BYTES)throw Error('파일 크기가 유효하지 않습니다. 64KB 이하의 백업 JSON만 가져올 수 있습니다.');
+  const parsed:unknown=JSON.parse(await file.text());
+  if(!parsed||typeof parsed!=='object')throw Error('이 사이트의 비축품 백업 파일이 아닙니다.');
+  const data=parsed as Record<string,unknown>;
+  if(data.format!==BACKUP_FORMAT||data.version!==BACKUP_VERSION||!Array.isArray(data.items))throw Error('지원하지 않는 백업 형식 또는 버전입니다.');
+  if(data.items.length>CAPACITY||!data.items.every(valid))throw Error('백업 항목의 수량·날짜·종류 등을 검증하지 못했습니다.');
+  const incoming=data.items as StockItem[];
+  if(new Set(incoming.map(x=>x.id)).size!==incoming.length)throw Error('중복된 기록 식별자가 있습니다.');
+  const restored:StockItem[]=incoming.map(x=>({id:x.id,kind:x.kind,name:x.name,quantity:x.quantity,unit:x.unit,place:x.place,date:x.date}));
+  if(!confirm('현재 기록 '+items.length+'건을 백업 파일의 '+restored.length+'건으로 전부 교체할까요? 이 작업은 실행 취소할 수 없습니다.')) {
+   if(backupStatus)backupStatus.textContent='기록 복원을 취소했습니다. 기존 데이터는 유지됩니다.';
+   return;
+  }
+  // Commit to browser storage before changing the in-memory record.
+  localStorage.setItem(STORAGE,JSON.stringify(restored));
+  items=restored;
+  finishEditing();
+  render();
+  if(backupStatus)backupStatus.textContent='백업 '+restored.length+'건을 불러왔습니다. 품목·보관 상태·기한을 다시 확인하세요.';
+  if(feedback)feedback.textContent='백업 복원이 완료되었습니다.';
+ }catch(error){
+  if(backupStatus)backupStatus.textContent=error instanceof Error?error.message:'파일을 읽지 못했습니다. 기존 기록은 유지됩니다.';
+ }finally{
+  if(backupImport)backupImport.value='';
+ }
+});
 kind?.addEventListener('change',updateKind);
 coveragePeople?.addEventListener('input',renderWaterCoverage);
 form?.addEventListener('submit',(event)=>{
@@ -373,6 +446,18 @@ render();
 .water-coverage .stock-note{margin:0;color:#bfd0d1}
 .water-coverage a{color:#a4efdb;text-decoration:underline;text-underline-offset:3px}
 .water-coverage strong{color:#eed6aa}
+.stock-backup{border:1px solid #4d666b;border-radius:14px;background:#182d37;padding:18px 20px;margin:0 0 15px}
+.stock-backup-intro h3{font-size:1.05rem;color:#f7dfb8;margin:0 0 8px}
+.stock-backup-intro p{color:#c6d7da;font-size:.85rem;line-height:1.7;margin:7px 0}
+.stock-backup-intro strong{color:#f8e1bb}
+.stock-backup-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:14px}
+.stock-backup-actions label{color:#e7edec;font-size:.85rem;font-weight:700}
+.stock-backup-actions input{color:#e2eaea;font-size:.83rem;max-width:100%;min-height:42px}
+.stock-backup-actions input::file-selector-button{background:#293f47;color:#ecf5f2;border:1px solid #789397;border-radius:8px;padding:10px 12px;margin-right:10px;cursor:pointer}
+.stock-backup-button{border:1px solid #a9d2bf;background:#2c4a4a;border-radius:9px;color:#ebf7ef;font-size:.86rem;font-weight:750;padding:11px 13px;min-height:44px}
+.stock-backup-button:focus-visible,.stock-backup-actions input:focus-visible,.stock-backup-actions input::file-selector-button:focus-visible{outline:3px solid #ffd18b;outline-offset:2px}
+.stock-backup-status{color:#f0d4a5;font-size:.83rem;line-height:1.6;margin:11px 0 0}
+.stock-backup-status:empty{display:none}
 .stock-summary{display:flex;flex-wrap:wrap;gap:16px;align-items:center;border:1px solid #41575d;border-radius:13px;padding:15px 19px;margin-bottom:12px;background:#20333b;color:#eef3f1}
 .stock-summary>div{font-size:.88rem}
 .stock-summary>div strong{margin-right:7px;color:#c6dad8}
@@ -394,6 +479,6 @@ render();
 .stock-empty{color:#b9cdd0;padding:19px;border:1px dashed #5c7479;border-radius:12px}
 .stock-empty[hidden]{display:none!important}
 @media(max-width:800px){.water-coverage-results{grid-template-columns:1fr 1fr}.stock-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.stock-list{grid-template-columns:1fr}}
-@media(max-width:540px){.water-coverage{padding:16px}.water-coverage-head{display:block}.water-coverage-head label{max-width:160px;margin-bottom:13px}.water-coverage-results{grid-template-columns:1fr}.water-coverage-results>div{padding:13px}.stock-section{padding-top:26px}.stock-form{padding:16px}.stock-grid{grid-template-columns:1fr}.stock-summary{align-items:flex-start}.stock-clear{margin-left:0;width:100%;min-height:44px}.stock-form-bottom .btn,.stock-cancel{width:100%}.stock-card{padding:15px 13px}}
-@media print{.water-coverage,.water-coverage-results>div{background:white!important;color:#111!important;border-color:#999!important}.water-coverage-head h3,.water-coverage-results output,.water-coverage-status,.water-coverage-excluded,.water-coverage .stock-note{color:#111!important}.water-coverage-head input{background:white!important;color:#111!important}.stock-form,.stock-clear,.stock-remove,.stock-edit,.stock-warning{display:none!important}.stock-section{border-color:#999}.stock-header h2,.stock-name,.stock-facts,.stock-kind,.stock-status,.stock-header p,.stock-summary,.stock-note{color:#111!important}.stock-card,.stock-summary{background:white!important;border-color:#aaa!important;break-inside:avoid}.stock-list{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:540px){.stock-backup{padding:15px}.stock-backup-actions{align-items:stretch;flex-direction:column}.stock-backup-button{width:100%}.water-coverage{padding:16px}.water-coverage-head{display:block}.water-coverage-head label{max-width:160px;margin-bottom:13px}.water-coverage-results{grid-template-columns:1fr}.water-coverage-results>div{padding:13px}.stock-section{padding-top:26px}.stock-form{padding:16px}.stock-grid{grid-template-columns:1fr}.stock-summary{align-items:flex-start}.stock-clear{margin-left:0;width:100%;min-height:44px}.stock-form-bottom .btn,.stock-cancel{width:100%}.stock-card{padding:15px 13px}}
+@media print{.stock-backup{display:none!important}.water-coverage,.water-coverage-results>div{background:white!important;color:#111!important;border-color:#999!important}.water-coverage-head h3,.water-coverage-results output,.water-coverage-status,.water-coverage-excluded,.water-coverage .stock-note{color:#111!important}.water-coverage-head input{background:white!important;color:#111!important}.stock-form,.stock-clear,.stock-remove,.stock-edit,.stock-warning{display:none!important}.stock-section{border-color:#999}.stock-header h2,.stock-name,.stock-facts,.stock-kind,.stock-status,.stock-header p,.stock-summary,.stock-note{color:#111!important}.stock-card,.stock-summary{background:white!important;border-color:#aaa!important;break-inside:avoid}.stock-list{grid-template-columns:repeat(2,minmax(0,1fr))}}
 </style>
