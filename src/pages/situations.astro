@@ -29,14 +29,21 @@ const situations = [
 <div class="container">
  <header class="page-intro"><span class="eyebrow">IN AN EMERGENCY</span><h1>경보 종류부터 확인하고<br/><em>상황에 맞게 대피하세요</em></h1><p>미리 읽어두는 행동요령입니다. 현재 경보를 표시하는 페이지가 아니며, 실제 상황에서는 재난문자·공공방송·현장 지시를 우선합니다.</p></header>
  <div class="emergency-panel"><div><span class="tag">가장 먼저</span><strong>공습은 지하 대피, 화학 공격은 외부공기 차단 등 대피 방법이 다릅니다</strong><p>경보 이름·해당 지역·대피 지시를 확인하세요. 침수 위험이 있는 지하공간으로 무조건 내려가지 마세요.</p></div><a class="btn primary" href={official.emergency} target="_blank" rel="noopener noreferrer">국민안전24 행동요령 ↗</a></div>
- <nav class="readable" aria-label="상황별 행동요령 바로가기"><p><strong>바로 이동:</strong> {situations.map((item,i)=><> <a href={'#'+item.id}>{item.name}</a>{i<situations.length-1?' · ':''}</>)}</p></nav>
- <div class="situation-list">
- {situations.map((item,i)=><section class="situation-card" id={item.id} aria-labelledby={item.id+'-title'}>
-  <div class="situation-heading"><span>{String(i+1).padStart(2,'0')}</span><div><small>{item.time}</small><h2 id={item.id+'-title'}>{item.name}</h2></div></div>
-  <ol>{item.points.map(p=><li>{p}</li>)}</ol>
-  <p class="situation-note">{item.why}</p>
-  <a href={item.href} target="_blank" rel="noopener noreferrer" class="text-link">이 상황의 공식 안내 확인 ↗</a>
- </section>)}
+ <nav class="situation-shortcuts" aria-label="상황별 행동요령 바로가기">
+  <strong>상황 바로 찾기</strong>
+  <div>{situations.map(item=><a href={'#'+item.id}>{item.name}<span aria-hidden="true">↓</span></a>)}</div>
+ </nav>
+ <div class="situation-list situation-list--brief">
+  {situations.map((item,i)=><section class="situation-card situation-card--brief" id={item.id} aria-labelledby={item.id+'-title'}>
+   <div class="situation-heading"><span class="situation-number">{String(i+1).padStart(2,'0')}</span><div><small>{item.time}</small><h2 id={item.id+'-title'}>{item.name}</h2></div></div>
+   <div class="first-action"><span>먼저 할 일</span><p>{item.points[0]}</p></div>
+   <p class="situation-note situation-note--visible"><strong>주의</strong> {item.why}</p>
+   <details class="action-details" open={i===0 || i===1}>
+    <summary>나머지 행동 단계 보기 <span aria-hidden="true">⌄</span></summary>
+    <ol start="2">{item.points.slice(1).map(p=><li>{p}</li>)}</ol>
+   </details>
+   <a href={item.href} target="_blank" rel="noopener noreferrer" class="text-link">정부·공식 안내 원문 확인 ↗</a>
+  </section>)}
  </div>
  <section class="readable"><h2>민방위 대피시설은 어디서 확인하나요?</h2><p>평상시에 국민안전24 또는 안전디딤돌 앱에서 ‘민방위 대피시설’을 조회하고 집·직장·학교 주변 후보와 경로를 확인하세요. 위치·운영 여부가 바뀔 수 있으므로 실제 이동할 때는 최신 지시를 우선합니다.</p><p><a href={official.shelter} target="_blank" rel="noopener noreferrer">국민안전24 대피시설 조회 ↗</a> · <a href="/plan/">가족 대피계획 작성 →</a></p></section>
  <section class="last-call"><strong>긴급 신고</strong><p>화재·구조·구급은 <a href="tel:119">119</a>, 치안 긴급신고는 <a href="tel:112">112</a>. 가능한 안전한 곳에서 신고하고 현재 위치와 위험 상황을 알리세요.</p></section>
