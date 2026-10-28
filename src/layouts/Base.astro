@@ -42,10 +42,8 @@ const path=Astro.url.pathname;
     <a href="/" aria-current={path==='/' ? 'page':undefined}>홈</a>
     <a class="nav-emergency" href="/emergency/" aria-current={path==='/emergency/'?'page':undefined}>긴급 행동</a>
     <a href="https://www.safekorea.go.kr/safekorea-kor/flsm/flsm/facilitiesSafteyMap.do" target="_blank" rel="noopener noreferrer">대피소 찾기 ↗</a>
-    <a href="/checklist/" aria-current={path==='/checklist/'?'page':undefined}>준비 체크</a>
-    <a href="/family-emergency/" aria-current={path==='/family-emergency/'?'page':undefined}>아이·어르신</a>
-    <a href="/family-card/" aria-current={path==='/family-card/'||path==='/plan/'?'page':undefined}>가족 연락카드</a>
-    <a href="/starter-kit/" aria-current={path==='/starter-kit/'?'page':undefined}>준비물</a>
+    <a href="/checklist/" aria-current={path==='/checklist/'||path==='/starter-kit/'?'page':undefined}>준비</a>
+    <a href="/family-card/" aria-current={path==='/family-card/'||path==='/plan/'||path==='/family-emergency/'?'page':undefined}>가족</a>
    </nav>
   </div>
  </header>
@@ -62,8 +60,8 @@ const path=Astro.url.pathname;
   <a href="/" aria-current={path==='/'?'page':undefined}><span aria-hidden="true">⌂</span><small>홈</small></a>
   <a href="/emergency/" aria-current={path==='/emergency/'||path==='/situations/'?'page':undefined}><span aria-hidden="true">!</span><small>긴급</small></a>
   <a href="https://www.safekorea.go.kr/safekorea-kor/flsm/flsm/facilitiesSafteyMap.do" target="_blank" rel="noopener noreferrer"><span aria-hidden="true">◎</span><small>대피소</small></a>
-  <a href="/checklist/" aria-current={path==='/checklist/'?'page':undefined}><span aria-hidden="true">☑</span><small>준비</small></a>
-  <a href="/family-card/" aria-current={path==='/family-card/'||path==='/plan/'?'page':undefined}><span aria-hidden="true">▤</span><small>가족</small></a>
+  <a href="/checklist/" aria-current={path==='/checklist/'||path==='/starter-kit/'?'page':undefined}><span aria-hidden="true">☑</span><small>준비</small></a>
+  <a href="/family-card/" aria-current={path==='/family-card/'||path==='/plan/'||path==='/family-emergency/'?'page':undefined}><span aria-hidden="true">▤</span><small>가족</small></a>
  </nav>
 </body>
 </html>
