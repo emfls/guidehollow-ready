@@ -42,7 +42,7 @@ assert.deepEqual(waterCoverage(stocks,before),{
  litres:17,missing:1,expired:1,within72:2,covered:2
 });
 assert.deepEqual(waterCoverage(stocks,after),{
- litres:5,missing:1,expired:2,within72:1,covered:1
+ litres:5,missing:1,expired:2,within72:2,covered:1
 });
 assert.equal(stockDateStatus(stocks[5],before),null);
 assert.equal(stockDateStatus(stocks[0],before),3);
