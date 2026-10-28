@@ -762,3 +762,23 @@ a:hover{color:#c1f0e4}
  .situation-card--brief{padding:18px}
 }
 @media(prefers-reduced-motion:reduce){.brief-card,.situation-hub-card{transition:none}}
+
+/* READING CARDS AND CHECKLIST INDEX */
+.check-category-nav{padding:18px 20px;background:#1a2e38;border:1px solid #48636b;border-radius:14px;margin:20px 0 24px}
+.check-category-nav>strong{display:block;color:#f4e6d2;font-size:.92rem;margin-bottom:12px}
+.check-category-nav>div{display:flex;flex-wrap:wrap;gap:9px}
+.check-category-nav a{display:inline-flex;align-items:center;gap:9px;min-height:41px;padding:7px 12px;background:#293f48;color:#e1f1ec;border:1px solid #557078;border-radius:99px;font-size:.82rem;font-weight:760}
+.check-category-nav a:hover{background:#33515a;border-color:#9ddbc8}
+.check-category-nav a b{color:#f2c38c;font-size:.73rem}
+.check-category-nav a span{color:#a7cfc6}
+.check-card-index{display:block;margin-bottom:5px;color:#edc18b;font-size:.74rem;font-weight:850}
+.check-group[id]{scroll-margin-top:117px}
+.buying-summary-cards{padding:21px;background:#172b35;border:1px solid #455d69;border-radius:16px;margin:0 0 29px}
+.buying-summary-head{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:17px}
+.buying-summary-head strong{font-size:.93rem;color:#fae9d4}
+.buying-summary-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.buying-summary-grid article{min-width:0;padding:17px;background:#253b44;border:1px solid #506774;border-radius:11px}
+.buying-summary-grid article span{font-size:.75rem;font-weight:900;color:#eeba83}
+.buying-summary-grid article h2{font-size:1rem;margin:8px 0;color:#faf4e9;letter-spacing:-.03em}
+.buying-summary-grid article p{font-size:.82rem;color:#c8d8db;line-height:1.67;margin:0}
+@media(max-width:640px){.buying-summary-grid{grid-template-columns:1fr}.buying-summary-cards{padding:17px}}
