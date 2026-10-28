@@ -26,11 +26,11 @@ main{min-width:0}
 :is(.brief-card,.situation-hub-card,.starter-card,.split-card,.source-card,.review-directory-card,.starter-set-card){display:flex;flex-direction:column;height:100%;min-width:0;align-self:stretch}
 :is(.brief-card,.situation-hub-card,.starter-card,.split-card,.source-card,.review-directory-card,.starter-set-card) :is(h3,p){overflow-wrap:break-word;word-break:keep-all}
 :is(.brief-card,.situation-hub-card,.starter-card,.split-card,.source-card,.review-directory-card,.starter-set-card)>:last-child{margin-top:auto}
-.brief-card{min-height:192px;padding:19px}
+.brief-card{min-height:172px;padding:19px}
 .brief-card h3{font-size:1.07rem}
 .brief-card p{flex:0 0 auto;margin:0 0 10px;line-height:1.6}
 .brief-card .brief-card-action{margin-top:auto;padding-top:12px}
-.situation-hub-card{min-height:184px;padding:17px}
+.situation-hub-card{min-height:154px;padding:17px}
 .situation-hub-card h3{font-size:1.02rem;line-height:1.4}
 .situation-hub-card p{flex:0 0 auto;line-height:1.58;margin-bottom:9px}
 .situation-hub-card>span:last-child{margin-top:auto}
@@ -46,6 +46,13 @@ main{min-width:0}
 .home-kit-arrow{color:#facb8e;font-size:1.5rem}
 .home-kit-banner:hover{color:#fff;border-color:#e7b677}
 .home-kit-banner:hover strong{color:#fff}
+.home-resource-links{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:12px 0 0}
+.home-resource-links a{display:flex;align-items:center;justify-content:space-between;gap:12px;min-width:0;min-height:52px;padding:13px 15px;border:1px solid #475f67;border-radius:12px;background:#1a2c36;color:#e0edea;font-size:.87rem;font-weight:800;word-break:keep-all;overflow-wrap:break-word}
+.home-resource-links a:hover{color:#ffe4bd;border-color:#d6ab76}
+.home-resource-links a span{flex:none;color:#f4c488;font-size:1.06rem}
+.home-resource-note{font-size:.8rem;line-height:1.65;color:#a9bec3;margin:12px 0 24px;max-width:830px}
+@media(max-width:720px){.home-resource-links{grid-template-columns:1fr}.home-resource-links a{min-height:47px}}
+
 .hub-caution{font-size:.81rem;line-height:1.7}
 .section{padding:37px 0}
 .readable{line-height:1.85}
