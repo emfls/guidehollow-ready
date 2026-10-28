@@ -48,6 +48,25 @@ import { sources } from '../data/resources';
    <span id="stock-feedback" role="status" aria-live="polite" class="stock-feedback"></span>
   </div>
  </form>
+ <section class="water-coverage" id="water-coverage" aria-labelledby="water-coverage-title">
+  <div class="water-coverage-head">
+   <div>
+    <span class="eyebrow">72-HOUR WATER CHECK</span>
+    <h3 id="water-coverage-title">등록한 식수와 72시간 참고량 비교</h3>
+   </div>
+   <label for="coverage-people">준비할 사람 수
+    <input type="number" id="coverage-people" min="1" max="30" step="1" inputmode="numeric" value="1" aria-describedby="coverage-disclaimer"/>
+   </label>
+  </div>
+  <div class="water-coverage-results" role="group" aria-label="등록 식수량 비교">
+   <div><span>3일 참고량</span><output id="coverage-required" for="coverage-people">11.4 L</output></div>
+   <div><span>등록한 물 중 날짜 확인분</span><output id="coverage-known">0.0 L</output></div>
+   <div><span>등록량 기준 추가 점검분</span><output id="coverage-gap">11.4 L</output></div>
+  </div>
+  <p id="coverage-excluded" class="water-coverage-excluded">날짜를 확인해야 하는 물: 0건</p>
+  <p id="coverage-status" class="water-coverage-status" role="status" aria-live="polite">등록 수량을 기준으로 계산합니다.</p>
+  <p id="coverage-disclaimer" class="stock-note">계산: 사람 수 × 3.8L × 3일 (미국 CDC의 <a href={sources.waterGuide} target="_blank" rel="noopener noreferrer">해외 계획 참고값</a>, 대한민국의 법정 기준 아님). <strong>시판 생수의 표시 소비기한·직접 담은 물의 교체 예정일</strong>이 오늘 이후인 등록량만 잠정 계산합니다. 날짜가 없거나 지났으면 합산에서 제외합니다. <strong>기한과 수량만으로 물이 안전하다고 보증하지 않습니다.</strong> 용기 오염·봉인·보관 상태는 직접 점검하고, 더위·임신·수유·질환·반려동물 등 추가 필요량은 별도로 고려하세요. 이 계산은 초기 72시간용이며 국내 전시 30일 비축 안내와 별개입니다. 인원 수는 전송하거나 저장하지 않습니다.</p>
+ </section>
  <div class="stock-summary">
   <div><strong>등록된 비축품</strong> <span id="stock-total">0건</span></div>
   <div><strong>30일 이내 확인</strong> <span id="stock-due">0건</span></div>
@@ -74,6 +93,12 @@ const unit=document.querySelector<HTMLSelectElement>('#stock-unit');
 const place=document.querySelector<HTMLInputElement>('#stock-place');
 const date=document.querySelector<HTMLInputElement>('#stock-date');
 const dateLabel=document.querySelector<HTMLElement>('#stock-date-label');
+const coveragePeople=document.querySelector<HTMLInputElement>('#coverage-people');
+const coverageRequired=document.querySelector<HTMLOutputElement>('#coverage-required');
+const coverageKnown=document.querySelector<HTMLOutputElement>('#coverage-known');
+const coverageGap=document.querySelector<HTMLOutputElement>('#coverage-gap');
+const coverageExcluded=document.querySelector<HTMLElement>('#coverage-excluded');
+const coverageStatus=document.querySelector<HTMLElement>('#coverage-status');
 const submitButton=document.querySelector<HTMLButtonElement>('#stock-submit');
 const cancelButton=document.querySelector<HTMLButtonElement>('#stock-cancel');
 const list=document.querySelector<HTMLUListElement>('#stock-list');
@@ -165,6 +190,31 @@ function beginEditing(item:StockItem){
  form.scrollIntoView({block:'start'});
  itemName.focus({preventScroll:true});
 }
+function renderWaterCoverage(){
+ if(!coveragePeople||!coverageRequired||!coverageKnown||!coverageGap||!coverageExcluded||!coverageStatus)return;
+ const numberOfPeople=Number(coveragePeople.value);
+ const validCount=coveragePeople.value.trim()!==''&&Number.isInteger(numberOfPeople)&&numberOfPeople>=1&&numberOfPeople<=30;
+ const water=items.filter(x=>(x.kind==='bottled'||x.kind==='filled')&&x.unit==='L');
+ const verified=water.filter(x=>x.date&&isDate(x.date)&&daysUntil(x.date)>=0);
+ const pending=water.length-verified.length;
+ const litres=Math.round(verified.reduce((sum,x)=>sum+x.quantity,0)*10)/10;
+ coverageKnown.textContent=litres.toFixed(1)+' L';
+ coverageExcluded.textContent='날짜 미기록·경과로 합산하지 않은 물: '+pending+'건';
+ if(!validCount){
+  coverageRequired.textContent='인원 확인';
+  coverageGap.textContent='인원 확인';
+  coverageStatus.textContent='1~30명 사이의 정수로 입력해 주세요.';
+  return;
+ }
+ const needed=Math.round(numberOfPeople*3.8*3*10)/10;
+ const gap=Math.max(0,Math.round((needed-litres)*10)/10);
+ coverageRequired.textContent=needed.toFixed(1)+' L';
+ coverageGap.textContent=gap.toFixed(1)+' L';
+ const message=gap>0
+  ?'등록된 날짜 확인 물만 기준으로 '+gap.toFixed(1)+' L를 추가 점검하세요. 집에 있는 미등록 물도 확인하세요.'
+  :'등록 수량이 계획 참고량에 도달했습니다. 용기·보관 상태·가족별 추가 필요량을 반드시 별도 확인하세요.';
+ coverageStatus.textContent=canPersist?message:'저장 기록에 접근하지 못해 계산값을 신뢰할 수 없습니다. 기존 기록을 확인하세요.';
+}
 function appendText(tag:string,text:string,cls?:string):HTMLElement{
  const el=document.createElement(tag);
  el.textContent=text;
@@ -219,8 +269,10 @@ function render(){
  if(total)total.textContent=items.length+'건';
  if(due)due.textContent=attention+'건';
  if(empty)empty.hidden=items.length>0;
+ renderWaterCoverage();
 }
 kind?.addEventListener('change',updateKind);
+coveragePeople?.addEventListener('input',renderWaterCoverage);
 form?.addEventListener('submit',(event)=>{
  event.preventDefault();
  if(!form.reportValidity()||!kind||!itemName||!quantity||!unit||!place||!date)return;
@@ -306,6 +358,21 @@ render();
 .stock-cancel{border:1px solid #83969b;color:#e7efec;background:transparent;padding:10px 16px;border-radius:9px}
 .stock-cancel[hidden]{display:none!important}
 .stock-feedback{font-size:.83rem;color:#c6d7d9}
+ .water-coverage{margin:24px 0;border:1px solid #4d6869;background:#183039;border-radius:16px;padding:22px}
+.water-coverage-head{display:flex;justify-content:space-between;gap:20px;align-items:flex-start}
+.water-coverage-head h3{color:#f6e9d0;font-size:1.18rem;line-height:1.55;margin:7px 0 16px}
+.water-coverage-head label{display:grid;gap:8px;color:#d7e5e5;font-size:.86rem;font-weight:750}
+.water-coverage-head input{background:#13242e;border:1px solid #93aeb2;border-radius:9px;min-height:44px;padding:7px 12px;width:100px;color:#f8fbfa;font:inherit}
+.water-coverage-head input:focus-visible{outline:3px solid #ffd18b;outline-offset:3px}
+.water-coverage-results{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:13px 0}
+.water-coverage-results>div{padding:16px;border:1px solid #476065;background:#223b43;border-radius:12px;min-width:0}
+.water-coverage-results span{color:#d2e4e3;font-size:.83rem;line-height:1.5;display:block}
+.water-coverage-results output{font-size:1.35rem;font-weight:850;color:#f9d39b;display:block;margin-top:5px}
+.water-coverage-excluded{font-size:.88rem;color:#e0d1bd;margin:16px 0 6px}
+.water-coverage-status{font-size:.89rem;color:#e4efec;line-height:1.6;margin:0 0 12px}
+.water-coverage .stock-note{margin:0;color:#bfd0d1}
+.water-coverage a{color:#a4efdb;text-decoration:underline;text-underline-offset:3px}
+.water-coverage strong{color:#eed6aa}
 .stock-summary{display:flex;flex-wrap:wrap;gap:16px;align-items:center;border:1px solid #41575d;border-radius:13px;padding:15px 19px;margin-bottom:12px;background:#20333b;color:#eef3f1}
 .stock-summary>div{font-size:.88rem}
 .stock-summary>div strong{margin-right:7px;color:#c6dad8}
@@ -326,7 +393,7 @@ render();
 .stock-edit{border-color:#a1cfbc;color:#c8f4dd}
 .stock-empty{color:#b9cdd0;padding:19px;border:1px dashed #5c7479;border-radius:12px}
 .stock-empty[hidden]{display:none!important}
-@media(max-width:800px){.stock-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.stock-list{grid-template-columns:1fr}}
-@media(max-width:540px){.stock-section{padding-top:26px}.stock-form{padding:16px}.stock-grid{grid-template-columns:1fr}.stock-summary{align-items:flex-start}.stock-clear{margin-left:0;width:100%;min-height:44px}.stock-form-bottom .btn,.stock-cancel{width:100%}.stock-card{padding:15px 13px}}
-@media print{.stock-form,.stock-clear,.stock-remove,.stock-edit,.stock-warning{display:none!important}.stock-section{border-color:#999}.stock-header h2,.stock-name,.stock-facts,.stock-kind,.stock-status,.stock-header p,.stock-summary,.stock-note{color:#111!important}.stock-card,.stock-summary{background:white!important;border-color:#aaa!important;break-inside:avoid}.stock-list{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:800px){.water-coverage-results{grid-template-columns:1fr 1fr}.stock-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.stock-list{grid-template-columns:1fr}}
+@media(max-width:540px){.water-coverage{padding:16px}.water-coverage-head{display:block}.water-coverage-head label{max-width:160px;margin-bottom:13px}.water-coverage-results{grid-template-columns:1fr}.water-coverage-results>div{padding:13px}.stock-section{padding-top:26px}.stock-form{padding:16px}.stock-grid{grid-template-columns:1fr}.stock-summary{align-items:flex-start}.stock-clear{margin-left:0;width:100%;min-height:44px}.stock-form-bottom .btn,.stock-cancel{width:100%}.stock-card{padding:15px 13px}}
+@media print{.water-coverage,.water-coverage-results>div{background:white!important;color:#111!important;border-color:#999!important}.water-coverage-head h3,.water-coverage-results output,.water-coverage-status,.water-coverage-excluded,.water-coverage .stock-note{color:#111!important}.water-coverage-head input{background:white!important;color:#111!important}.stock-form,.stock-clear,.stock-remove,.stock-edit,.stock-warning{display:none!important}.stock-section{border-color:#999}.stock-header h2,.stock-name,.stock-facts,.stock-kind,.stock-status,.stock-header p,.stock-summary,.stock-note{color:#111!important}.stock-card,.stock-summary{background:white!important;border-color:#aaa!important;break-inside:avoid}.stock-list{grid-template-columns:repeat(2,minmax(0,1fr))}}
 </style>
