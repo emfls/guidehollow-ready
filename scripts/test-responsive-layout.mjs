@@ -55,6 +55,14 @@ try{
     const link=page.locator('a[href*="facilitiesSafteyMap.do"]');
     if(await link.count()===0)failed.push('official shelter action missing');
     if(await page.locator('.emergency-home-action').count()===0)failed.push('urgent and routine modes not separated');
+    if(await page.locator('.quick-grid .brief-card').count()!==3)failed.push('homepage forces too many competing routine actions');
+    if(await page.locator('.situation-hub-grid .situation-hub-card').count()!==4)failed.push('routine situation shortcuts should be four non-duplicate hazards');
+    if(await page.locator('.home-checklist-progress').count()!==1)failed.push('22 item local checklist summary missing');
+    if(await page.locator('.site-nav a').count()!==5)failed.push('desktop nav has too many destinations');
+    if(width<=540){
+     const cols=await page.locator('.situation-hub-grid').evaluate(el=>getComputedStyle(el).gridTemplateColumns.split(' ').length);
+     if(cols!==4)failed.push('mobile event icon shortcuts should be four across');
+    }
   }
   if(route==='/drill/'){
     if(await page.locator('.drill-card').count()!==3)failed.push('three practical scenarios missing');
@@ -64,6 +72,14 @@ try{
     if(await page.locator('.instant-step-card').count()!==3)failed.push('air chemical nuclear first-action cards missing');
     if(await page.locator('.instant-step-card ol li').count()!==9)failed.push('nine first-action steps are not visible without expanding');
     if(await page.locator('a[href="/offline/ready-card.html"]').count()===0)failed.push('offline card download unavailable');
+    const urgentTexts=await page.locator('.instant-step-card ol li').allTextContents();
+    if(!urgentTexts.some(t=>t.includes('공식 지시를 따르세요.')) || !urgentTexts.some(t=>t.includes('안전한 실내에서 벗으세요.')))failed.push('chemical or nuclear emergency instruction text incomplete');
+    const clipping=await page.locator('.instant-step-card li,.instant-card-warning').evaluateAll(nodes=>nodes.flatMap((el,i)=>{
+     const css=getComputedStyle(el),rect=el.getBoundingClientRect();
+     const hides=/hidden|clip|scroll/.test(css.overflowY)||css.webkitLineClamp!=='none'&&css.webkitLineClamp!=='unset';
+     return hides||el.scrollHeight>el.clientHeight+3||rect.height<18?[{i,content:el.textContent?.trim().slice(0,52),overflow:css.overflowY,clamp:css.webkitLineClamp}]:[];
+    }));
+    if(clipping.length)failed.push('full emergency step possibly clipped '+JSON.stringify(clipping.slice(0,4)));
   }
   if(route==='/family-emergency/'&&await page.locator('.family-now-card').count()!==3)failed.push('infant/elderly/pet emergency cards missing');
   if(route==='/family-card/'){
@@ -83,10 +99,23 @@ try{
    await page.screenshot({path:`.qa-screenshots/${name}-390.png`,fullPage:false});screenshots++;
   }
   if(width===1440&&route==='/'){await page.screenshot({path:'.qa-screenshots/home-1440.png',fullPage:true});screenshots++;}
+  if(route==='/emergency/'&&(width===390||width===1440)){
+    await page.locator('.instant-steps-grid').screenshot({path:`.qa-screenshots/complete-emergency-steps-${width}.png`});screenshots++;
+  }
   if(failed.length)errors.push({width,route,issues:failed});
   checks++;
  }
  if(width===390){
+  await page.goto(`http://127.0.0.1:${PORT}/`);
+  const initialHomeCount=await page.locator('#home-checked-count').textContent();
+  if(initialHomeCount!=='0')errors.push({width,route:'/',issues:['fresh home should reflect 0 of 22 locally checked']});
+  const baseIds=await page.locator('.home-checklist-progress').getAttribute('data-check-ids');
+  const ids=JSON.parse(baseIds||'[]');
+  if(ids.length!==22)errors.push({width,route:'/',issues:['home progress must map exact 22 base item ids']});
+  await page.evaluate(id=>localStorage.setItem('guidehollow-ready-check-v1',JSON.stringify([id])),ids[0]);
+  await page.reload();
+  if((await page.locator('#home-checked-count').textContent())!=='1')errors.push({width,route:'/',issues:['home and checklist saved status do not match']});
+  await page.evaluate(()=>localStorage.removeItem('guidehollow-ready-check-v1'));
   await page.goto(`http://127.0.0.1:${PORT}/starter-kit/`);
   await page.locator('#starter-people').fill('3');
   await page.locator('#starter-water-owned').fill('10');
