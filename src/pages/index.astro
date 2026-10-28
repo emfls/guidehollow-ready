@@ -2,7 +2,7 @@
 import Base from '../layouts/Base.astro';
 import { sources } from '../data/resources';
 const quickLinks=[
- {icon:'◉',label:'대피 행동요령',description:'경보 종류에 맞는 첫 행동',href:'/situations/',meta:'긴급 대처'},
+ {icon:'◇',label:'3분 행동 연습',description:'공습·화학·지진 대응 미리 연습',href:'/drill/',meta:'평상시 훈련'},
  {icon:'☑',label:'준비물 체크리스트',description:'집에 있는 준비물부터 점검',href:'/checklist/',meta:'기본 22항목'},
  {icon:'⌂',label:'가족 연락 계획',description:'연락 두절 시 집결·대체 계획',href:'/plan/',meta:'인쇄용 카드'},
  {icon:'▣',label:'비상 준비 장바구니',description:'물·식량·조명 6가지 한번에 점검',href:'/starter-kit/',meta:'부족한 것만 준비'},
@@ -57,7 +57,7 @@ const situationLinks=[
   <a href={sources.government} target="_blank" rel="noopener noreferrer">공식 재난정보 확인 <span aria-hidden="true">↗</span></a>
  </section>
  <section class="section dashboard-section" aria-labelledby="quick-title">
-  <div class="section-head"><span class="section-label">평소 준비</span><h2 id="quick-title">필요한 정보, 바로 찾기</h2><p>원하는 항목을 눌러 바로 이동하세요.</p></div>
+  <div class="section-head"><span class="section-label">평소 준비</span><h2 id="quick-title">우리 집 준비, 하나씩</h2><p>연습·체크·가족 연락·준비물 중 필요한 것부터 시작하세요.</p></div>
   <div class="quick-grid">{quickLinks.map(item=><a href={item.href} class="brief-card">
    <span class="brief-card-icon" aria-hidden="true">{item.icon}</span>
    <small>{item.meta}</small><h3>{item.label}</h3><p>{item.description}</p>
@@ -65,7 +65,7 @@ const situationLinks=[
   </a>)}</div>
  </section>
  <section class="section dashboard-section" id="situation-hub" aria-labelledby="situations-title">
-  <div class="section-head"><span class="section-label">상황별 안내</span><h2 id="situations-title">상황별 첫 행동</h2><p>카드를 선택하면 해당 상황의 자세한 행동요령으로 바로 이동합니다.</p></div>
+  <div class="section-head"><span class="section-label">상황별 안내</span><h2 id="situations-title">다른 재난도 알아두세요</h2><p>실제 경보가 발생했다면 위의 긴급 행동 안내를 먼저 확인하세요.</p></div>
  
   <div class="situation-hub-grid">{situationLinks.map(item=><a class:list={['situation-hub-card',{'situation-hub-card--urgent':item.warning}]} href={item.href}>
    <span class="situation-hub-icon" aria-hidden="true">{item.icon}</span><h3>{item.label}</h3><p>{item.description}</p>
