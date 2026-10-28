@@ -646,6 +646,16 @@ a:hover{color:#c1f0e4}
  .btn,.topic-card,.split-card,.source-card{transition:none}
  .btn.primary:hover{transform:none}
 }
+/* Persistent article navigation must stay legible in the night palette. */
+.toc{
+  background:#192630;
+  border:1px solid #3d5660;
+  box-shadow:0 12px 27px rgba(0,0,0,.15);
+}
+.toc>strong{color:#f5f5ef;border-bottom:1px solid #425761}
+.toc a{color:#b9cdd1}
+.toc a:hover{color:#fff0d3}
+.toc .toc-action{color:#a6e9d9;border-top-color:#425761}
 @media print{
  :root{color-scheme:light;--ink:#171e22;--muted:#48575c;--subtle:#4d595b;--green:#144d3a;--line:#abb3b5}
  body{background:white!important;color:#151515!important}
