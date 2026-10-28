@@ -68,8 +68,10 @@ const situations = [
  <section class="readable" id="alarm-signals" aria-labelledby="alarm-signals-title">
   <h2 id="alarm-signals-title">민방공 경보는 사이렌 소리만으로 구분하지 마세요</h2>
   <p>행정안전부에 따르면 <strong>공습경보와 핵 경보는 모두 1분 사이렌과 음성방송</strong>을 사용합니다. 같은 사이렌이 울릴 수 있으므로 반드시 <strong>방송·재난문자에 표시된 경보 종류와 대상 지역</strong>을 확인해야 합니다. 직접적인 공격·파편 등 급박한 위험에서는 확인하느라 보호 행동을 늦추지 마세요.</p>
-  <table>
-   <caption>민방공 경보별 공식 전달 방식 — 행정안전부 안내 기준</caption>
+  <p class="table-scroll-note" id="alarm-table-help">모바일에서는 표를 좌우로 밀어 확인하세요. 키보드로도 표 영역을 선택해 가로로 이동할 수 있습니다.</p>
+  <div class="comparison-scroll" role="region" aria-labelledby="alarm-signals-title" aria-describedby="alarm-table-help" tabindex="0">
+   <table>
+    <caption>민방공 경보별 공식 전달 방식 — 행정안전부 안내 기준</caption>
    <thead><tr><th scope="col">경보 종류</th><th scope="col">주요 신호 방법</th><th scope="col">확인할 내용</th></tr></thead>
    <tbody>
     <tr><th scope="row">경계경보</th><td>음성방송</td><td>대피 준비·사전 이동 지시</td></tr>
@@ -78,7 +80,8 @@ const situations = [
     <tr><th scope="row">핵 경보</th><td>1분 사이렌 + 음성방송</td><td>핵 경보 해당 지역·실내 대피 지시</td></tr>
     <tr><th scope="row">경보해제</th><td>음성방송</td><td>해제 지역·추가 위험 및 이동 허가 여부</td></tr>
    </tbody>
-  </table>
+   </table>
+  </div>
   <p>방송 내용을 들을 수 있다면 <strong>① 경보 종류 ② 발령 지역 ③ 지금 해야 할 행동 ④ 후속 안내</strong>를 확인하세요. TV·라디오·재난문자와 현장 안내를 함께 참고하고, 불명확한 상황에서 소문이나 녹음된 사이렌만 믿고 이동하지 마세요.</p>
   <p><a href={official.civilAlarm} target="_blank" rel="noopener noreferrer">국민안전24 민방위 경보 종류·신호 원문 ↗</a> · <a href={official.alarms} target="_blank" rel="noopener noreferrer">행정안전부 경보신호 기준 ↗</a> · <a href={official.civilAlarmLite} target="_blank" rel="noopener noreferrer">공식 경량 행동요령 ↗</a></p>
   <p class="situation-note">이 표는 평상시 학습용입니다. 이 페이지는 실시간 경보를 송출하거나 경보 상태·해제 여부를 판정하지 않습니다. 공습·핵 경보가 같은 사이렌을 사용할 수 있다는 사실이 안전한 대피를 지연하는 근거가 되지 않습니다.</p>
@@ -86,8 +89,10 @@ const situations = [
  <section class="readable" id="shelter-types" aria-labelledby="shelter-types-title">
   <h2 id="shelter-types-title">재난별로 대피 장소가 다릅니다</h2>
   <p>평소에 장소를 찾아둘 때는 국민안전24의 시설안전지도에서 <strong>재난 유형에 맞는 시설 종류</strong>를 먼저 선택하세요. 지도에 등록됐다는 사실만으로 모든 재난에 안전하거나 현재 개방 중이라는 뜻은 아닙니다.</p>
-  <table>
-   <caption>재난에 따른 대피 장소 선택 기준</caption>
+  <p class="table-scroll-note" id="shelter-table-help">모바일에서는 표를 좌우로 밀어 재난별 대피장소를 비교하세요.</p>
+  <div class="comparison-scroll" role="region" aria-labelledby="shelter-types-title" aria-describedby="shelter-table-help" tabindex="0">
+   <table>
+    <caption>재난에 따른 대피 장소 선택 기준</caption>
    <thead><tr><th scope="col">상황</th><th scope="col">먼저 확인할 곳</th></tr></thead>
    <tbody>
     <tr><th scope="row">공습·민방공</th><td>민방위 대피소, 지하 시설 등 정부가 안내하는 장소. 침수 위험이 있는 지하공간은 피합니다.</td></tr>
@@ -101,7 +106,8 @@ const situations = [
     <tr><th scope="row">산사태</th><td>산사태 진행 경로와 계곡부를 벗어나 지정 장소로 이동합니다. 급박할 때는 산사태 방향에서 먼 안전한 높은 곳을 선택합니다.</td></tr>
     <tr><th scope="row">산불</th><td>산불 진행 경로와 산에서 떨어진 지자체 안내 대피장소. 민방위 지하 대피소를 산불 대피소로 가정하지 않습니다.</td></tr>
    </tbody>
-  </table>
+   </table>
+  </div>
   <p><a href={official.shelter} target="_blank" rel="noopener noreferrer">국민안전24 공식 시설안전지도 ↗</a> · <a href="/plan/">가족별 대피장소·우회 경로 기록 →</a></p>
   <p class="situation-note">실제 상황에서 문자·방송·소방·지자체 대피 명령이 우선합니다. 사이트에서는 대피시설의 접근 가능 여부·수용 인원·현재 안전성을 판정하지 않습니다.</p>
  </section>
@@ -154,3 +160,16 @@ const situations = [
  <p class="source-caption">공식 자료 대조일: <time datetime="2026-10-28">2026년 10월 28일</time> · 출처: 행정안전부 민방위 제도 운영, 국민안전24 비상시·화생방·지진해일·산사태·산불·화재·침수·정전 행동요령 및 화학사고 대피시설 지도, 기상청 지진 안내. <a href="/sources/">공식 출처 전체 보기 →</a></p>
 </div>
 </Base>
+<style>
+  .table-scroll-note{font-size:.84rem;line-height:1.55;color:#bbccd0;margin:0 0 8px!important}
+  .comparison-scroll:focus-visible{outline:3px solid #a4ecd9;outline-offset:3px}
+  .comparison-scroll caption{text-align:left;padding:9px 14px;color:#f0e2c8;font-weight:800;caption-side:top}
+  @media print{
+    .table-scroll-note{display:none!important}
+    .comparison-scroll{overflow:visible!important;max-width:none!important;border:0!important;border-radius:0!important;break-inside:auto}
+    .comparison-scroll table{width:100%!important;min-width:0!important;font-size:.72rem!important;line-height:1.35!important;table-layout:fixed}
+    .comparison-scroll caption{color:#171717!important;padding:5px 0!important}
+    .comparison-scroll th,.comparison-scroll td{padding:6px 7px!important;overflow-wrap:anywhere;word-break:normal}
+    .comparison-scroll tr{break-inside:avoid}
+  }
+</style>
