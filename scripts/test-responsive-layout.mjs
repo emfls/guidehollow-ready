@@ -20,7 +20,7 @@ const chrome=['/usr/bin/google-chrome','/usr/bin/google-chrome-stable','/opt/goo
 if(!chrome)throw Error('GitHub runner has no Chrome binary for real responsive QA');
 const browser=await chromium.launch({executablePath:chrome,headless:true,args:['--no-sandbox','--disable-dev-shm-usage']});
 await mkdir('.qa-screenshots',{recursive:true});
-const paths=['/','/situations/','/checklist/','/plan/','/starter-kit/','/buying/food/','/buying/gear/','/sources/','/reviews/','/reviews/fenix-e20-v2-flashlight/','/reviews/emergency-am-fm-radios/','/reviews/emergency-bags-dry-pouches/','/reviews/emergency-blankets-and-hygiene-wipes/','/reviews/emergency-first-aid-kit-and-dressings/','/reviews/emergency-flashlights-headlamps/','/reviews/emergency-kit-set-composition-audit/','/reviews/emergency-power-banks-10000-vs-20000/','/reviews/emergency-products-kc-model-expiry-audit/','/reviews/emergency-retail-option-priority-and-affiliate-gates/','/reviews/coupang-stock-audit-samsung-p3400-p3401/'];
+const paths=['/','/emergency/','/family-emergency/','/family-card/','/situations/','/checklist/','/plan/','/starter-kit/','/buying/food/','/buying/gear/','/sources/','/reviews/','/reviews/fenix-e20-v2-flashlight/','/reviews/emergency-am-fm-radios/','/reviews/emergency-bags-dry-pouches/','/reviews/emergency-blankets-and-hygiene-wipes/','/reviews/emergency-first-aid-kit-and-dressings/','/reviews/emergency-flashlights-headlamps/','/reviews/emergency-kit-set-composition-audit/','/reviews/emergency-power-banks-10000-vs-20000/','/reviews/emergency-products-kc-model-expiry-audit/','/reviews/emergency-retail-option-priority-and-affiliate-gates/','/reviews/coupang-stock-audit-samsung-p3400-p3401/'];
 const widths=[320,375,390,430,768,1024,1440];
 const errors=[]; let checks=0;let screenshots=0;
 try{
@@ -49,6 +49,24 @@ try{
   for(const row of details.cards)if(row.range>4)failed.push('card heights differ '+row.sel+' '+Math.round(row.range)+'px');
   if(details.navVisible!==(width<=800))failed.push('mobile tab navigation visibility wrong');
   if(details.meta!=='#0e151d'||details.rootScheme!=='dark')failed.push('original dark theme missing');
+  if(route==='/'){
+    const urgent=page.locator('.emergency-home-card');
+    if(await urgent.count()!==3)failed.push('three top-level instant action cards missing');
+    const link=page.locator('a[href*="facilitiesSafteyMap.do"]');
+    if(await link.count()===0)failed.push('official shelter action missing');
+    if(await page.locator('.emergency-home-action').count()===0)failed.push('urgent and routine modes not separated');
+  }
+  if(route==='/emergency/'){
+    if(await page.locator('.instant-step-card').count()!==3)failed.push('air chemical nuclear first-action cards missing');
+    if(await page.locator('.instant-step-card ol li').count()!==9)failed.push('nine first-action steps are not visible without expanding');
+    if(await page.locator('a[href="/offline/ready-card.html"]').count()===0)failed.push('offline card download unavailable');
+  }
+  if(route==='/family-emergency/'&&await page.locator('.family-now-card').count()!==3)failed.push('infant/elderly/pet emergency cards missing');
+  if(route==='/family-card/'){
+    if(await page.locator('.family-paper-fields input').count()<8)failed.push('fillable family emergency contact fields missing');
+    if(await page.locator('#print-family-card').count()===0)failed.push('print to PDF control missing');
+  }
+  if(route==='/situations/'&&await page.locator('.first-three-visible').count()!==3)failed.push('air chemical nuclear first three steps are collapsed');
   if(route==='/starter-kit/'&&!details.hasKit)failed.push('product photo card missing');
   if(route==='/checklist/'&&!details.hasStock)failed.push('stock manager missing');
   if(route==='/reviews/fenix-e20-v2-flashlight/'){
@@ -56,7 +74,7 @@ try{
     if(await a.count()===0)failed.push('matching E20 affiliate link missing');
     else if(!(await a.getAttribute('rel')||'').includes('sponsored'))failed.push('affiliate disclosure missing');
   }
-  if(width===390&&['/','/starter-kit/','/checklist/','/plan/','/reviews/','/reviews/fenix-e20-v2-flashlight/'].includes(route)){
+  if(width===390&&['/','/emergency/','/family-emergency/','/family-card/','/starter-kit/','/checklist/','/plan/','/reviews/','/reviews/fenix-e20-v2-flashlight/'].includes(route)){
    let name=route==='/'?'home':route.replaceAll('/','_').replace(/^_|_$/g,'');
    await page.screenshot({path:`.qa-screenshots/${name}-390.png`,fullPage:false});screenshots++;
   }
