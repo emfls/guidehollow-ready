@@ -42,6 +42,10 @@ const initialTotal=checkGroups.filter(g=>!('audience' in g)).reduce((sum,g)=>sum
  </div>
 
  <p id="missing-summary" class="missing-summary" role="status" aria-live="polite">준비 여부를 확인할 항목 {initialTotal}개</p>
+ <div id="copy-fallback-wrap" class="copy-fallback-wrap" hidden>
+  <label for="copy-fallback">자동 복사가 제한되었습니다. 아래 목록을 선택한 뒤 복사하세요.</label>
+  <textarea id="copy-fallback" rows="7" readonly aria-label="직접 복사할 미준비 준비물 목록"></textarea>
+ </div>
  <div class="check-groups">
   {checkGroups.map(group=><section class="check-group" data-audience={'audience' in group?group.audience:undefined}>
    <div class="check-group-heading"><div><h2>{group.name}</h2><p>{group.detail}</p></div><span data-group-progress>{group.items.length}개 항목</span></div>
@@ -72,6 +76,8 @@ const note=document.querySelector<HTMLElement>('#saved-indicator');
 const onlyMissing=document.querySelector<HTMLInputElement>('#only-missing');
 const printList=document.querySelector<HTMLButtonElement>('#print-list');
 const missingSummary=document.querySelector<HTMLElement>('#missing-summary');
+const fallbackWrap=document.querySelector<HTMLElement>('#copy-fallback-wrap');
+const fallbackText=document.querySelector<HTMLTextAreaElement>('#copy-fallback');
 // Existing checked-item key is preserved, including all original item IDs.
 const STORAGE='guidehollow-ready-check-v1';
 const FAMILY_STORAGE='guidehollow-ready-family-filters-v1';
@@ -82,6 +88,7 @@ function updateMissingView(){
  const active=selectedBoxes();
  const missing=active.filter(x=>!x.checked);
  const filtering=Boolean(onlyMissing?.checked);
+ if(fallbackWrap)fallbackWrap.hidden=true;
  groups.forEach(group=>{
   const checkboxes=[...group.querySelectorAll<HTMLInputElement>('.kit-check')];
   checkboxes.forEach(x=>{
@@ -160,7 +167,15 @@ document.querySelector('#copy-missing')?.addEventListener('click',async()=>{
   if(!navigator.clipboard?.writeText)throw Error('unavailable');
   await navigator.clipboard.writeText(lines.join('\n'));
   if(note)note.textContent='미준비 '+count+'개 항목을 복사했습니다.';
- }catch{if(note)note.textContent='복사가 허용되지 않았습니다. 인쇄 기능을 이용하세요.';}
+ }catch{
+  if(fallbackWrap&&fallbackText){
+   fallbackText.value=lines.join('\n');
+   fallbackWrap.hidden=false;
+   fallbackText.focus();
+   fallbackText.select();
+   if(note)note.textContent='자동 복사가 제한되어 직접 선택할 수 있는 목록을 표시했습니다.';
+  }else if(note)note.textContent='복사가 허용되지 않았습니다. 인쇄 기능을 이용하세요.';
+ }
 });
 audiences.forEach(x=>x.addEventListener('change',()=>{
  try{
@@ -194,13 +209,18 @@ document.querySelector('#print-list')?.addEventListener('click',()=>window.print
 .missing-toggle input{accent-color:#efb974;width:20px;height:20px;flex:none}
 .missing-toggle:focus-within{outline:3px solid #ffd58f;outline-offset:2px}
 .missing-summary{color:#c8d9d5;font-size:.88rem;line-height:1.75;margin:0 0 20px}
+.copy-fallback-wrap{border:1px solid #547879;background:#1c3539;padding:14px;border-radius:12px;margin:0 0 18px}
+.copy-fallback-wrap[hidden]{display:none!important}
+.copy-fallback-wrap label{display:block;color:#e9f2ed;margin:0 0 9px;font-size:.86rem;font-weight:700}
+.copy-fallback-wrap textarea{display:block;width:100%;min-height:140px;max-width:100%;resize:vertical;background:#11252e;border:1px solid #819da3;border-radius:8px;color:#f4f8f6;padding:10px;font:inherit;line-height:1.6}
+.copy-fallback-wrap textarea:focus-visible{outline:3px solid #ffd58f;outline-offset:2px}
 .check-sources{margin:6px 0 50px;border-top:1px solid #43545d;padding:20px 0;font-size:.86rem;line-height:1.75;color:#bbcbd0}
 .check-sources strong{display:block;color:#f1e1c5;margin-bottom:7px}
 .check-sources p{margin:9px 0}
 .check-sources a{color:#a8e8d7;text-decoration:underline;text-underline-offset:3px}
 @media(max-width:740px){.family-options{grid-template-columns:1fr}.family-select{padding:16px}.family-option{min-height:54px}.check-actions{gap:10px}.check-actions button{min-height:44px}}
 @media print{
- .family-select,.check-actions{display:none!important}
+ .family-select,.check-actions,.copy-fallback-wrap{display:none!important}
  .check-sources{color:#222;border-color:#888}
  .check-sources strong{color:#222}
  .check-sources a{color:#222}
