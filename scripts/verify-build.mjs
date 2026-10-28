@@ -12,6 +12,8 @@ for(const p of pages){
  if(!html.includes('ready.guidehollow.com'))throw Error('Wrong canonical host: '+p);
 }
 const home=file('index.html');
+if (!home.includes('name="theme-color" content="#0e151d"')) throw Error('Night operations browser theme is missing');
+if (!home.includes('stylesheet')) throw Error('Site styles missing');
 if(!home.includes('불안보다 정확한 준비')||!home.includes('/checklist/')||!home.includes('실시간 재난 경보 서비스가 아닙니다'))throw Error('Emergency homepage incomplete');
 const check=file('checklist/index.html');
 if(!check.includes('data-key="water-bottles"')||!check.includes('ready-progress')||!check.includes('localStorage'))throw Error('Interactive checklist incomplete');

@@ -63,3 +63,7 @@ The project is not affiliated with authorities, does not show live alerts or aut
 The 72-hour checklist is an **introductory preparedness tool**, not the complete wartime stockpile requirement. Current Korean official wartime supply guidance recommends preparing about 30 days' worth of food and water. Primary source: [국민안전24 비상대비 물자준비](https://safekorea.go.kr/safekorea-kor/acts/nacts/action-guide.do?actsHeaderTitle=%EB%B9%84%EC%83%81%EB%8C%80%EB%B9%84+%EB%AC%BC%EC%9E%90%EC%A4%80%EB%B9%84&category=preparationEmcSuply&menuSn=4).
 
 Review GitHub Pages hosting terms before monetization: the site must remain an information site, not a standalone e-commerce checkout.
+
+## Site visual theme
+
+The UI is **Night Operations**: dark slate surfaces, legible off-white typography, muted teal for trustworthy information and amber for decisive actions/warnings. This is an editorial visual style, **not a real-time emergency operations dashboard**. Preserve the active Naver verification tag and `noindex` until publication review. The dark CSS is appended to `src/styles/global.css` to preserve existing responsive and print behaviors; additional print rules retain white backgrounds for legibility on paper.
