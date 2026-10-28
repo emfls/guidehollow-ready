@@ -71,6 +71,7 @@ import { sources } from '../data/resources';
   <div><strong>등록된 비축품</strong> <span id="stock-total">0건</span></div>
   <div><strong>30일 이내·기한 경과</strong> <span id="stock-due">0건</span></div>
   <div><strong>날짜 미기록</strong> <span id="stock-undated">0건</span></div>
+  <div class="stock-asof"><strong>기기 날짜 기준</strong> <time id="stock-asof">날짜 확인 중</time></div>
   <button type="button" id="stock-clear" class="stock-clear">비축품 기록 전체 삭제</button>
  </div>
  <section class="stock-backup" aria-labelledby="stock-backup-title">
@@ -148,6 +149,7 @@ const reloadButton=document.querySelector<HTMLButtonElement>('#stock-reload');
 const total=document.querySelector<HTMLElement>('#stock-total');
 const due=document.querySelector<HTMLElement>('#stock-due');
 const undated=document.querySelector<HTMLElement>('#stock-undated');
+const asof=document.querySelector<HTMLTimeElement>('#stock-asof');
 const attentionOnly=document.querySelector<HTMLInputElement>('#stock-attention-only');
 const filterStatus=document.querySelector<HTMLElement>('#stock-filter-status');
 const filterEmpty=document.querySelector<HTMLElement>('#stock-filter-empty');
@@ -157,6 +159,7 @@ let canPersist=true;
 let storageFault:'corrupt'|'unavailable'|null=null;
 let savedRaw:string|null=null;
 let stale=false;
+let displayedCalendarDay=0;
 const kinds=['food','bottled','filled','other'];
 const units=['개','팩','인분','L'];
 function isDate(s:string):boolean {
@@ -168,6 +171,10 @@ function isDate(s:string):boolean {
 function todayUTC():number{
  const now=new Date();
  return Date.UTC(now.getFullYear(),now.getMonth(),now.getDate());
+}
+function localDateLabel():string{
+ const now=new Date();
+ return [String(now.getFullYear()).padStart(4,'0'),String(now.getMonth()+1).padStart(2,'0'),String(now.getDate()).padStart(2,'0')].join('-');
 }
 function daysUntil(s:string):number{
  const [y,m,d]=s.split('-').map(Number);
@@ -358,6 +365,8 @@ function appendText(tag:string,text:string,cls?:string):HTMLElement{
 }
 function render(){
  if(!list)return;
+ displayedCalendarDay=todayUTC();
+ if(asof){const dateString=localDateLabel();asof.dateTime=dateString;asof.textContent=dateString;}
  const fragment=document.createDocumentFragment();
  let attention=0;
  let missingDates=0;
@@ -545,6 +554,17 @@ document.querySelector('#stock-clear')?.addEventListener('click',()=>{
 });
 updateKind();
 render();
+// Re-evaluate local calendar dates without modifying any saved inventory records.
+function refreshOnCalendarChange(){
+ if(document.hidden)return;
+ if(todayUTC()!==displayedCalendarDay)render();
+}
+document.addEventListener('visibilitychange',refreshOnCalendarChange);
+window.addEventListener('focus',refreshOnCalendarChange);
+window.addEventListener('pageshow',refreshOnCalendarChange);
+window.addEventListener('beforeprint',refreshOnCalendarChange);
+// Keep a long-lived visible checklist current when the local day rolls over.
+window.setInterval(refreshOnCalendarChange,60000);
 </script>
 <style is:global>
 .stock-section{border-top:1px solid #3c5057;padding:36px 0 40px;margin:0 0 12px}
