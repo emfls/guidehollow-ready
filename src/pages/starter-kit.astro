@@ -4,12 +4,12 @@ import { sources } from '../data/resources';
 const verifiedFlashlightUrl='https://link.coupang.com/a/idtdhvDZ3A';
 const verifiedFlashlightImage='https://thumbnail1.coupangcdn.com/thumbnails/remote/212x212ex/image/vendor_inventory/9c13/0524ccbea15e678332b3299a00596c66101a6e50f267850bb9970650169a.jpg';
 const groups=[
- {id:'water',number:'01',icon:'💧',title:'마실 물',tag:'가장 먼저',description:'가족이 3일 동안 마시고 기본적으로 사용할 물을 준비하세요.',need:'해외 CDC 참고: 1명당 하루 약 3.8L × 3일. 가족 수·기후·건강 상태에 따라 더 필요할 수 있어요.',guide:'/buying/food/',guideText:'물 준비 방법'},
- {id:'food',number:'02',icon:'🥫',title:'바로 먹는 음식',tag:'식량',description:'전기가 끊겨도 데우지 않고 먹을 수 있는 식품을 3일치 챙기세요.',need:'통조림·상온 간편식·평소 먹는 간식. 알레르기와 소비기한도 확인하세요.',guide:'/buying/food/',guideText:'비상식량 고르기'},
- {id:'light',number:'03',icon:'🔦',title:'손전등 + 건전지',tag:'구매 상품 검증',description:'밤에 정전돼도 휴대전화 배터리를 쓰지 않고 주변을 밝힐 수 있어요.',need:'손전등 1개 이상, 알맞은 여분 건전지. 손전등이 이미 있다면 켜지는지부터 확인하세요.',guide:'/reviews/fenix-e20-v2-flashlight/',guideText:'손전등 상세 보기',verified:true},
- {id:'power',number:'04',icon:'🔋',title:'전원·정보 수단',tag:'정전 대비',description:'휴대전화를 충전하고, 인터넷이 안 될 때도 소식을 들을 방법이 필요해요.',need:'충전된 보조배터리·케이블·건전지 또는 수동식 라디오.',guide:'/buying/gear/',guideText:'전원·라디오 선택법'},
- {id:'medical',number:'05',icon:'🩹',title:'구급·위생용품',tag:'가족별 조절',description:'상처를 돌보고, 물이 부족할 때도 기본 위생을 지킬 수 있도록 준비하세요.',need:'기본 구급용품·평소 복용약·휴지·물티슈·쓰레기봉투. 의약품은 개인별 확인.',guide:'/checklist/#kit-medical',guideText:'구급·위생 체크'},
- {id:'carry',number:'06',icon:'🎒',title:'가방·옷·연락처',tag:'대피 준비',description:'급하게 이동해야 할 때 중요한 물건을 찾느라 시간을 쓰지 않도록 하세요.',need:'튼튼한 신발·보온용 옷·종이 연락처·가벼운 가방·필수 서류 사본.',guide:'/plan/',guideText:'가족 대피 계획'},
+ {id:'water',number:'01',icon:'💧',title:'마실 물',tag:'가장 먼저',description:'가족이 3일 동안 마시고 기본적으로 사용할 물을 준비하세요.',need:'해외 CDC 참고: 1명 하루 약 3.8L × 3일. 가족에 맞게 조절하세요.',guide:'/buying/food/',guideText:'물 준비 방법'},
+ {id:'food',number:'02',icon:'🥫',title:'바로 먹는 음식',tag:'식량',description:'전기가 끊겨도 데우지 않고 먹을 수 있는 식품을 3일치 챙기세요.',need:'익히지 않아도 먹는 음식. 알레르기·소비기한 확인.',guide:'/buying/food/',guideText:'비상식량 고르기'},
+ {id:'light',number:'03',icon:'🔦',title:'손전등 + 건전지',tag:'구매 상품 검증',description:'밤에 정전돼도 휴대전화 배터리를 쓰지 않고 주변을 밝힐 수 있어요.',need:'손전등과 여분 건전지. 기존 제품은 작동 여부부터 확인.',guide:'/reviews/fenix-e20-v2-flashlight/',guideText:'손전등 상세 보기',verified:true},
+ {id:'power',number:'04',icon:'🔋',title:'전원·정보 수단',tag:'정전 대비',description:'휴대전화를 충전하고, 인터넷이 안 될 때도 소식을 들을 방법이 필요해요.',need:'충전된 보조배터리·케이블·비상 라디오.',guide:'/buying/gear/',guideText:'전원·라디오 선택법'},
+ {id:'medical',number:'05',icon:'🩹',title:'구급·위생용품',tag:'가족별 조절',description:'상처를 돌보고, 물이 부족할 때도 기본 위생을 지킬 수 있도록 준비하세요.',need:'기본 구급함·개인 복용약·휴지·위생용품.',guide:'/checklist/#kit-medical',guideText:'구급·위생 체크'},
+ {id:'carry',number:'06',icon:'🎒',title:'가방·옷·연락처',tag:'대피 준비',description:'급하게 이동해야 할 때 중요한 물건을 찾느라 시간을 쓰지 않도록 하세요.',need:'걷기 좋은 신발·여벌옷·가방·종이 연락처.',guide:'/plan/',guideText:'가족 대피 계획'},
 ] as const;
 ---
 <Base title="우리 집 비상 준비 장바구니: 6가지부터 챙기세요" description="물·음식·손전등·보조배터리·구급용품·가족 대피 준비를 한 화면에서 확인하세요. 집에 있는 것은 체크하고 부족한 것만 구매하세요.">

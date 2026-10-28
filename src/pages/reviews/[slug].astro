@@ -59,31 +59,44 @@ const verifiedCoupangPhoto='https://thumbnail1.coupangcdn.com/thumbnails/remote/
   <div class="simple-product-related"><a href="/starter-kit/">물·식량·조명 한 번에 준비하기 →</a><a href="/checklist/">우리 집 준비물 체크 →</a></div>
  </div>
 ):(
-<div class="container narrow">
- <div class="page-intro"><a href="/" class="eyebrow">GuideHollow Ready 구매 가이드</a>
-  {row.data.affiliate && <div class="ad-notice"><strong>광고·제휴 고지</strong> 이 글은 쿠팡파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받을 수 있습니다.</div>}
-  <h1>{row.data.title}</h1><p>{row.data.description}</p>
-  <p class="source-caption">발행 {date} {row.data.updatedDate ? `· 수정 ${row.data.updatedDate.toISOString().slice(0,10)}`:''} · 공식 출처 {row.data.sources.length}개 · {row.data.affiliate?'제휴 링크 포함':'제휴 링크 없음'}</p>
- </div>
- <article class="readable">
-  {row.data.keyTakeaways.length>0&&<div class="takeaway"><span>핵심 먼저</span><h2>구매 전에 알아둘 내용</h2><ul>{row.data.keyTakeaways.map(t=><li>{t}</li>)}</ul></div>}
-  <Content/>
-  {products.map(p=><section class="verified-item">
-    {p.partner?.imageUrl&&<img src={p.partner.imageUrl} alt={p.name} loading="lazy" decoding="async" referrerpolicy="no-referrer"/>}
-    <span class="tag">검증 확인 · {p.label}</span>
-    <h2>{p.name}</h2><p>모델: {p.modelNumber}</p>
-    <h3>이런 상황에 적합해요</h3><p>{p.bestFor}</p>
-    <h3>공식 자료로 확인한 장점</h3><ul>{p.strengths.map(t=><li>{t}</li>)}</ul>
-    <h3>구매 전 알아야 할 단점</h3><ul>{p.limitations.map(t=><li>{t}</li>)}</ul>
-    <h3>검증 근거</h3><p>{p.verificationNotes}</p>
-    <p><a href={p.independentSources[0]} target="_blank" rel="noopener noreferrer">독립 평가 근거 ↗</a></p>
-    <a class="btn secondary" href={p.officialUrl} target="_blank" rel="noopener noreferrer">제조사 공식 사양 ↗</a>
-    {p.partner&&<a class="btn primary" href={p.partner.url} rel="sponsored nofollow noopener noreferrer" target="_blank">쿠팡에서 동일 모델 확인 · 제휴 ↗</a>}
-    <p class="source-caption">검증일 {p.checkedAt.toISOString().slice(0,10)}. 실제 판매 조건·옵션은 구매 직전에 다시 확인하세요.</p>
-   </section>)}
-  <section class="references"><h2>자료·출처</h2><ul>{row.data.sources.map(url=><li><a href={url} target="_blank" rel="noopener noreferrer">{url}</a></li>)}</ul></section>
-  <p class="info-note">이 사이트는 실시간 경보 서비스가 아닙니다. 제품 사양은 변경될 수 있으므로 구매 전 판매처와 제조사 자료를 다시 확인하세요.</p>
- </article>
+<div class="container review-reading">
+ <nav class="review-breadcrumb"><a href="/reviews/">제품·준비물 가이드</a><span aria-hidden="true">›</span><span>자세히 보기</span></nav>
+ <header class="review-reading-head">
+  <span class="review-chip">{row.data.affiliate?'구매 링크가 있는 상품':'제품 정보 · 구매 전 참고'}</span>
+  {row.data.affiliate && <p class="review-affiliate-top">이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.</p>}
+  <h1>{row.data.title}</h1>
+  <p>{row.data.description}</p>
+  <span class="review-date">검토 {date} · 제품 {products.length}개</span>
+ </header>
+ {row.data.keyTakeaways.length>0 && <section class="review-quick-read" aria-labelledby="quick-review-title">
+  <h2 id="quick-review-title">먼저 이것만 확인하세요</h2>
+  <ul>{row.data.keyTakeaways.slice(0,3).map(text=><li>{text}</li>)}</ul>
+ </section>}
+ {products.length>0 && <div class="review-product-grid" aria-label="제품별 쉬운 비교">
+  {products.map((p,i)=><section class="review-product-compact">
+   <div class="review-product-top"><span>제품 {i+1}</span><span>{p.partner?'구매 링크 확인':'구매 링크 미확인'}</span></div>
+   <h2>{p.name}</h2>
+   <p class="review-model">{p.modelNumber}</p>
+   <p class="review-product-for">{p.bestFor}</p>
+   <div class="review-procon"><strong>좋은 점</strong><p>{p.strengths[0]}</p></div>
+   <div class="review-procon review-procon--caution"><strong>아쉬운 점</strong><p>{p.limitations[0]}</p></div>
+   {p.partner ? <a class="btn primary review-cta" href={p.partner.url} target="_blank" rel="sponsored nofollow noopener noreferrer">쿠팡에서 이 제품 확인하기 ↗</a> : <span class="review-not-ready">검증된 쿠팡 구매 링크가 아직 없습니다</span>}
+   <details class="review-card-details">
+    <summary>다른 특징·주의사항 보기</summary>
+    <h3>장점 더 보기</h3><ul>{p.strengths.slice(1).map(s=><li>{s}</li>)}</ul>
+    <h3>주의할 점</h3><ul>{p.limitations.map(s=><li>{s}</li>)}</ul>
+    <p><a href={p.officialUrl} target="_blank" rel="noopener noreferrer">제조사 사양 확인 ↗</a></p>
+   </details>
+  </section>)}
+ </div>}
+ <details class="review-source-expand">
+  <summary>검증 근거와 상세 설명 펼쳐보기 <span aria-hidden="true">⌄</span></summary>
+  <div class="review-source-content readable"><Content/>
+   {products.map(p=><section><h3>{p.name} 확인 자료</h3><p>{p.verificationNotes}</p><p><a href={p.officialUrl} target="_blank" rel="noopener noreferrer">공식 제품 안내</a></p></section>)}
+   <section class="references"><h2>자료·출처</h2><ul>{row.data.sources.map(url=><li><a href={url} target="_blank" rel="noopener noreferrer">{url}</a></li>)}</ul></section>
+  </div>
+ </details>
+ <aside class="review-reading-next"><div><strong>무엇부터 준비해야 할지 모르겠다면?</strong><p>물·식량·전원·구급용품을 한 번에 점검하세요.</p></div><a href="/starter-kit/" class="btn primary">준비물 6가지 보기 →</a></aside>
 </div>
 )}
 </Base>

@@ -12,7 +12,8 @@ for(const p of pages){
  if(!html.includes('ready.guidehollow.com'))throw Error('Wrong canonical host: '+p);
 }
 const home=file('index.html');
-if (!home.includes('name="theme-color" content="#0e151d"')) throw Error('Night operations browser theme is missing');
+if (!home.includes('mobile-tabbar') || !home.includes('ui-refresh')) throw Error('Unified mobile navigation or new design stylesheet missing');
+if (!home.includes('name="theme-color" content="#ffffff"')) throw Error('Night operations browser theme is missing');
 if (!home.includes('stylesheet')) throw Error('Site styles missing');
 if(!home.includes('전시·재난 대비 생활 안내')||!home.includes('/checklist/')||!home.includes('실시간 재난 경보 서비스가 아닙니다'))throw Error('Emergency homepage incomplete');
 if(home.includes('공포를 이용하지 않습니다')||home.includes('불안을 키우는 정보 대신'))throw Error('Removed editorial slogans reappeared');
@@ -29,6 +30,7 @@ const situationPage=file('situations/index.html');
 if (!situationPage.includes('situation-shortcuts') || !situationPage.includes('first-action') || !situationPage.includes('action-details')) throw Error('Progressive situation action cards missing');
 if (!file('buying/food/index.html').includes('buying-summary-grid') || !file('buying/gear/index.html').includes('buying-summary-grid')) throw Error('Evidence-first buying cards missing');
 const reviewHub=file('reviews/index.html');
+if(!reviewHub.includes('review-directory-grid')||!reviewHub.includes('review-featured-grid'))throw Error('Readable review directory not generated');
 if (!reviewHub.includes('구매 링크는 검증 후 연결합니다')||!reviewHub.includes('/reviews/emergency-flashlights-headlamps/')) throw Error('Verified product hub is missing the evidence-first summary or published report');
 if (!home.includes('href="/reviews/"')) throw Error('Product comparison discoverability missing from home');
 const starter=file('starter-kit/index.html');

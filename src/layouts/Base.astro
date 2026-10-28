@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import '../styles/ui-refresh.css';
 import { site } from '../site';
 interface Props { title?: string; description?: string; noindex?: boolean }
 const {title='재난 대비 정보와 준비물 가이드',description=site.description,noindex=false}=Astro.props;
@@ -13,7 +14,7 @@ const path=Astro.url.pathname;
 <head>
  <meta charset="utf-8"/>
  <meta name="viewport" content="width=device-width,initial-scale=1"/>
- <meta name="theme-color" content="#0e151d"/>
+ <meta name="theme-color" content="#ffffff"/>
  <meta name="description" content={description}/>
  <meta name="robots" content={robots}/>
  <meta name="naver-site-verification" content="4a3c4cef3cedf9582280c00ff70ebff66b9b7de8"/>
@@ -56,5 +57,13 @@ const path=Astro.url.pathname;
   </div>
   <div class="container footer-bottom">© 2026 GuideHollow Ready · 비공식 민간 정보 사이트 · <a href="https://guidehollow.com/" rel="noopener noreferrer">GuideHollow</a></div>
  </footer>
+
+ <nav class="mobile-tabbar" aria-label="모바일 빠른 메뉴">
+  <a href="/" aria-current={path==='/'?'page':undefined}><span aria-hidden="true">⌂</span><small>홈</small></a>
+  <a href="/situations/" aria-current={path==='/situations/'?'page':undefined}><span aria-hidden="true">◎</span><small>행동</small></a>
+  <a href="/checklist/" aria-current={path==='/checklist/'?'page':undefined}><span aria-hidden="true">☑</span><small>체크</small></a>
+  <a href="/starter-kit/" aria-current={path==='/starter-kit/'?'page':undefined}><span aria-hidden="true">▣</span><small>준비물</small></a>
+  <a href="/reviews/" aria-current={path.startsWith('/reviews/')?'page':undefined}><span aria-hidden="true">◈</span><small>제품</small></a>
+ </nav>
 </body>
 </html>
