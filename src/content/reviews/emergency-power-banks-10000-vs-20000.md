@@ -13,11 +13,14 @@ sources:
   - "https://www.samsung.com/sec/support/galaxy-battery/care-and-maintenance/"
   - "https://www.samsung.com/sec/support/model/EB-P3401XUKGKR/"
   - "https://www.knowtbt.kr/mrim/rsti/notificationsDetail.do?tbtNotiSeq=728269"
+  - "https://www.safetykorea.kr/search/searchPop?certNum=XU102985-22001C"
+  - "https://www.safetykorea.kr/release/certDetail?certNum=XU103282-23002A&certUid=5664089"
+  - "https://www.samsungsvc.co.kr/shop/product/0000116005"
 keyTakeaways:
   - "재난 대비는 최고 출력보다 실제 사용 가능한 전력량(Wh), 기기별 연결 단자, 재충전·관리 가능성을 먼저 봅니다."
   - "10,000mAh는 셀 환산 용량입니다. 연결 기기에 실제 전달되는 용량은 변환 손실로 작아집니다."
   - "삼성 2023년형 EB-P3400과 2026년형 EB-P3401은 서로 다른 모델입니다."
-  - "삼성 공식 페이지의 KC 신고번호를 확인했으나 인증기관 원장 조회와 개별 판매품 동일성 확인을 끝낸 것은 아닙니다."
+  - "EB-P3400의 KC XU102985-22001C와 EB-P4520의 XU103282-23002A는 KTC 공개 원장에서 모델명·적합 상태를 확인했습니다. EB-P4520 공식 판매페이지에는 XU103282-23002로 별도 표기돼 실물 라벨 대조가 필요합니다."
   - "제조사 공식 사양과 독립 평가에 근거한 편집 검증이며 자체 실물 시험·쿠팡 링크는 없습니다."
 products:
   - name: "삼성 PD 배터리팩 10,000mAh (2023, 25W)"
@@ -27,7 +30,7 @@ products:
     strengths:
       - "삼성 공식 37Wh(7.4V 5,000mAh, 3.7V 환산 10,000mAh)와 최대 25W PD/PPS 입출력 사양을 확인했습니다."
       - "USB-C 2개, 무게 약 210g, USB-C 충전 케이블 동봉으로 휴대 시 부담이 비교적 작습니다."
-      - "제조사 공식 한국 지원 페이지가 KC 신고번호 XU102985-22001C를 표시합니다."
+      - "삼성 공식 KC XU102985-22001C를 제품안전정보센터 원장에서 모델 EB-P3400, KTC 안전확인·적합으로 교차 확인했습니다."
       - "독립 소비자단체 CHOICE가 2023년 9월 방전 용량과 과부하·합선 차단 등을 시험했습니다."
     limitations:
       - "CHOICE의 시험조건상 실제 사용 용량은 6,645mAh였으며 셀의 10,000mAh를 그대로 휴대전화에 전달하지 않습니다."
@@ -38,7 +41,7 @@ products:
     officialUrl: "https://www.samsung.com/sec/support/model/EB-P3400XUKGKR/"
     independentSources:
       - "https://www.choice.com.au/products/electronics-and-technology/phones/mobile-phones/samsung-10000mah-battery-pack-p3400"
-    verificationNotes: "삼성 국내 공식 지원페이지에서 정확한 한국 유통 품번 EB-P3400XUKGKR, 37Wh, 25W PD/PPS, 210g 및 KC 신고번호 XU102985-22001C가 표시된 것을 확인했다. 호주 소비자단체 CHOICE의 2023년 9월 동일 P3400 시험은 사용가능 용량 6,645mAh, 동시 출력 18W, 과부하·단락 보호 동작을 공개했다. 해외 시험품이 국내 판매품과 완전히 동일하다는 현물 추적·기관 원장 직접 조회는 하지 않았으며, 2026년형 EB-P3401은 다른 제품이다."
+    verificationNotes: "삼성 공식 한국 품번 EB-P3400XUKGKR(37Wh, 25W, 210g)과 KC 표기 XU102985-22001C를 확인하고 제품안전정보센터 원장에서 KTC 안전확인 적합, 모델 EB-P3400, 삼성전자 수입을 직접 대조했다. CHOICE의 2023년 동일 제품군 실측은 방전 사용가능 용량 6,645mAh 및 동시 충전 한계 18W였다. 기관의 모델·번호 적합 판정은 구매자가 받는 판매품의 정품/로트 안전 상태 보증이 아니며 2026년 EB-P3401은 다른 제품이다."
     verified: true
     checkedAt: 2026-10-28
     partnerProductMatched: false
@@ -49,7 +52,7 @@ products:
     strengths:
       - "삼성 공식 74Wh(14.8V 5,000mAh, 3.7V 환산 20,000mAh)와 단일 기기 최대 45W PD 3.0/PPS 출력을 확인했습니다."
       - "USB-C 포트 3개와 0.3m USB-C 케이블을 제공하며 여러 기기를 연결할 수 있습니다."
-      - "삼성 공식 한국 서비스 유통 페이지가 KC 신고번호 XU103282-23002를 표시합니다."
+      - "삼성 공식 표시 KC XU103282-23002와 제품안전정보센터 원장의 EB-P4520 모델 적합번호 XU103282-23002A를 구분해 확인했습니다."
       - "전문 독립 Techtest의 전자부하 방전 테스트에서 부하 조건별 약 58.9~65.9Wh를 측정했습니다."
     limitations:
       - "무게가 약 402g으로 비상가방에 추가할 때 부담이 있으며 USB-A 포트는 없습니다."
@@ -60,7 +63,7 @@ products:
     officialUrl: "https://www.samsung.com/sec/support/model/EB-P4520XUEGKR/"
     independentSources:
       - "https://techtest.org/samsung-eb-p4520-powerbank-20-000-mah-mit-45w-im-ausfuehrlichen-test/"
-    verificationNotes: "삼성 한국 공식 사이트와 삼성전자서비스 판매정보로 EB-P4520XUEGKR 모델의 74Wh, 45W 단일 출력, USB-C 세 포트, 약 402g, KC 신고번호 XU103282-23002를 확인했다. Techtest의 2024년 8월 독립 전자부하 실측은 출력 조건에 따라 58.918~65.874Wh, 재충전 약 3시간 32분, 입력 약 25W를 보고했다. 2026년 9월 국내 개인 사용기에서도 약 3시간 53분의 재충전과 동시연결 출력 저하를 기술했다. 단, 기관 인증원장과 실제 판매 단위의 동일성 조회·자체 실험은 수행하지 않았다."
+    verificationNotes: "삼성 한국 공식 사이트와 삼성전자서비스에서 EB-P4520XUEGKR의 74Wh, 45W 단일 출력, USB-C 3개, 402g, 표시 KC XU103282-23002를 확인했다. 제품안전정보센터에서는 KTC 안전확인 적합인 모델 EB-P4520의 XU103282-23002A 원장을 확인했지만 기본 표기 번호와 A 접미 번호의 관계·개별 실물 라벨 동일성은 직접 확정하지 못했다. Techtest는 2024년 독립 전자부하 실측에서 58.918~65.874Wh와 입력 약 25W, 완충 약 3시간 32분을 보고했다. 자체 제품 시험·판매 단위 로트 확인은 하지 않았다."
     verified: true
     checkedAt: 2026-10-28
     partnerProductMatched: false
@@ -108,7 +111,7 @@ EB-P4520은 용량 74Wh로 P3400의 공식 저장 에너지 두 배입니다. US
 
 ## 안전과 인증: 번호 표시만으로 모든 절차가 끝나지 않습니다
 
-삼성 국내 공식 지원·유통 페이지에는 EB-P3400의 **XU102985-22001C**, EB-P4520의 **XU103282-23002**라는 KC 관련 신고번호가 표시됩니다. 이 글이 확인한 것은 **제조사가 해당 번호를 공식 페이지에 기재했다는 사실**입니다. 인증기관의 현재 원장 상태, 판매점 제품의 라벨 일치, 중고·해외직구품의 국내 적합성까지 독립 확인한 것은 아닙니다.
+삼성 국내 공식 지원·유통 페이지에는 EB-P3400의 **XU102985-22001C**, EB-P4520의 **XU103282-23002**라는 KC 번호가 표시됩니다. 이번 재점검에서는 [제품안전정보센터의 EB-P3400 공식 원장](https://www.safetykorea.kr/search/searchPop?certNum=XU102985-22001C)에서 **KTC 안전확인·적합·모델 EB-P3400**을 직접 확인했고, [EB-P4520의 XU103282-23002A 원장](https://www.safetykorea.kr/release/certDetail?certNum=XU103282-23002A&certUid=5664089)에서도 **KTC 안전확인·적합·모델 EB-P4520**을 확인했습니다. **그러나 EB-P4520의 삼성 공식 판매정보 표기는 A가 없는 XU103282-23002입니다.** 두 번호 사이의 관계와 실제 판매품 라벨을 별도로 확인해야 하므로, A 접미 번호가 있으니 모든 EB-P4520 판매품의 인증·안전을 자동 승인한다고 해석하지 않습니다. 또한 인증 적합 판정은 개별 판매품의 진품·배터리 건강 상태·독립 출력 성능을 보증하지 않습니다.
 
 2026년 8월 27일 통보된 [G/TBT/N/KOR/1378](https://www.knowtbt.kr/mrim/rsti/notificationsDetail.do?tbtNotiSeq=728269)은 보조배터리 안전기준 개정 제안에 관한 내용이며, 공개 자료에 **시행일은 미정**으로 나옵니다. 따라서 제안된 KC 62368-1 요건을 이미 시행 중인 법적 의무라고 서술하지 않습니다.
 
@@ -128,6 +131,6 @@ EB-P4520은 용량 74Wh로 P3400의 공식 저장 에너지 두 배입니다. US
 
 ## 제품 검증·제휴 링크 고지
 
-**자료 확인: 2026년 10월 28일.** 공식 제조사 자료와 CHOICE(2023년 시험), Techtest(2024년 시험)를 교차 검토했습니다. 실제 제품 수명, 충전 반복 성능, 국내 유통품의 현재 안전인증 상태와 가격·재고는 확인 범위에 포함되지 않았습니다.
+**자료 확인: 2026년 10월 28일.** 공식 제조사 자료, 제품안전정보센터의 모델별 공개 KC 원장과 CHOICE(2023년 시험), Techtest(2024년 시험)를 교차 검토했습니다. 실제 제품 수명, 충전 반복 성능, 국내 유통품의 현재 안전인증 상태와 가격·재고는 확인 범위에 포함되지 않았습니다.
 
 현재 **쿠팡파트너스 링크·유료 추천·직접 사용 후기 없음**. 판매 페이지의 정확한 모델번호·KC 표시·용량·구성·옵션·정품 여부와 실제 파트너스 단일 상품 URL의 일치 여부가 확인되기 전에는 제휴 구매 버튼을 추가하지 않습니다.
