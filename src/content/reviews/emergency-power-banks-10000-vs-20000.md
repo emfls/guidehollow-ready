@@ -16,6 +16,8 @@ sources:
   - "https://www.safetykorea.kr/search/searchPop?certNum=XU102985-22001C"
   - "https://www.safetykorea.kr/release/certDetail?certNum=XU103282-23002A&certUid=5664089"
   - "https://www.samsungsvc.co.kr/shop/product/0000116005"
+  - "https://it.nogcha.kr/900"
+  - "https://www.safetykorea.kr/release/certDetail?certNum=XU103282-23001A&certUid=5659125"
 keyTakeaways:
   - "재난 대비는 최고 출력보다 실제 사용 가능한 전력량(Wh), 기기별 연결 단자, 재충전·관리 가능성을 먼저 봅니다."
   - "10,000mAh는 셀 환산 용량입니다. 연결 기기에 실제 전달되는 용량은 변환 손실로 작아집니다."
@@ -114,6 +116,10 @@ EB-P4520은 용량 74Wh로 P3400의 공식 저장 에너지 두 배입니다. US
 삼성 국내 공식 지원·유통 페이지에는 EB-P3400의 **XU102985-22001C**, EB-P4520의 **XU103282-23002**라는 KC 번호가 표시됩니다. 이번 재점검에서는 [제품안전정보센터의 EB-P3400 공식 원장](https://www.safetykorea.kr/search/searchPop?certNum=XU102985-22001C)에서 **KTC 안전확인·적합·모델 EB-P3400**을 직접 확인했고, [EB-P4520의 XU103282-23002A 원장](https://www.safetykorea.kr/release/certDetail?certNum=XU103282-23002A&certUid=5664089)에서도 **KTC 안전확인·적합·모델 EB-P4520**을 확인했습니다. **그러나 EB-P4520의 삼성 공식 판매정보 표기는 A가 없는 XU103282-23002입니다.** 두 번호 사이의 관계와 실제 판매품 라벨을 별도로 확인해야 하므로, A 접미 번호가 있으니 모든 EB-P4520 판매품의 인증·안전을 자동 승인한다고 해석하지 않습니다. 또한 인증 적합 판정은 개별 판매품의 진품·배터리 건강 상태·독립 출력 성능을 보증하지 않습니다.
 
 2026년 8월 27일 통보된 [G/TBT/N/KOR/1378](https://www.knowtbt.kr/mrim/rsti/notificationsDetail.do?tbtNotiSeq=728269)은 보조배터리 안전기준 개정 제안에 관한 내용이며, 공개 자료에 **시행일은 미정**으로 나옵니다. 따라서 제안된 KC 62368-1 요건을 이미 시행 중인 법적 의무라고 서술하지 않습니다.
+
+**추가 확인된 실물 사례(2024년 3월 구매분):** [EB-P4520 국내 구매자의 개봉 사진](https://it.nogcha.kr/900)에는 안전확인 라벨 **`XU103282-23002A`**와 기기 본체의 전체 한국 코드 **`EB-P4520XUEGKR`**가 함께 나타납니다. 이는 **과거 구매한 한 제품**에서 두 표기가 일치한 증거지만, **현재 쿠팡 판매자가 발송하는 제품의 라벨·로트나 삼성 공식 `-23002`(A 없음) 번호와의 인증 관계**까지 확정한 것은 아닙니다.
+
+다른 국내 판매정보에 나타난 `XU103282-23001A`는 [국가 원장에서 **EB-U2510**에 해당](https://www.safetykorea.kr/release/certDetail?certNum=XU103282-23001A&certUid=5659125)하므로 **EB-P4520의 안전확인 번호로 재사용하면 안 됩니다.** 판매자별 KC 표기가 다른 경우에는 정확한 모델과 포장 라벨을 확인하기 전 구매 옵션을 승인하지 않습니다.
 
 ### 비상가방에 넣을 때
 
