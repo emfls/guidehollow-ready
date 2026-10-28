@@ -1,0 +1,45 @@
+---
+import Base from '../../layouts/Base.astro';
+---
+<Base title="가족 비상연락 카드 작성·인쇄" description="인터넷이 되지 않을 때를 대비해 가족 연락처, 대피시설, 도움 필요한 가족과 만날 장소를 적고 종이 또는 PDF로 보관하세요.">
+ <div class="container family-card-page">
+  <header class="page-intro family-card-intro"><span class="eyebrow">작성 후 인쇄·PDF 저장</span><h1>가족 비상연락 카드</h1><p>급할 때 연락할 사람과 대피시설을 한 장에 적어 두세요. 작성한 내용은 <strong>서버로 전송하거나 자동 저장하지 않습니다.</strong></p></header>
+  <div class="family-card-toolbar print-hidden"><button type="button" id="print-family-card" class="btn primary">인쇄 / PDF로 저장</button><a class="btn secondary" href="/plan/">가족 대피계획 확인 →</a><a class="btn secondary" href="/offline/ready-card.html" download="재난_행동카드.html">오프라인 행동카드 저장 ↓</a></div>
+  <section class="family-paper" aria-label="작성하는 가족 비상연락 카드">
+    <header><strong>가족 비상연락 카드</strong><span>READY · 가족용</span></header>
+    <p class="family-paper-warning">실제 재난문자·방송 및 현장 지시가 우선입니다. 약속 장소가 위험하면 이동하지 마세요.</p>
+    <div class="family-paper-fields">
+      <label>작성일<input type="text" autocomplete="off" placeholder="예: 2026년 10월 28일"/></label>
+      <label>가족 이름 또는 식별명<input type="text" autocomplete="off" placeholder="공유할 카드에 필요한 정도만 기록"/></label>
+      <label>긴급 연락처 1<input type="text" autocomplete="off" placeholder="이름 · 전화번호"/></label>
+      <label>긴급 연락처 2<input type="text" autocomplete="off" placeholder="이름 · 전화번호"/></label>
+      <label>멀리 사는 가족·연락 담당자<input type="text" autocomplete="off" placeholder="이름 · 전화번호"/></label>
+      <label>집 주변 공식 대피시설<input type="text" autocomplete="off" placeholder="시설명 · 주소 · 출입구 (실제 이용 가능 여부 재확인)"/></label>
+      <label>대체 대피시설<input type="text" autocomplete="off" placeholder="침수·화학 오염 등 위험에 맞춰 다르게 정하기"/></label>
+      <label>연락이 끊겼을 때의 약속<input type="text" autocomplete="off" placeholder="문자 · 연락 시간 · 안전한 경우의 만남 기준"/></label>
+      <label>학교·어린이집 인계 담당<input type="text" autocomplete="off" placeholder="기관 · 담당자 · 인계 기준"/></label>
+      <label>도움이 필요한 가족의 이동 지원<input type="text" autocomplete="off" placeholder="이동·약·보조기기 · 도움 요청 연락처"/></label>
+      <label class="wide">추가 메모<textarea rows="2" placeholder="개인정보가 많이 노출되지 않도록 필요한 사항만 기록"></textarea></label>
+    </div>
+    <footer>119 구조·응급 · 112 경찰 · 실제 경보는 정부·지자체 지시 우선</footer>
+  </section>
+  <p class="family-card-privacy print-hidden">개인정보 주의: 공개 기기나 공용 프린터에서 작성한 내용을 남기지 마세요. 인쇄물 분실에도 주의하세요. 브라우저 인쇄창에서 'PDF로 저장'을 선택할 수 있습니다.</p>
+ </div>
+ <script>
+  document.querySelector('#print-family-card')?.addEventListener('click',()=>window.print());
+ </script>
+ <style is:global>
+ @media print{
+  @page{size:A4; margin:13mm}
+  html,body{background:white!important;color:black!important;margin:0!important;padding:0!important;print-color-adjust:exact;-webkit-print-color-adjust:exact}
+  .topnote,.site-header,.site-footer,.mobile-tabbar,.print-hidden,.family-card-intro{display:none!important}
+  main{padding:0!important}
+  .container.family-card-page{width:100%!important;max-width:100%!important;margin:0!important}
+  .family-paper{border:2px solid #333!important;box-shadow:none!important;background:#fff!important;color:black!important;padding:16px!important;break-inside:avoid}
+  .family-paper :is(strong,label,span,footer){color:#111!important}
+  .family-paper input,.family-paper textarea{background:#fff!important;color:#111!important;border:0!important;border-bottom:1px solid #555!important;border-radius:0!important;padding:7px 4px!important}
+  .family-paper-warning{color:#333!important;background:#f5f5f5!important;border-color:#bbb!important}
+  .family-paper-fields{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+ }
+ </style>
+</Base>

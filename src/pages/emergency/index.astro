@@ -1,0 +1,66 @@
+---
+import Base from '../../layouts/Base.astro';
+const shelter="https://www.safekorea.go.kr/safekorea-kor/flsm/flsm/facilitiesSafteyMap.do";
+const official="https://safekorea.go.kr/safekorea-kor/acts/nacts/action-guide.do?actsHeaderTitle=%EB%B9%84%EC%83%81%EC%82%AC%ED%83%9C&category=stateOfEmergency&menuSn=4";
+const alerts="https://www.mois.go.kr/frt/sub/a06/b12/civildefensework/screen.do";
+const quick=[
+ {id:'air-raid',title:'공습·포격',when:'공습경보 또는 직접적인 공격 위험',items:[
+  '가까운 공식 대피시설이나 튼튼한 건물의 창문 없는 안쪽으로 즉시 피하세요.',
+  '안전하게 이동할 수 있으면 승강기 대신 계단을 이용하세요. 침수된 지하공간은 피하세요.',
+  '대피한 곳에서 방송·재난문자와 현장 지시를 계속 확인하세요.'
+ ],caution:'모든 지하공간이 공식 대피소는 아닙니다. 위험이 코앞이라면 지도 검색 때문에 피신을 늦추지 마세요.',href:'/situations/#air-raid'},
+ {id:'chemical',title:'화학 공격·화생방',when:'화생방경보 또는 외부 오염 위험',items:[
+  '경보에 적힌 위험 지역·실내 대기 또는 이동 지시를 먼저 확인하세요.',
+  '외부 오염이 우려되면 안전한 실내로 이동해 문·창문을 닫고 외부 공기를 들이는 환기장치를 끄세요.',
+  '공습과 달리 지하가 안전하지 않을 수 있습니다. 이동할 층과 장소는 공식 지시를 따르세요.'
+ ],caution:'건물 안에서 누출된 사고라면 오염된 공간에서 벗어나야 합니다. 일반 마스크는 유해가스용 방독면이 아닙니다.',href:'/situations/#chemical'},
+ {id:'nuclear',title:'핵 경보·낙진',when:'핵 경보 또는 폭발·방사성 낙진 위험',items:[
+  '핵 경보라면 가까운 지하나 두꺼운 건물 안쪽으로 피하세요. 이미 폭발했다면 즉시 엎드려 몸과 눈을 보호하세요.',
+  '충격파가 지나면 외벽·지붕에서 먼 지하나 건물 중앙에 머물며 낙진을 피하세요.',
+  '정부 안내를 계속 듣고 이동 허가 전에는 임의로 나오지 마세요. 오염이 의심되는 겉옷은 안전한 실내에서 벗으세요.'
+ ],caution:'사이렌 소리만으로 핵 경보를 판단할 수 없습니다. 경보해제도 오염 위험이 사라졌다는 뜻은 아닙니다.',href:'/situations/#nuclear'}
+] as const;
+const more=[
+ {label:'화재·연기',href:'/situations/#fire',text:'불이 난 곳과 우리 집의 연기·불꽃 여부부터 확인'},
+ {label:'침수·집중호우',href:'/situations/#flood',text:'지하·침수도로에 들어가지 않기'},
+ {label:'지진',href:'/situations/#earthquake',text:'흔들릴 때 머리와 몸 보호'},
+ {label:'산불',href:'/situations/#wildfire',text:'대피 안내를 받으면 출발 늦추지 않기'},
+ {label:'정전·단수',href:'/situations/#power',text:'안전한 조명·식수 확보'},
+ {label:'그 밖의 경보',href:'/situations/',text:'경계경보·생물학 위협·화학사고 등'}
+] as const;
+---
+<Base title="긴급 재난 행동: 공습·화학·핵 첫 3단계" description="실시간 경보 서비스가 아닌 간단한 사전 행동카드입니다. 공습·화학·핵 경보 때 처음 해야 할 3단계와 공식 대피시설 조회를 한 화면에 표시합니다.">
+ <div class="container instant-action">
+  <header class="instant-intro"><span class="emergency-home-label">지금 위험하다고 느낀다면</span>
+   <h1>상황에 맞는 첫 3단계부터 확인하세요</h1>
+   <p><strong>현재 경보·안전 상태를 알려주는 화면이 아닙니다.</strong> 실제 상황은 정부 재난문자·방송과 구조기관·현장 지시가 우선입니다. 직접 위험이 닥쳤다면 페이지 검색보다 즉각적인 안전 확보가 먼저입니다.</p>
+  </header>
+  <nav class="instant-shortcuts" aria-label="현재 상황 선택">
+    <a href="#air-raid">공습</a><a href="#chemical">화학</a><a href="#nuclear">핵·낙진</a>
+    <a href="#other-alerts">다른 재난</a>
+  </nav>
+  <div class="instant-steps-grid">{quick.map((q,i)=><section class="instant-step-card" id={q.id} aria-labelledby={q.id+'-title'}>
+    <div class="instant-card-head"><span>{String(i+1).padStart(2,'0')}</span><div><h2 id={q.id+'-title'}>{q.title}</h2><p>{q.when}</p></div></div>
+    <ol>{q.items.map(v=><li>{v}</li>)}</ol>
+    <p class="instant-card-warning"><strong>주의</strong> {q.caution}</p>
+    <a class="instant-detail-link" href={q.href}>이 상황 자세히 보기 →</a>
+  </section>)}</div>
+  <section class="instant-official" aria-labelledby="instant-official-title">
+   <h2 id="instant-official-title">대피소와 공식 경보를 확인하세요</h2>
+   <div class="instant-official-links">
+    <a href={shelter} target="_blank" rel="noopener noreferrer"><strong>민방위 대피소 공식 지도 ↗</strong><small>국민안전24 → 대피시설 → 지역 선택 · 실제 개방 여부 확인</small></a>
+    <a href={alerts} target="_blank" rel="noopener noreferrer"><strong>경보 종류·공식 신호 확인 ↗</strong><small>행정안전부 안내 · 사이렌만 듣고 경보 종류 단정 금지</small></a>
+    <a href={official} target="_blank" rel="noopener noreferrer"><strong>정부 비상시 국민행동요령 ↗</strong><small>가장 최신 안내와 실제 현장 지시 우선</small></a>
+   </div>
+  </section>
+  <section class="instant-offline" aria-labelledby="offline-title"><div><span class="section-label">인터넷이 끊기기 전에</span><h2 id="offline-title">행동카드를 저장해 두세요</h2>
+   <p>외부 지도·정부 사이트는 인터넷이 필요합니다. 간단한 행동카드를 미리 저장하면 통신이 끊겨도 열어볼 수 있어요.</p></div>
+   <a class="btn primary" href="/offline/ready-card.html" download="재난_행동카드.html">오프라인 행동카드 저장 ↓</a>
+  </section>
+  <section id="other-alerts" class="instant-other" aria-labelledby="instant-other-title"><h2 id="instant-other-title">다른 재난도 바로 찾기</h2>
+   <div>{more.map(z=><a href={z.href}><strong>{z.label}</strong><span>{z.text}</span><span aria-hidden="true">→</span></a>)}</div>
+  </section>
+  <section class="instant-family"><div><h2>아기·어르신과 함께 있나요?</h2><p>계단 이동, 유모차, 약과 보조기기를 포함한 이동 판단을 확인하세요.</p></div><a class="btn secondary" href="/family-emergency/">가족 동반 행동 보기 →</a></section>
+  <p class="source-caption">자료: <a href={official} target="_blank" rel="noopener noreferrer">국민안전24 비상시 국민행동요령</a> · <a href={alerts} target="_blank" rel="noopener noreferrer">행정안전부 민방위 경보</a> · 확인 2026-10-28. 이 페이지는 위치·건물 안전·현재 경보를 실시간 판정하지 않습니다.</p>
+ </div>
+</Base>

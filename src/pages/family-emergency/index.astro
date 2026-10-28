@@ -1,0 +1,36 @@
+---
+import Base from '../../layouts/Base.astro';
+const shelter="https://www.safekorea.go.kr/safekorea-kor/flsm/flsm/facilitiesSafteyMap.do";
+const topics=[
+ {icon:'👶',name:'영유아와 함께',now:'아이의 안전을 확보하고, 공식 대피 지시에 맞춰 즉시 움직이세요.',steps:[
+ '아이가 있는 곳에서 가장 가까운 안전한 대피 공간을 확인하고, 보호자 한 명이 아이를 맡을지 미리 정해 두세요.',
+ '계단을 이용해야 하거나 길이 막힌 상황에는 유모차를 고집하지 마세요. 안전하게 사용할 수 있는 아기띠나 안는 방법을 상황에 맞게 선택하고 추락 위험을 피하세요.',
+ '약·기저귀·수유에 필요한 물품은 미리 한 가방에 모아 두되, 급박한 위험에서는 짐 정리로 대피를 늦추지 마세요.'
+ ],tip:'이동 뒤에는 아이의 호흡·체온·상태를 확인하세요. 안전한 물과 수유·위생 환경이 확인되지 않으면 평소와 다른 방식으로 임의 조제하지 마세요.'},
+ {icon:'🧓',name:'고령자·거동이 불편한 가족',now:'누가 이동을 도울지, 계단을 쓸 수 있는지 빠르게 판단하세요.',steps:[
+ '도움이 필요한 가족의 위치와 상태를 확인하고, 가능한 보호자나 현장 관리자에게 지원을 요청하세요.',
+ '승강기 사용이 제한되는 경우가 있으므로 공식 지시와 건물 피난계획에 따라 안전한 경로를 선택하세요. 무리한 부축으로 모두가 다칠 위험이 있다면 119에 지원을 요청하세요.',
+ '상시 복용약·보조기기·연락처는 평소 한곳에 모아 두세요. 대피가 급할 때 물건을 찾느라 출발을 늦추지 마세요.'
+ ],tip:'청각·시각·인지상 어려움이 있다면 짧고 명확하게 알리고, 의사소통을 도울 사람과 대체 연락 방법을 미리 정해두세요.'},
+ {icon:'🐾',name:'반려동물 동반',now:'사람의 안전과 현장 대피 지시가 우선입니다.',steps:[
+ '반려동물의 위치를 알 수 있으면 이동장이나 목줄을 사용해 안전하게 통제하세요.',
+ '대피가 급박한 상황에는 반려동물을 찾기 위해 위험 지역에 재진입하지 마세요.',
+ '미리 사료·물·이동장을 준비하고 대피시설의 동물 동반 가능 여부를 확인하세요.'
+ ],tip:'현장 구조기관과 대피시설 운영자의 안내에 따라 이동해야 합니다.'}
+] as const;
+---
+<Base title="영유아·어르신과 함께 재난 대피하기" description="아이·고령자·거동이 불편한 가족과 대피할 때 주의할 점을 짧고 쉽게 확인하세요. 실제 재난은 정부·현장 지시가 우선입니다.">
+ <div class="container family-now-page">
+  <header class="page-intro"><span class="eyebrow">가족과 함께하는 긴급 행동</span><h1>가족과 함께 있다면 이것부터 확인하세요</h1><p>짐을 챙기는 것보다 <strong>지금 안전한 곳으로 이동할 수 있는지</strong>가 먼저입니다. 대피 방향은 공습·화학 공격·침수 등 경보 종류에 따라 다릅니다.</p></header>
+  <nav class="guide-quick-links" aria-label="먼저 필요한 경로"><a href="/emergency/">현재 상황별 첫 행동 →</a><a href={shelter} target="_blank" rel="noopener noreferrer">공식 대피시설 조회 ↗</a><a href="/family-card/">가족 연락카드 만들기 →</a></nav>
+  <div class="family-now-grid">{topics.map(q=><article class="family-now-card">
+   <div class="family-now-card-heading"><span aria-hidden="true">{q.icon}</span><h2>{q.name}</h2></div>
+   <p class="family-now-priority">{q.now}</p>
+   <ol>{q.steps.map(v=><li>{v}</li>)}</ol>
+   <p class="family-now-caution">{q.tip}</p>
+  </article>)}</div>
+  <section class="family-now-contact"><strong>가족과 떨어져 있다면</strong><p>전화를 반복해 통신을 혼잡하게 하기보다 공식 안내를 확인하며 간단한 안전 확인 메시지를 보내세요. 약속한 만남 장소도 위험하거나 통제 중이면 이동하지 마세요.</p>
+   <a href="/plan/">가족 대피·재합류 계획 자세히 보기 →</a></section>
+  <p class="source-caption">참고: <a href="/sources/">국내 공식 행동요령</a> · <a href="https://www.cdc.gov/infant-feeding-emergencies-toolkit/php/faqs.html" target="_blank" rel="noopener noreferrer">CDC 영유아 비상 수유 참고(해외)</a>. 개별 구조·의료 판단을 대체하지 않습니다.</p>
+ </div>
+</Base>
