@@ -16,6 +16,10 @@ if (!home.includes('name="theme-color" content="#0e151d"')) throw Error('Night o
 if (!home.includes('stylesheet')) throw Error('Site styles missing');
 if(!home.includes('전시·재난 대비 생활 안내')||!home.includes('/checklist/')||!home.includes('실시간 재난 경보 서비스가 아닙니다'))throw Error('Emergency homepage incomplete');
 if(home.includes('공포를 이용하지 않습니다')||home.includes('불안을 키우는 정보 대신'))throw Error('Removed editorial slogans reappeared');
+const heroHeading = home.match(/<h1(?:\\s[^>]*)?>([\\s\\S]*?)<\\/h1>/)?.[1] ?? '';
+if(!heroHeading.includes('전시·재난 대비,') || !heroHeading.includes('필요한 준비부터.') || /<br\\s*\\/?>/i.test(heroHeading))throw Error('Main headline should flow without forced line breaks');
+if(home.includes('class="status-dot"')||home.includes('class="eyebrow-dot"')||home.includes('R<span>·</span>'))throw Error('Decorative pseudo-status lights should not appear');
+
 const check=file('checklist/index.html');
 if(!check.includes('data-key="water-bottles"')||!check.includes('ready-progress')||!check.includes('localStorage'))throw Error('Interactive checklist incomplete');
 if(!file('plan/index.html').includes('가족 비상연락 카드'))throw Error('Printable family plan missing');

@@ -656,6 +656,28 @@ a:hover{color:#c1f0e4}
 .toc a{color:#b9cdd1}
 .toc a:hover{color:#fff0d3}
 .toc .toc-action{color:#a6e9d9;border-top-color:#425761}
+/* Readable two-part heading: no fixed HTML line breaks or signal-status dots. */
+.hero-copy{min-width:0;max-width:100%}
+.hero h1{
+  max-width:14.5ch;
+  margin:23px 0 21px;
+  font-size:clamp(2.18rem,4.3vw,3.55rem);
+  letter-spacing:-.045em;
+  line-height:1.26;
+  word-break:keep-all;
+  overflow-wrap:normal;
+  text-wrap:balance;
+}
+.hero h1 em{font-style:normal}
+@media(max-width:980px){
+  .hero h1{font-size:clamp(2.05rem,4.35vw,3.2rem);max-width:100%}
+}
+@media(max-width:800px){
+  .hero h1{font-size:clamp(2.02rem,5.3vw,3.2rem);max-width:18ch}
+}
+@media(max-width:580px){
+  .hero h1{font-size:clamp(1.9rem,8.1vw,2.65rem);max-width:100%;line-height:1.32}
+}
 @media print{
  :root{color-scheme:light;--ink:#171e22;--muted:#48575c;--subtle:#4d595b;--green:#144d3a;--line:#abb3b5}
  body{background:white!important;color:#151515!important}
