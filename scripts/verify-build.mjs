@@ -37,7 +37,7 @@ if(!home.includes('href="/situations/"'))throw Error('All safety scenarios must 
 if (!home.includes('emergency-home-action')||!home.includes('/emergency/#air-raid')||!home.includes('공식 민방위 대피소 찾기')) throw Error('Urgent action not reachable from top of homepage');
 if (home.indexOf('emergency-home-action')>home.indexOf('hero brief-hero')) throw Error('Immediate safety must precede routine preparation');
 for (const x of ['emergency/index.html','family-emergency/index.html','family-card/index.html','offline/ready-card.html']) if(!existsSync(join('dist',x)))throw Error('User-test P0/P1 deliverable missing: '+x);
-const navLinks=(home.match(/<nav class="site-nav"[^>]*>([\\s\\S]*?)<\\/nav>/)||[])[1]||'';
+const navLinks=(home.split('<nav class="site-nav"')[1]||'').split('</nav>')[0];
 if((navLinks.match(/<a /g)||[]).length!==5)throw Error('Desktop navigation should offer exactly five predictable destinations');
 if(!home.includes('href="/family-emergency/"') && !file('emergency/index.html').includes('href="/family-emergency/"'))throw Error('Infant and elder emergency guidance unavailable');
 const urgent=file('emergency/index.html');
