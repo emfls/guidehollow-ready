@@ -13,7 +13,7 @@ const refs=[
  {agency:'행정안전부',title:'민방위 비상급수시설 현황 조회 안내',detail:'2026년 10월 21일 공개한 정부 안내. 국민안전24 지도에서 지역별 급수시설 조회 가능',href:'https://www.mois.go.kr/frt/bbs/type001/commonSelectBoardArticle.do?bbsId=BBSMSTR_000000000327&nttId=130400'},
  {agency:'행정안전부 · 국민안전24',title:'민방공 경보해제의 의미와 신호',detail:'민방공 경보 종류 중 경보해제의 기준, 음성방송 방식 및 경보 단계 안내',href:'https://www.safekorea.go.kr/safekorea-kor/edtr/clns/cdal/civilDefenseAlarm.do?menuSn=57'},
  {agency:'행정안전부 · 국민안전24',title:'화학사고 대피소 공식 지도',detail:'대피시설에서 화학사고 대피소를 따로 선택. 지도 표시가 실시간 개방·수용 가능 여부를 보증하지 않음',href:'https://www.safekorea.go.kr/safekorea-kor/flsm/flsm/facilitiesSafteyMap.do?menuSn=234'},
- {agency:'미국 질병통제예방센터 · 해외 보충자료',title:'화학사고 시 실내 대기·현장 대피 판단',detail:'실내·실외 누출 장소에 따른 행동 차이, 긴급 구조기관의 실내 대기 또는 대피 지시 우선. 국내 지침을 대신하지 않는 해외 참고자료',href:'https://www.cdc.gov/chemical-emergencies/response/index.html'},
+ {agency:'행정안전부 · 국민안전24',title:'화학사고재난 단계별 국민행동요령',detail:'누출 현장 발견 시 이탈·119 신고, 재난문자 수신 후 실내 대기, 주민대피명령 시 이동, 복귀 후 오염 식수·물품 주의',href:'https://safekorea.go.kr/safekorea-kor/acts/nacts/action-guide.do?actsHeaderTitle=%ED%99%94%ED%95%99%EC%82%AC%EA%B3%A0%EC%9E%AC%EB%82%9C&category=chemicalAccidentDisaster&menuSn=4'},
  {agency:'행정안전부 · 국민안전24',title:'화생방무기 대응·자가 제염',detail:'화학물질 노출 시 세척과 오염 의복 처리, 핵·방사능 낙진 노출 후 자가 제염 안내',href:'https://safekorea.go.kr/safekorea-kor/acts/nacts/action-guide.do?actsHeaderTitle=%ED%99%94%EC%83%9D%EB%B0%A9%EB%AC%B4%EA%B8%B0&category=chemicalandBiologicalWeapons&menuSn=4'},
  {agency:'행정안전부 · 국민안전24',title:'민방공경보 단계별 행동요령',detail:'경계경보·공습경보 등 단계별 대피 준비와 행동 확인',href:'https://safekorea.go.kr/safekorea-kor/acts/nacts/action-guide.do?actsHeaderTitle=%EB%AF%BC%EB%B0%A9%EA%B3%B5%EA%B2%BD%EB%B3%B4&category=civlAirDefenseWarning&menuSn=4'},
  {agency:'행정안전부 · 국민안전24',title:'지진해일 긴급대피 행동요령',detail:'해안에서 지진이 발생하거나 지진해일 특보가 있을 때 높은 곳으로 이동하고 반복 파도에 대비',href:'https://safekorea.go.kr/safekorea-kor/em/emergency/emergency_eq3.html'},
@@ -42,9 +42,9 @@ const refs=[
   <p>시설안전지도에서 <strong>민방위 대피소·지진옥외 대피소·지진해일 대피소·화학사고 대피소</strong>는 서로 다른 항목입니다. 산불 때는 지도에 보이는 아무 대피소가 아니라 지자체·구조기관이 안내하는 대피장소로 이동해야 합니다.</p>
   <p>시설안전지도는 <strong>대피시설 → 민방위 대피소</strong>와 <strong>대피시설 → 비상급수시설</strong>을 구분해 표시합니다. 정부의 경량 조회 페이지가 기본 상태에서 ‘0건’을 표시하더라도 지역을 선택하기 전에는 대피시설 부재로 해석하지 마세요. 지도와 검색 결과는 실시간 수용 인원·개방 여부·급수 가능 여부를 보장하지 않습니다.</p>
   <h2>화학사고와 화학 공격은 구분하세요</h2>
-  <p><strong>산업시설·운송시설의 화학물질 누출</strong>과 <strong>화학무기 공격</strong>은 같은 사고가 아닙니다. 실외 화학사고에서는 우선 안전한 건물 실내로 대피해 외부 공기를 차단하고, 방송·재난문자로 지시를 확인한 뒤 주민대피명령이 있으면 지정된 화학사고 대피소로 이동합니다. 실내에서 유출된 사고라면 그 오염 공간을 벗어나야 합니다.</p>
+  <p><strong>산업시설·운송시설의 화학물질 누출</strong>과 <strong>화학무기 공격</strong>은 같은 사고가 아닙니다. 화학사고 현장을 직접 발견하면 누출 지역에서 최대한 멀리 벗어나 안전한 장소에서 119에 신고합니다. 반대로 실외 사고 소식을 재난문자로 받은 경우에는 별도 대피 지시가 없는 한 안전한 실내에서 후속 안내를 확인합니다. 지자체·경찰이 주민대피명령을 내리면 그 경로와 장소를 따릅니다.</p>
   <p>지자체가 알려주는 물질 종류·사고 위치·풍향·실내 대기 또는 이동 지시가 최우선입니다. 특정 층이 모든 화학사고에 안전하다고 가정하지 마세요. 국민안전24의 화생방무기 안내에 나오는 세척 시간은 모든 산업용 화학물질의 처치 기준이 아닙니다.</p>
-  <p>2020년 환경부·화학물질안전원 공개 자료에서도 실내 대기와 주민대피명령 후 이동을 구분했지만, 당시 시설 수·위치는 현재 현황이 아닙니다. 최신 시설은 국민안전24 안전지도에서 확인하고, 실제 개방·이동 여부는 지자체와 현장 대응기관 지시를 따르세요. 과거 보도자료의 직접 링크는 접근 오류로 제외했습니다.</p>
+  <p>위의 국민안전24 ‘화학사고재난 단계별 국민행동요령’은 실제 사고 발생 단계에 따라 이동·대기·복귀를 구분합니다. 복귀한 뒤에도 오염 가능성이 있는 물이나 음식은 먹지 않고 물건을 맨손으로 만지지 마세요. 대피소의 실제 개방·운영 여부는 지자체와 현장 대응기관에 확인해야 합니다.</p>
   <h2>비슷해 보여도 대피 방향이 다른 재난</h2>
   <p><strong>일반 지진</strong>은 낙하물 위험이 적은 옥외 장소를 선택하지만, 해안의 <strong>지진해일</strong>은 해안·하천에서 떨어진 높은 지역과 긴급대피장소로 이동해야 합니다. 지진해일은 반복될 수 있으므로 공식 해제 전에는 저지대에 돌아가지 않습니다.</p>
   <p><strong>일반 침수</strong>에서는 물이 차오르는 낮은 곳을 피하지만, <strong>산사태</strong> 위험이 있는 산비탈·계곡에서는 산사태 진행 경로에서 벗어나는 안전한 방향으로 이동해야 합니다. 산사태가 흘러내리는 경로와 계곡부를 벗어나야 하며, 급박한 상황에는 산사태 방향에서 멀리 떨어진 가장 가까운 안전한 높은 곳으로 이동하도록 공식 지침이 안내합니다. 지자체 대피 명령이 있으면 이를 우선하세요.</p>
