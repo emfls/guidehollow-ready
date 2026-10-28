@@ -3,8 +3,9 @@ title: "정전 때 쓸 비상 라디오, 건전지형과 충전형 비교"
 description: "정전 대비 라디오는 우리 동네 방송이 잘 들리고 전원을 준비하기 쉬운 제품이 좋습니다."
 category: general
 publishedDate: 2026-10-28
+updatedDate: 2026-10-29
 draft: false
-affiliate: false
+affiliate: true
 sources:
   - "https://radio.kbs.co.kr/frequency.html"
   - "https://www.weather.gov/car/noaaweatherradio"
@@ -36,10 +37,11 @@ products:
     officialUrl: "https://www.sony.com/electronics/support/radios-portable-radios/icf-p26/specifications"
     independentSources:
       - "https://radiojayallen.com/sony-icf-p26-amfm-pocket-radio/"
-    verificationNotes: "Sony ICF-P26의 공식 지원 사양 및 2015년 Sony 사용설명서(AA 2개, FM 87.5~108MHz/AM 530~1605kHz, 100/110시간 제조사 지정 조건, 방수 아님)를 확인했다. 독립 라디오 전문 평가 RadioJayAllen의 ICF-P26 실물 비교에서는 지역 강신호 수신은 가능하지만 원거리 AM 약신호와 고음량 음질이 약점으로 지적됐다. 국내 KC·정식 유통·현지 수신은 확인하지 않았으며 개인 실사용 후기가 아니다."
+    verificationNotes: "Sony ICF-P26 제조사 공식 사양 및 설명서(AA 2개, FM 87.5~108MHz/AM 530~1605kHz, 100/110시간 지정 조건)를 확인했다. RadioJayAllen은 원거리 AM 약신호와 고음량 음질을 약점으로 지적했다. 2026-10-29 사용자 제공 파트너스 URL을 통해 열린 쿠팡 상품에서 소니 ICF-P26 블랙, productId 7757158175·itemId 20909933080, 판매자 muutous를 직접 확인했다. 상품은 구매 가능 표시였지만 정품 유통·KC 적용·직접 사용·국내 수신 여부 및 향후 가격·재고는 확인하거나 보증하지 않는다."
     verified: true
-    checkedAt: 2026-10-28
-    partnerProductMatched: false
+    checkedAt: 2026-10-29
+    partnerProductMatched: true
+    affiliateUrl: "https://link.coupang.com/a/iekaW7GSFE"
   - name: "Sangean MMR-99 AM/FM (Desert Tan 국제판)"
     modelNumber: "MMR-99 (AM/FM/BT, Desert Tan; DAB+ 제외)"
     label: "USB-C·손잡이 발전·태양광 겸용 비상 라디오"
@@ -77,7 +79,7 @@ products:
 
 한국에서 사용하는 **AM/FM 방송**을 수신하는 모델인지 보세요. 미국에서 쓰는 NOAA 날씨 방송 기능이 있다고 한국 재난문자를 대신 받는 것은 아닙니다.
 
-라디오를 보관할 자리에서 [KBS 지역별 주파수](https://radio.kbs.co.kr/frequency.html)를 확인하고 시험해 보세요. 두 모델 모두 이번에는 정확한 쿠팡 판매 옵션이 확인되지 않아 구매 버튼을 제공하지 않습니다.
+라디오를 보관할 자리에서 [KBS 지역별 주파수](https://radio.kbs.co.kr/frequency.html)를 확인하고 시험해 보세요. 소니 ICF-P26은 2026년 10월 29일 쿠팡 판매 화면에서 **블랙 옵션과 모델번호**를 확인했습니다. 위 상품 카드의 쿠팡 버튼에서 당시 연결 상품을 확인할 수 있습니다. **산진 MMR-99는 아직 동일한 쿠팡 판매 옵션이 확인되지 않아 구매 버튼을 표시하지 않습니다.** 구매 전 가격·재고·배송·제품 제조국 및 국내 인증·A/S는 별도로 확인하세요.
 
 ---
 

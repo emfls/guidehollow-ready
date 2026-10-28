@@ -573,3 +573,28 @@ main{min-width:0}
 @media(max-width:900px){.starter-detail-areas{grid-template-columns:repeat(2,minmax(0,1fr))}.starter-detail-heading{align-items:stretch;flex-direction:column}.starter-detail-go{align-self:flex-start}}
 @media(max-width:460px){.starter-detail-bridge{padding:14px;margin:14px 0 20px}.starter-detail-areas{gap:7px}.starter-detail-areas a{padding:9px 8px;font-size:.74rem;align-items:start;flex-direction:column;gap:4px}.starter-detail-areas a strong{align-self:flex-end}}
 @media print{.starter-detail-bridge{background:#fff!important;border-color:#999!important}.starter-detail-bridge *{color:#111!important}}
+
+
+/* User-supplied affiliate links: clear sales-option verification boundaries and usable touch targets */
+.partner-full-disclosure{background:#2b343b;border:1px solid #9c795c;border-left:4px solid #e5b77b;color:#e9dbcb;line-height:1.7;padding:13px 17px;border-radius:11px;font-size:.84rem}
+.partner-full-disclosure strong{color:#ffe1b8}
+.partner-model-pending{background:#1a303b;border:1px solid #4a6a74;border-radius:14px;padding:18px;margin:17px 0 27px}
+.partner-model-pending h3{font-size:1.05rem;line-height:1.45;color:#fff1d7;margin:8px 0}
+.partner-model-pending p{font-size:.86rem;line-height:1.7;color:#d0dbdb;margin:0 0 13px}
+.partner-check-tag{display:inline-block;color:#f0c99a;font-size:.73rem;font-weight:850}
+.partner-check-action{display:inline-flex;min-height:44px;justify-content:center;align-items:center;text-align:center;border-radius:10px;padding:10px 16px;font-size:.85rem;font-weight:900;background:#efbc79;color:#17232a!important;text-decoration:none}
+.partner-check-action:hover{background:#ffdda5;color:#17232a!important}
+.starter-secondary-affiliates{margin:22px 0 12px;border:1px solid #47636c;border-radius:15px;padding:20px;background:#1c313a}
+.starter-secondary-affiliates-head h3{color:#f7e7cb;font-size:1.19rem;margin:7px 0}
+.starter-secondary-affiliates-head p{font-size:.84rem;color:#ccdce0;line-height:1.65;margin:0 0 15px}
+.starter-secondary-affiliates-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.starter-secondary-affiliates-grid article{min-width:0;display:flex;align-items:flex-start;gap:13px;background:#223841;border:1px solid #516c73;border-radius:12px;padding:16px}
+.starter-secondary-affiliates-grid article>span{font-size:1.4rem;flex:none}
+.starter-secondary-affiliates-grid h4{color:#f5eee2;font-size:1rem;line-height:1.5;margin:0 0 6px}
+.starter-secondary-affiliates-grid p{color:#c6d6db;font-size:.81rem;line-height:1.68;margin:0 0 13px}
+.starter-secondary-affiliates-grid a{display:inline-flex;min-height:44px;align-items:center;justify-content:center;text-align:center;font-size:.79rem;font-weight:850;border:1px solid #5c897d;border-radius:9px;padding:9px 12px;color:#c9ecde;margin:0 7px 8px 0}
+.starter-secondary-affiliates-grid a[href^="https://link.coupang.com/"]{background:#eebc7d;color:#17232a;border-color:#eebc7d}
+@media(max-width:680px){.starter-secondary-affiliates{padding:16px}.starter-secondary-affiliates-grid{grid-template-columns:1fr}.partner-model-pending{padding:15px}.partner-check-action{width:100%}}
+@media print{.partner-check-action,.starter-secondary-affiliates-grid a[href^="https://link.coupang.com/"]{display:none!important}}
+
+.review-featured-fallback{display:grid;place-items:center;width:100%;min-height:135px;font-size:3.1rem;background:#293f45;border-radius:11px}

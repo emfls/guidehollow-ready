@@ -73,6 +73,16 @@ if(!starter.includes('완료로 자동 처리하지 않습니다')||!design.incl
 if(!starter.includes('미체크는 미보유 확정이 아닙니다')||!starter.includes('현재 가격·재고·판매자·배송은 쿠팡에서 확인하세요'))throw Error('Shopping area lacks non-coercive disclosure of verification limits');
 if(!starter.includes('data-missing-for="water"')||!starter.includes('data-missing-for="light"')||!starter.includes('id="starter-show-unchecked"')||!starter.includes('id="starter-copy-missing"'))throw Error('Missing-only product decision tool incomplete');
 if((starter.match(/https:\/\/link\.coupang\.com\/a\/idtdhvDZ3A/g)||[]).length<1)throw Error('Approved affiliate link lost');
+const gear=file('buying/gear/index.html');
+for(const id of ['iekaW7GSFE','iekgMwsEmq']){
+ const url='https://link.coupang.com/a/'+id;
+ if(!gear.includes(url)||!starter.includes(url))throw Error('Supplied affiliate URL missing from buying page or starter kit: '+id);
+ if(!gear.includes('rel="sponsored nofollow noopener noreferrer"')||!starter.includes('rel="sponsored nofollow noopener noreferrer"'))throw Error('Supplied affiliate URL requires disclosure and safe link attributes');
+}
+if(!gear.includes('소니 ICF-P26, 블랙')||!gear.includes('삼성 EB-P3401XUKGKR, 베이지')||!gear.includes('쿠팡 파트너스 활동의 일환')||!starter.includes('삼성 EB-P3401'))throw Error('Coupang model and affiliate notices must reflect observed product options');
+const radioReview=file('reviews/emergency-am-fm-radios/index.html');
+if(!radioReview.includes('iekaW7GSFE')||!radioReview.includes('7757158175')||!radioReview.includes('20909933080')||!radioReview.includes('sponsored nofollow'))throw Error('Matched ICF-P26 radio purchase card not displayed');
+if(!file('reviews/coupang-stock-audit-samsung-p3400-p3401/index.html').includes('EB-P3401XUKGKR'))throw Error('Stock audit has not been updated with verified 2026 Samsung model');
 const e20=file('reviews/fenix-e20-v2-flashlight/index.html');
 if(!e20.includes('simple-product-hero')||!e20.includes('simple-product-media')||!e20.includes('simple-buy-button')||!e20.includes('idtdhvDZ3A')||!e20.includes('sponsored nofollow'))throw Error('Product landing needs top image, visible buy button and verified link');
 if(e20.includes('공식 밝기와 사용 시간을 구별해야 합니다')||e20.includes('pageKey=2211811247'))throw Error('Technical tracking or dense old table leaked into shopping landing');

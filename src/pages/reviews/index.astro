@@ -30,7 +30,7 @@ const shortTitles:Record<string,string>={
   {featured.length>0 && <section class="review-featured" aria-labelledby="review-featured-title">
    <div class="section-head"><span class="section-label">검증된 구매 링크</span><h2 id="review-featured-title">바로 상품 확인하기</h2></div>
    <div class="review-featured-grid">{featured.map(r=><article class="review-featured-card">
-    <div class="review-featured-image">{r.id==='fenix-e20-v2-flashlight' && <img src="https://thumbnail1.coupangcdn.com/thumbnails/remote/212x212ex/image/vendor_inventory/9c13/0524ccbea15e678332b3299a00596c66101a6e50f267850bb9970650169a.jpg" width="212" height="212" loading="lazy" referrerpolicy="no-referrer" alt="페닉스 E20 V2.0 손전등 제품 사진"/>}</div>
+    <div class="review-featured-image">{r.id==='fenix-e20-v2-flashlight' && <img src="https://thumbnail1.coupangcdn.com/thumbnails/remote/212x212ex/image/vendor_inventory/9c13/0524ccbea15e678332b3299a00596c66101a6e50f267850bb9970650169a.jpg" width="212" height="212" loading="lazy" referrerpolicy="no-referrer" alt="페닉스 E20 V2.0 손전등 제품 사진"/>}{r.id==='emergency-am-fm-radios' && <span class="review-featured-fallback" aria-hidden="true">📻</span>}</div>
     <div><span class="review-chip">등록 당시 동일 모델 확인</span><h3>{r.data.title}</h3><p>{r.data.description}</p><a href={'/reviews/'+r.id+'/'} class="btn primary">장점·단점과 구매 정보 →</a></div>
    </article>)}</div>
   </section>}

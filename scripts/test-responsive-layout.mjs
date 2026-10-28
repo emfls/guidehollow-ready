@@ -88,6 +88,16 @@ try{
   }
   if(route==='/situations/'&&await page.locator('.first-three-visible').count()!==3)failed.push('air chemical nuclear first three steps are collapsed');
   if(route==='/starter-kit/'&&!details.hasKit)failed.push('product photo card missing');
+  if(route==='/starter-kit/'||route==='/buying/gear/'){
+   const urls=['https://link.coupang.com/a/iekaW7GSFE','https://link.coupang.com/a/iekgMwsEmq'];
+   for(const u of urls){
+    const a=page.locator('a[href="'+u+'"]');
+    if(await a.count()!==1)failed.push('missing or duplicate user-supplied single-product link '+u);
+    else if(!(await a.getAttribute('rel')||'').includes('sponsored'))failed.push('affiliate link disclosure missing: '+u);
+   }
+   if(route==='/starter-kit/'&&await page.locator('.starter-secondary-affiliates-grid article').count()!==2)failed.push('radio and battery cards must both be visible');
+   if(route==='/buying/gear/'&&await page.locator('.partner-model-pending').count()!==2)failed.push('radio and battery sales-validation notices missing');
+  }
   if(route==='/checklist/'&&!details.hasStock)failed.push('stock manager missing');
   if(route==='/reviews/fenix-e20-v2-flashlight/'){
     const a=await page.locator('a[href="https://link.coupang.com/a/idtdhvDZ3A"]').first();
