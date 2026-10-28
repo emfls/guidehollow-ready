@@ -1,26 +1,42 @@
 ---
 import Base from '../layouts/Base.astro';
 import { sources } from '../data/resources';
+const officialEmergency='https://safekorea.go.kr/safekorea-kor/acts/nacts/action-guide.do?actsHeaderTitle=%EB%B9%84%EC%83%81%EC%82%AC%ED%83%9C&category=stateOfEmergency&menuSn=4';
+const shelter='https://www.safekorea.go.kr/safekorea-kor/em/shelter/main.html';
 ---
-<Base title="가족 비상연락·대피 계획">
- <div class="container">
- <div class="page-intro"><span class="eyebrow">FAMILY PLAN</span><h1>가족이 헤어졌을 때,<br/>어디서 만날지 정했나요?</h1><p>휴대전화가 연결되지 않아도 합의한 행동을 할 수 있도록, 평상시에 정할 항목만 간단히 모았습니다.</p></div>
+<Base title="가족 비상연락·대피 계획" description="공식 민방위 대피시설과 대체 장소, 연락 두절 시 행동, 영유아·이동지원 준비를 인쇄용 카드로 정리합니다.">
+<div class="container">
+ <header class="page-intro"><span class="eyebrow">FAMILY PLAN</span><h1>연락이 끊겨도<br/>가족이 같은 계획을 따르도록</h1><p>평소에 작성해 함께 확인하는 비상계획입니다. 실제 경보 시에는 약속 장소보다 공식 대피 지시와 현장 안전이 우선입니다.</p></header>
+ <div class="emergency-panel"><div><span class="tag">중요</span><strong>한 곳만 정하지 말고 대체 장소와 경로를 준비하세요</strong><p>공습·화학 공격·침수는 필요한 대피 장소가 다를 수 있습니다. 사전에 정한 지하 시설이라도 침수나 오염 위험이 있으면 무조건 진입하지 마세요.</p></div><a class="btn primary" href="/situations/">상황별 행동요령 →</a></div>
  <section class="readable">
- <div class="info-note"><strong>기본 원칙</strong><p>실제 경보 발령 시에는 개인이 정해둔 만남 장소보다 <strong>공식 대피 지시와 현장 안전</strong>이 우선입니다. 아래는 평상시 가족 연락 계획을 위한 양식입니다.</p></div>
- <h2>1. 가까운 공식 대피소 두 곳 확인</h2><p>거주지와 직장·학교에서 각각 가까운 민방위 대피시설을 미리 알아두세요. 실제 지시에 따라 안전한 장소로 이동해야 하므로 하나의 고정 장소에만 의존하지 마세요.</p>
- <p><a href={sources.government} target="_blank" rel="noopener noreferrer">국민안전24에서 민방위 대피소 확인 ↗</a> · <a href={sources.shelterHelp} target="_blank" rel="noopener noreferrer">대피소 조회 방법 ↗</a></p>
- <h2>2. 연락이 안 될 때의 기준 정하기</h2><p>긴급하지 않은 연락은 통신 복구 이후에도 확인할 수 있도록 종이 연락처를 준비하고, 연락 담당자를 한 명 정하세요. 통신량이 많을 수 있으므로 공식 기관에서 요구하는 통신 우선순위를 따릅니다.</p>
- <h2>3. 가족 구성원별 준비</h2><p>영유아의 식사·기저귀·체온 유지, 고령자와 장애인의 이동 수단, 처방약·안경·보청기 등은 일반 준비물 목록만으로 빠질 수 있습니다. 각 가족의 필요를 별도 점검하세요.</p>
+  <h2>1. 생활권별 공식 대피시설과 경로 확인</h2>
+  <p>국민안전24·안전디딤돌 앱에서 <strong>민방위 대피시설</strong>을 검색해 집·직장·학교에서 접근 가능한 후보를 확인하세요. 평상시 도보 경로와 대체 경로를 살펴보고 건물명·출입구 등 필요한 정보를 종이에 적습니다.</p>
+  <p><a href={shelter} target="_blank" rel="noopener noreferrer">국민안전24 대피시설 조회 ↗</a> · <a href={sources.shelterHelp} target="_blank" rel="noopener noreferrer">대피소 조회 설명 ↗</a></p>
+  <p><strong>주의:</strong> 민방위 대피시설과 지진 옥외대피장소는 같은 분류가 아닙니다. 지하 시설의 침수 가능성·실제 출입 가능 여부도 현장 지시와 최신 정보로 재확인하세요.</p>
+  <h2>2. 연락 두절 시의 행동 합의</h2>
+  <p>가족별로 일상적으로 머무는 장소, 공식 대피 지시가 있을 때의 행동, 대피 후 안전 확인 방법을 미리 합의하세요. 비상시에는 긴급 신고나 공식 통신 안내가 우선이므로 불필요한 통화를 줄입니다.</p>
+  <p>한 사람이 연락되지 않는다고 위험지역으로 되돌아가지 마세요. 각자가 안전을 확보한 후 연락을 시도하고, 미리 정한 예비 연락 담당자에게 상황을 알리도록 계획합니다.</p>
+  <h2>3. 가족 구성원별 이동·돌봄 준비</h2>
+  <p>영유아는 분유·이유식·기저귀·보온과 보호자 분담을, 고령자·장애인은 이동 보조와 계단 이동 시 도움을 줄 사람을 확인하세요. 처방약·안경·보청기·충전기처럼 매일 필요한 물품도 따로 기록합니다.</p>
+  <h2>4. 목적지보다 공식 경보가 우선</h2>
+  <p>공습·핵 경보에는 지하 또는 콘크리트 건물 안쪽이 안내되지만, 화학 공격에는 외부 공기를 차단할 수 있는 높은 층의 실내 공간이 안내됩니다. 침수 우려가 있는 지하시설은 피해야 합니다. 실제 경보에 적힌 지역과 행동 지침을 따라 계획을 조정하세요.</p>
+  <p><a href={officialEmergency} target="_blank" rel="noopener noreferrer">국민안전24 비상시 국민행동요령 원문 ↗</a></p>
+  <h2>5. 인쇄 후 가족과 함께 확인</h2>
+  <p>이 카드에는 개인정보가 들어갑니다. 공용기기에서 인쇄한 뒤 출력물을 챙기고, 외부에 게시하거나 사진을 공개하지 마세요. 주소·담당자·시설 정보가 바뀌면 다시 작성하세요.</p>
  </section>
  <section class="worksheet" aria-label="인쇄용 가족 비상 계획">
- <div class="worksheet-head"><div><span class="section-label">PRINTABLE PLAN</span><h2>우리 가족 비상연락 카드</h2><p>인쇄해서 손으로 작성하세요. 이 사이트는 연락처를 수집하지 않습니다.</p></div><button type="button" class="btn primary print-button" onclick="window.print()">인쇄하기</button></div>
- <div class="blank-row"><strong>가족 연락 담당자</strong><span aria-label="직접 적는 칸"></span></div>
- <div class="blank-row"><strong>연락처 / 예비 연락처</strong><span></span></div>
- <div class="blank-row"><strong>집 주변 공식 대피시설</strong><span></span></div>
- <div class="blank-row"><strong>직장·학교 주변 대피시설</strong><span></span></div>
- <div class="blank-row"><strong>안전 확인 후 만날 장소</strong><span></span></div>
- <div class="blank-row"><strong>특별히 챙길 물품·약</strong><span></span></div>
- <p class="worksheet-foot">작성 후 가족과 공유하고, 주소·연락처가 다른 사람에게 노출되지 않도록 보관하세요.</p>
+  <div class="worksheet-head"><div><span class="section-label">PRINTABLE PLAN</span><h2>우리 가족 비상연락 카드</h2><p>인쇄해 손으로 작성하세요. 이 사이트는 연락처를 입력받거나 서버에 저장하지 않습니다.</p></div><button type="button" class="btn primary print-button" onclick="window.print()">인쇄하기</button></div>
+  <div class="blank-row"><strong>가족 연락 담당자 / 예비 담당자</strong><span aria-label="직접 적는 칸"></span></div>
+  <div class="blank-row"><strong>연락처 / 예비 연락처</strong><span></span></div>
+  <div class="blank-row"><strong>집 주변 공식 민방위 대피시설 1·2</strong><span></span></div>
+  <div class="blank-row"><strong>직장·학교 주변 대피시설</strong><span></span></div>
+  <div class="blank-row"><strong>기본 경로 / 막혔을 때 대체 경로</strong><span></span></div>
+  <div class="blank-row"><strong>안전 확인 후 연락·만남 기준</strong><span></span></div>
+  <div class="blank-row"><strong>영유아·고령자·장애인 지원 담당</strong><span></span></div>
+  <div class="blank-row"><strong>복용약·보조기기·필수 물품</strong><span></span></div>
+  <div class="blank-row"><strong>작성일 / 다음 점검일</strong><span></span></div>
+  <p class="worksheet-foot">가족과 함께 내용을 확인하고 분실·노출에 주의하세요. 대피시설 위치·운영 여부는 실제 상황에서 다시 확인해야 합니다.</p>
  </section>
- </div>
+ <p class="source-caption">공식 자료 확인: <time datetime="2026-10-28">2026년 10월 28일</time> · 국민안전24 비상시 행동요령 및 민방위 대피시설 안내. <a href="/sources/">출처 확인 →</a></p>
+</div>
 </Base>
