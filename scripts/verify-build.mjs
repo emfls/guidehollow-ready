@@ -31,7 +31,7 @@ if (!situationPage.includes('situation-shortcuts') || !situationPage.includes('f
 if (!file('buying/food/index.html').includes('buying-summary-grid') || !file('buying/gear/index.html').includes('buying-summary-grid')) throw Error('Evidence-first buying cards missing');
 const reviewHub=file('reviews/index.html');
 if(!reviewHub.includes('review-directory-grid')||!reviewHub.includes('review-featured-grid'))throw Error('Readable review directory not generated');
-if (!reviewHub.includes('구매 링크는 검증 후 연결합니다')||!reviewHub.includes('/reviews/emergency-flashlights-headlamps/')) throw Error('Verified product hub is missing the evidence-first summary or published report');
+if (!reviewHub.includes('실제 구매 링크는 동일 제품이 확인된 경우에만 표시합니다')||!reviewHub.includes('/reviews/emergency-flashlights-headlamps/')) throw Error('Verified product hub is missing purchase verification notice or existing report');
 if (!home.includes('href="/reviews/"')) throw Error('Product comparison discoverability missing from home');
 const starter=file('starter-kit/index.html');
 if(!starter.includes('OUR FAMILY READY KIT')||!starter.includes('guidehollow-ready-starter-set-v1')||!starter.includes('페닉스 E20 V2.0')||!starter.includes('idtdhvDZ3A'))throw Error('Starter kit missing functional checklist or vetted shopping product');
