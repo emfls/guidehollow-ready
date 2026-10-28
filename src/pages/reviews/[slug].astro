@@ -1,0 +1,41 @@
+---
+import Base from '../../layouts/Base.astro';
+import { render } from 'astro:content';
+import { getPublishedReviews } from '../../lib/reviews';
+import { resolvePartnerLink } from '../../lib/partner-code';
+export async function getStaticPaths() {
+ const rows=await getPublishedReviews();
+ return rows.map(row=>({params:{slug:row.id},props:{row}}));
+}
+const {row}=Astro.props;
+const {Content}=await render(row);
+const products=row.data.products.map(p=>({...p,partner:resolvePartnerLink(p)}));
+const date=row.data.publishedDate.toISOString().slice(0,10);
+---
+<Base title={row.data.title} description={row.data.description}>
+<div class="container narrow">
+ <div class="page-intro"><a href="/" class="eyebrow">GuideHollow Ready 구매 가이드</a>
+  {row.data.affiliate && <div class="ad-notice"><strong>광고·제휴 고지</strong> 이 글은 쿠팡파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받을 수 있습니다.</div>}
+  <h1>{row.data.title}</h1><p>{row.data.description}</p>
+  <p class="source-caption">발행 {date} {row.data.updatedDate ? `· 수정 ${row.data.updatedDate.toISOString().slice(0,10)}`:''} · 공식 출처 {row.data.sources.length}개 · {row.data.affiliate?'제휴 링크 포함':'제휴 링크 없음'}</p>
+ </div>
+ <article class="readable">
+  {row.data.keyTakeaways.length>0&&<div class="takeaway"><span>핵심 먼저</span><h2>구매 전에 알아둘 내용</h2><ul>{row.data.keyTakeaways.map(t=><li>{t}</li>)}</ul></div>}
+  <Content/>
+  {products.map(p=><section class="verified-item">
+    {p.partner?.imageUrl&&<img src={p.partner.imageUrl} alt={p.name} loading="lazy" decoding="async" referrerpolicy="no-referrer"/>}
+    <span class="tag">검증 확인 · {p.label}</span>
+    <h2>{p.name}</h2><p>모델: {p.modelNumber}</p>
+    <h3>이런 상황에 적합해요</h3><p>{p.bestFor}</p>
+    <h3>공식 자료로 확인한 장점</h3><ul>{p.strengths.map(t=><li>{t}</li>)}</ul>
+    <h3>구매 전 알아야 할 단점</h3><ul>{p.limitations.map(t=><li>{t}</li>)}</ul>
+    <h3>검증 근거</h3><p>{p.verificationNotes}</p>
+    <p><a href={p.independentSources[0]} target="_blank" rel="noopener noreferrer">독립 평가 근거 ↗</a></p>
+    <a class="btn secondary" href={p.officialUrl} target="_blank" rel="noopener noreferrer">제조사 공식 사양 ↗</a>
+    {p.partner&&<a class="btn primary" href={p.partner.url} rel="sponsored nofollow noopener noreferrer" target="_blank">쿠팡에서 동일 모델 확인 · 제휴 ↗</a>}
+    <p class="source-caption">검증일 {p.checkedAt.toISOString().slice(0,10)}. 실제 판매 조건·옵션은 구매 직전에 다시 확인하세요.</p>
+   </section>)}
+  <section class="references"><h2>자료·출처</h2><ul>{row.data.sources.map(url=><li><a href={url} target="_blank" rel="noopener noreferrer">{url}</a></li>)}</ul></section>
+  <p class="info-note">이 사이트는 실시간 경보 서비스가 아닙니다. 제품 사양은 변경될 수 있으므로 구매 전 판매처와 제조사 자료를 다시 확인하세요.</p>
+ </article>
+</div></Base>
