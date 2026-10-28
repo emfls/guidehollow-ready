@@ -7,7 +7,7 @@ import { sources } from '../../data/resources';
 <header class="page-intro">
  <span class="eyebrow">PREPAREDNESS GUIDE · VERIFIED 2026.10.28</span>
  <h1>비상식량은 얼마나, <em>어떤 순서로</em> 준비할까요?</h1>
- <p>먼저 집에 있는 식품을 확인하세요. 정전으로 조리를 못 하거나 단수로 씻을 물이 없을 때에도 사용할 수 있는지가 구매보다 중요합니다.</p>
+ <p>집에 있는 물과 음식을 먼저 확인하세요. 조리하지 않고 바로 먹을 수 있는 식품부터 준비하면 편합니다.</p>
 </header>
 <section class="buying-summary-cards" aria-label="식수·식품 구매 전 핵심 기준">
  <div class="buying-summary-head"><span class="section-label">CHECK BEFORE BUYING</span><strong>구매 전 확인할 세 가지</strong></div>
@@ -18,8 +18,7 @@ import { sources } from '../../data/resources';
  </nav>
  <div class="article-layout">
 <article class="article-main readable">
- <div class="takeaway"><span>먼저 점검할 세 가지</span><h2>조리·보관·가족 적합성</h2>
- <ul><li>물·전기·가스 없이 바로 먹을 식품이 있는가</li><li>제품별 표시 보관 방법과 소비기한을 지킬 수 있는가</li><li>영유아·고령자·알레르기 및 특수식 가족에게 맞는가</li></ul></div>
+ 
 
  <h2 id="duration">1. 초기 72시간과 전시 장기 비축 구분</h2>
  <div class="comparison-scroll" role="region" aria-label="기간별 준비 비교 표" tabindex="0">
@@ -31,10 +30,10 @@ import { sources } from '../../data/resources';
   </table>
  </div>
  <p class="table-help">모바일에서는 표를 좌우로 밀어 확인할 수 있습니다.</p>
- <p>국민안전24는 비상대비 물자로 조리·보관이 간편한 식량과 식수 <strong>30일분</strong>을 안내합니다. 가정에서 단계적으로 비축하되 사재기는 피하고, 평소 먹는 물품을 사용한 뒤 채우는 방식으로 관리하세요. <a href={sources.supplies} target="_blank" rel="noopener noreferrer">국내 공식 비상대비 물자 안내 ↗</a></p>
+ <p>이 사이트의 <strong>3일 체크리스트는 시작용</strong>입니다. 한국 국민안전24는 전시 비상대비로 식량과 식수 <strong>30일분</strong>을 안내합니다. 형편에 맞춰 조금씩 늘리고, 평소 먹는 것을 먼저 사용한 뒤 채우세요. <a href={sources.supplies} target="_blank" rel="noopener noreferrer">국내 공식 기준 보기 ↗</a></p>
 
  <h2 id="water">2. 가족 식수량은 이렇게 계산합니다</h2>
- <p>식수량에 대한 참고값으로 미국 CDC는 재난 시 <strong>1인 하루 최소 약 3.8리터(1갤런)</strong>, 우선 <strong>3일분</strong>의 물을 준비하도록 권고합니다. 이 값은 <strong>미국의 계획용 참고 기준</strong>이며 대한민국의 공식 최소 의무량이 아닙니다. 음용·기본 위생·조리에 사용하는 물을 고려한 수치이고 더위, 질병, 임신, 수유, 반려동물 등에 따라 더 필요할 수 있습니다.</p>
+ <p>미국 CDC의 참고 기준은 <strong>1명당 하루 약 3.8L</strong>입니다. 아래 계산기는 3일치 예상량을 보여줍니다. 이는 한국의 공식 의무량이 아니며, 더운 날씨·질병·수유·반려동물 유무에 따라 더 준비해야 할 수 있어요.</p>
  <section class="water-estimator" aria-labelledby="water-title">
   <h3 id="water-title">72시간 식수 준비량 계산</h3>
   <div class="water-form">
@@ -42,12 +41,12 @@ import { sources } from '../../data/resources';
    <input id="water-people" type="number" inputmode="numeric" min="1" max="30" step="1" value="1" />
    <div class="water-result"><span>3일 기본 참고량</span><output id="water-result" for="water-people">11.4 L</output></div>
   </div>
-  <p>계산: 인원 × 하루 3.8L × 3일. 개별 가족의 정확한 필요량을 판단하지 않는 계획 도구이며 입력값은 서버로 전송하거나 저장하지 않습니다.</p>
+  <p>미국 CDC 참고 기준으로 계산합니다. 가족 상황에 맞춰 더 준비하세요. 입력값은 저장하거나 서버로 보내지 않습니다.</p>
   <p><a href="/checklist/#water-coverage">집에 등록한 물과 72시간 참고량 비교하기 →</a> 실제 보유 물은 날짜와 보관 조건을 점검한 뒤 비축 관리표에 입력하세요.</p>
  </section>
- <p>시판 생수는 <strong>미개봉 상태와 실제 보관 조건·표기</strong>를 확인하세요. 임의로 용기에 담은 물은 용기 위생과 교체 관리가 별도로 필요합니다. 서늘하고 직사광선이 닿지 않는 곳에 보관하고 오염이 의심되면 안전한 물로 판단하지 마세요. <a href={sources.waterGuide} target="_blank" rel="noopener noreferrer">미국 CDC 비상식수 준비·보관 ↗</a></p>
+ <p>생수는 <strong>보관 방법과 표시 날짜</strong>를 따르세요. 직접 담은 물은 용기 세척과 교체가 따로 필요합니다. 오염이 의심되면 마시지 마세요. <a href={sources.waterGuide} target="_blank" rel="noopener noreferrer">미국 CDC 비상식수 준비·보관 ↗</a></p>
 
- <h2 id="conditions">3. 조리 조건별 식품 선택</h2>
+ <h2 id="conditions">3. 정전에도 먹을 수 있는 음식 고르기</h2>
  <div class="comparison-scroll" role="region" aria-label="비상식량 유형 비교 표" tabindex="0">
  <table><thead><tr><th scope="col">유형</th><th scope="col">장점</th><th scope="col">점검할 점</th></tr></thead><tbody>
  <tr><th scope="row">바로 먹는 상온 식품</th><td>열원·조리수 없이 이용 가능</td><td>실제 제품이 미개봉 상온 보관 가능한지, 알레르기 성분 확인</td></tr>
@@ -59,7 +58,7 @@ import { sources } from '../../data/resources';
  <p class="table-help">모바일에서는 표를 좌우로 밀어 비교하세요.</p>
  <p><strong>가스버너는 밀폐된 실내에서 사용하지 마세요.</strong> 일산화탄소 중독 위험이 있으므로 실내 조리를 전제로 비상식량을 고르지 않는 편이 안전합니다.</p>
 
- <h2 id="label">4. 포장에 적힌 6가지 확인</h2>
+ <h2 id="label">4. 포장에 적힌 것 확인하기</h2>
  <ol>
   <li><strong>소비기한</strong> — 구매 시 실제 수령 제품의 남은 기간 확인</li>
   <li><strong>보관 방법</strong> — 실온·냉장·냉동 여부, 온도·직사광선 조건 확인</li>
@@ -89,7 +88,7 @@ import { sources } from '../../data/resources';
   <li>실내에서 버너나 숯 등 연소기구를 사용해 조리하지 마세요.</li>
  </ul>
 
- <h2 id="rotation">7. 예산을 아끼는 순환 비축</h2>
+ <h2 id="rotation">7. 비용 아끼며 비축하는 법</h2>
  <ol>
   <li>집에 이미 있는 상온 식품과 생수의 수량·소비기한·보관 위치를 확인합니다.</li>
   <li>우선 조리 없는 식사와 물, 위생용품의 72시간 부족분만 채웁니다.</li>

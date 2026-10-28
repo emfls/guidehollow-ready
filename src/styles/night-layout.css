@@ -319,3 +319,17 @@ main{min-width:0}
  .guide-extra>summary{display:none!important}
  .review-product-grid,.review-directory-grid{grid-template-columns:1fr}
 }
+
+/* Short-form consumer buying guide and clear, always-visible safety note */
+.reading-start{border:1px solid #45675f;border-radius:13px;padding:18px 20px;background:#1b3639;margin:5px 0 26px}
+.reading-start strong{color:#f3d5a2;font-size:1rem}
+.reading-start p{color:#d4e4e0;margin:6px 0 0;line-height:1.7}
+.guide-choice-link{border:1px solid #668371;background:#273c36;border-radius:15px;padding:18px 20px;margin:15px 0 22px}
+.guide-choice-link strong{color:#f6dcb5}
+.guide-choice-link p{margin:7px 0 10px;color:#d2e5da}
+.guide-choice-link a{display:inline-block;color:#b8f1d9!important;font-weight:850;min-height:40px;padding:6px 0}
+.critical-buying-note{background:#322b2a;border:1px solid #946d4c;border-left:4px solid #ecb276;border-radius:13px;padding:18px 21px;margin:26px 0}
+.critical-buying-note h2{color:#f9dcb3!important;font-size:1.22rem!important;border:0!important;margin:0 0 8px!important;padding:0!important}
+.critical-buying-note p{color:#f0e1d5;line-height:1.7;margin:0}
+.critical-buying-note strong{color:#ffdaab!important}
+@media(max-width:540px){.reading-start,.guide-choice-link,.critical-buying-note{padding:15px 16px}.guide-choice-link p{font-size:.9rem}}
