@@ -1,6 +1,6 @@
 import {existsSync,readFileSync,readdirSync} from 'node:fs';
 import {join} from 'node:path';
-const required=['index.html','CNAME','.nojekyll','favicon.svg','robots.txt','sitemap.xml','rss.xml','situations/index.html','checklist/index.html','plan/index.html','buying/food/index.html','buying/gear/index.html','about/index.html','disclosure/index.html','privacy/index.html','sources/index.html'];
+const required=['index.html','CNAME','.nojekyll','favicon.svg','robots.txt','sitemap.xml','rss.xml','reviews/index.html','situations/index.html','checklist/index.html','plan/index.html','buying/food/index.html','buying/gear/index.html','about/index.html','disclosure/index.html','privacy/index.html','sources/index.html'];
 const file=(p)=>readFileSync(join('dist',p),'utf8');
 for(const p of required)if(!existsSync(join('dist',p)))throw Error('Build missing '+p);
 if(file('CNAME').trim()!=='ready.guidehollow.com')throw Error('CNAME mismatch');
@@ -28,12 +28,16 @@ if (!home.includes('QUICK ACCESS') || !home.includes('ACTION BY SITUATION') || !
 const situationPage=file('situations/index.html');
 if (!situationPage.includes('situation-shortcuts') || !situationPage.includes('first-action') || !situationPage.includes('action-details')) throw Error('Progressive situation action cards missing');
 if (!file('buying/food/index.html').includes('buying-summary-grid') || !file('buying/gear/index.html').includes('buying-summary-grid')) throw Error('Evidence-first buying cards missing');
+const reviewHub=file('reviews/index.html');
+if (!reviewHub.includes('구매 링크는 검증 후 연결합니다')||!reviewHub.includes('/reviews/emergency-flashlights-headlamps/')) throw Error('Verified product hub is missing the evidence-first summary or published report');
+if (!home.includes('href="/reviews/"')) throw Error('Product comparison discoverability missing from home');
 const check=file('checklist/index.html');
 if (!check.includes('check-category-nav') || !check.includes('id="kit-water"')) throw Error('Checklist group navigation missing');
 if(!check.includes('data-key="water-bottles"')||!check.includes('ready-progress')||!check.includes('localStorage'))throw Error('Interactive checklist incomplete');
 if(!file('plan/index.html').includes('가족 비상연락 카드'))throw Error('Printable family plan missing');
 if(!file('buying/food/index.html').includes('30일분')||!file('buying/gear/index.html').includes('일산화탄소'))throw Error('Buying safety guidance missing');
 const sitemap=file('sitemap.xml');
+if (!sitemap.includes('https://ready.guidehollow.com/reviews/')) throw Error('Review index absent from sitemap');
 if (!sitemap.includes('https://ready.guidehollow.com/rss.xml')) throw Error('Sitemap missing RSS');
 if(!sitemap.includes('https://ready.guidehollow.com/checklist/'))throw Error('Sitemap missing');
 if(sitemap.includes('sample-draft')||existsSync(join('dist','reviews','sample-draft','index.html')))throw Error('Draft leaked');
