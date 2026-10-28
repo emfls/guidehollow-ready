@@ -3,7 +3,7 @@ import Base from '../layouts/Base.astro';
 import { sources } from '../data/resources';
 const quickLinks=[
  {icon:'◉',label:'대피 행동요령',description:'경보 종류에 맞는 첫 행동',href:'/situations/',meta:'긴급 대처'},
- {icon:'☑',label:'준비물 체크리스트',description:'우리 집 초기 대비 상태 확인',href:'/checklist/',meta:'기본 22항목'},
+ {icon:'☑',label:'준비물 체크리스트',description:'집에 있는 준비물부터 점검',href:'/checklist/',meta:'기본 22항목'},
  {icon:'⌂',label:'가족 연락 계획',description:'연락 두절 시 집결·대체 계획',href:'/plan/',meta:'인쇄용 카드'},
  {icon:'▣',label:'비상 준비 장바구니',description:'물·식량·조명 6가지 한번에 점검',href:'/starter-kit/',meta:'부족한 것만 준비'},
 ] as const;
@@ -40,32 +40,28 @@ const situationLinks=[
   <a href={sources.government} target="_blank" rel="noopener noreferrer">공식 재난정보 확인 <span aria-hidden="true">↗</span></a>
  </section>
  <section class="section dashboard-section" aria-labelledby="quick-title">
-  <div class="section-head"><span class="section-label">QUICK ACCESS</span><h2 id="quick-title">필요한 정보, 바로 찾기</h2><p>긴 문서 대신 목적별로 필요한 기능에 바로 이동합니다.</p></div>
+  <div class="section-head"><span class="section-label">QUICK ACCESS</span><h2 id="quick-title">필요한 정보, 바로 찾기</h2><p>원하는 항목을 눌러 바로 이동하세요.</p></div>
   <div class="quick-grid">{quickLinks.map(item=><a href={item.href} class="brief-card">
    <span class="brief-card-icon" aria-hidden="true">{item.icon}</span>
    <small>{item.meta}</small><h3>{item.label}</h3><p>{item.description}</p>
    <span class="brief-card-action">바로 확인 ↗</span>
   </a>)}</div>
  </section>
- <section class="home-three-steps" aria-label="재난 대비 세 단계">
-  <strong>준비는 이렇게 시작하세요</strong>
-  <div><a href="https://www.safekorea.go.kr/safekorea-kor/flsm/flsm/facilitiesSafteyMap.do" target="_blank" rel="noopener noreferrer">① 대피시설 찾기 ↗</a><a href="/plan/">② 가족 연락 계획 →</a><a href="/starter-kit/">③ 부족한 준비물 확인 →</a></div>
- </section>
  <section class="section dashboard-section" id="situation-hub" aria-labelledby="situations-title">
   <div class="section-head"><span class="section-label">ACTION BY SITUATION</span><h2 id="situations-title">상황별 첫 행동</h2><p>카드를 선택하면 해당 상황의 자세한 행동요령으로 바로 이동합니다.</p></div>
-  <p class="home-swipe-hint">좌우로 넘겨 상황별 안내를 확인하세요 <span aria-hidden="true">↔</span></p>
+ 
   <div class="situation-hub-grid">{situationLinks.map(item=><a class:list={['situation-hub-card',{'situation-hub-card--urgent':item.warning}]} href={item.href}>
    <span class="situation-hub-icon" aria-hidden="true">{item.icon}</span><h3>{item.label}</h3><p>{item.description}</p>
    <span>상세 행동요령 ↗</span>
   </a>)}</div>
   <p class="hub-caution">경보 종류·지역·침수·오염 여부에 따라 대피 방법이 달라집니다. 위 내용은 사전 학습용 요약이며 실제 상황에서는 공식 지시를 우선하세요.</p>
  </section>
- <a class="home-kit-banner" href="/starter-kit/"><span aria-hidden="true">▣</span><div><strong>우리 집 비상 준비물, 6가지만 먼저 체크</strong><p>물·식량·조명 등 이미 있는 물건은 체크하고 부족한 것만 준비하세요.</p></div><b aria-hidden="true">→</b></a>
+ <a class="home-kit-banner" href="/starter-kit/"><span class="home-kit-symbol" aria-hidden="true">▣</span><div><strong>비상 준비물, 6가지부터 확인하기</strong><p>집에 있는 물품은 체크하고 부족한 것만 준비하세요.</p></div><span class="home-kit-arrow" aria-hidden="true">→</span></a>
  <section class="section" aria-labelledby="buying">
-  <div class="section-head"><span class="section-label">BUY ONLY WHAT YOU NEED</span><h2 id="buying">필요한 물품을 현명하게 고르는 법</h2><p>보관 조건·작동 시간·안전성과 사용 환경을 기준으로 살펴봅니다.</p></div>
+  <div class="section-head"><span class="section-label">BUY ONLY WHAT YOU NEED</span><h2 id="buying">비상물품, 어떻게 고를까요?</h2><p>구매 전에 필요한 것만 간단히 확인하세요.</p></div>
   <div class="split-cards">
-   <a class="split-card" href="/buying/food/"><span class="tag">비상식량</span><h3>조리가 어려울 때 먹을 수 있는가?</h3><p>보관 조건, 물 필요 여부, 소비기한, 가족의 식단을 확인합니다.</p><span>식량 선택 기준 보기 →</span></a>
-   <a class="split-card" href="/buying/gear/"><span class="tag">비상용품</span><h3>전기가 끊겨도 실제로 작동하는가?</h3><p>손전등·라디오·보조배터리·구급·위생용품의 확인 사항을 정리합니다.</p><span>용품 선택 기준 보기 →</span></a>
+   <a class="split-card" href="/buying/food/"><span class="tag">비상식량</span><h3>비상식량·식수 준비</h3><p>물과 전기가 없어도 먹을 수 있는지 살펴봐요.</p><span>식량 선택 기준 보기 →</span></a>
+   <a class="split-card" href="/buying/gear/"><span class="tag">비상용품</span><h3>손전등·전원·구급용품</h3><p>실제로 사용할 수 있는 제품을 고르는 기준.</p><span>용품 선택 기준 보기 →</span></a>
   </div>
  </section>
  </div>

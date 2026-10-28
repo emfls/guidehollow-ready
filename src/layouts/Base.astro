@@ -1,6 +1,6 @@
 ---
 import '../styles/global.css';
-import '../styles/ui-refresh.css';
+import '../styles/night-layout.css';
 import { site } from '../site';
 interface Props { title?: string; description?: string; noindex?: boolean }
 const {title='재난 대비 정보와 준비물 가이드',description=site.description,noindex=false}=Astro.props;
@@ -14,7 +14,7 @@ const path=Astro.url.pathname;
 <head>
  <meta charset="utf-8"/>
  <meta name="viewport" content="width=device-width,initial-scale=1"/>
- <meta name="theme-color" content="#ffffff"/>
+ <meta name="theme-color" content="#0e151d"/>
  <meta name="description" content={description}/>
  <meta name="robots" content={robots}/>
  <meta name="naver-site-verification" content="4a3c4cef3cedf9582280c00ff70ebff66b9b7de8"/>
