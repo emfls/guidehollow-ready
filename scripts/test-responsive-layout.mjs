@@ -88,11 +88,20 @@ try{
  }
  if(width===390){
   await page.goto(`http://127.0.0.1:${PORT}/starter-kit/`);
+  await page.locator('#starter-people').fill('3');
+  await page.locator('#starter-water-owned').fill('10');
+  if((await page.locator('#starter-water-needed').textContent())!=='34.2 L' || (await page.locator('#starter-water-gap').textContent())!=='24.2 L')errors.push({width,route:'/starter-kit/',issues:['family size and water gap calculator wrong']});
+  const missing=page.locator('#starter-missing-list li:visible');
+  if(await missing.count()!==6)errors.push({width,route:'/starter-kit/',issues:['initial missing-item summary does not show six unchecked categories']});
+  if(await page.locator('.starter-missing-buy').count()!==1)errors.push({width,route:'/starter-kit/',issues:['unverified products have improper buy links']});
   const c=page.locator('.starter-owned-checkbox');if(await c.count()!==6)errors.push({width,route:'/starter-kit/',issues:['six-item checklist missing']});
   else{
    await c.first().check();
    const number=await page.locator('#starter-ready-count').textContent();
    if(number!=='1')errors.push({width,route:'/starter-kit/',issues:['progress counter failed']});
+   if(await page.locator('#starter-missing-count').textContent()!=='5'||await missing.count()!==5)errors.push({width,route:'/starter-kit/',issues:['checked item is still in missing-only list']});
+   await page.locator('#starter-show-unchecked').click();
+   if(await page.locator('.starter-set-card:visible').count()!==5)errors.push({width,route:'/starter-kit/',issues:['only unchecked view did not filter completed cards']});
    await page.reload();if(await page.locator('#starter-ready-count').textContent()!=='1')errors.push({width,route:'/starter-kit/',issues:['progress persistence failed']});
    await page.locator('#starter-reset').click();
    if(await page.locator('#starter-ready-count').textContent()!=='0')errors.push({width,route:'/starter-kit/',issues:['reset button failed']});
