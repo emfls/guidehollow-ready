@@ -48,7 +48,7 @@ if (!situationPage.includes('situation-shortcuts') || !situationPage.includes('f
 if (!file('buying/food/index.html').includes('buying-summary-grid') || !file('buying/gear/index.html').includes('buying-summary-grid')) throw Error('Evidence-first buying cards missing');
 const reviewHub=file('reviews/index.html');
 if(!reviewHub.includes('review-directory-grid')||!reviewHub.includes('review-featured-grid'))throw Error('Readable review directory not generated');
-if (!reviewHub.includes('실제 구매 링크는 동일 제품이 확인된 경우에만 표시합니다')||!reviewHub.includes('/reviews/emergency-flashlights-headlamps/')) throw Error('Verified product hub is missing purchase verification notice or existing report');
+if (!reviewHub.includes('쿠팡 구매 링크는 등록 당시 동일 모델·옵션이 확인된 경우에만 표시하며')||!reviewHub.includes('/reviews/emergency-flashlights-headlamps/')) throw Error('Verified product hub is missing purchase verification notice or existing report');
 if (!home.includes('href="/reviews/"')) throw Error('Product comparison discoverability missing from home');
 if (!home.includes('href="/drill/"')) throw Error('Short routine practice is not linked from home');
 const drill=file('drill/index.html');
@@ -57,6 +57,10 @@ if((drill.match(/class="drill-card"/g)||[]).length!==3) throw Error('Exactly thr
 const starter=file('starter-kit/index.html');
 if(!starter.includes('우리 집 비상 준비')||!starter.includes('guidehollow-ready-starter-set-v1')||!starter.includes('페닉스 E20 V2.0')||!starter.includes('idtdhvDZ3A'))throw Error('Starter kit missing functional checklist or vetted shopping product');
 if(starter.includes('iframe')||starter.includes('한 번에 구매 완료'))throw Error('Unsafe iframe or misleading whole-kit purchase claim');
+if(!starter.includes('id="starter-personal"')||!starter.includes('id="starter-missing-count"')||!starter.includes('id="starter-people"')||!starter.includes('id="starter-water-owned"'))throw Error('Household calculator or missing-item overview not generated');
+if(!starter.includes('미체크는 미보유 확정이 아닙니다')||!starter.includes('현재 가격·재고·판매자·배송은 쿠팡에서 확인하세요'))throw Error('Shopping area lacks non-coercive disclosure of verification limits');
+if(!starter.includes('data-missing-for="water"')||!starter.includes('data-missing-for="light"')||!starter.includes('id="starter-show-unchecked"')||!starter.includes('id="starter-copy-missing"'))throw Error('Missing-only product decision tool incomplete');
+if((starter.match(/https:\/\/link\.coupang\.com\/a\/idtdhvDZ3A/g)||[]).length<1)throw Error('Approved affiliate link lost');
 const e20=file('reviews/fenix-e20-v2-flashlight/index.html');
 if(!e20.includes('simple-product-hero')||!e20.includes('simple-product-media')||!e20.includes('simple-buy-button')||!e20.includes('idtdhvDZ3A')||!e20.includes('sponsored nofollow'))throw Error('Product landing needs top image, visible buy button and verified link');
 if(e20.includes('공식 밝기와 사용 시간을 구별해야 합니다')||e20.includes('pageKey=2211811247'))throw Error('Technical tracking or dense old table leaked into shopping landing');

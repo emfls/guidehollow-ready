@@ -12,12 +12,12 @@ const groups=[
  {id:'carry',number:'06',icon:'🎒',title:'가방·옷·연락처',tag:'대피 준비',description:'급하게 이동해야 할 때 중요한 물건을 찾느라 시간을 쓰지 않도록 하세요.',need:'걷기 좋은 신발·여벌옷·가방·종이 연락처.',guide:'/plan/',guideText:'가족 대피 계획'},
 ] as const;
 ---
-<Base title="우리 집 비상 준비 장바구니: 6가지부터 챙기세요" description="물·음식·손전등·보조배터리·구급용품·가족 대피 준비를 한 화면에서 확인하세요. 집에 있는 것은 체크하고 부족한 것만 구매하세요.">
+<Base title="우리 집 비상 준비물 점검: 필요한 것만 준비하세요" description="가족 수에 따른 식수 참고량을 계산하고 기본 준비물 6가지 중 추가 확인할 품목과 구매 전 주의점을 한 화면에서 확인하세요.">
 <div class="container starter-hub">
  <header class="starter-hub-hero">
   <div class="starter-hub-copy"><span class="eyebrow">우리 집 비상 준비</span><h1>우리 집 비상용품,<br/><em>이 6가지부터 준비하세요</em></h1>
-   <p>한 가지씩 검색하느라 헤매지 않도록 <strong>필수 준비물만 한 장에</strong> 모았습니다. 이미 집에 있는 건 체크하고, 부족한 것만 채우세요.</p>
-   <a href="#starter-cards" class="btn primary">6가지 준비물 확인하기 ↓</a>
+   <p>가족 수에 맞는 식수량을 계산하고, <strong>이미 갖춘 물품은 체크</strong>하세요. 남은 항목은 아래 한눈에 모아 보여드립니다.</p>
+   <a href="#starter-personal" class="btn primary">우리 집 준비 상태 확인하기 ↓</a>
   </div>
   <aside class="starter-progress" aria-label="준비 현황">
     <span>우리 집 준비 현황</span><strong><span id="starter-ready-count">0</span><small> / 6가지</small></strong>
@@ -27,6 +27,31 @@ const groups=[
   </aside>
  </header>
  <div class="starter-notice"><strong>물건을 샀다고 대비가 모두 끝나는 것은 아닙니다.</strong><span>대피시설과 가족 연락 방법까지 확인해야 합니다. 구매 전 집에 있는 물건을 먼저 활용하세요.</span></div>
+<section class="starter-personal" id="starter-personal" aria-labelledby="starter-personal-title">
+  <div class="starter-personal-head">
+   <div><span class="section-label">평상시 준비 · 가족별 참고량</span><h2 id="starter-personal-title">우리 집에는 얼마나 필요할까요?</h2><p>가족 수와 보유한 물을 입력하면 <strong>72시간 식수 참고량과 부족한 양</strong>을 보여드립니다.</p></div>
+   <a href="/emergency/" class="starter-emergency-link">지금 위험하다면 긴급 행동 보기 →</a>
+  </div>
+  <div class="starter-water-calc">
+   <label for="starter-people">가족 인원 <input id="starter-people" type="number" inputmode="numeric" min="1" max="20" step="1" value="1" aria-describedby="starter-water-source"/> 명</label>
+   <label for="starter-water-owned">이미 비축한 안전한 물 <input id="starter-water-owned" type="number" inputmode="decimal" min="0" max="10000" step="0.1" value="0" aria-describedby="starter-water-source"/> L</label>
+   <div class="starter-water-result" aria-live="polite" aria-atomic="true">
+    <div><small>3일간 참고량</small><strong id="starter-water-needed">11.4 L</strong></div>
+    <div><small>추가 확인할 양</small><strong id="starter-water-gap">11.4 L</strong></div>
+   </div>
+  </div>
+  <p class="starter-water-note" id="starter-water-source">미국 CDC 참고량(1명 하루 약 3.8L × 3일)으로 음용과 기본 위생을 고려한 출발점입니다. 국내 전시 장기 비축 권고와 별도이며, 영유아·수유·질병·더위 등 상황에 따라 더 필요할 수 있습니다. <a href="/buying/food/">식수·보관 안내 보기 →</a> 입력한 인원과 물의 양은 서버에 전송하거나 저장하지 않습니다.</p>
+  <div class="starter-missing-head">
+   <div><h3>추가 확인할 품목 <span id="starter-missing-count" aria-live="polite">6</span>가지</h3><p>아직 체크하지 않은 품목을 모았습니다. <strong>미체크는 미보유 확정이 아닙니다.</strong> 집에 있는 수량과 작동 상태부터 확인하세요.</p></div>
+   <div class="starter-missing-actions"><button type="button" id="starter-show-unchecked" class="starter-tool-btn" aria-pressed="false">확인 필요만 보기</button><button type="button" id="starter-copy-missing" class="starter-tool-btn">목록 복사</button></div>
+  </div>
+  <ul class="starter-missing-list" id="starter-missing-list" aria-label="아직 확인하지 않은 준비물">
+   {groups.map(g=><li data-missing-for={g.id}><span><b>{g.icon} {g.title}</b><small>{g.need}</small></span><div class="starter-missing-row-actions"><a href={g.guide}>{g.guideText} →</a>{g.id==='light' && <a class="starter-missing-buy" href={verifiedFlashlightUrl} rel="sponsored nofollow noopener noreferrer" target="_blank">등록된 쿠팡 모델 확인 ↗</a>}</div></li>)}
+  </ul>
+  <div id="starter-missing-empty" class="starter-missing-empty" hidden>기본 6개 분야를 모두 확인했습니다. 실제 보유 수량·품질·소비기한과 가족 연락 계획도 점검하세요.</div>
+  <div id="starter-copy-fallback-wrap" class="starter-copy-fallback" hidden><label for="starter-copy-fallback">복사를 허용하지 않는 브라우저입니다. 아래 내용을 직접 선택해 복사하세요.</label><textarea id="starter-copy-fallback" readonly rows="8"></textarea></div>
+  <p class="starter-missing-note"><a href="/checklist/">기본 22개 항목과 영유아·어르신·반려동물 추가 준비 확인 →</a> · 해당하는 물품만 구매하세요. 쿠팡파트너스 제휴 링크는 손전등 1종에만 연결돼 있으며 구매 시 일정액의 수수료를 제공받습니다. 현재 가격·재고·판매자·배송은 쿠팡에서 확인하세요.</p>
+ </section>
  <section id="starter-cards" class="starter-list-section" aria-labelledby="starter-list-title">
   <div class="starter-list-heading"><div><span class="section-label">기본 6가지</span><h2 id="starter-list-title">먼저 챙길 기본 6가지</h2><p>체크는 '충분한 양과 작동 상태까지 확인했다'는 뜻으로 사용하세요.</p></div><button id="starter-reset" class="starter-reset" type="button">체크 초기화</button></div>
   <div class="starter-set-grid">
@@ -43,10 +68,10 @@ const groups=[
   </div>
   <section class="kit-featured-product" aria-labelledby="kit-product-title">
    <a class="kit-featured-image" href="/reviews/fenix-e20-v2-flashlight/"><img src={verifiedFlashlightImage} width="212" height="212" loading="lazy" decoding="async" referrerpolicy="no-referrer" alt="페닉스 E20 V2.0 손전등 상품 사진"/></a>
-   <div><span class="review-chip">실제 쿠팡 상품 링크 확인</span><h3 id="kit-product-title">추천 구매 후보 · 페닉스 E20 V2.0 손전등</h3><p>충전 없이 AA 건전지 2개로 사용하는 예비 손전등입니다. 필요한 분만 구매하고, 이미 손전등이 있다면 작동부터 확인하세요.</p>
+   <div><span class="review-chip">제조사 사양·쿠팡 등록 모델 확인</span><h3 id="kit-product-title">손전등이 없다면 · 페닉스 E20 V2.0</h3><p>휴대전화 배터리를 연락과 재난정보에 남겨두고 싶을 때 쓰는 별도 조명입니다. 충전 대신 AA 건전지 2개를 사용합니다.</p><ul class="kit-product-facts"><li><strong>좋은 점</strong> 건전지를 교체해 사용할 수 있고 밝기를 조절할 수 있습니다.</li><li><strong>구매 전</strong> AA 건전지 포함 여부·판매 옵션·가격·배송·A/S를 쿠팡에서 확인하세요. 양손을 써야 한다면 헤드랜턴도 비교하세요.</li></ul>
    <div class="kit-featured-actions"><a href={verifiedFlashlightUrl} rel="sponsored nofollow noopener noreferrer" target="_blank" class="starter-buy-now">쿠팡에서 상품 확인하기 ↗</a><a class="starter-guide-link" href="/reviews/fenix-e20-v2-flashlight/">장점·단점 읽기 →</a></div></div>
   </section>
-  <p class="starter-affiliate-notice">손전등 구매 버튼은 쿠팡파트너스 제휴 링크입니다. 이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다. 다른 품목에는 아직 검증되지 않은 상품 광고를 붙이지 않았습니다.</p>
+  <p class="starter-affiliate-notice">손전등 구매 버튼은 쿠팡파트너스 제휴 링크입니다. 제조사 정보와 판매 등록 모델을 참고했으며 직접 사용한 후기가 아닙니다. 이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다. 다른 품목에는 아직 검증되지 않은 상품 광고를 붙이지 않았습니다.</p>
  </section>
  <section class="starter-special" aria-labelledby="starter-special-title">
   <div><span class="section-label">가족에 맞춰 더 준비</span><h2 id="starter-special-title">우리 가족에게 필요한 건 더 챙기세요</h2><p>아기·어르신·반려동물이 함께라면 기본 세트만으로는 부족할 수 있습니다.</p></div>
@@ -68,11 +93,38 @@ const starterKey='guidehollow-ready-starter-set-v1';
 const counter=document.querySelector<HTMLElement>('#starter-ready-count');
 const progress=document.querySelector<HTMLProgressElement>('#starter-ready-progress');
 const status=document.querySelector<HTMLElement>('#starter-ready-status');
+const missingRows=[...document.querySelectorAll<HTMLElement>('[data-missing-for]')];
+const missingCount=document.querySelector<HTMLElement>('#starter-missing-count');
+const missingEmpty=document.querySelector<HTMLElement>('#starter-missing-empty');
+const missingFilter=document.querySelector<HTMLButtonElement>('#starter-show-unchecked');
+const peopleInput=document.querySelector<HTMLInputElement>('#starter-people');
+const waterOwnedInput=document.querySelector<HTMLInputElement>('#starter-water-owned');
+function updateWater(){
+ const validPeople=Number(peopleInput?.value);
+ const validOwned=Number(waterOwnedInput?.value);
+ const people=Number.isInteger(validPeople)&&validPeople>=1&&validPeople<=20?validPeople:1;
+ const owned=Number.isFinite(validOwned)&&validOwned>=0&&validOwned<=10000?validOwned:0;
+ const needed=Math.round(people*3*3.8*10)/10;
+ const gap=Math.round(Math.max(0,needed-owned)*10)/10;
+ const neededEl=document.querySelector<HTMLElement>('#starter-water-needed');
+ const gapEl=document.querySelector<HTMLElement>('#starter-water-gap');
+ if(neededEl)neededEl.textContent=needed.toFixed(1)+' L';
+ if(gapEl)gapEl.textContent=gap.toFixed(1)+' L';
+}
+peopleInput?.addEventListener('input',updateWater);
+waterOwnedInput?.addEventListener('input',updateWater);
+updateWater();
 function starterUpdate(){
  const n=starterCheckboxes.filter(x=>x.checked).length;
  if(counter)counter.textContent=String(n);
  if(progress)progress.value=n;
  if(status)status.textContent=n===6?'기본 6개 분야 점검 완료 · 대피·연락 계획도 확인하세요':n===0?'집에 있는 물건부터 표시해 보세요':n+'개 확인 · 부족한 품목을 이어서 준비하세요';
+ const missingIds=new Set(starterCheckboxes.filter(x=>!x.checked).map(x=>x.dataset.starterId));
+ missingRows.forEach(row=>{row.hidden=!missingIds.has(row.dataset.missingFor)});
+ if(missingCount)missingCount.textContent=String(missingIds.size);
+ if(missingEmpty)missingEmpty.hidden=missingIds.size!==0;
+ const filtered=missingFilter?.getAttribute('aria-pressed')==='true';
+ starterCheckboxes.forEach(x=>{const card=x.closest<HTMLElement>('.starter-set-card');if(card)card.hidden=filtered&&x.checked;});
 }
 try{
  const old=JSON.parse(localStorage.getItem(starterKey)||'[]');
@@ -88,5 +140,25 @@ document.querySelector('#starter-reset')?.addEventListener('click',()=>{
  try{localStorage.removeItem(starterKey)}catch{}
  starterUpdate();
 });
+missingFilter?.addEventListener('click',()=>{
+ missingFilter.setAttribute('aria-pressed',String(missingFilter.getAttribute('aria-pressed')!=='true'));
+ missingFilter.textContent=missingFilter.getAttribute('aria-pressed')==='true'?'6가지 모두 보기':'확인 필요만 보기';
+ starterUpdate();
+});
+const copyButton=document.querySelector<HTMLButtonElement>('#starter-copy-missing');
+copyButton?.addEventListener('click',async()=>{
+ const lines=missingRows.filter(row=>!row.hidden).map(row=>'- '+(row.querySelector('b')?.textContent?.trim()??'')+' · '+(row.querySelector('small')?.textContent?.trim()??''));
+ const text=['우리 집 추가 확인할 비상 준비물 (체크하지 않은 항목)',...lines,'실제 보유량과 품질 확인 후 부족한 것만 준비하세요.'].join('\\n');
+ try{
+  if(!navigator.clipboard?.writeText)throw Error('clipboard unavailable');
+  await navigator.clipboard.writeText(text);
+  copyButton.textContent='목록 복사됨';
+ }catch{
+  const wrap=document.querySelector<HTMLElement>('#starter-copy-fallback-wrap');
+  const fallback=document.querySelector<HTMLTextAreaElement>('#starter-copy-fallback');
+  if(wrap&&fallback){fallback.value=text;wrap.hidden=false;fallback.focus();fallback.select();}
+ }
+});
+
 </script>
 </Base>
