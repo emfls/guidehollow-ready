@@ -922,3 +922,31 @@ a:hover{color:#c1f0e4}
 @media(max-width:830px){.simple-product-hero{grid-template-columns:1fr;gap:20px}.simple-product-media>a{min-height:0}.simple-product-bottom-buy{flex-direction:column;align-items:stretch}.starter-hub-hero{grid-template-columns:1fr}.starter-progress{max-width:470px}.starter-special{display:block}.starter-special-links{margin-top:17px;min-width:0}.review-set-banner{flex-direction:column;align-items:start}}
 @media(max-width:630px){.simple-product-hero{padding:18px;gap:19px}.simple-product-intro h1{font-size:clamp(1.9rem,8vw,2.6rem)}.simple-product-three{grid-template-columns:1fr;gap:8px;margin:12px 0 28px}.simple-product-three>div{padding:14px}.simple-product-story.readable h2{font-size:1.3rem}.simple-product-bottom-buy{padding:18px}.simple-product-bottom-buy .simple-buy-button{width:100%}.starter-hub-hero{padding:37px 0 25px}.starter-hub-hero h1{font-size:clamp(2rem,8vw,2.8rem)}.starter-set-grid{grid-template-columns:1fr}.starter-set-desc{min-height:0}.starter-set-card{padding:19px}.starter-list-section{padding-top:32px}.starter-notice{padding:13px}.starter-special{padding:19px}.starter-final-steps{padding:25px 0}.starter-list-heading{align-items:start}.simple-product-disclosure{font-size:.73rem}}
 @media print{.starter-set-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.starter-set-card{break-inside:avoid}.simple-buy-button,.starter-buy-now{display:none}}
+
+/* CONTRAST CHECK FOR NIGHT SHELL — readable dark surrounds and light buying cards */
+.simple-product-crumb{color:#c1d7d2}
+.simple-product-crumb a{color:#afe9d0}
+.simple-product-crumb span:last-child{color:#e5eeee}
+.simple-product-intro h1{color:#1d3e31}
+.simple-product-intro h1 em{color:#26684a}
+.simple-product-media>a{color:#1b4e34}
+.simple-product-bottom-buy h2{color:#204c37}
+.simple-product-story.readable{color:#e1e9ea}
+.simple-product-story.readable h2{color:#fff0d8;border-bottom:1px solid #405660;border-left:3px solid #e6b47c;padding:4px 0 12px 14px}
+.simple-product-story.readable p{color:#d7e5e4}
+.simple-product-story.readable p strong{color:#ffe2ac}
+.simple-product-story.readable a:not(.btn){color:#b9efd8;text-decoration:underline}
+.simple-product-related a{color:#b4f0d7;text-decoration:underline;text-underline-offset:3px}
+.starter-hub-hero h1{color:#f5f7f5}
+.starter-hub-hero h1 em{color:#f5c38c}
+.starter-hub-copy>p{color:#c5d7d6}
+.starter-hub-copy>p strong{color:#fff1d7}
+.starter-list-heading h2{color:#f5f7f3}
+.starter-list-heading p{color:#c1d2d0}
+.starter-set-card h3{color:#1f4332}
+.starter-special h2{color:#214d37}
+.starter-final-steps h2{color:#f4f5f1}
+.starter-hub .section-label{color:#b5ebd2}
+.starter-hub .starter-list-heading .section-label,.starter-hub .starter-special .section-label{color:#347955}
+.starter-hub .starter-set-card,.starter-hub .starter-special,.simple-product-hero{color:#203e30}
+@media(max-width:630px){.simple-product-media>a{padding:12px 8px;min-height:0}.simple-product-media img{max-height:176px;width:auto}.simple-product-hero{gap:12px}.starter-set-card h3{font-size:1.17rem}}
