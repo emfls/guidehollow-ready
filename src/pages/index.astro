@@ -21,16 +21,33 @@ const situationLinks=[
 ---
 <Base title="전시·재난 대비, 오늘부터 할 수 있는 준비">
  <div class="container">
- <section class="hero brief-hero" aria-labelledby="hero-title">
+ <section class="emergency-home-action" aria-labelledby="emergency-home-title" id="right-now">
+  <div class="emergency-home-heading">
+    <div><span class="emergency-home-label">지금 위험한 상황이라면</span><h2 id="emergency-home-title">경보를 받았나요? 먼저 안전을 확보하세요</h2>
+    <p>여기는 실시간 경보 화면이 아닙니다. 아래는 사전 작성된 요약이며 <strong>실제 재난문자·방송·현장 지시가 우선</strong>입니다.</p></div>
+    <a class="emergency-home-all" href="/emergency/">상황별 즉시 행동 보기 →</a>
+  </div>
+  <div class="emergency-home-three">
+    <a href="/emergency/#air-raid" class="emergency-home-card"><span>공습·포격</span><strong>튼튼한 건물 안쪽이나 안전한 대피시설로 피하세요</strong><small>대피 장소 확인 →</small></a>
+    <a href="/emergency/#chemical" class="emergency-home-card"><span>화학 공격</span><strong>경보를 확인하고 외부 공기 유입을 차단하세요</strong><small>실내 대기 기준 →</small></a>
+    <a href="/emergency/#nuclear" class="emergency-home-card"><span>핵·낙진</span><strong>지하 또는 두꺼운 건물 중앙으로 대피하세요</strong><small>폭발·낙진 대응 →</small></a>
+  </div>
+  <div class="emergency-home-links">
+    <a class="emergency-shelter-link" href="https://www.safekorea.go.kr/safekorea-kor/flsm/flsm/facilitiesSafteyMap.do" target="_blank" rel="noopener noreferrer"><strong>공식 민방위 대피소 찾기 ↗</strong><small>국민안전24 시설안전지도 · 지역 선택 필요</small></a>
+    <a class="emergency-save-link" href="/offline/ready-card.html" download="가족_재난_행동카드.html"><strong>인터넷 없이 볼 행동카드 저장 ↓</strong><small>미리 내려받아 열거나 PDF로 인쇄하세요</small></a>
+  </div>
+</section>
+<section class="home-routine-heading" aria-label="평상시 준비 안내"><span>평상시 준비하기</span><p>긴급하지 않다면 가족 연락·준비물을 차근차근 점검하세요.</p></section>
+<section class="hero brief-hero" aria-labelledby="hero-title">
   <div class="hero-copy">
    <span class="eyebrow">전시·재난 대비 생활 안내</span>
    <h1 id="hero-title">전시·재난 대비, <em>필요한 준비부터.</em></h1>
    <p class="lead"><strong>대피 방법·가족 연락·비상물품</strong>을 평상시 미리 확인하세요. 실제 상황은 정부 경보와 현장 지시가 우선입니다.</p>
-   <div class="hero-actions"><a class="btn primary" href="#situation-hub">상황별 첫 행동 찾기 →</a><a class="btn secondary" href="/checklist/">우리 집 준비 점검</a></div>
-   <p class="brief-meta">비공식 민간 정보 사이트 · 실시간 경보 제공 안 함</p>
+   <div class="hero-actions"><a class="btn primary" href="/plan/">가족 연락 계획 만들기 →</a><a class="btn secondary" href="/checklist/">우리 집 준비 점검</a></div>
+   <p class="brief-meta">정보 확인일: 2026년 10월 28일 · 실제 재난에는 최신 공식 지시 우선</p>
   </div>
   <aside class="brief-box" aria-label="사이트 이용 순서">
-   <span>QUICK BRIEF</span><h2>확인 → 계획 → 준비</h2>
+   <span>평소 준비 순서</span><h2>확인 → 계획 → 준비</h2>
    <p>평상시에는 먼저 대피소를 확인하고 가족 연락 계획과 물품을 준비하세요.</p>
    <a href={sources.government} target="_blank" rel="noopener noreferrer">국민안전24 공식 안내 ↗</a>
   </aside>
@@ -40,7 +57,7 @@ const situationLinks=[
   <a href={sources.government} target="_blank" rel="noopener noreferrer">공식 재난정보 확인 <span aria-hidden="true">↗</span></a>
  </section>
  <section class="section dashboard-section" aria-labelledby="quick-title">
-  <div class="section-head"><span class="section-label">QUICK ACCESS</span><h2 id="quick-title">필요한 정보, 바로 찾기</h2><p>원하는 항목을 눌러 바로 이동하세요.</p></div>
+  <div class="section-head"><span class="section-label">평소 준비</span><h2 id="quick-title">필요한 정보, 바로 찾기</h2><p>원하는 항목을 눌러 바로 이동하세요.</p></div>
   <div class="quick-grid">{quickLinks.map(item=><a href={item.href} class="brief-card">
    <span class="brief-card-icon" aria-hidden="true">{item.icon}</span>
    <small>{item.meta}</small><h3>{item.label}</h3><p>{item.description}</p>
@@ -48,7 +65,7 @@ const situationLinks=[
   </a>)}</div>
  </section>
  <section class="section dashboard-section" id="situation-hub" aria-labelledby="situations-title">
-  <div class="section-head"><span class="section-label">ACTION BY SITUATION</span><h2 id="situations-title">상황별 첫 행동</h2><p>카드를 선택하면 해당 상황의 자세한 행동요령으로 바로 이동합니다.</p></div>
+  <div class="section-head"><span class="section-label">상황별 안내</span><h2 id="situations-title">상황별 첫 행동</h2><p>카드를 선택하면 해당 상황의 자세한 행동요령으로 바로 이동합니다.</p></div>
  
   <div class="situation-hub-grid">{situationLinks.map(item=><a class:list={['situation-hub-card',{'situation-hub-card--urgent':item.warning}]} href={item.href}>
    <span class="situation-hub-icon" aria-hidden="true">{item.icon}</span><h3>{item.label}</h3><p>{item.description}</p>
@@ -58,7 +75,7 @@ const situationLinks=[
  </section>
  <a class="home-kit-banner" href="/starter-kit/"><span class="home-kit-symbol" aria-hidden="true">▣</span><div><strong>비상 준비물, 6가지부터 확인하기</strong><p>집에 있는 물품은 체크하고 부족한 것만 준비하세요.</p></div><span class="home-kit-arrow" aria-hidden="true">→</span></a>
  <section class="section" aria-labelledby="buying">
-  <div class="section-head"><span class="section-label">BUY ONLY WHAT YOU NEED</span><h2 id="buying">비상물품, 어떻게 고를까요?</h2><p>구매 전에 필요한 것만 간단히 확인하세요.</p></div>
+  <div class="section-head"><span class="section-label">필요한 것만 준비</span><h2 id="buying">비상물품, 어떻게 고를까요?</h2><p>구매 전에 필요한 것만 간단히 확인하세요.</p></div>
   <div class="split-cards">
    <a class="split-card" href="/buying/food/"><span class="tag">비상식량</span><h3>비상식량·식수 준비</h3><p>물과 전기가 없어도 먹을 수 있는지 살펴봐요.</p><span>식량 선택 기준 보기 →</span></a>
    <a class="split-card" href="/buying/gear/"><span class="tag">비상용품</span><h3>손전등·전원·구급용품</h3><p>실제로 사용할 수 있는 제품을 고르는 기준.</p><span>용품 선택 기준 보기 →</span></a>

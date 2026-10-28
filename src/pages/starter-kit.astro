@@ -15,12 +15,12 @@ const groups=[
 <Base title="우리 집 비상 준비 장바구니: 6가지부터 챙기세요" description="물·음식·손전등·보조배터리·구급용품·가족 대피 준비를 한 화면에서 확인하세요. 집에 있는 것은 체크하고 부족한 것만 구매하세요.">
 <div class="container starter-hub">
  <header class="starter-hub-hero">
-  <div class="starter-hub-copy"><span class="eyebrow">OUR FAMILY READY KIT</span><h1>우리 집 비상용품,<br/><em>이 6가지부터 준비하세요</em></h1>
+  <div class="starter-hub-copy"><span class="eyebrow">우리 집 비상 준비</span><h1>우리 집 비상용품,<br/><em>이 6가지부터 준비하세요</em></h1>
    <p>한 가지씩 검색하느라 헤매지 않도록 <strong>필수 준비물만 한 장에</strong> 모았습니다. 이미 집에 있는 건 체크하고, 부족한 것만 채우세요.</p>
    <a href="#starter-cards" class="btn primary">6가지 준비물 확인하기 ↓</a>
   </div>
   <aside class="starter-progress" aria-label="준비 현황">
-    <span>MY READY LIST</span><strong><span id="starter-ready-count">0</span><small> / 6가지</small></strong>
+    <span>우리 집 준비 현황</span><strong><span id="starter-ready-count">0</span><small> / 6가지</small></strong>
     <p id="starter-ready-status" aria-live="polite">집에 있는 물건부터 표시해 보세요</p>
     <progress id="starter-ready-progress" max="6" value="0" aria-label="6가지 기본 준비물 점검 현황">0/6</progress>
     <small>체크 결과는 이 브라우저에만 저장됩니다</small>
@@ -28,7 +28,7 @@ const groups=[
  </header>
  <div class="starter-notice"><strong>물건을 샀다고 대비가 모두 끝나는 것은 아닙니다.</strong><span>대피시설과 가족 연락 방법까지 확인해야 합니다. 구매 전 집에 있는 물건을 먼저 활용하세요.</span></div>
  <section id="starter-cards" class="starter-list-section" aria-labelledby="starter-list-title">
-  <div class="starter-list-heading"><div><span class="section-label">YOUR FIRST 6</span><h2 id="starter-list-title">먼저 챙길 기본 6가지</h2><p>체크는 '충분한 양과 작동 상태까지 확인했다'는 뜻으로 사용하세요.</p></div><button id="starter-reset" class="starter-reset" type="button">체크 초기화</button></div>
+  <div class="starter-list-heading"><div><span class="section-label">기본 6가지</span><h2 id="starter-list-title">먼저 챙길 기본 6가지</h2><p>체크는 '충분한 양과 작동 상태까지 확인했다'는 뜻으로 사용하세요.</p></div><button id="starter-reset" class="starter-reset" type="button">체크 초기화</button></div>
   <div class="starter-set-grid">
    {groups.map(g=><article class="starter-set-card">
      <div class="starter-set-card-top"><span class="starter-set-index">{g.number}</span><span class="starter-set-emoji" aria-hidden="true">{g.icon}</span><span class="starter-set-tag">{g.tag}</span></div>
@@ -49,7 +49,7 @@ const groups=[
   <p class="starter-affiliate-notice">손전등 구매 버튼은 쿠팡파트너스 제휴 링크입니다. 이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다. 다른 품목에는 아직 검증되지 않은 상품 광고를 붙이지 않았습니다.</p>
  </section>
  <section class="starter-special" aria-labelledby="starter-special-title">
-  <div><span class="section-label">FAMILY ADD-ONS</span><h2 id="starter-special-title">우리 가족에게 필요한 건 더 챙기세요</h2><p>아기·어르신·반려동물이 함께라면 기본 세트만으로는 부족할 수 있습니다.</p></div>
+  <div><span class="section-label">가족에 맞춰 더 준비</span><h2 id="starter-special-title">우리 가족에게 필요한 건 더 챙기세요</h2><p>아기·어르신·반려동물이 함께라면 기본 세트만으로는 부족할 수 있습니다.</p></div>
   <div class="starter-special-links"><a href="/checklist/#kit-baby">🍼 영유아 기저귀·수유용품 →</a><a href="/checklist/#kit-care">💊 복용약·돌봄 용품 →</a><a href="/checklist/#kit-pet">🐾 반려동물 사료·이동장 →</a></div>
  </section>
  <section class="starter-final-steps" aria-labelledby="starter-final-title">
