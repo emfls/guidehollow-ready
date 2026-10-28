@@ -94,6 +94,7 @@ try{
   const missing=page.locator('#starter-missing-list li:visible');
   if(await missing.count()!==6)errors.push({width,route:'/starter-kit/',issues:['initial missing-item summary does not show six unchecked categories']});
   if(await page.locator('.starter-missing-buy').count()!==1)errors.push({width,route:'/starter-kit/',issues:['unverified products have improper buy links']});
+  await page.locator('#starter-personal').screenshot({path:'.qa-screenshots/starter-personal-390.png'});screenshots++;
   const c=page.locator('.starter-owned-checkbox');if(await c.count()!==6)errors.push({width,route:'/starter-kit/',issues:['six-item checklist missing']});
   else{
    await c.first().check();
