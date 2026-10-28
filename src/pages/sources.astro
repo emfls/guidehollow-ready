@@ -4,14 +4,14 @@ import { sources } from '../data/resources';
 const verified='2026-10-28';
 const refs=[
  {agency:'행정안전부 · 국민안전24',title:'비상시 국민행동요령',detail:'경계·공습·화생방·핵 경보, 대피 후 행동, 재난 유형별 대피 위치',href:'https://safekorea.go.kr/safekorea-kor/acts/nacts/action-guide.do?actsHeaderTitle=%EB%B9%84%EC%83%81%EC%82%AC%ED%83%9C&category=stateOfEmergency&menuSn=4'},
- {agency:'행정안전부',title:'민방위 경보 종류·발령 체계',detail:'경계경보·공습경보·화생방경보·핵 경보의 의미와 신호 방식',href:'https://www.mois.go.kr/frt/sub/a06/b12/civildefensework/screen.do'},
+ {agency:'행정안전부',title:'민방위 경보 종류·발령 체계',detail:'공습·핵 경보는 모두 1분 사이렌+음성방송, 경계·화생방·해제는 음성방송. 사이렌 소리만으로 종류를 판정할 수 없음',href:'https://www.mois.go.kr/frt/sub/a06/b12/civildefensework/screen.do'},
  {agency:'행정안전부 · 국민안전24',title:'시설안전지도 — 민방위 대피소',detail:'대피시설 → 민방위 대피소 선택. 시설 위치와 경로를 확인하고 실제 운영·접근 가능 여부는 별도 확인',href:'https://www.safekorea.go.kr/safekorea-kor/flsm/flsm/facilitiesSafteyMap.do'},
  {agency:'행정안전부 · 국민안전24',title:'시설안전지도 — 비상급수시설',detail:'대피시설 → 비상급수시설 선택. 물 공급 가능 여부·용도·운영시간은 지자체 안내로 재확인',href:'https://www.safekorea.go.kr/safekorea-kor/flsm/flsm/facilitiesSafteyMap.do'},
- {agency:'행정안전부 · 국민안전24',title:'민방위 대피시설 경량 조회',detail:'일반 안전지도에 접근하기 어려울 때 지역을 선택해 이용할 수 있는 별도 화면',href:'https://www.safekorea.go.kr/safekorea-kor/em/shelter/emergency_df2.html'},
+ {agency:'행정안전부 · 국민안전24',title:'민방위 대피시설 경량 조회',detail:'시·도 및 시·군·구 등 검색 지역 선택 후 조회. 초기 전체 0건은 시설 부재를 뜻하지 않음',href:'https://www.safekorea.go.kr/safekorea-kor/em/shelter/emergency_df2.html'},
  {agency:'행정안전부 · 국민안전24',title:'민방위 급수시설 경량 조회',detail:'대체 검색 경로. 지역을 선택하고 시설 정보를 재확인',href:'https://www.safekorea.go.kr/safekorea-kor/em/shelter/emergency_df3.html'},
  {agency:'행정안전부',title:'2026년 비상시 국민행동요령 홍보책자·리플릿',detail:'2026년 8월 13일 공개한 최신 공식 홍보자료. 브라우저에서 책자·리플릿 자료 확인',href:'https://www.mois.go.kr/frt/bbs/type001/commonSelectBoardArticle.do?bbsId=BBSMSTR_000000000015&nttId=128721'},
  {agency:'행정안전부',title:'민방위 비상급수시설 현황 조회 안내',detail:'2026년 10월 21일 공개한 정부 안내. 국민안전24 지도에서 지역별 급수시설 조회 가능',href:'https://www.mois.go.kr/frt/bbs/type001/commonSelectBoardArticle.do?bbsId=BBSMSTR_000000000327&nttId=130400'},
- {agency:'행정안전부 · 국민안전24',title:'민방공 경보해제의 의미와 신호',detail:'민방공 경보 종류 중 경보해제의 기준, 음성방송 방식 및 경보 단계 안내',href:'https://www.safekorea.go.kr/safekorea-kor/edtr/clns/cdal/civilDefenseAlarm.do?menuSn=57'},
+ {agency:'행정안전부 · 국민안전24',title:'민방공 경보해제의 의미와 신호',detail:'경보해제는 음성방송으로 안내. 사이렌 정지만으로 해제 여부를 판단하지 않고 해당 지역의 후속 지시를 확인',href:'https://www.safekorea.go.kr/safekorea-kor/edtr/clns/cdal/civilDefenseAlarm.do?menuSn=57'},
  {agency:'행정안전부 · 국민안전24',title:'화학사고 대피소 공식 지도',detail:'대피시설에서 화학사고 대피소를 따로 선택. 지도 표시가 실시간 개방·수용 가능 여부를 보증하지 않음',href:'https://www.safekorea.go.kr/safekorea-kor/flsm/flsm/facilitiesSafteyMap.do?menuSn=234'},
  {agency:'행정안전부 · 국민안전24',title:'화학사고재난 단계별 국민행동요령',detail:'누출 현장 발견 시 이탈·119 신고, 재난문자 수신 후 실내 대기, 주민대피명령 시 이동, 복귀 후 오염 식수·물품 주의',href:'https://safekorea.go.kr/safekorea-kor/acts/nacts/action-guide.do?actsHeaderTitle=%ED%99%94%ED%95%99%EC%82%AC%EA%B3%A0%EC%9E%AC%EB%82%9C&category=chemicalAccidentDisaster&menuSn=4'},
  {agency:'행정안전부 · 국민안전24',title:'화생방무기 대응·자가 제염',detail:'화학무기 노출 후 흐르는 물 15분 이상 세척과 오염 의복 분리, 핵·방사능 낙진 후 온수·비누·샴푸 세척과 린스 미사용 안내',href:'https://safekorea.go.kr/safekorea-kor/acts/nacts/action-guide.do?actsHeaderTitle=%ED%99%94%EC%83%9D%EB%B0%A9%EB%AC%B4%EA%B8%B0&category=chemicalandBiologicalWeapons&menuSn=4'},
@@ -43,11 +43,15 @@ const refs=[
  {refs.map(item=><a href={item.href} target="_blank" rel="noopener noreferrer" class="source-card"><span>{item.agency}</span><strong>{item.title}</strong><p>{item.detail}</p><b>공식 원문 보기 ↗</b></a>)}
  </div>
  <section class="readable">
+  <h2>민방공 경보음만으로 공습과 핵 경보를 구분할 수 없습니다</h2>
+  <p>행정안전부와 국민안전24의 민방위 경보 기준에 따르면 <strong>공습경보와 핵 경보에는 모두 사이렌 1분과 음성방송</strong>을 사용합니다. 두 경보의 실제 대응이 달라질 수 있으므로 사이렌의 소리만 듣고 유형을 추측하지 말고 방송·재난문자로 경보 이름과 대상 지역을 확인하세요. 급박한 위협 아래에서는 확인 때문에 즉각적인 보호 행동을 지연하지 않습니다.</p>
+  <p><strong>경계경보·화생방경보·경보해제</strong>는 음성방송으로 안내됩니다. 사이렌이 없거나 멈춘 것만으로 경보가 해제됐다고 볼 수 없습니다. 재난경보·훈련·추모 등 다른 사이렌 사용도 있으므로 경보문과 공식 안내가 우선입니다.</p>
+  <p><a href="/situations/#alarm-signals">경보별 신호 방식·확인 항목 보기 →</a> · <a href="https://www.mois.go.kr/frt/sub/a06/b12/civildefensework/screen.do" target="_blank" rel="noopener noreferrer">행정안전부 민방위 경보 기준 ↗</a></p>
   <h2>대피시설을 조회할 때 유의하세요</h2>
   <p>민방위 대피시설, 지진 옥외대피장소, 지진해일 긴급대피장소, 침수 대피장소는 목적이 다릅니다. 지도에 표시된 장소라도 모든 재난에 적합하다는 뜻은 아닙니다. 최신 시설 정보·접근 가능 여부·현장 대피 지시를 함께 확인하세요.</p>
   <p>안전디딤돌 앱이나 지도 앱에서 ‘민방위 대피소’를 검색할 수 있습니다. 검색 결과를 공식 지정 여부나 실시간 수용 가능 인원의 보증으로 간주하지 마세요.</p>
   <p>시설안전지도에서 <strong>민방위 대피소·지진옥외 대피소·지진해일 대피소·화학사고 대피소</strong>는 서로 다른 항목입니다. 산불 때는 지도에 보이는 아무 대피소가 아니라 지자체·구조기관이 안내하는 대피장소로 이동해야 합니다.</p>
-  <p>시설안전지도는 <strong>대피시설 → 민방위 대피소</strong>와 <strong>대피시설 → 비상급수시설</strong>을 구분해 표시합니다. 정부의 경량 조회 페이지가 기본 상태에서 ‘0건’을 표시하더라도 지역을 선택하기 전에는 대피시설 부재로 해석하지 마세요. 지도와 검색 결과는 실시간 수용 인원·개방 여부·급수 가능 여부를 보장하지 않습니다.</p>
+  <p>시설안전지도는 <strong>대피시설 → 민방위 대피소</strong>와 <strong>대피시설 → 비상급수시설</strong>을 구분해 표시합니다. 정부의 경량 조회 페이지에서 지역을 선택하기 전에 보이는 ‘전체 0건’은 검색 전 초기 상태일 수 있습니다. <strong>시·도와 시·군·구 등 조회 지역을 선택한 뒤 검색</strong>해야 하며, 초기 0건으로 대피시설의 유무를 판단하지 마세요. 지도와 검색 결과는 실시간 수용 인원·개방 여부·급수 가능 여부를 보장하지 않습니다.</p>
   <h2>화학사고와 화학 공격은 구분하세요</h2>
   <p><strong>산업시설·운송시설의 화학물질 누출</strong>과 <strong>화학무기 공격</strong>은 같은 사고가 아닙니다. 화학사고 현장을 직접 발견하면 누출 지역에서 최대한 멀리 벗어나 안전한 장소에서 119에 신고합니다. 반대로 실외 사고 소식을 재난문자로 받은 경우에는 별도 대피 지시가 없는 한 안전한 실내에서 후속 안내를 확인합니다. 지자체·경찰이 주민대피명령을 내리면 그 경로와 장소를 따릅니다.</p>
   <p>지자체가 알려주는 물질 종류·사고 위치·풍향·실내 대기 또는 이동 지시가 최우선입니다. 특정 층이 모든 화학사고에 안전하다고 가정하지 마세요. 국민안전24의 화생방무기 안내에 나오는 세척 시간은 모든 산업용 화학물질의 처치 기준이 아닙니다.</p>
