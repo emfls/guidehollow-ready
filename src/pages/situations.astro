@@ -18,6 +18,7 @@ const official = {
  waterFacility: 'https://www.safekorea.go.kr/safekorea-kor/em/shelter/emergency_df3.html',
  earthquake: 'https://www.weather.go.kr/w/wnuri-eqk-vol/eqk/warning.do',
  tsunami: 'https://safekorea.go.kr/safekorea-kor/em/emergency/emergency_eq3.html',
+ tsunamiNotice: 'https://www.kma.go.kr/kma/flexer/html/press/2026/07/29/ATC202607290854052_afb10121-1724-4b48-9b59-309334531167.hwp.files/Sections1.html',
  landslide: 'https://safekorea.go.kr/safekorea-kor/acts/nacts/action-guide.do?actsHeaderTitle=%EC%82%B0%EC%82%AC%ED%83%9C&category=landSlide&menuSn=4',
  wildfire: 'https://www.safekorea.go.kr/safekorea-kor/acts/nacts/action-guide.do?category=forestFires&menuSn=4',
  fire: 'https://www.safekorea.go.kr/safekorea-kor/acts/nacts/action-guide.do?actsHeaderTitle=%ED%99%94%EC%9E%AC&category=fires&menuSn=4',
@@ -35,7 +36,7 @@ const situations = [
  {id:'nuclear',name:'핵 경보·방사능 낙진',time:'핵 경보가 발령되거나 폭발·낙진 위험을 알게 됐을 때',points:['핵 경보를 받았다면 가까운 민방위 대피시설이나 지하시설, 두꺼운 콘크리트 건물의 창문 없는 안쪽으로 신속히 대피합니다. 폭발 섬광이 이미 보이고 피할 시간이 없다면 주변 엄폐물을 이용해 즉시 엎드려 눈·귀를 보호합니다.','충격파와 파편 낙하가 멈춘 뒤에는 낙진에 대비해 지하 깊은 곳이나 건물 중앙의 외벽·지붕에서 먼 공간에 머물고, 공식 방송으로 이동 지시를 확인합니다.','낙진이 옷·피부에 묻은 것으로 의심되면 안전한 실내에서 겉옷을 벗고 부드럽게 씻습니다. 이동·귀가·대피 종료 시점은 정부와 현장 구조기관의 안내를 따릅니다.'],why:'핵 경보 발령과 이미 폭발한 상황의 첫 행동은 다릅니다. 피폭과 방사성 물질 오염도 구별해야 하며, 민방공 경보해제가 곧 방사능 오염 해제라는 뜻은 아닙니다.',href:official.nuclear},
  {id:'all-clear',name:'민방공 경보해제',time:'정부가 경보해제를 발표했을 때',points:['경보해제는 공식 음성방송 등으로 안내됩니다. 사이렌이 멈췄다는 사실만으로 해제를 판단하지 말고 방송·재난문자에서 해제 지역과 후속 지시를 확인합니다.','안전한 범위에서 부상자 구조를 돕되, 추가 공격 가능성에 대비하고 정부 방송을 계속 듣습니다.','오염·화재·건물 손상 위험이 남아 있다면 함부로 밖으로 나가거나 귀가하지 말고 해당 위험에 대한 별도 안내를 따릅니다.'],why:'경보해제는 추가 공격이 예상되지 않는다는 경보 단계입니다. 모든 지역의 통행·시설 이용·오염 위험이 해소됐다는 보증이 아닙니다.',href:official.civilAlarm},
  {id:'earthquake',name:'지진',time:'지면이 흔들릴 때',points:['흔들리는 동안 튼튼한 탁자 아래 등에서 머리와 몸을 보호합니다.','흔들림이 멈추면 계단으로 이동하고, 건물 밖에서는 건물·간판·유리창과 거리를 둡니다.','운동장·공원 등 낙하물 위험이 적은 넓은 장소에서 여진과 공식 안내를 확인합니다.'],why:'해안가에서 지진을 느끼거나 지진해일 특보가 발령되면 일반 지진 옥외대피장소가 아니라 지진해일 긴급대피장소 또는 높은 곳으로 이동해야 합니다.',href:official.earthquake},
- {id:'tsunami',name:'지진해일',time:'해안에서 지진을 느끼거나 지진해일 특보가 발령되면',points:['해안·하천 주변에서 벗어나 지진해일 긴급대피장소 또는 높은 곳으로 신속히 이동합니다.','대피 시간이 부족하면 주변의 튼튼한 철근콘크리트 건물 높은 층 등 위험을 피할 수 있는 곳으로 이동하고 현장 지시를 따릅니다.','파도는 여러 차례 반복될 수 있으므로 첫 파도가 지나도 해안으로 돌아가지 말고 특보 해제 및 공식 지시를 확인합니다.'],why:'일반 지진 시 이용하는 운동장·공터도 해안 저지대라면 지진해일 대피에 적합하지 않을 수 있습니다. 실제 대피장소·경로를 사전에 확인하세요.',href:official.tsunami},
+ {id:'tsunami',name:'지진해일',time:'해안에서 지진을 느끼거나 지진해일 특보가 발령됐을 때',points:['해안이나 바다와 연결된 하천 주변에서 지진을 느끼면 특보·재난문자를 기다리지 말고 즉시 해안에서 벗어나 지진해일 긴급대피장소 또는 안전한 높은 곳으로 이동합니다. 지진해일 주의보·경보를 받아도 같은 대피 원칙을 따릅니다.','높은 곳에 도달할 시간이 없다면 가까운 튼튼한 건물의 3층 이상 또는 해발고도 10m 이상 언덕 등 위험을 피할 수 있는 곳으로 대피합니다. 낮은 곳의 일반 지진 옥외대피장소나 민방위 지하 대피소로 무조건 이동하지 않습니다.','지진해일은 여러 차례 반복될 수 있습니다. 최초 파도가 지나도 내려가지 말고 기상청 특보 해제와 지자체·현장 안내를 확인합니다. 특보 해제 시 별도 재난문자가 발송되지 않을 수 있으므로 문자 수신 여부만으로 대피 종료를 판단하지 않습니다.'],why:'해안에서 지진을 느꼈을 때는 특보 발표 전에 지진해일이 도달할 수 있어 대피를 늦추면 안 됩니다. 지진해일정보는 주의 안내이며, 주의보·경보와 문자 종류가 다릅니다.',href:official.tsunami},
  {id:'wildfire',name:'산불',time:'산불이 접근하거나 대피 안내를 받으면',points:['산불이 가까이 오거나 대피 안내를 받았다면 신고나 짐 정리 때문에 출발을 늦추지 말고 산불 진행 경로에서 벗어나 지정된 안전한 장소로 즉시 이동합니다. 멀리서 연기·불꽃을 발견했다면 안전한 곳에서 119 또는 112에 신고합니다.','산행·야영 중에는 활동을 중단하고 산불 진행 방향과 계곡부를 피하여 산에서 멀어지는 안전한 경로로 이동합니다. 대피 중에는 재난문자·방송과 현장 지시를 확인합니다.','산불이 진화돼도 곧바로 귀가하지 말고 지자체의 복귀 안내를 확인합니다. 귀가 후에는 상수도·전기설비 손상과 남은 불씨 위험을 살펴보고 이상이 있으면 신고합니다.'],why:'산불 대피는 산비탈의 높은 곳으로 이동하는 방식이 아닙니다. 불길이 꺼진 뒤에도 지자체의 귀가 안내와 전기·수도·잔불 위험을 확인하세요.',href:official.wildfire},
  {id:'fire',name:'화재·연기',time:'우리 집 또는 아파트 다른 곳에서 불이 났을 때',points:['먼저 가족에게 화재 사실을 알리고 불이 난 곳과 우리 집에 연기·불꽃이 들어오는지를 확인합니다. 우리 집에서 불이 났고 안전하게 나갈 수 있으면 즉시 계단으로 대피합니다. 다른 곳에서 불이 났지만 우리 집에 연기·불꽃이 들어오지 않으면 무리하게 복도로 나가지 않고 실내에서 상황을 살핍니다.','우리 집 또는 다른 곳의 화재로 대피가 필요하다면 손등으로 문손잡이의 열과 복도·계단의 연기를 확인합니다. 안전한 경로가 있을 때만 낮은 자세로 계단을 이용하고, 나갈 때 출입문을 닫습니다. 엘리베이터는 이용하지 않습니다.','현관·복도·계단에 화염이나 짙은 연기가 있어 나갈 수 없다면 세대 내 대피공간·경량칸막이·하향식피난구 등 설치된 피난시설을 이용합니다. 그런 시설이 없으면 화염·연기에서 멀리 떨어져 문을 닫고 틈새를 막은 다음 119에 정확한 위치를 알립니다.'],why:'아파트의 다른 세대에서 불이 났더라도 우리 집에 연기·불꽃이 없으면 무리한 대피보다 실내 대기·창문 닫기가 안전할 수 있습니다. 소방대·관리자 방송과 실제 연기 유입을 계속 확인하세요.',href:official.fire},
  {id:'flood',name:'집중호우·침수',time:'물이 차오르거나 대피 지시가 있을 때',points:['반지하·지하주차장·지하역사 등에 물이 들어오거나 하수구가 역류하면 즉시 안전한 높은 곳으로 대피합니다. 물이 조금이라도 유입된 지하계단·지하주차장에는 차량 확인·이동을 위해 들어가지 않습니다.','도로·지하차도에 물이 흘러들면 절대 진입하지 않습니다. 침수된 길이나 하천을 무리하게 건너지 말고 우회하며, 지자체 대피 지시가 있으면 즉시 따릅니다.','안전하게 대피한 뒤 침수된 전기설비·가스시설과 고인 물에 접근하지 않습니다. 귀가 전 현장 안전과 상하수도·전기 관련 안내를 확인합니다.'],why:'지하 공간에는 물이 빠르게 차올라 출입문이 열리지 않을 수 있습니다. 물이 유입되기 시작했다면 차를 옮기거나 물건을 챙기느라 지하로 다시 내려가지 마세요.',href:official.flood},
@@ -48,7 +49,7 @@ const situations = [
 <div class="container">
  <header class="page-intro"><span class="eyebrow">IN AN EMERGENCY</span><h1>경보 종류부터 확인하고<br/><em>상황에 맞게 대피하세요</em></h1><p>미리 읽어두는 행동요령입니다. 현재 경보를 표시하는 페이지가 아니며, 실제 상황에서는 재난문자·공공방송·현장 지시를 우선합니다.</p></header>
  <div class="emergency-panel"><div><span class="tag">가장 먼저</span><strong>공습·화학 공격·화학사고·침수는 대피 장소와 이동 지시가 다릅니다</strong><p>경보 이름·위험 지역·실내 대기 또는 이동 지시를 확인하세요. 침수 위험이 있는 지하공간으로 무조건 내려가지 말고, 화학사고에서도 임의로 층수를 결정하지 마세요.</p></div><a class="btn primary" href={official.emergency} target="_blank" rel="noopener noreferrer">국민안전24 행동요령 ↗</a></div>
- <p class="readable"><strong>긴급 행동·후속 대응 바로가기:</strong> <a href="#apartment-fire">아파트 화재 4가지 상황 ↓</a> · <a href="#alarm-signals">민방공 경보 신호 구분 ↓</a> ·  <a href="#all-clear">경보해제 시 행동 ↓</a> · <a href="#contamination">화학·방사능 오염 노출 후 조치 ↓</a> · <a href="#shelter-types">재난별 대피장소 구분 ↓</a> · <a href="#biological-incident">생물학 의심 물질 발견 ↓</a></p>
+ <p class="readable"><strong>긴급 행동·후속 대응 바로가기:</strong> <a href="#tsunami-alerts">지진해일 특보·해제 확인 ↓</a> · <a href="#apartment-fire">아파트 화재 4가지 상황 ↓</a> · <a href="#alarm-signals">민방공 경보 신호 구분 ↓</a> ·  <a href="#all-clear">경보해제 시 행동 ↓</a> · <a href="#contamination">화학·방사능 오염 노출 후 조치 ↓</a> · <a href="#shelter-types">재난별 대피장소 구분 ↓</a> · <a href="#biological-incident">생물학 의심 물질 발견 ↓</a></p>
  <nav class="situation-shortcuts" aria-label="상황별 행동요령 바로가기">
   <strong>상황 바로 찾기</strong>
   <div>{situations.map(item=><a href={'#'+item.id}>{item.name}<span aria-hidden="true">↓</span></a>)}</div>
@@ -86,6 +87,18 @@ const situations = [
   <p><a href={official.civilAlarm} target="_blank" rel="noopener noreferrer">국민안전24 민방위 경보 종류·신호 원문 ↗</a> · <a href={official.alarms} target="_blank" rel="noopener noreferrer">행정안전부 경보신호 기준 ↗</a> · <a href={official.civilAlarmLite} target="_blank" rel="noopener noreferrer">공식 경량 행동요령 ↗</a></p>
   <p class="situation-note">이 표는 평상시 학습용입니다. 이 페이지는 실시간 경보를 송출하거나 경보 상태·해제 여부를 판정하지 않습니다. 공습·핵 경보가 같은 사이렌을 사용할 수 있다는 사실이 안전한 대피를 지연하는 근거가 되지 않습니다.</p>
  </section>
+ <section class="readable" id="tsunami-alerts" aria-labelledby="tsunami-alerts-title">
+  <h2 id="tsunami-alerts-title">해안 지진과 지진해일 재난문자는 이렇게 구분하세요</h2>
+  <p><strong>해안에서 지진을 느꼈다면 문자나 특보를 기다리지 않고</strong> 해안과 하구에서 벗어나 높은 곳으로 이동합니다. 대피를 우선한 뒤 공식 안내를 확인하세요.</p>
+  <ol>
+   <li><strong>지진해일 주의보·경보:</strong> 기상청이 해안 지역에 발표하는 특보로, 해당 지역에 <strong>긴급재난문자</strong>가 전달됩니다. 해안 주민은 지정 긴급대피장소 또는 높은 지대로 대피하세요.</li>
+   <li><strong>지진해일정보:</strong> 특보 기준보다 낮아도 영향이 예상될 때 발표하는 정보입니다. <strong>안전안내문자</strong>가 전달되며, 해안 접근을 피하고 최신 지역 안내와 위험 징후를 계속 확인하세요.</li>
+   <li><strong>특보 해제:</strong> 기상청의 2026년 지진해일 특보 안내서에 따르면 해제 시 <strong>재난문자가 별도로 발송되지 않습니다.</strong> 문자가 추가로 오지 않는다는 이유로 안전을 추정하지 말고 공식 특보 현황과 현장 복귀 지시를 확인하세요.</li>
+  </ol>
+  <p>파도가 한 번 지나도 끝난 것으로 판단하지 마세요. 대피 후에는 해안으로 돌아가 사진을 촬영하거나 차량·어구를 확인하지 말고, 해제 확인 및 지자체 이동 안내를 따릅니다.</p>
+  <p><a href={official.tsunami} target="_blank" rel="noopener noreferrer">국민안전24 지진해일 긴급대피 원문 ↗</a> · <a href={official.tsunamiNotice} target="_blank" rel="noopener noreferrer">기상청 2026년 지진해일 특보·재난문자 공식 설명 ↗</a></p>
+  <p class="situation-note">이 페이지는 지진해일 특보의 실시간 발령·해제 상태를 표시하지 않습니다. 지역별 재난문자·기상청 발표·현장 지시를 우선하세요.</p>
+ </section>
  <section class="readable" id="shelter-types" aria-labelledby="shelter-types-title">
   <h2 id="shelter-types-title">재난별로 대피 장소가 다릅니다</h2>
   <p>평소에 장소를 찾아둘 때는 국민안전24의 시설안전지도에서 <strong>재난 유형에 맞는 시설 종류</strong>를 먼저 선택하세요. 지도에 등록됐다는 사실만으로 모든 재난에 안전하거나 현재 개방 중이라는 뜻은 아닙니다.</p>
@@ -97,7 +110,7 @@ const situations = [
    <tbody>
     <tr><th scope="row">공습·민방공</th><td>민방위 대피소, 지하 시설 등 정부가 안내하는 장소. 침수 위험이 있는 지하공간은 피합니다.</td></tr>
     <tr><th scope="row">지진</th><td>낙하물 위험이 적은 지진 옥외대피장소. 흔들리는 동안에는 먼저 몸을 보호합니다.</td></tr>
-    <tr><th scope="row">지진해일</th><td>해안·하천에서 떨어진 높은 곳 또는 지진해일 긴급대피장소. 해안 저지대는 피합니다.</td></tr>
+    <tr><th scope="row">지진해일</th><td>해안에서 지진을 느끼면 특보·문자를 기다리지 않고 지진해일 긴급대피장소나 높은 곳으로 이동합니다. 시간이 부족하면 튼튼한 건물 3층 이상 또는 해발 10m 이상 언덕을 대안으로 고려하세요.</td></tr>
     <tr><th scope="row">핵 경보·방사능</th><td>경보가 먼저 발령되면 지하·콘크리트 건물 안쪽으로 신속히 대피합니다. 폭발이 이미 시작돼 대피할 시간이 없을 때는 엎드려 보호하고, 이후 낙진을 피해 실내에 머뭅니다.</td></tr>
     <tr><th scope="row">생물학 공격</th><td>외부 공기 유입을 줄일 수 있는 지정 대피시설·실내에 머물고, 불필요한 지역 간 이동을 피하며 보건당국 안내를 확인합니다.</td></tr>
     <tr><th scope="row">화학 공격</th><td>화생방경보·정부 방송에 따른 오염 차단과 대피. 공습 대피 방식과 무조건 동일하게 적용하지 않습니다.</td></tr>
