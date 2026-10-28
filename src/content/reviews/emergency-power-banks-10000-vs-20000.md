@@ -60,7 +60,6 @@ products:
     officialUrl: "https://www.samsung.com/sec/support/model/EB-P4520XUEGKR/"
     independentSources:
       - "https://techtest.org/samsung-eb-p4520-powerbank-20-000-mah-mit-45w-im-ausfuehrlichen-test/"
-      - "https://meeco.kr/Review/42031682"
     verificationNotes: "삼성 한국 공식 사이트와 삼성전자서비스 판매정보로 EB-P4520XUEGKR 모델의 74Wh, 45W 단일 출력, USB-C 세 포트, 약 402g, KC 신고번호 XU103282-23002를 확인했다. Techtest의 2024년 8월 독립 전자부하 실측은 출력 조건에 따라 58.918~65.874Wh, 재충전 약 3시간 32분, 입력 약 25W를 보고했다. 2026년 9월 국내 개인 사용기에서도 약 3시간 53분의 재충전과 동시연결 출력 저하를 기술했다. 단, 기관 인증원장과 실제 판매 단위의 동일성 조회·자체 실험은 수행하지 않았다."
     verified: true
     checkedAt: 2026-10-28
