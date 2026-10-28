@@ -11,7 +11,7 @@ const total=checkGroups.reduce((sum,g)=>sum+g.items.length,0);
   <div class="progress-visual" aria-hidden="true"><span id="progress-label">0%</span></div>
   <progress max={total} value="0" id="ready-progress" aria-label="비상 준비물 완료 비율"></progress>
  </section>
- <div class="info-note"><strong>이 목록의 범위</strong><p>72시간은 시작 단계의 정리용 기간입니다. **국내 전시 대비 물자 지침에는 가정 비축 식량·식수 약 30일분 권고도 있으므로**, 이 목록만으로 전시에 충분하다는 의미가 아닙니다. 가족 특성과 보관 여건에 맞춰 범위를 늘리세요. <a href={sources.supplies} target="_blank" rel="noopener noreferrer">국내 공식 비상대비 물자 안내 ↗</a></p></div>
+ <div class="info-note"><strong>이 목록의 범위</strong><p>72시간은 시작 단계의 정리용 기간입니다. <strong>국내 전시 대비 물자 지침에는 가정 비축 식량·식수 약 30일분 권고도 있으므로</strong>, 이 목록만으로 전시에 충분하다는 의미가 아닙니다. 가족 특성과 보관 여건에 맞춰 범위를 늘리세요. <a href={sources.supplies} target="_blank" rel="noopener noreferrer">국내 공식 비상대비 물자 안내 ↗</a></p></div>
  <div class="check-actions"><button id="print-list" type="button" class="btn secondary">목록 인쇄</button><button id="reset-list" type="button" class="quiet-button">체크 초기화</button><span id="saved-indicator" class="small-muted" aria-live="polite"></span></div>
  <div class="check-groups">
  {checkGroups.map(group=><section class="check-group">
