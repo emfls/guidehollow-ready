@@ -22,7 +22,8 @@ const refs=[
  {agency:'질병관리청',title:'1339 감염병 전문 상담·신고 안내',detail:'의심 생물학적 물질·감염병 관련 상담, 보건소 안내. 24시간 운영되는 질병관리청 콜센터',href:'https://www.kdca.go.kr/kdca/2777/subview.do'},
  {agency:'행정안전부 · 국민안전24',title:'접속 폭주 시 민방공 경보별 간이 행동요령',detail:'경계경보·공습경보·화생방경보·핵 경보 구분. 국민안전24의 경량 안내 페이지',href:'https://www.safekorea.go.kr/safekorea-kor/em/emergency/emergency_df1.html'},
  {agency:'행정안전부 · 국민안전24',title:'민방공경보 단계별 행동요령',detail:'경계경보·공습경보 등 단계별 대피 준비와 행동 확인',href:'https://safekorea.go.kr/safekorea-kor/acts/nacts/action-guide.do?actsHeaderTitle=%EB%AF%BC%EB%B0%A9%EA%B3%B5%EA%B2%BD%EB%B3%B4&category=civlAirDefenseWarning&menuSn=4'},
- {agency:'행정안전부 · 국민안전24',title:'지진해일 긴급대피 행동요령',detail:'해안에서 지진이 발생하거나 지진해일 특보가 있을 때 높은 곳으로 이동하고 반복 파도에 대비',href:'https://safekorea.go.kr/safekorea-kor/em/emergency/emergency_eq3.html'},
+ {agency:'행정안전부 · 국민안전24',title:'지진해일 긴급대피 행동요령',detail:'해안에서 지진을 느끼면 특보를 기다리지 않고 고지대로 대피. 시간 부족 시 튼튼한 건물 3층 이상 또는 해발 10m 이상 언덕 대안, 특보 해제 전 귀환 금지',href:'https://safekorea.go.kr/safekorea-kor/em/emergency/emergency_eq3.html'},
+ {agency:'기상청 · 2026년 7월 29일 공식 보도자료',title:'2026 지진해일 특보 안내서: 재난문자와 특보 해제',detail:'지진해일 특보(주의보·경보)는 긴급재난문자, 특보 기준 미만 지진해일정보는 안전안내문자, 특보 해제에는 재난문자 미발송. 공식 해제·현장 지시를 별도 확인',href:'https://www.kma.go.kr/kma/flexer/html/press/2026/07/29/ATC202607290854052_afb10121-1724-4b48-9b59-309334531167.hwp.files/Sections1.html'},
  {agency:'행정안전부 · 국민안전24',title:'산사태 발생 전·중·후 행동요령',detail:'위험 신호·예보 사전 확인과 실제 산사태 발생·대피명령 시 즉시 이동을 구분. 토사 진행 방향과 계곡 회피',href:'https://safekorea.go.kr/safekorea-kor/acts/nacts/action-guide.do?actsHeaderTitle=%EC%82%B0%EC%82%AC%ED%83%9C&category=landSlide&menuSn=4'},
  {agency:'행정안전부 · 국민안전24',title:'산불 국민행동요령',detail:'산불 발견 신고와 산불 접근·대피 안내 시 즉시 이동 구분, 영유아·이동약자 지원, 진화 후 귀가 시 주의',href:'https://www.safekorea.go.kr/safekorea-kor/acts/nacts/action-guide.do?category=forestFires&menuSn=4'},
  {agency:'행정안전부 · 국민안전24',title:'재난 유형별 대피시설 지도',detail:'민방위·지진옥외·지진해일·화학사고 대피소 등 서로 다른 시설 종류를 필터로 구별해 검색',href:'https://www.safekorea.go.kr/safekorea-kor/flsm/flsm/facilitiesSafteyMap.do?menuSn=234'},
@@ -64,7 +65,8 @@ const refs=[
   <p>산불은 접근 시 안전한 장소로 이동하고 산사태는 토사 진행 방향을 벗어납니다. <strong>아파트 화재는 ‘우리 집 화재인지’와 ‘다른 곳 화재가 우리 집으로 연기·불꽃을 유입시키는지’</strong>에 따라 달리 행동합니다. 대피가 가능한 집 안 화재라면 계단으로 나가고, 다른 곳의 불로 우리 집이 아직 영향을 받지 않았다면 무리하게 복도로 나오지 않고 실내에서 안내를 확인합니다. 이 구분은 위 국민안전24 <strong>화재 행동요령</strong> 원문의 아파트 항목에 명시돼 있습니다.</p>
   <p>연기가 들어와 대피해야 하지만 복도·계단에 화염·연기가 있어 위험한 경우에는 세대의 대피공간·경량칸막이·하향식피난구를 이용하거나, 화염·연기에서 먼 곳에서 문틈을 막고 119에 정확한 위치를 알려 구조를 요청합니다. <a href="/situations/#apartment-fire">아파트 화재 4가지 상황을 바로 확인하세요 →</a></p>
   <h2>비슷해 보여도 대피 방향이 다른 재난</h2>
-  <p><strong>일반 지진</strong>은 낙하물 위험이 적은 옥외 장소를 선택하지만, 해안의 <strong>지진해일</strong>은 해안·하천에서 떨어진 높은 지역과 긴급대피장소로 이동해야 합니다. 지진해일은 반복될 수 있으므로 공식 해제 전에는 저지대에 돌아가지 않습니다.</p>
+  <p><strong>일반 지진</strong>은 흔들림 중 먼저 몸을 보호하고 이후 낙하물 위험이 적은 옥외 장소로 이동하지만, 해안에서 지진을 느꼈다면 <strong>특보·재난문자를 기다리지 않고</strong> 바닷가·하구에서 벗어나 지진해일 긴급대피장소 또는 높은 곳으로 이동합니다. 시간이 없다면 튼튼한 건물 3층 이상 또는 해발 10m 이상 언덕으로 이동하는 보조 방법을 국민안전24가 안내합니다. 파도는 반복되므로 해제 전에는 저지대로 돌아가지 마세요.</p>
+  <p>기상청의 <strong>2026년 지진해일 특보 안내서</strong>에 따르면 주의보·경보는 <strong>긴급재난문자</strong>, 특보 기준 미만 지진해일정보는 <strong>안전안내문자</strong>로 전달됩니다. <strong>특보 해제 시 재난문자는 발송되지 않습니다.</strong> 마지막 문자가 오지 않더라도 특보가 끝났다고 판단하지 말고, 기상청 발표와 지자체·현장 복귀 지시를 확인하세요. <a href="/situations/#tsunami-alerts">지진해일 통보 유형과 해제 확인 방법 →</a></p>
   <p><strong>일반 침수</strong>에서는 물이 차오르는 낮은 곳을 피하지만, <strong>산사태</strong> 위험이 있는 산비탈·계곡에서는 산사태 진행 경로에서 벗어나는 안전한 방향으로 이동해야 합니다. 산사태가 흘러내리는 경로와 계곡부를 벗어나야 하며, 급박한 상황에는 산사태 방향에서 멀리 떨어진 가장 가까운 안전한 높은 곳으로 이동하도록 공식 지침이 안내합니다. 지자체 대피 명령이 있으면 이를 우선하세요.</p>
   <h2>산불 대피와 귀가 시 주의</h2>
   <p>국민안전24의 산불 행동요령에 따라 산림 인근 거주자와 야외 활동자는 산불의 진행 경로에서 벗어나고, 재난문자·지자체 대피 안내에 따라 산에서 떨어진 안전한 곳으로 이동합니다. 영유아·노인·장애인의 이동 지원 방법도 미리 정해두세요.</p>
