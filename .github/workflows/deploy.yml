@@ -60,6 +60,13 @@ jobs:
         run: npm ci
       - name: Build static site for browser checks
         run: npm run build
+      - name: Install Korean fonts for readable screenshots
+        timeout-minutes: 2
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-nanum
+          fc-cache -f
+          test -n "$(fc-list :lang=ko)"
       - name: Install browser automation package
         timeout-minutes: 2
         run: npm install --no-save --package-lock=false --no-audit --no-fund --prefer-offline playwright-core@1.56.1
