@@ -4,6 +4,8 @@ import Base from '../layouts/Base.astro';
 const official = {
  emergency: 'https://safekorea.go.kr/safekorea-kor/acts/nacts/action-guide.do?actsHeaderTitle=%EB%B9%84%EC%83%81%EC%82%AC%ED%83%9C&category=stateOfEmergency&menuSn=4',
  chemical: 'https://safekorea.go.kr/safekorea-kor/acts/nacts/action-guide.do?actsHeaderTitle=%ED%99%94%EC%83%9D%EB%B0%A9%EB%AC%B4%EA%B8%B0&category=chemicalandBiologicalWeapons&menuSn=4',
+ radiationDecon: 'https://www.cdc.gov/radiation-emergencies/prevention/self-decontaminate.html',
+ radiationFAQ: 'https://www.cdc.gov/radiation-emergencies/faq/index.html',
  chemicalAccident: 'https://safekorea.go.kr/safekorea-kor/acts/nacts/action-guide.do?actsHeaderTitle=%ED%99%94%ED%95%99%EC%82%AC%EA%B3%A0%EC%9E%AC%EB%82%9C&category=chemicalAccidentDisaster&menuSn=4',
  civilAlarm: 'https://www.safekorea.go.kr/safekorea-kor/edtr/clns/cdal/civilDefenseAlarm.do?menuSn=57',
  alarms: 'https://www.mois.go.kr/frt/sub/a06/b12/civildefensework/screen.do',
@@ -26,7 +28,7 @@ const situations = [
  {id:'chemical',name:'화학 공격·화생방경보',time:'화학물질 오염이 확인되거나 우려될 때',points:['경보 내용을 확인하고 오염 지역과 외부 공기의 유입을 피합니다. 화학 공격 시에는 외부 공기를 차단할 수 있는 높은 층의 실내 공간이 안내됩니다.','실내에서는 창문·출입문을 닫고 외부 공기를 들여오는 환기·냉방기기 등을 멈춥니다.','공습 때문에 지하에 대피 중이라도 화학 공격이 확인되면 동일한 지하 대피가 적절하지 않을 수 있으므로 정부·현장 지시에 따라 비오염 구역으로 이동합니다.'],why:'일반 마스크나 젖은 수건은 화학작용제 전용 방독면과 같은 보호 성능이 아닙니다. 무작정 지하로 이동하지 마세요.',href:official.chemical},
  {id:'chemical-accident',name:'산업시설 화학사고·유해물질 누출',time:'공장·운송시설 등에서 화학물질 유출이 발생했을 때',points:['누출을 직접 발견했다면 오염 현장에서 최대한 멀리 벗어나 안전한 장소에서 119에 신고합니다. 사고 위치와 보이는 색·냄새·증상 등 확인 가능한 상황을 알립니다.','재난문자·방송으로 사고 소식을 받았다면 별도 대피 지시가 없는 한 안전한 실내에 머물며 외부 공기 유입을 막고 추가 안내를 확인합니다. 건물 안에서 누출됐다면 오염된 공간에서 벗어나야 합니다.','주민대피명령이 내려오면 경찰·지자체가 안내한 경로와 장소로 이동합니다. 복귀 후에는 오염 가능성이 있는 식수·음식물을 먹거나 물건을 맨손으로 만지지 말고 후속 안내를 따릅니다.'],why:'사고 현장을 직접 목격한 경우와 외부 사고를 재난문자로 안내받은 경우의 첫 행동은 다릅니다. 이동 방향은 사고 위치와 풍향·현장 통제에 따라 달라지며, 일반 마스크는 유해가스용 보호구가 아닙니다.',href:official.chemicalAccident},
  {id:'biological',name:'생물학 공격 의심',time:'오염 또는 집단 감염 관련 안내가 있을 때',points:['오염이 의심되는 물질·장소·환자와의 접촉을 피하고 호흡기를 보호합니다.','정부·지자체에서 정한 장소 또는 실내로 이동하고, 임의의 장거리 이동으로 확산 위험을 높이지 않습니다.','위생을 유지하고 보건당국의 검사·치료·예방접종 지시를 따릅니다.'],why:'증상만으로 공격 여부를 판단하거나 임의로 치료하지 마세요. 보건당국의 공식 발표가 우선입니다.',href:official.chemical},
- {id:'nuclear',name:'핵 경보·방사능 낙진',time:'핵 공격 경보 또는 방사능 위험 안내 시',points:['신속히 민방위 대피시설, 지하철역 등 지하시설이나 콘크리트 건물의 창문 없는 안쪽으로 대피합니다.','폭발 순간 대피할 여유가 없다면 지형·지물을 이용해 엎드려 눈과 귀를 가리고 입을 벌려 몸을 보호합니다.','폭풍과 낙하물이 멈춘 뒤에는 낙진 노출을 줄일 수 있는 실내 깊은 곳에 머물며 정부의 이동·제염 안내를 기다립니다.'],why:'핵·방사능 대피는 화학물질 대피와 다릅니다. 특정 건물이 안전하다고 보증하거나 독자적인 대피 종료 시점을 제시하지 않습니다.',href:official.chemical},
+ {id:'nuclear',name:'핵 경보·방사능 낙진',time:'핵 공격 경보 또는 방사능 위험 안내 시',points:['핵폭발 섬광을 보고 즉시 건물로 들어갈 수 없다면 지형·지물 뒤에 엎드려 눈과 귀를 보호하고 파편 낙하가 멈출 때까지 몸을 낮춥니다. 방사능 경보만 받았다면 가까운 튼튼한 건물 안으로 우선 대피합니다.','폭풍·파편의 위험이 멈추면 지하시설 또는 두꺼운 콘크리트 건물의 창문 없는 안쪽으로 이동합니다. 외부 벽과 지붕에서 가능한 멀리 떨어져 머물며 공식 방송을 확인합니다.','낙진이 옷·피부에 묻은 것으로 의심되면 안전한 실내에서 겉옷을 벗고 부드럽게 씻습니다. 이동·귀가·대피 종료 시점은 정부와 현장 구조기관의 안내를 따릅니다.'],why:'핵폭발 직후 몸을 보호하는 행동과 낙진 발생 이후의 실내 대피는 단계가 다릅니다. 방사선에 노출됐다는 사실만으로 몸이나 옷이 방사성 물질에 오염된 것은 아닙니다.',href:official.chemical},
  {id:'all-clear',name:'민방공 경보해제',time:'정부가 경보해제를 발표했을 때',points:['공식 방송·재난문자로 경보해제 대상 지역과 후속 지시를 확인합니다.','안전한 범위에서 부상자 구조를 돕되, 추가 공격 가능성에 대비하고 정부 방송을 계속 듣습니다.','오염·화재·건물 손상 위험이 남아 있다면 함부로 밖으로 나가거나 귀가하지 말고 해당 위험에 대한 별도 안내를 따릅니다.'],why:'경보해제는 추가 공격이 예상되지 않는다는 경보 단계입니다. 모든 지역의 통행·시설 이용·오염 위험이 해소됐다는 보증이 아닙니다.',href:official.civilAlarm},
  {id:'earthquake',name:'지진',time:'지면이 흔들릴 때',points:['흔들리는 동안 튼튼한 탁자 아래 등에서 머리와 몸을 보호합니다.','흔들림이 멈추면 계단으로 이동하고, 건물 밖에서는 건물·간판·유리창과 거리를 둡니다.','운동장·공원 등 낙하물 위험이 적은 넓은 장소에서 여진과 공식 안내를 확인합니다.'],why:'해안가에서 지진을 느끼거나 지진해일 특보가 발령되면 일반 지진 옥외대피장소가 아니라 지진해일 긴급대피장소 또는 높은 곳으로 이동해야 합니다.',href:official.earthquake},
  {id:'tsunami',name:'지진해일',time:'해안에서 지진을 느끼거나 지진해일 특보가 발령되면',points:['해안·하천 주변에서 벗어나 지진해일 긴급대피장소 또는 높은 곳으로 신속히 이동합니다.','대피 시간이 부족하면 주변의 튼튼한 철근콘크리트 건물 높은 층 등 위험을 피할 수 있는 곳으로 이동하고 현장 지시를 따릅니다.','파도는 여러 차례 반복될 수 있으므로 첫 파도가 지나도 해안으로 돌아가지 말고 특보 해제 및 공식 지시를 확인합니다.'],why:'일반 지진 시 이용하는 운동장·공터도 해안 저지대라면 지진해일 대피에 적합하지 않을 수 있습니다. 실제 대피장소·경로를 사전에 확인하세요.',href:official.tsunami},
@@ -69,6 +71,7 @@ const situations = [
     <tr><th scope="row">공습·민방공</th><td>민방위 대피소, 지하 시설 등 정부가 안내하는 장소. 침수 위험이 있는 지하공간은 피합니다.</td></tr>
     <tr><th scope="row">지진</th><td>낙하물 위험이 적은 지진 옥외대피장소. 흔들리는 동안에는 먼저 몸을 보호합니다.</td></tr>
     <tr><th scope="row">지진해일</th><td>해안·하천에서 떨어진 높은 곳 또는 지진해일 긴급대피장소. 해안 저지대는 피합니다.</td></tr>
+    <tr><th scope="row">핵 경보·방사능</th><td>핵폭발 순간은 섬광·충격파에서 먼저 몸을 보호하고, 낙진 위험에는 외벽·지붕과 떨어진 두꺼운 건물 내부에 머물러 후속 지시를 확인합니다.</td></tr>
     <tr><th scope="row">화학 공격</th><td>화생방경보·정부 방송에 따른 오염 차단과 대피. 공습 대피 방식과 무조건 동일하게 적용하지 않습니다.</td></tr>
     <tr><th scope="row">화학사고·유해물질 누출</th><td>실외 누출이면 안전한 실내로 이동해 외부 공기를 차단하고, 주민대피명령 시 지정 화학사고 대피장소로 이동합니다. 물질별 지시를 우선합니다.</td></tr>
     <tr><th scope="row">침수</th><td>반지하·지하주차장에 물이 들어오면 즉시 대피하며, 차량 이동을 위해 지하공간에 재진입하지 않습니다. 안전한 높은 장소와 지자체 지시를 따릅니다.</td></tr>
@@ -81,7 +84,8 @@ const situations = [
  </section>
  <section class="readable" id="contamination" aria-labelledby="contamination-title">
   <h2 id="contamination-title">화학·방사성 물질에 노출됐을 때</h2>
-  <p>먼저 <strong>누출 현장을 직접 발견했다면 멀리 벗어나고, 외부 사고를 재난문자로 알게 됐다면 대피 지시 전까지 안전한 실내에서 추가 안내를 확인</strong>하세요. 화학물질 오염과 방사성 낙진은 대응이 다르므로 현장 구조대·정부 지시를 따릅니다.</p>
+  <p><strong>화학물질 누출</strong>은 오염 현장 이탈 또는 실내 대기 중 적절한 행동을 사고 위치·물질·공식 지시로 판단합니다. <strong>방사성 낙진</strong>은 먼저 튼튼한 실내로 들어가 외부 노출을 줄이고, 안전한 실내에서 몸·의복에 묻은 오염물질을 제거합니다. 두 상황의 행동을 혼용하지 말고 현장 구조대·정부 지시를 따르세요.</p>
+  <p class="situation-note"><strong>피폭과 오염은 다릅니다.</strong> 방사선에 노출되는 것(피폭)과 방사성 먼지 등이 피부·옷에 묻는 것(오염)은 같지 않습니다. 자가 제염은 몸에 묻은 방사성 물질의 제거를 돕는 조치이며, 이미 받은 외부 방사선 피폭을 되돌리지는 못합니다.</p>
   <h3>화학물질이 피부·옷에 묻은 경우</h3>
   <ol>
    <li>오염 구역에서 떨어진 안전한 곳에서 오염된 옷을 벗어 추가 접촉을 줄입니다. 옷은 밀폐할 수 있는 봉투·용기에 따로 보관합니다.</li>
@@ -91,11 +95,11 @@ const situations = [
   <p><a href={official.chemical} target="_blank" rel="noopener noreferrer">국민안전24 화학무기 공격 행동요령 ↗</a></p>
   <h3>방사성 낙진이 옷·몸에 묻은 것으로 의심되는 경우</h3>
   <ol>
-   <li>외부 낙진에 노출되지 않는 안전한 실내로 이동한 뒤, 겉옷과 소지품을 조심히 벗어 밀폐 가능한 봉투에 담아 사람과 떨어뜨려 보관합니다.</li>
-   <li>가능하면 <strong>미온수와 비누로 부드럽게 씻고</strong> 깨끗한 옷으로 갈아입습니다. 피부를 세게 문지르지 말고 머리를 감을 때는 <strong>린스를 사용하지 마세요.</strong></li>
-   <li>공식 이동 허가가 나기 전에는 씻기 위해 오염된 외부로 나가지 말고, 현장 제염·검사·진료 안내에 따릅니다.</li>
+   <li>가까운 안전한 건물 안으로 들어가 외부 공기·먼지의 유입을 줄입니다. 가능하면 외부 벽·지붕에서 먼 내부 공간에서 <strong>겉옷을 조심히 벗고</strong> 밀폐 가능한 봉투에 담아 사람·반려동물과 떨어뜨려 둡니다. 옷을 세게 털어 먼지를 날리지 마세요.</li>
+   <li>안전한 실내에서 샤워할 수 있다면 <strong>미온수와 비누·샴푸로 부드럽게 씻고</strong> 깨끗한 옷으로 갈아입습니다. 피부를 거칠게 문지르거나 긁지 마세요. 머리를 감을 때는 <strong>린스를 사용하지 마세요.</strong> 샤워할 수 없다면 젖은 수건이나 물티슈로 손·얼굴·노출된 피부를 부드럽게 닦습니다.</li>
+   <li>씻기 위해 안전한 대피공간을 나와 다시 오염된 외부로 이동하지 않습니다. 오염 의심 식수·식품의 섭취 여부와 이동·검사·진료는 보건·방재 당국의 안내에 따릅니다. 갑상샘방호약품(요오드화칼륨)은 관계 당국이 복용을 지시하지 않는 한 임의로 먹지 마세요.</li>
   </ol>
-  <p><a href={official.chemical} target="_blank" rel="noopener noreferrer">국민안전24 핵·방사능 자가 제염 안내 ↗</a></p>
+  <p><a href={official.chemical} target="_blank" rel="noopener noreferrer">국민안전24 핵·방사능 자가 제염 안내 ↗</a> · <a href={official.radiationDecon} target="_blank" rel="noopener noreferrer">CDC 샤워가 어려울 때 자가 제염 안내(해외 참고) ↗</a> · <a href={official.radiationFAQ} target="_blank" rel="noopener noreferrer">CDC 방사능 노출·방호약품 FAQ(해외 참고) ↗</a></p>
   <p class="situation-note">화학무기 안내의 세척 시간은 모든 산업용 화학물질에 동일하게 적용되는 규칙이 아닙니다. 물질별 특별 지시가 있으면 이를 우선하세요. 자가 제염은 전문 구조·의료 조치를 대신하지 않습니다. 물을 사용할 수 없거나 중증 증상이 있다면 119 및 현장 구조기관의 안내를 우선합니다. 소독약·표백제 등 화학약품을 임의로 몸에 바르지 마세요.</p>
  </section>
  <section class="readable">
