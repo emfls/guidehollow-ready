@@ -4,7 +4,9 @@ import Base from '../layouts/Base.astro';
 const official = {
  emergency: 'https://safekorea.go.kr/safekorea-kor/acts/nacts/action-guide.do?actsHeaderTitle=%EB%B9%84%EC%83%81%EC%82%AC%ED%83%9C&category=stateOfEmergency&menuSn=4',
  alarms: 'https://www.mois.go.kr/frt/sub/a06/b12/civildefensework/screen.do',
- shelter: 'https://www.safekorea.go.kr/safekorea-kor/em/shelter/main.html',
+ shelter: 'https://www.safekorea.go.kr/safekorea-kor/flsm/flsm/facilitiesSafteyMap.do',
+ shelterBackup: 'https://www.safekorea.go.kr/safekorea-kor/em/shelter/emergency_df2.html',
+ waterFacility: 'https://www.safekorea.go.kr/safekorea-kor/em/shelter/emergency_df3.html',
  earthquake: 'https://www.weather.go.kr/w/wnuri-eqk-vol/eqk/warning.do',
  fire: 'https://www.safekorea.go.kr/safekorea-kor/acts/nacts/action-guide.do?actsHeaderTitle=%ED%99%94%EC%9E%AC&category=fires&menuSn=4',
  flood: 'https://www.safekorea.go.kr/safekorea-kor/acts/nacts/action-guide.do?actsHeaderTitle=%EC%B9%A8%EC%88%98&category=inundation&menuSn=4',
@@ -22,7 +24,7 @@ const situations = [
  {id:'fire',name:'화재·연기',time:'불이나 연기를 발견할 때',points:['주변에 알리고 대피가 가능한 안전한 경로를 먼저 확인합니다.','복도·계단에 연기가 없다면 계단으로 낮은 자세로 대피하고, 문을 닫으며 엘리베이터는 사용하지 않습니다.','대피로에 화염·연기가 있다면 무리하게 통과하지 말고 안전한 실내·피난공간에서 문틈을 막고 119에 위치를 알립니다.'],why:'아파트의 다른 세대 화재 등에서는 무조건 밖으로 나가는 행동이 오히려 위험할 수 있습니다.',href:official.fire},
  {id:'flood',name:'집중호우·침수',time:'물이 차오르거나 대피 지시가 있을 때',points:['침수가 시작된 지하차도·지하공간에 진입하지 않고 하천·급류에서 멀어집니다.','대피 안내가 내려오면 침수 위험이 없는 높은 장소 등 지정된 안전 지역으로 이동합니다.','침수된 전기설비와 물에 잠긴 도로는 접근하지 않습니다.'],why:'침수 위험이 있을 때는 공습 시 이용하던 저지대 지하시설도 안전하지 않을 수 있습니다.',href:official.flood},
  {id:'power',name:'정전',time:'전기 공급이 멈출 때',points:['손전등·배터리 라디오를 사용하고, 정전 범위 및 관리사무소·한국전력 등의 안내를 확인합니다.','승강기에 갇혔다면 비상통화장치로 구조를 요청하고 문을 강제로 열어 탈출하지 않습니다.','안내에 따라 전기기기의 사용을 줄이고, 복구 뒤에는 안전을 확인하며 사용합니다.'],why:'실내에서 발전기나 숯·연소기구를 사용하지 마세요. 일산화탄소 중독과 화재 위험이 있습니다.',href:official.power},
- {id:'water',name:'단수',time:'수돗물 공급이 멈출 때',points:['가정의 보관 식수·위생용 물을 아껴 쓰고, 오염이 의심되는 물은 마시지 않습니다.','지자체·관할 수도사업자의 단수 범위와 복구·비상급수 안내를 확인합니다.','급수 재개 시 음용 가능 여부나 수질 관련 별도 안내가 있다면 이를 따릅니다.'],why:'단수·복구 시점과 급수 방법은 지역마다 다릅니다. 특정 위치의 비상급수 가능 여부를 이 사이트에서 보증하지 않습니다.',href:official.water}
+ {id:'water',name:'단수',time:'수돗물 공급이 멈출 때',points:['가정의 보관 식수·위생용 물을 아껴 쓰고, 오염이 의심되는 물은 마시지 않습니다.','지자체·관할 수도사업자의 단수 범위와 복구·비상급수 안내를 확인합니다. 평소에는 국민안전24에서 비상급수시설 위치를 따로 조회할 수 있습니다.','급수 재개 시 음용 가능 여부나 수질 관련 별도 안내가 있다면 이를 따릅니다.'],why:'단수·복구 시점과 급수 방법은 지역마다 다릅니다. 특정 위치의 비상급수 가능 여부를 이 사이트에서 보증하지 않습니다.',href:official.water}
 ] as const;
 ---
 <Base title="재난 상황별 행동요령" description="공습·민방공 경보와 화학·핵·지진·화재·침수 등 상황별 핵심 행동을 한국 공식 지침에 따라 안내합니다.">
@@ -38,7 +40,13 @@ const situations = [
   <a href={item.href} target="_blank" rel="noopener noreferrer" class="text-link">이 상황의 공식 안내 확인 ↗</a>
  </section>)}
  </div>
- <section class="readable"><h2>민방위 대피시설은 어디서 확인하나요?</h2><p>평상시에 국민안전24 또는 안전디딤돌 앱에서 ‘민방위 대피시설’을 조회하고 집·직장·학교 주변 후보와 경로를 확인하세요. 위치·운영 여부가 바뀔 수 있으므로 실제 이동할 때는 최신 지시를 우선합니다.</p><p><a href={official.shelter} target="_blank" rel="noopener noreferrer">국민안전24 대피시설 조회 ↗</a> · <a href="/plan/">가족 대피계획 작성 →</a></p></section>
+ <section class="readable">
+  <h2>민방위 대피시설·비상급수시설 찾기</h2>
+  <p>평소에 <strong>국민안전24 시설안전지도</strong>를 열어 대피시설 항목의 <strong>민방위 대피소</strong>를 선택하고, 집·직장·학교 주변 후보를 확인하세요. 실제 출입구·접근 경로를 확인하고 침수 위험 등도 고려해야 합니다.</p>
+  <p>수도 공급 중단에 대비한 <strong>비상급수시설</strong>은 지도에서 별도의 항목으로 선택해 확인합니다. 대피시설과 급수시설은 동일하지 않으며, 표시된 위치가 현재 운영·급수 중임을 보장하지 않습니다.</p>
+  <p><a href={official.shelter} target="_blank" rel="noopener noreferrer">공식 시설안전지도 ↗</a> · <a href={official.shelterBackup} target="_blank" rel="noopener noreferrer">대피시설 경량 조회 ↗</a> · <a href={official.waterFacility} target="_blank" rel="noopener noreferrer">급수시설 경량 조회 ↗</a></p>
+  <p><a href="/plan/">집·직장 주변 시설을 가족 비상계획 카드에 기록하기 →</a></p>
+ </section>
  <section class="last-call"><strong>긴급 신고</strong><p>화재·구조·구급은 <a href="tel:119">119</a>, 치안 긴급신고는 <a href="tel:112">112</a>. 가능한 안전한 곳에서 신고하고 현재 위치와 위험 상황을 알리세요.</p></section>
  <p class="source-caption">공식 자료 대조일: <time datetime="2026-10-28">2026년 10월 28일</time> · 출처: 행정안전부 민방위 제도 운영, 국민안전24 비상시 행동요령·화재·침수·정전, 기상청 지진 안내. <a href="/sources/">공식 출처 전체 보기 →</a></p>
 </div>
