@@ -1,0 +1,58 @@
+---
+import Base from '../layouts/Base.astro';
+import { sections, sources } from '../data/resources';
+---
+<Base title="전시·재난 대비, 오늘부터 할 수 있는 준비">
+ <div class="container">
+ <section class="hero">
+  <div class="hero-copy">
+   <span class="eyebrow"><span class="eyebrow-dot" aria-hidden="true"></span> 불안보다 정확한 준비</span>
+   <h1>만약을 대비해,<br/><em>오늘 할 수 있는 일</em>부터.</h1>
+   <p class="lead">전시·재난 대비는 물건을 많이 사는 일이 아닙니다. <strong>대피할 곳을 알아두고, 가족 계획을 세우고, 꼭 필요한 물품을 준비하는 것</strong>부터 시작하세요.</p>
+   <div class="hero-actions">
+    <a class="btn primary" href="/checklist/">준비물 체크 시작 <span aria-hidden="true">→</span></a>
+    <a class="btn secondary" href="/situations/">상황별 행동요령</a>
+   </div>
+  </div>
+  <aside class="hero-box" aria-label="먼저 할 일 3가지">
+   <div class="box-kicker">START HERE <span class="tag">기본 순서</span></div>
+   <h2>오늘 확인할 세 가지</h2>
+   <ol class="hero-steps">
+    <li><span>01</span><div><strong>대피 장소 확인</strong><p>집과 직장 주변 민방위 대피소</p></div></li>
+    <li><span>02</span><div><strong>가족 연락 계획</strong><p>연결이 안 될 때 만날 곳</p></div></li>
+    <li><span>03</span><div><strong>기본 물품 점검</strong><p>식수·식량·조명·의약품</p></div></li>
+   </ol>
+   <p class="box-foot">공식 대피소는 <a href={sources.government} target="_blank" rel="noopener noreferrer">국민안전24 ↗</a>에서 확인하세요.</p>
+  </aside>
+ </section>
+ <section class="urgent-links" aria-label="긴급시 공식 안내">
+  <div><span class="urgent-icon" aria-hidden="true">!</span><div><strong>실제 경보·재난 발생 시</strong><p>여기에는 실시간 경보가 표시되지 않습니다. 공식 재난문자와 당국 안내를 우선하세요.</p></div></div>
+  <a href={sources.government} target="_blank" rel="noopener noreferrer">공식 재난정보 확인 <span aria-hidden="true">↗</span></a>
+ </section>
+ <section class="section" aria-labelledby="explore">
+  <div class="section-head"><span class="section-label">PREPARE BY TOPIC</span><h2 id="explore">필요한 정보부터 확인하세요</h2><p>급할 때도 쉽게 찾을 수 있도록 준비와 행동요령을 나눴습니다.</p></div>
+  <div class="topic-grid">
+    {sections.map((item,i)=><a href={item.href} class="topic-card">
+      <div class="topic-top"><span class="topic-index">0{i+1}</span><span class="topic-tag">{item.tag}</span></div>
+      <span class="topic-icon" aria-hidden="true">{item.icon}</span><h3>{item.title}</h3><p>{item.detail}</p><span class="topic-action">자세히 보기 <span aria-hidden="true">↗</span></span>
+    </a>)}
+  </div>
+ </section>
+ <section class="section" aria-labelledby="priorities">
+  <div class="section-head"><span class="section-label">WHAT MATTERS FIRST</span><h2 id="priorities">구매보다 먼저, 이 순서로</h2></div>
+  <div class="priority-row"><div class="priority-step"><span>01</span><h3>확인</h3><p>대피소와 공식 행동요령</p></div><div class="priority-step"><span>02</span><h3>계획</h3><p>가족 연락처와 이동 계획</p></div><div class="priority-step"><span>03</span><h3>준비</h3><p>집에 있는 물품부터 점검</p></div><div class="priority-step"><span>04</span><h3>보완</h3><p>부족한 물품만 검증 후 구매</p></div></div>
+ </section>
+ <section class="feature-panel">
+  <div><span class="section-label">72-HOUR STARTER</span><h2>가족 준비물, 얼마나 갖췄나요?</h2><p>물·식량·전원·의료·연락 계획을 체크하면 이 브라우저에서 진행 상황을 저장할 수 있습니다. 72시간은 시작용 목록이며 전시 비축에 대한 국내 공식 권고는 별도로 확인해야 합니다.</p><a class="btn primary" href="/checklist/">무료 체크리스트 열기 <span aria-hidden="true">→</span></a></div>
+  <div class="feature-visual" aria-hidden="true"><span>READY CHECK</span><div>식수·식량 <b>✓</b></div><div>조명·통신 <b>✓</b></div><div>가족 연락 <b>○</b></div><div class="feature-caption">준비물보다 중요한 건 반복 점검</div></div>
+ </section>
+ <section class="section" aria-labelledby="buying">
+  <div class="section-head"><span class="section-label">BUY ONLY WHAT YOU NEED</span><h2 id="buying">필요한 물품을 현명하게 고르는 법</h2><p>유통기한·안전성·실제 사양을 검증하지 않은 제품을 추천하지 않습니다.</p></div>
+  <div class="split-cards">
+   <a class="split-card" href="/buying/food/"><span class="tag">비상식량</span><h3>조리가 어려울 때 먹을 수 있는가?</h3><p>보관 조건, 물 필요 여부, 소비기한, 가족의 식단을 확인합니다.</p><span>식량 선택 기준 보기 →</span></a>
+   <a class="split-card" href="/buying/gear/"><span class="tag">비상용품</span><h3>전기가 끊겨도 실제로 작동하는가?</h3><p>손전등·라디오·보조배터리·구급·위생용품의 확인 사항을 정리합니다.</p><span>용품 선택 기준 보기 →</span></a>
+  </div>
+ </section>
+ <section class="site-promise"><div><h2>공포를 이용하지 않습니다</h2><p>‘지금 안 사면 위험하다’는 식의 판매 문구를 사용하지 않습니다. 공식 안전정보를 우선하고, 개별 상품은 근거가 충분하고 정확한 모델을 확인했을 때만 연결합니다.</p></div><a href="/about/" class="text-link">편집 원칙 확인 →</a></section>
+ </div>
+</Base>

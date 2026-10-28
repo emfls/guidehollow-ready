@@ -1,0 +1,60 @@
+---
+import Base from '../layouts/Base.astro';
+import {checkGroups,sources} from '../data/resources';
+const total=checkGroups.reduce((sum,g)=>sum+g.items.length,0);
+---
+<Base title="72시간 대비 입문 체크리스트">
+<div class="container">
+ <header class="page-intro"><span class="eyebrow">INTERACTIVE CHECKLIST</span><h1>우리 집 준비 상태,<br/><em>지금 체크해 보세요</em></h1><p>가장 기본적인 준비 항목을 가족 상황에 맞춰 점검합니다. 체크 결과는 이 기기의 브라우저에만 저장하며 다른 곳으로 전송하지 않습니다.</p></header>
+ <section class="check-overview" aria-label="준비 진행률" data-progress>
+  <div><span class="section-label">YOUR PROGRESS</span><h2><span id="done-count">0</span><span class="muted"> / {total}개 준비</span></h2><p>준비가 끝난 항목에 표시하세요. 나중에 다시 확인하고 보관 물품의 기한도 점검하세요.</p></div>
+  <div class="progress-visual" aria-hidden="true"><span id="progress-label">0%</span></div>
+  <progress max={total} value="0" id="ready-progress" aria-label="비상 준비물 완료 비율"></progress>
+ </section>
+ <div class="info-note"><strong>이 목록의 범위</strong><p>72시간은 시작 단계의 정리용 기간입니다. **국내 전시 대비 물자 지침에는 가정 비축 식량·식수 약 30일분 권고도 있으므로**, 이 목록만으로 전시에 충분하다는 의미가 아닙니다. 가족 특성과 보관 여건에 맞춰 범위를 늘리세요. <a href={sources.supplies} target="_blank" rel="noopener noreferrer">국내 공식 비상대비 물자 안내 ↗</a></p></div>
+ <div class="check-actions"><button id="print-list" type="button" class="btn secondary">목록 인쇄</button><button id="reset-list" type="button" class="quiet-button">체크 초기화</button><span id="saved-indicator" class="small-muted" aria-live="polite"></span></div>
+ <div class="check-groups">
+ {checkGroups.map(group=><section class="check-group">
+  <div class="check-group-heading"><div><h2>{group.name}</h2><p>{group.detail}</p></div><span>{group.items.length}개 항목</span></div>
+  <div class="check-items">{group.items.map(item=><label class="check-item" for={item.id}>
+   <input type="checkbox" class="kit-check" id={item.id} data-key={item.id}/>
+   <span class="check-copy"><strong>{item.text}</strong><small>{item.hint}</small></span>
+  </label>)}</div>
+ </section>)}
+ </div>
+ <section class="next-step"><div><h2>체크를 마쳤다면?</h2><p>가족의 대피소와 연락 계획을 세우고, 부족한 물품이 있을 때만 제품별 사양을 비교하세요.</p></div><a class="btn primary" href="/plan/">가족 계획 만들기 →</a></section>
+</div>
+<script>
+const boxes=[...document.querySelectorAll<HTMLInputElement>('.kit-check')];
+const progress=document.querySelector<HTMLProgressElement>('#ready-progress');
+const count=document.querySelector<HTMLElement>('#done-count');
+const label=document.querySelector<HTMLElement>('#progress-label');
+const note=document.querySelector<HTMLElement>('#saved-indicator');
+const STORAGE='guidehollow-ready-check-v1';
+function update(){
+ const done=boxes.filter(x=>x.checked).length;
+ if(progress)progress.value=done;
+ if(count)count.textContent=String(done);
+ if(label)label.textContent=Math.round(done/boxes.length*100)+'%';
+ const p=document.querySelector<HTMLElement>('.progress-visual');
+ if(p)p.style.setProperty('--percent',Math.round(done/boxes.length*100)+'%');
+}
+try {
+ const stored=JSON.parse(localStorage.getItem(STORAGE)||'[]');
+ if(Array.isArray(stored)) boxes.forEach(x=>x.checked=stored.includes(x.dataset.key));
+}catch { if(note)note.textContent='브라우저에 저장할 수 없어 현재 화면에서만 표시됩니다.'; }
+update();
+boxes.forEach(x=>x.addEventListener('change',()=>{
+ try{localStorage.setItem(STORAGE,JSON.stringify(boxes.filter(x=>x.checked).map(x=>x.dataset.key)));if(note)note.textContent='이 기기에 저장했습니다.';}catch{if(note)note.textContent='저장이 차단되어 현재 화면에서만 유지됩니다.';}
+ update();
+}));
+document.querySelector('#reset-list')?.addEventListener('click',()=>{
+ if(!confirm('체크 표시를 모두 초기화할까요?')) return;
+ boxes.forEach(x=>x.checked=false);
+ try{localStorage.removeItem(STORAGE);}catch{}
+ if(note)note.textContent='초기화했습니다.';
+ update();
+});
+document.querySelector('#print-list')?.addEventListener('click',()=>window.print());
+</script>
+</Base>
