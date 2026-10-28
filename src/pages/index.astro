@@ -1,21 +1,17 @@
 ---
 import Base from '../layouts/Base.astro';
-import { sources } from '../data/resources';
+import { sources,checkGroups } from '../data/resources';
+const basicItemIds=checkGroups.filter(g=>!('audience' in g)).flatMap(g=>g.items.map(item=>item.id));
 const quickLinks=[
- {icon:'◇',label:'3분 행동 연습',description:'공습·화학·지진 대응 미리 연습',href:'/drill/',meta:'평상시 훈련'},
- {icon:'☑',label:'준비물 체크리스트',description:'집에 있는 준비물부터 점검',href:'/checklist/',meta:'기본 22항목'},
- {icon:'⌂',label:'가족 연락 계획',description:'연락 두절 시 집결·대체 계획',href:'/plan/',meta:'인쇄용 카드'},
- {icon:'▣',label:'우리 집 준비물 점검',description:'가족 수 계산·확인 필요 목록',href:'/starter-kit/',meta:'부족한 것만 준비'},
+ {icon:'☑',label:'준비물 체크리스트',description:'집에 있는 준비물부터 표시하고 남은 항목 확인',href:'/checklist/',meta:'기본 22개',progress:true},
+ {icon:'⌂',label:'가족 연락 계획',description:'연락 두절 시 만날 장소와 연락 방법 미리 정하기',href:'/plan/',meta:'우리 가족',progress:false},
+ {icon:'◇',label:'3분 행동 연습',description:'공습·화학·지진 대응을 평소에 짧게 연습',href:'/drill/',meta:'사전 훈련',progress:false},
 ] as const;
 const situationLinks=[
- {icon:'▣',label:'공습경보',description:'가까운 안전한 대피시설로 이동',href:'/situations/#air-raid',warning:true},
- {icon:'◈',label:'화학 공격',description:'외부 공기 유입 차단과 당국 안내',href:'/situations/#chemical',warning:true},
- {icon:'◉',label:'핵·방사능',description:'튼튼한 건물 안쪽이나 지하 대피',href:'/situations/#nuclear',warning:true},
- {icon:'⌁',label:'정전',description:'조명 확보·승강기 갇힘 신고',href:'/situations/#power',warning:false},
- {icon:'◫',label:'단수',description:'안전한 식수와 지자체 급수 안내',href:'/situations/#water',warning:false},
- {icon:'△',label:'화재',description:'연기 피하기·안전 경로 확인',href:'/situations/#fire',warning:true},
- {icon:'≈',label:'집중호우·침수',description:'지하공간·침수도로 접근 금지',href:'/situations/#flood',warning:true},
- {icon:'◇',label:'지진',description:'흔들리는 동안 머리·몸 보호',href:'/situations/#earthquake',warning:false},
+ {icon:'⌁',label:'정전',description:'조명과 통신 수단 확인',href:'/situations/#power'},
+ {icon:'△',label:'화재',description:'연기·대피 경로 확인',href:'/situations/#fire'},
+ {icon:'≈',label:'침수',description:'지하·침수도로 접근 금지',href:'/situations/#flood'},
+ {icon:'◇',label:'지진',description:'흔들림 중 몸 보호',href:'/situations/#earthquake'},
 ] as const;
 
 ---
@@ -23,7 +19,7 @@ const situationLinks=[
  <div class="container">
  <section class="emergency-home-action" aria-labelledby="emergency-home-title" id="right-now">
   <div class="emergency-home-heading">
-    <div><span class="emergency-home-label">지금 위험한 상황이라면</span><h2 id="emergency-home-title">경보를 받았나요? 먼저 안전을 확보하세요</h2>
+    <div><span class="emergency-home-label">지금 위험한 상황이라면</span><h2 id="emergency-home-title">지금 위험한가요? 먼저 안전을 확보하세요</h2>
     <p>여기는 실시간 경보 화면이 아닙니다. 아래는 사전 작성된 요약이며 <strong>실제 재난문자·방송·현장 지시가 우선</strong>입니다.</p></div>
     <a class="emergency-home-all" href="/emergency/">상황별 즉시 행동 보기 →</a>
   </div>
@@ -37,44 +33,59 @@ const situationLinks=[
     <a class="emergency-save-link" href="/offline/ready-card.html" download="가족_재난_행동카드.html"><strong>인터넷 없이 볼 행동카드 저장 ↓</strong><small>미리 내려받아 열거나 PDF로 인쇄하세요</small></a>
   </div>
 </section>
-<section class="home-routine-heading" aria-label="평상시 준비 안내"><span>평상시 준비하기</span><p>긴급하지 않다면 가족 연락·준비물을 차근차근 점검하세요.</p></section>
+<section class="home-routine-heading" aria-label="평상시 준비 안내"><span>평상시 준비하기</span><p>경보 상황이 아니라면 아래에서 우리 집 준비를 시작하세요.</p></section>
 <section class="hero brief-hero" aria-labelledby="hero-title">
   <div class="hero-copy">
-   <span class="eyebrow">전시·재난 대비 생활 안내</span>
+   <span class="eyebrow">평상시 대비</span>
    <h1 id="hero-title">전시·재난 대비, <em>필요한 준비부터.</em></h1>
-   <p class="lead"><strong>대피 방법·가족 연락·비상물품</strong>을 평상시 미리 확인하세요. 실제 상황은 정부 경보와 현장 지시가 우선입니다.</p>
-   <div class="hero-actions"><a class="btn primary" href="/plan/">가족 연락 계획 만들기 →</a><a class="btn secondary" href="/starter-kit/#starter-personal">우리 집 준비물 확인</a></div>
-   <p class="brief-meta">정보 확인일: 2026년 10월 28일 · 실제 재난에는 최신 공식 지시 우선</p>
+   <p class="lead">오늘 할 일은 세 가지입니다. <strong>준비물 확인, 가족 연락 계획, 대응 연습.</strong> 실제 위험 상황에서는 위의 긴급 행동을 먼저 확인하세요.</p>
+   <p class="brief-meta">정보 확인일: 2026년 10월 28일 · 정부 경보와 현장 지시가 우선</p>
   </div>
-  <aside class="brief-box" aria-label="사이트 이용 순서">
-   <span>평소 준비 순서</span><h2>확인 → 계획 → 준비</h2>
-   <p>평상시에는 먼저 대피소를 확인하고 가족 연락 계획과 물품을 준비하세요.</p>
-   <a href={sources.government} target="_blank" rel="noopener noreferrer">국민안전24 공식 안내 ↗</a>
-  </aside>
  </section>
   <section class="section dashboard-section" aria-labelledby="quick-title">
-  <div class="section-head"><span class="section-label">평소 준비</span><h2 id="quick-title">우리 집 준비, 하나씩</h2><p>연습·체크·가족 연락·준비물 중 필요한 것부터 시작하세요.</p></div>
+  <div class="section-head"><span class="section-label">첫 단계</span><h2 id="quick-title">우리 집 준비, 여기서 시작</h2><p>아래 세 가지 중 지금 필요한 것 하나만 선택하세요.</p></div>
   <div class="quick-grid">{quickLinks.map(item=><a href={item.href} class="brief-card">
    <span class="brief-card-icon" aria-hidden="true">{item.icon}</span>
    <small>{item.meta}</small><h3>{item.label}</h3><p>{item.description}</p>
-   <span class="brief-card-action">바로 확인 ↗</span>
+   {item.progress && <span class="home-checklist-progress" data-check-ids={JSON.stringify(basicItemIds)}><span id="home-checked-count">—</span> / {basicItemIds.length}개 확인 <span class="home-checklist-meter"><span id="home-checklist-meter-fill"></span></span></span>}
+   <span class="brief-card-action">바로 확인 →</span>
   </a>)}</div>
  </section>
  <section class="section dashboard-section" id="situation-hub" aria-labelledby="situations-title">
-  <div class="section-head"><span class="section-label">상황별 안내</span><h2 id="situations-title">다른 재난도 알아두세요</h2><p>실제 경보가 발생했다면 위의 긴급 행동 안내를 먼저 확인하세요.</p></div>
- 
-  <div class="situation-hub-grid">{situationLinks.map(item=><a class:list={['situation-hub-card',{'situation-hub-card--urgent':item.warning}]} href={item.href}>
+  <div class="section-head"><span class="section-label">다른 상황도 미리 보기</span><h2 id="situations-title">어떤 상황인가요?</h2><p>공습·화학·핵 대응은 맨 위 긴급 행동에서 확인할 수 있습니다.</p></div>
+  <div class="situation-hub-grid">{situationLinks.map(item=><a class="situation-hub-card" href={item.href}>
    <span class="situation-hub-icon" aria-hidden="true">{item.icon}</span><h3>{item.label}</h3><p>{item.description}</p>
-   <span>상세 행동요령 ↗</span>
+   <span>행동요령 보기 →</span>
   </a>)}</div>
-  <p class="hub-caution">경보 종류·지역·침수·오염 여부에 따라 대피 방법이 달라집니다. 위 내용은 사전 학습용 요약이며 실제 상황에서는 공식 지시를 우선하세요.</p>
+  <a class="home-other-alerts" href="/situations/">단수·산불·지진해일 등 모든 재난 행동요령 보기 →</a>
+  <p class="hub-caution">실제 경보가 발생했다면 유형·지역에 맞는 정부·현장 지시를 먼저 확인하세요. 위 카드는 사전 안내입니다.</p>
  </section>
- <a class="home-kit-banner" href="/starter-kit/"><span class="home-kit-symbol" aria-hidden="true">▣</span><div><strong>우리 집 준비물 6가지 점검하기</strong><p>식수 필요량 계산부터 확인할 물품 정리까지 한 번에</p></div><span class="home-kit-arrow" aria-hidden="true">→</span></a>
+ <a class="home-kit-banner" href="/starter-kit/#starter-personal"><span class="home-kit-symbol" aria-hidden="true">▣</span><div><strong>우리 집 준비물 6가지 점검하기</strong><p>식수 필요량 계산부터 확인할 물품 정리까지 한 번에</p></div><span class="home-kit-arrow" aria-hidden="true">→</span></a>
  <nav class="home-resource-links" aria-label="비상용품 구매 전 안내">
-  <a href="/buying/food/">비상식량·식수 고르는 법 <span aria-hidden="true">→</span></a>
-  <a href="/buying/gear/">손전등·구급용품 고르는 법 <span aria-hidden="true">→</span></a>
-  <a href="/reviews/">검증 제품 비교 <span aria-hidden="true">→</span></a>
+  <a href="/buying/food/">식수·비상식량 선택 기준 <span aria-hidden="true">→</span></a>
+  <a href="/reviews/">제조사 사양 기반 제품 비교 <span aria-hidden="true">→</span></a>
  </nav>
  <p class="home-resource-note">이미 갖춘 물건이 있다면 먼저 수량과 작동 상태를 확인하세요. 준비물 구매보다 안전한 대피와 가족 연락 계획이 우선입니다.</p>
  </div>
+<script>
+const summary=document.querySelector<HTMLElement>('.home-checklist-progress');
+const current=document.querySelector<HTMLElement>('#home-checked-count');
+const fill=document.querySelector<HTMLElement>('#home-checklist-meter-fill');
+if(summary&&current&&fill){
+ try{
+  const known:unknown=JSON.parse(summary.dataset.checkIds||'[]');
+  const record=localStorage.getItem('guidehollow-ready-check-v1');
+  const selected:unknown=record===null?[]:JSON.parse(record);
+  if(!Array.isArray(known)||!known.every(x=>typeof x==='string')||!Array.isArray(selected)||!selected.every(x=>typeof x==='string')||new Set(selected).size!==selected.length)throw Error('Invalid saved checklist');
+  const valid=new Set(known as string[]);
+  const done=selected.filter((x:string)=>valid.has(x)).length;
+  current.textContent=String(done);
+  fill.style.width=(known.length?done/known.length*100:0)+'%';
+ }catch{
+  current.textContent='—';
+  fill.style.width='0%';
+  summary.setAttribute('aria-label','저장된 진행 상태를 읽을 수 없습니다. 체크리스트에서 상태를 확인하세요.');
+ }
+}
+</script>
 </Base>
