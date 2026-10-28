@@ -23,6 +23,8 @@ jobs:
           cache: npm
       - name: Verify Coupang partner HTML parser safety
         run: node --experimental-strip-types scripts/test-partner-code.mjs
+      - name: Test preparedness stock dates and backup validation
+        run: node --experimental-strip-types scripts/test-preparedness-stock.mjs
       - name: Install dependencies
         run: npm ci
       - name: Astro type check

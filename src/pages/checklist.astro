@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import {checkGroups,sources} from '../data/resources';
+import StockManager from '../components/StockManager.astro';
 const initialTotal=checkGroups.filter(g=>!('audience' in g)).reduce((sum,g)=>sum+g.items.length,0);
 ---
 <Base title="72시간 대비 가정 준비 체크리스트" description="기본 72시간 대비 물품을 점검하고 영유아·고령자·반려동물 가족에 필요한 준비를 추가하세요. 진행 상태는 이 기기에만 저장됩니다.">
@@ -36,12 +37,48 @@ const initialTotal=checkGroups.filter(g=>!('audience' in g)).reduce((sum,g)=>sum
   </div>
  </fieldset>
 
+ <section id="check-damaged" class="check-damaged" aria-labelledby="check-damaged-title" hidden>
+  <h2 id="check-damaged-title">읽을 수 없는 기록 복구</h2>
+  <p>저장된 체크리스트 기록의 형식이 올바르지 않아 해당 기록의 자동 저장을 중지했습니다. <strong>먼저 원본 파일을 보관</strong>한 뒤 필요한 기록만 초기화하세요. 정상적으로 저장된 다른 기록과 비축품 목록은 유지됩니다.</p>
+  <div id="check-damaged-progress" class="check-damaged-group" hidden>
+   <h3>체크 완료 기록</h3>
+   <button type="button" id="check-save-damaged-progress">손상된 체크 원본 저장</button>
+   <button type="button" id="check-reset-damaged-progress">체크 완료 기록만 초기화</button>
+  </div>
+  <div id="check-damaged-family" class="check-damaged-group" hidden>
+   <h3>가족 유형 선택 기록</h3>
+   <button type="button" id="check-save-damaged-family">손상된 가족 선택 원본 저장</button>
+   <button type="button" id="check-reset-damaged-family">가족 유형만 초기화</button>
+  </div>
+  <p id="check-damaged-status" class="check-damaged-status" role="status" aria-live="polite"></p>
+ </section>
+ <div id="check-stale" class="check-stale" role="alert" hidden><strong>다른 탭에서 체크리스트 기록이 변경됐습니다.</strong> 이 탭의 이전 기록으로 덮어쓰지 않도록 저장과 복원을 차단했습니다. 입력 중인 내용을 확인한 후 <button id="check-reload" type="button">최신 체크리스트 불러오기</button>를 선택하세요.</div>
  <div class="check-actions">
+  <label class="missing-toggle" for="only-missing"><input type="checkbox" id="only-missing" /><span>미준비 항목만 보기</span></label>
   <button id="print-list" type="button" class="btn secondary">체크리스트 인쇄</button>
+  <button id="copy-missing" type="button" class="btn secondary">미준비 목록 복사</button>
   <button id="reset-list" type="button" class="quiet-button">체크만 초기화</button>
   <span id="saved-indicator" class="small-muted" role="status" aria-live="polite"></span>
  </div>
 
+ <p id="missing-summary" class="missing-summary" role="status" aria-live="polite">준비 여부를 확인할 항목 {initialTotal}개</p>
+ <div id="copy-fallback-wrap" class="copy-fallback-wrap" hidden>
+  <label for="copy-fallback">자동 복사가 제한되었습니다. 아래 목록을 선택한 뒤 복사하세요.</label>
+  <textarea id="copy-fallback" rows="7" readonly aria-label="직접 복사할 미준비 준비물 목록"></textarea>
+ </div>
+ <section class="check-backup" aria-labelledby="check-backup-title">
+  <div>
+   <h2 id="check-backup-title">완료 체크·가족 유형 백업</h2>
+   <p>체크한 29개 항목의 완료 상태와 영유아·돌봄·반려동물 선택을 JSON 파일로 보관했다가 다른 브라우저에서 복원할 수 있습니다. <strong>비축품 수량·소비기한 기록은 포함하지 않습니다.</strong> 비축품은 아래 관리표에서 별도로 백업하세요.</p>
+  </div>
+  <div class="check-backup-actions">
+   <button type="button" id="export-checks" class="btn secondary">체크 상태 백업</button>
+   <label for="import-checks">백업 JSON 선택</label>
+   <input type="file" id="import-checks" accept=".json,application/json" aria-describedby="check-backup-warning"/>
+  </div>
+  <p id="check-backup-warning">복원하면 현재 체크 상태와 가족 유형 선택을 모두 교체합니다. 복원 전 기존 기록을 백업하세요. 내보낸 파일은 기기에 남으므로 공용 기기·공유 폴더 보관에 주의하세요. 서버로 파일을 전송하지 않습니다.</p>
+  <p id="check-backup-status" class="check-backup-status" role="status" aria-live="polite"></p>
+ </section>
  <div class="check-groups">
   {checkGroups.map((group,i)=><section class="check-group" id={'kit-'+group.id} data-audience={'audience' in group?group.audience:undefined}>
    <div class="check-group-heading"><div><span class="check-card-index">준비 {String(i+1).padStart(2,'0')}</span><h2>{group.name}</h2><p>{group.detail}</p></div><span data-group-progress>{group.items.length}개 항목</span></div>
@@ -51,11 +88,12 @@ const initialTotal=checkGroups.filter(g=>!('audience' in g)).reduce((sum,g)=>sum
    </label>)}</div>
   </section>)}
  </div>
+ <StockManager />
  <section class="next-step"><div><h2>체크 후 무엇을 할까요?</h2><p>식수·식량의 실제 보관 조건을 확인하고, 대피소·연락 계획도 가족과 함께 정하세요.</p></div><a href="/buying/food/" class="btn primary">비상식량·식수 가이드 →</a></section>
  <section class="check-sources" aria-label="기준과 출처">
   <strong>검수 기준 · 2026년 10월 28일</strong>
   <p>국내 기준: <a href={sources.supplies} target="_blank" rel="noopener noreferrer">국민안전24 비상대비 물자 준비</a>. 추가 참고: <a href={sources.waterGuide} target="_blank" rel="noopener noreferrer">미국 CDC 비상 식수</a>, <a href={sources.infantGuide} target="_blank" rel="noopener noreferrer">미국 CDC 영유아 수유</a>, <a href={sources.readyKit} target="_blank" rel="noopener noreferrer">미국 Ready.gov 비상물품</a>. 해외 자료의 수량은 국내 의무 기준이 아닙니다.</p>
-  <p>이 페이지는 계정·서버 저장 없이 동작합니다. 공용 기기라면 사용 후 ‘체크만 초기화’를 누르고 가족 유형 선택도 해제하세요. 브라우저 저장 기능이 제한된 경우 체크 상태는 유지되지 않을 수 있습니다.</p>
+  <p>체크 상태와 가족 선택은 이 기기의 브라우저 내부 저장소(localStorage)에만 남으며 계정·서버로 전송되지 않습니다. 공용 기기라면 사용 후 ‘체크만 초기화’를 누르고 가족 유형 선택도 해제하세요. 비축품 기록은 별도 저장이므로 필요하면 관리표에서 따로 삭제하세요. 브라우저 저장 기능이 제한된 경우 체크 상태는 유지되지 않을 수 있습니다.</p>
  </section>
  <noscript><p class="info-note">자바스크립트가 꺼져 있으면 체크 상태 저장과 자동 진행률·가족별 필터가 동작하지 않습니다. 인쇄 후 종이로 표시해도 됩니다.</p></noscript>
 </div>
@@ -68,11 +106,98 @@ const count=document.querySelector<HTMLElement>('#done-count');
 const totalEl=document.querySelector<HTMLElement>('#total-count');
 const label=document.querySelector<HTMLElement>('#progress-label');
 const note=document.querySelector<HTMLElement>('#saved-indicator');
+const onlyMissing=document.querySelector<HTMLInputElement>('#only-missing');
+const printList=document.querySelector<HTMLButtonElement>('#print-list');
+const missingSummary=document.querySelector<HTMLElement>('#missing-summary');
+const fallbackWrap=document.querySelector<HTMLElement>('#copy-fallback-wrap');
+const fallbackText=document.querySelector<HTMLTextAreaElement>('#copy-fallback');
 // Existing checked-item key is preserved, including all original item IDs.
 const STORAGE='guidehollow-ready-check-v1';
 const FAMILY_STORAGE='guidehollow-ready-family-filters-v1';
+const BACKUP_FORMAT='guidehollow-ready-checklist';
+const BACKUP_VERSION=1;
+const MAX_BACKUP_BYTES=16384;
+const exportChecks=document.querySelector<HTMLButtonElement>('#export-checks');
+const importChecks=document.querySelector<HTMLInputElement>('#import-checks');
+const backupStatus=document.querySelector<HTMLElement>('#check-backup-status');
+const staleNotice=document.querySelector<HTMLElement>('#check-stale');
+const reloadChecks=document.querySelector<HTMLButtonElement>('#check-reload');
+const damagedArea=document.querySelector<HTMLElement>('#check-damaged');
+const damagedProgress=document.querySelector<HTMLElement>('#check-damaged-progress');
+const damagedFamily=document.querySelector<HTMLElement>('#check-damaged-family');
+const damagedStatus=document.querySelector<HTMLElement>('#check-damaged-status');
+let savedChecksRaw:string|null=null;
+let savedFamilyRaw:string|null=null;
+let staleChecks=false;
+let staleFamilies=false;
+let canSaveChecks=true;
+let canSaveFamilies=true;
+let damagedCheck=false;
+let damagedFamilyRecord=false;
+function updateDamagedView(){
+ if(damagedArea)damagedArea.hidden=!damagedCheck&&!damagedFamilyRecord;
+ if(damagedProgress)damagedProgress.hidden=!damagedCheck;
+ if(damagedFamily)damagedFamily.hidden=!damagedFamilyRecord;
+}
+function readSelection(key:string,known:Set<string>):string[]{
+ const raw=localStorage.getItem(key);
+ if(key===STORAGE)savedChecksRaw=raw;
+ else if(key===FAMILY_STORAGE)savedFamilyRaw=raw;
+ if(raw===null)return [];
+ const value:unknown=JSON.parse(raw);
+ if(!Array.isArray(value)||value.length>known.size
+  ||!value.every(x=>typeof x==='string'&&known.has(x))
+  ||new Set(value).size!==value.length)throw Error('invalid stored selection');
+ return value as string[];
+}
+function showStale(){
+ if(staleNotice)staleNotice.hidden=false;
+ if(note)note.textContent='다른 탭에서 기록이 변경됐습니다. 충돌 방지를 위해 저장을 중지했습니다. 새로고침하세요.';
+}
+function currentSelection(key:string):boolean{
+ const changed=key===STORAGE?staleChecks:staleFamilies;
+ if(changed){showStale();return false;}
+ try{
+  const previous=key===STORAGE?savedChecksRaw:savedFamilyRaw;
+  if(localStorage.getItem(key)===previous)return true;
+ }catch{
+  if(key===STORAGE)canSaveChecks=false;else canSaveFamilies=false;
+  if(note)note.textContent='브라우저 저장소에 접근하지 못해 변경을 중단했습니다.';
+  return false;
+ }
+ if(key===STORAGE)staleChecks=true;else staleFamilies=true;
+ showStale();
+ return false;
+}
+window.addEventListener('storage',(event)=>{
+ if(event.key===STORAGE||event.key===null)staleChecks=true;
+ if(event.key===FAMILY_STORAGE||event.key===null)staleFamilies=true;
+ if(staleChecks||staleFamilies)showStale();
+});
+reloadChecks?.addEventListener('click',()=>{
+ if(confirm('이 탭에서 입력 중인 미저장 체크 상태를 버리고 최신 기록을 불러올까요?'))window.location.reload();
+});
 function selectedBoxes(){
  return boxes.filter(x=>!x.closest<HTMLElement>('.check-group')?.hidden);
+}
+function updateMissingView(){
+ const active=selectedBoxes();
+ const missing=active.filter(x=>!x.checked);
+ const filtering=Boolean(onlyMissing?.checked);
+ if(fallbackWrap)fallbackWrap.hidden=true;
+ groups.forEach(group=>{
+  const checkboxes=[...group.querySelectorAll<HTMLInputElement>('.kit-check')];
+  checkboxes.forEach(x=>{
+   const row=x.closest<HTMLElement>('.check-item');
+   if(row)row.hidden=filtering&&x.checked;
+  });
+  group.dataset.filterEmpty=String(filtering&&!group.hidden&&checkboxes.every(x=>x.checked));
+ });
+ if(missingSummary)missingSummary.textContent=missing.length
+  ?'준비 여부를 확인할 항목 '+missing.length+'개'+(filtering?'만 표시 중입니다.':' · 미준비만 보기로 줄일 수 있습니다.')
+  :'선택한 가족 상황에서 미준비 표시 항목이 없습니다. 실제 보관 상태는 다시 확인하세요.';
+ if(printList)printList.textContent=filtering?'미준비 항목 인쇄':'체크리스트 인쇄';
+ document.body.classList.toggle('ready-only-missing-print',filtering);
 }
 function update(){
  const active=selectedBoxes();
@@ -89,6 +214,7 @@ function update(){
   const status=group.querySelector<HTMLElement>('[data-group-progress]');
   if(status)status.textContent=groupBoxes.filter(x=>x.checked).length+' / '+groupBoxes.length+'개';
  });
+ updateMissingView();
 }
 function applyFamilyFilters(){
  const chosen=new Set(audiences.filter(x=>x.checked).map(x=>x.dataset.audienceKey));
@@ -99,34 +225,252 @@ function applyFamilyFilters(){
  update();
 }
 function saveChecks(){
+ if(!canSaveChecks){
+  if(note)note.textContent='기존 체크 기록을 읽을 수 없습니다. 원본 보호를 위해 저장을 중지했습니다. 백업 복원 또는 체크 초기화를 이용하세요.';
+  update();
+  return;
+ }
+ if(!currentSelection(STORAGE))return;
  try{
-  localStorage.setItem(STORAGE,JSON.stringify(boxes.filter(x=>x.checked).map(x=>x.dataset.key)));
+  const nextRaw=JSON.stringify(boxes.filter(x=>x.checked).map(x=>x.dataset.key));
+  localStorage.setItem(STORAGE,nextRaw);
+  savedChecksRaw=nextRaw;
   if(note)note.textContent='체크 결과를 이 기기에 저장했습니다.';
  }catch{
-  if(note)note.textContent='저장이 차단되어 현재 화면에서만 유지됩니다.';
+  if(note)note.textContent='브라우저 저장이 차단되어 변경은 이 화면에서만 유지됩니다.';
  }
  update();
 }
 try{
- const stored=JSON.parse(localStorage.getItem(STORAGE)||'[]');
- if(Array.isArray(stored))boxes.forEach(x=>x.checked=stored.includes(x.dataset.key));
- const filters=JSON.parse(localStorage.getItem(FAMILY_STORAGE)||'[]');
- if(Array.isArray(filters))audiences.forEach(x=>x.checked=filters.includes(x.dataset.audienceKey));
-}catch{if(note)note.textContent='저장된 상태를 읽지 못했습니다. 현재 화면에서 다시 체크하세요.';}
+ const stored=readSelection(STORAGE,new Set(boxes.map(x=>x.dataset.key).filter((x):x is string=>Boolean(x))));
+ boxes.forEach(x=>x.checked=stored.includes(x.dataset.key||''));
+}catch{
+ canSaveChecks=false;
+ damagedCheck=savedChecksRaw!==null;
+ updateDamagedView();
+ if(note)note.textContent='저장된 체크 기록을 읽을 수 없습니다. 기존 원본은 덮어쓰지 않습니다.';
+}
+try{
+ const filters=readSelection(FAMILY_STORAGE,new Set(audiences.map(x=>x.dataset.audienceKey).filter((x):x is string=>Boolean(x))));
+ audiences.forEach(x=>x.checked=filters.includes(x.dataset.audienceKey||''));
+}catch{
+ canSaveFamilies=false;
+ damagedFamilyRecord=savedFamilyRaw!==null;
+ updateDamagedView();
+ if(note)note.textContent='저장된 가족 선택 기록을 읽을 수 없습니다. 기존 원본은 덮어쓰지 않습니다.';
+}
 applyFamilyFilters();
-boxes.forEach(x=>x.addEventListener('change',saveChecks));
-audiences.forEach(x=>x.addEventListener('change',()=>{
+function downloadDamaged(key:string,filename:string){
+ const eligible=key===STORAGE?damagedCheck:damagedFamilyRecord;
+ if(!eligible||!currentSelection(key))return;
+ const raw=key===STORAGE?savedChecksRaw:savedFamilyRaw;
+ if(raw===null)return;
  try{
-  localStorage.setItem(FAMILY_STORAGE,JSON.stringify(audiences.filter(a=>a.checked).map(a=>a.dataset.audienceKey)));
+  const url=URL.createObjectURL(new Blob([raw],{type:'text/plain;charset=utf-8'}));
+  const link=document.createElement('a');
+  link.href=url;
+  link.download=filename;
+  document.body.append(link);
+  link.click();
+  link.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),1000);
+  if(damagedStatus)damagedStatus.textContent='손상된 원본 파일의 다운로드를 요청했습니다. 실제 저장 위치를 확인하세요.';
+ }catch{
+  if(damagedStatus)damagedStatus.textContent='원본 파일을 만들 수 없습니다. 기록을 초기화하기 전 브라우저 저장 데이터를 별도로 보관하세요.';
+ }
+}
+function resetDamaged(key:string){
+ const eligible=key===STORAGE?damagedCheck:damagedFamilyRecord;
+ if(!eligible||!currentSelection(key))return;
+ const name=key===STORAGE?'체크 완료 기록':'가족 유형 선택 기록';
+ if(!confirm('손상된 '+name+'을 초기화할까요? 되돌릴 수 없으므로 먼저 원본 파일을 저장하세요.'))return;
+ if(!currentSelection(key))return;
+ try{
+  localStorage.setItem(key,'[]');
+  if(key===STORAGE){
+   savedChecksRaw='[]';
+   canSaveChecks=true;
+   damagedCheck=false;
+   boxes.forEach(x=>x.checked=false);
+   update();
+  }else{
+   savedFamilyRaw='[]';
+   canSaveFamilies=true;
+   damagedFamilyRecord=false;
+   audiences.forEach(x=>x.checked=false);
+   applyFamilyFilters();
+  }
+  updateDamagedView();
+  if(damagedStatus)damagedStatus.textContent=name+'을 초기화했습니다. 다른 체크·비축품 기록은 그대로 유지됩니다.';
+  if(note)note.textContent=name+' 초기화를 저장했습니다.';
+ }catch{
+  if(damagedStatus)damagedStatus.textContent='저장소 접근 실패로 초기화하지 못했습니다. 이전 원본은 유지됩니다.';
+ }
+}
+document.querySelector('#check-save-damaged-progress')?.addEventListener('click',()=>downloadDamaged(STORAGE,'guidehollow-ready-damaged-checks.txt'));
+document.querySelector('#check-reset-damaged-progress')?.addEventListener('click',()=>resetDamaged(STORAGE));
+document.querySelector('#check-save-damaged-family')?.addEventListener('click',()=>downloadDamaged(FAMILY_STORAGE,'guidehollow-ready-damaged-family.txt'));
+document.querySelector('#check-reset-damaged-family')?.addEventListener('click',()=>resetDamaged(FAMILY_STORAGE));
+function checkedIds():string[]{
+ return boxes.filter(x=>x.checked).map(x=>x.dataset.key).filter((v):v is string=>Boolean(v));
+}
+function selectedAudiences():string[]{
+ return audiences.filter(x=>x.checked).map(x=>x.dataset.audienceKey).filter((v):v is string=>Boolean(v));
+}
+exportChecks?.addEventListener('click',()=>{
+ if(!canSaveChecks||!canSaveFamilies){
+  if(backupStatus)backupStatus.textContent='기존 기록을 읽지 못해 화면 상태를 정확한 백업으로 보장할 수 없습니다. 원본을 확인하거나 정상 백업 파일을 복원하세요.';
+  return;
+ }
+ if(!currentSelection(STORAGE)||!currentSelection(FAMILY_STORAGE)){
+  if(backupStatus)backupStatus.textContent='다른 탭에서 기록이 변경됐습니다. 이 탭을 새로 열어 최신 기록을 백업하세요.';
+  return;
+ }
+ try{
+  const completed=checkedIds();
+  const chosen=selectedAudiences();
+  const payload=JSON.stringify({format:BACKUP_FORMAT,version:BACKUP_VERSION,exportedAt:new Date().toISOString(),completed,audiences:chosen},null,2);
+  const url=URL.createObjectURL(new Blob([payload],{type:'application/json;charset=utf-8'}));
+  const a=document.createElement('a');
+  const now=new Date();
+  const day=[now.getFullYear(),String(now.getMonth()+1).padStart(2,'0'),String(now.getDate()).padStart(2,'0')].join('-');
+  a.href=url;
+  a.download='guidehollow-ready-checklist-'+day+'.json';
+  document.body.append(a);
+  a.click();
+  a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),1000);
+  if(backupStatus)backupStatus.textContent='체크 상태 '+completed.length+'개와 가족 유형 '+chosen.length+'개를 백업 파일로 저장 요청했습니다. 다운로드 위치를 확인하세요.';
+ }catch{
+  if(backupStatus)backupStatus.textContent='백업 파일을 만들지 못했습니다. 브라우저 다운로드 설정을 확인하세요.';
+ }
+});
+importChecks?.addEventListener('change',async()=>{
+ const file=importChecks.files?.[0];
+ if(!file)return;
+ try{
+  if(!file.size||file.size>MAX_BACKUP_BYTES)throw Error('16KB 이하의 체크리스트 백업 JSON만 불러올 수 있습니다.');
+  const parsed:unknown=JSON.parse(await file.text());
+  if(!parsed||typeof parsed!=='object'||Array.isArray(parsed))throw Error('올바른 체크리스트 백업 파일이 아닙니다.');
+  const data=parsed as Record<string,unknown>;
+  if(data.format!==BACKUP_FORMAT||data.version!==BACKUP_VERSION)throw Error('지원하지 않는 백업 파일 형식 또는 버전입니다.');
+  if(!Array.isArray(data.completed)||!Array.isArray(data.audiences))throw Error('체크 상태 또는 가족 유형 목록이 누락되었습니다.');
+  const allIds=new Set(boxes.map(x=>x.dataset.key).filter((x):x is string=>Boolean(x)));
+  const allAudiences=new Set(audiences.map(x=>x.dataset.audienceKey).filter((x):x is string=>Boolean(x)));
+  const completed=data.completed;
+  const chosen=data.audiences;
+  if(completed.length>allIds.size||!completed.every(x=>typeof x==='string'&&allIds.has(x))
+   ||new Set(completed).size!==completed.length)throw Error('체크 항목 ID가 중복되었거나 알 수 없는 항목이 포함되었습니다.');
+  if(chosen.length>allAudiences.size||!chosen.every(x=>typeof x==='string'&&allAudiences.has(x))
+   ||new Set(chosen).size!==chosen.length)throw Error('가족 유형 선택 내용이 올바르지 않습니다.');
+  if(!currentSelection(STORAGE)||!currentSelection(FAMILY_STORAGE))
+   throw Error('다른 탭에서 기록이 변경됐습니다. 최신 체크리스트를 다시 불러온 뒤 복원하세요.');
+  const oldChecks=localStorage.getItem(STORAGE);
+  const oldFamily=localStorage.getItem(FAMILY_STORAGE);
+  if(!confirm('현재 체크·가족 유형을 백업의 완료 '+completed.length+'개 / 가족 유형 '+chosen.length+'개로 교체할까요? 비축품 기록은 유지됩니다.')) {
+   if(backupStatus)backupStatus.textContent='복원을 취소했습니다. 현재 기록은 그대로 유지됩니다.';
+   return;
+  }
+  if(!currentSelection(STORAGE)||!currentSelection(FAMILY_STORAGE))
+   throw Error('복원 확인 중 다른 탭의 기록이 변경됐습니다. 새로고침 후 다시 시도하세요.');
+  const nextChecksRaw=JSON.stringify(completed);
+  const nextFamilyRaw=JSON.stringify(chosen);
+  try{
+   localStorage.setItem(STORAGE,nextChecksRaw);
+   localStorage.setItem(FAMILY_STORAGE,nextFamilyRaw);
+  }catch{
+   let rolledBack=true;
+   try{
+    if(oldChecks===null)localStorage.removeItem(STORAGE);else localStorage.setItem(STORAGE,oldChecks);
+    if(oldFamily===null)localStorage.removeItem(FAMILY_STORAGE);else localStorage.setItem(FAMILY_STORAGE,oldFamily);
+   }catch{rolledBack=false;}
+   if(!rolledBack){canSaveChecks=false;canSaveFamilies=false;staleChecks=true;staleFamilies=true;showStale();}
+   throw Error(rolledBack
+    ?'브라우저 저장소에 기록할 수 없어 가져오기를 취소했습니다. 기존 기록은 유지됩니다.'
+    :'저장 오류로 일부 기록만 바뀌었을 수 있습니다. 페이지를 새로 열어 상태를 재확인하세요.');
+  }
+  savedChecksRaw=nextChecksRaw;
+  savedFamilyRaw=nextFamilyRaw;
+  canSaveChecks=true;
+  canSaveFamilies=true;
+  damagedCheck=false;
+  damagedFamilyRecord=false;
+  updateDamagedView();
+  const checked=new Set(completed);
+  const family=new Set(chosen);
+  boxes.forEach(x=>x.checked=checked.has(x.dataset.key||''));
+  audiences.forEach(x=>x.checked=family.has(x.dataset.audienceKey||''));
+  applyFamilyFilters();
+  if(backupStatus)backupStatus.textContent='체크 상태 '+completed.length+'개와 가족 유형 '+chosen.length+'개를 복원했습니다. 비축품 목록은 변경하지 않았습니다.';
+  if(note)note.textContent='백업 파일에서 체크 상태를 복원했습니다.';
+ }catch(e){
+  if(backupStatus)backupStatus.textContent=e instanceof Error?e.message:'백업 파일을 불러오지 못했습니다. 현재 기록을 확인하세요.';
+ }finally{
+  if(importChecks)importChecks.value='';
+ }
+});
+boxes.forEach(x=>x.addEventListener('change',saveChecks));
+onlyMissing?.addEventListener('change',updateMissingView);
+document.querySelector('#copy-missing')?.addEventListener('click',async()=>{
+ const lines=['우리 집 비상 준비 — 확인할 항목','초기 72시간용 목록 · 국내 전시 30일분 비축은 별도'];
+ let count=0;
+ for(const group of groups){
+  if(group.hidden)continue;
+  const rows=[...group.querySelectorAll<HTMLInputElement>('.kit-check')].filter(x=>!x.checked);
+  if(!rows.length)continue;
+  lines.push('',group.querySelector('h2')?.textContent?.trim()||'준비 항목');
+  for(const input of rows){
+   const label=input.closest<HTMLElement>('.check-item');
+   const title=label?.querySelector('.check-copy strong')?.textContent?.trim()||'물품';
+   const hint=label?.querySelector('.check-copy small')?.textContent?.trim()||'';
+   lines.push('- [ ] '+title+(hint?' — '+hint:''));
+   count++;
+  }
+ }
+ if(!count){if(note)note.textContent='복사할 미준비 항목이 없습니다.';return;}
+ try{
+  if(!navigator.clipboard?.writeText)throw Error('unavailable');
+  await navigator.clipboard.writeText(lines.join('\n'));
+  if(note)note.textContent='미준비 '+count+'개 항목을 복사했습니다.';
+ }catch{
+  if(fallbackWrap&&fallbackText){
+   fallbackText.value=lines.join('\n');
+   fallbackWrap.hidden=false;
+   fallbackText.focus();
+   fallbackText.select();
+   if(note)note.textContent='자동 복사가 제한되어 직접 선택할 수 있는 목록을 표시했습니다.';
+  }else if(note)note.textContent='복사가 허용되지 않았습니다. 인쇄 기능을 이용하세요.';
+ }
+});
+audiences.forEach(x=>x.addEventListener('change',()=>{
+ if(!canSaveFamilies){
+  if(note)note.textContent='저장된 가족 선택 기록을 읽지 못해 변경을 저장하지 않았습니다. 원본 보호를 위해 백업 복원 후 저장하세요.';
+  applyFamilyFilters();
+  return;
+ }
+ if(!currentSelection(FAMILY_STORAGE)){applyFamilyFilters();return;}
+ try{
+  const nextRaw=JSON.stringify(audiences.filter(a=>a.checked).map(a=>a.dataset.audienceKey));
+  localStorage.setItem(FAMILY_STORAGE,nextRaw);
+  savedFamilyRaw=nextRaw;
   if(note)note.textContent='가족 유형을 이 기기에 저장했습니다.';
- }catch{if(note)note.textContent='가족 유형을 저장하지 못했습니다.';}
+ }catch{if(note)note.textContent='가족 유형을 저장하지 못했습니다. 현재 화면에서만 유지됩니다.';}
  applyFamilyFilters();
 }));
 document.querySelector('#reset-list')?.addEventListener('click',()=>{
  if(!confirm('체크한 항목을 모두 초기화할까요? 가족 유형 선택은 유지됩니다.'))return;
- boxes.forEach(x=>x.checked=false);
- try{localStorage.removeItem(STORAGE);}catch{}
- if(note)note.textContent='모든 체크를 초기화했습니다.';
+ if(!currentSelection(STORAGE))return;
+ try{
+  localStorage.removeItem(STORAGE);
+  savedChecksRaw=null;
+  canSaveChecks=true;
+  damagedCheck=false;
+  updateDamagedView();
+  boxes.forEach(x=>x.checked=false);
+  if(note)note.textContent='체크 항목을 초기화했습니다. 가족 유형 선택은 유지됩니다.';
+ }catch{
+  if(note)note.textContent='초기화가 저장되지 않았습니다. 브라우저 저장 기능을 확인하세요.';
+ }
  update();
 });
 document.querySelector('#print-list')?.addEventListener('click',()=>window.print());
@@ -142,12 +486,58 @@ document.querySelector('#print-list')?.addEventListener('click',()=>window.print
 .family-option input:focus-visible{outline:3px solid #ffd58f;outline-offset:3px}
 .family-option span{font-weight:750;font-size:.92rem;line-height:1.4}
 .family-option small{display:block;color:#b9d0d0;font-weight:400;margin-top:3px;font-size:.8rem}
-.check-group[hidden]{display:none!important}
+.check-group[hidden],.check-group[data-filter-empty="true"],.check-item[hidden]{display:none!important}
+.missing-toggle{display:inline-flex;align-items:center;gap:9px;min-height:44px;padding:10px 12px;border:1px solid #66817f;background:#23403e;border-radius:10px;color:#e7f5ef;cursor:pointer;font-size:.87rem;font-weight:750}
+.missing-toggle input{accent-color:#efb974;width:20px;height:20px;flex:none}
+.missing-toggle:focus-within{outline:3px solid #ffd58f;outline-offset:2px}
+.missing-summary{color:#c8d9d5;font-size:.88rem;line-height:1.75;margin:0 0 20px}
+.copy-fallback-wrap{border:1px solid #547879;background:#1c3539;padding:14px;border-radius:12px;margin:0 0 18px}
+.copy-fallback-wrap[hidden]{display:none!important}
+.copy-fallback-wrap label{display:block;color:#e9f2ed;margin:0 0 9px;font-size:.86rem;font-weight:700}
+.copy-fallback-wrap textarea{display:block;width:100%;min-height:140px;max-width:100%;resize:vertical;background:#11252e;border:1px solid #819da3;border-radius:8px;color:#f4f8f6;padding:10px;font:inherit;line-height:1.6}
+.copy-fallback-wrap textarea:focus-visible{outline:3px solid #ffd58f;outline-offset:2px}
+.check-damaged{border:2px solid #e8c38c;border-radius:14px;padding:18px 20px;margin:18px 0;background:#49332d;color:#ffecdc}
+.check-damaged[hidden],.check-damaged-group[hidden]{display:none!important}
+.check-damaged h2{font-size:1.14rem;color:#ffdbad;margin:0 0 9px}
+.check-damaged h3{font-size:.97rem;color:#fff2df;margin:0 0 10px}
+.check-damaged p{font-size:.86rem;line-height:1.8;margin:8px 0}
+.check-damaged-group{border-top:1px solid #896754;padding:12px 0 7px}
+.check-damaged-group button{background:#23434b;border:1px solid #b6d1c8;border-radius:9px;min-height:44px;padding:9px 12px;margin:0 8px 8px 0;color:#f6fff9;font-weight:750;cursor:pointer}
+.check-damaged-group button:focus-visible{outline:3px solid #fff;outline-offset:2px}
+.check-damaged-status{color:#ffdcac}
+.check-damaged-status:empty{display:none}
+.check-stale{padding:15px 18px;margin:15px 0;border:2px solid #edc58b;background:#533628;border-radius:12px;color:#fff2da;font-size:.89rem;line-height:1.8}
+.check-stale[hidden]{display:none!important}
+.check-stale strong{display:block}
+.check-stale button{display:inline-block;min-height:44px;padding:8px 14px;margin:7px 0 0;border:1px solid #d9f0e4;background:#26454b;color:#f6fff9;border-radius:9px;font-size:.87rem;font-weight:750}
+.check-stale button:focus-visible{outline:3px solid white;outline-offset:3px}
+.check-backup{padding:19px 21px;margin:24px 0;border:1px solid #47605f;border-radius:13px;background:#1b3037;color:#d7e5e5}
+.check-backup h2{font-size:1.12rem;margin:0 0 8px;color:#f5e0b9;line-height:1.5}
+.check-backup p{margin:0 0 10px;line-height:1.7;font-size:.86rem}
+.check-backup strong{color:#f3dfb6}
+.check-backup-actions{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin:16px 0 12px}
+.check-backup-actions label{font-size:.85rem;font-weight:700;color:#e5f0eb}
+.check-backup-actions input{font:inherit;font-size:.82rem;color:#eaf3f0;max-width:100%;min-height:42px}
+.check-backup-actions input::file-selector-button{background:#2b454a;color:#eaf6f0;border:1px solid #8ca4a3;border-radius:8px;padding:10px 12px;margin-right:10px}
+.check-backup-actions input:focus-visible{outline:3px solid #ffd58f;outline-offset:2px}
+.check-backup-status{color:#f5d3a3}
+.check-backup-status:empty{display:none}
 .check-sources{margin:6px 0 50px;border-top:1px solid #43545d;padding:20px 0;font-size:.86rem;line-height:1.75;color:#bbcbd0}
 .check-sources strong{display:block;color:#f1e1c5;margin-bottom:7px}
 .check-sources p{margin:9px 0}
 .check-sources a{color:#a8e8d7;text-decoration:underline;text-underline-offset:3px}
-@media(max-width:740px){.family-options{grid-template-columns:1fr}.family-select{padding:16px}.family-option{min-height:54px}.check-actions{gap:10px}.check-actions button{min-height:44px}}
-@media print{.family-select,.check-actions{display:none!important}.check-sources{color:#222;border-color:#888}.check-sources strong{color:#222}.check-sources a{color:#222}.check-group[hidden]{display:none!important}}
+@media(max-width:740px){.check-backup{padding:15px}.check-backup-actions{flex-direction:column;align-items:stretch}.check-backup-actions .btn{width:100%}.family-options{grid-template-columns:1fr}.family-select{padding:16px}.family-option{min-height:54px}.check-actions{gap:10px}.check-actions button{min-height:44px}}
+@media print{
+ .family-select,.check-actions,.copy-fallback-wrap,.check-backup,.check-stale,.check-damaged{display:none!important}
+ .check-sources{color:#222;border-color:#888}
+ .check-sources strong{color:#222}
+ .check-sources a{color:#222}
+ .check-group[hidden],.check-group[data-filter-empty="true"],.check-item[hidden]{display:none!important}
+ :global(body.ready-only-missing-print) :global(.stock-section){display:none!important}
+ :global(body.ready-only-missing-print) .check-overview,
+ :global(body.ready-only-missing-print) .info-note,
+ :global(body.ready-only-missing-print) .next-step{display:none!important}
+ .missing-summary{color:#222!important}
+}
 </style>
 </Base>
