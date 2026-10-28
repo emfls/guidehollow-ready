@@ -60,12 +60,12 @@ import { sources } from '../data/resources';
   </div>
   <div class="water-coverage-results" role="group" aria-label="등록 식수량 비교">
    <div><span>3일 참고량</span><output id="coverage-required" for="coverage-people">11.4 L</output></div>
-   <div><span>등록한 물 중 날짜 확인분</span><output id="coverage-known">0.0 L</output></div>
+   <div><span>3일 동안 날짜가 유효한 등록 물</span><output id="coverage-known">0.0 L</output></div>
    <div><span>등록량 기준 추가 점검분</span><output id="coverage-gap">11.4 L</output></div>
   </div>
-  <p id="coverage-excluded" class="water-coverage-excluded">날짜를 확인해야 하는 물: 0건</p>
+  <p id="coverage-excluded" class="water-coverage-excluded">날짜 미기록·경과 또는 3일 안에 도래하는 물: 0건</p>
   <p id="coverage-status" class="water-coverage-status" role="status" aria-live="polite">등록 수량을 기준으로 계산합니다.</p>
-  <p id="coverage-disclaimer" class="stock-note">계산: 사람 수 × 3.8L × 3일 (미국 CDC의 <a href={sources.waterGuide} target="_blank" rel="noopener noreferrer">해외 계획 참고값</a>, 대한민국의 법정 기준 아님). <strong>시판 생수의 표시 소비기한·직접 담은 물의 교체 예정일</strong>이 오늘 이후인 등록량만 잠정 계산합니다. 날짜가 없거나 지났으면 합산에서 제외합니다. <strong>기한과 수량만으로 물이 안전하다고 보증하지 않습니다.</strong> 용기 오염·봉인·보관 상태는 직접 점검하고, 더위·임신·수유·질환·반려동물 등 추가 필요량은 별도로 고려하세요. 이 계산은 초기 72시간용이며 국내 전시 30일 비축 안내와 별개입니다. 인원 수는 전송하거나 저장하지 않습니다.</p>
+  <p id="coverage-disclaimer" class="stock-note">계산: 사람 수 × 3.8L × 3일 (미국 CDC의 <a href={sources.waterGuide} target="_blank" rel="noopener noreferrer">해외 계획 참고값</a>, 대한민국의 법정 기준 아님). <strong>시판 생수의 표시 소비기한·직접 담은 물의 교체 예정일</strong>이 오늘부터 최소 3일 뒤인 등록량만 잠정 계산합니다. 보관 날짜가 없거나 지났거나 앞으로 3일 안에 도래하는 물은 72시간 전체 확보량에서 제외합니다. 가까운 날짜의 물은 해당 날짜 전에 사용·교체할지 직접 계획하세요. <strong>기한과 수량만으로 물이 안전하다고 보증하지 않습니다.</strong> 용기 오염·봉인·보관 상태는 직접 점검하고, 더위·임신·수유·질환·반려동물 등 추가 필요량은 별도로 고려하세요. 이 계산은 초기 72시간용이며 국내 전시 30일 비축 안내와 별개입니다. 인원 수는 전송하거나 저장하지 않습니다.</p>
  </section>
  <div class="stock-summary">
   <div><strong>등록된 비축품</strong> <span id="stock-total">0건</span></div>
@@ -259,6 +259,7 @@ window.addEventListener('storage',(event)=>{
  stale=true;
  if(staleWarning)staleWarning.hidden=false;
  if(feedback)feedback.textContent='다른 탭의 변경이 확인되었습니다. 이 탭의 변경·복원을 중단했습니다.';
+ renderWaterCoverage();
 });
 reloadButton?.addEventListener('click',()=>{
  if(confirm('이 탭에서 입력 중인 미저장 변경을 버리고 최신 비축품 기록을 불러올까요?'))window.location.reload();
@@ -319,26 +320,35 @@ function renderWaterCoverage(){
  if(!coveragePeople||!coverageRequired||!coverageKnown||!coverageGap||!coverageExcluded||!coverageStatus)return;
  const numberOfPeople=Number(coveragePeople.value);
  const validCount=coveragePeople.value.trim()!==''&&Number.isInteger(numberOfPeople)&&numberOfPeople>=1&&numberOfPeople<=30;
+ const needed=validCount?Math.round(numberOfPeople*3.8*3*10)/10:null;
+ coverageRequired.textContent=needed===null?'인원 확인':needed.toFixed(1)+' L';
+ // Do not present stale or unreadable inventory as a verified three-day water supply.
+ if(!canPersist||stale||!currentStock()){
+  coverageKnown.textContent='재확인 필요';
+  coverageGap.textContent='재확인 필요';
+  coverageExcluded.textContent='최신 비축품 기록을 확인한 뒤 날짜별 제외 건수를 계산할 수 있습니다.';
+  coverageStatus.textContent='저장 기록을 읽을 수 없거나 다른 탭에서 변경됐습니다. 기록을 확인하고 새로고침하세요.';
+  return;
+ }
  const water=items.filter(x=>(x.kind==='bottled'||x.kind==='filled')&&x.unit==='L');
- const verified=water.filter(x=>x.date&&isDate(x.date)&&daysUntil(x.date)>=0);
- const pending=water.length-verified.length;
- const litres=Math.round(verified.reduce((sum,x)=>sum+x.quantity,0)*10)/10;
+ const duration=water.map(x=>({item:x,remaining:x.date?daysUntil(x.date):null}));
+ const covered=duration.filter(x=>x.remaining!==null&&x.remaining>=3);
+ const missing=duration.filter(x=>x.remaining===null).length;
+ const expired=duration.filter(x=>x.remaining!==null&&x.remaining<0).length;
+ const within72=duration.filter(x=>x.remaining!==null&&x.remaining>=0&&x.remaining<3).length;
+ const litres=Math.round(covered.reduce((sum,x)=>sum+x.item.quantity,0)*10)/10;
  coverageKnown.textContent=litres.toFixed(1)+' L';
- coverageExcluded.textContent='날짜 미기록·경과로 합산하지 않은 물: '+pending+'건';
- if(!validCount){
-  coverageRequired.textContent='인원 확인';
+ coverageExcluded.textContent='합산 제외 물: 날짜 미기록 '+missing+'건 · 기한 경과 '+expired+'건 · 3일 안에 날짜 도래 '+within72+'건';
+ if(needed===null){
   coverageGap.textContent='인원 확인';
   coverageStatus.textContent='1~30명 사이의 정수로 입력해 주세요.';
   return;
  }
- const needed=Math.round(numberOfPeople*3.8*3*10)/10;
  const gap=Math.max(0,Math.round((needed-litres)*10)/10);
- coverageRequired.textContent=needed.toFixed(1)+' L';
  coverageGap.textContent=gap.toFixed(1)+' L';
- const message=gap>0
-  ?'등록된 날짜 확인 물만 기준으로 '+gap.toFixed(1)+' L를 추가 점검하세요. 집에 있는 미등록 물도 확인하세요.'
-  :'등록 수량이 계획 참고량에 도달했습니다. 용기·보관 상태·가족별 추가 필요량을 반드시 별도 확인하세요.';
- coverageStatus.textContent=canPersist?message:'저장 기록에 접근하지 못해 계산값을 신뢰할 수 없습니다. 기존 기록을 확인하세요.';
+ coverageStatus.textContent=gap>0
+  ?'3일 동안 날짜가 유지되는 등록 물만 기준으로 '+gap.toFixed(1)+' L를 추가 점검하세요. 기한이 임박한 물은 별도 교체 계획을 세우세요.'
+  :'등록 물의 날짜 기준 수량은 72시간 참고량에 도달했습니다. 용기·보관 상태 및 가족별 추가 필요량은 별도로 확인해야 합니다.';
 }
 function appendText(tag:string,text:string,cls?:string):HTMLElement{
  const el=document.createElement(tag);
