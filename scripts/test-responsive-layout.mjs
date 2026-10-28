@@ -78,7 +78,7 @@ try{
     if(await a.count()===0)failed.push('matching E20 affiliate link missing');
     else if(!(await a.getAttribute('rel')||'').includes('sponsored'))failed.push('affiliate disclosure missing');
   }
-  if(width===390&&['/','/emergency/','/family-emergency/','/family-card/','/starter-kit/','/checklist/','/plan/','/reviews/','/reviews/fenix-e20-v2-flashlight/'].includes(route)){
+  if(width===390&&['/','/drill/','/emergency/','/family-emergency/','/family-card/','/starter-kit/','/checklist/','/plan/','/reviews/','/reviews/fenix-e20-v2-flashlight/'].includes(route)){
    let name=route==='/'?'home':route.replaceAll('/','_').replace(/^_|_$/g,'');
    await page.screenshot({path:`.qa-screenshots/${name}-390.png`,fullPage:false});screenshots++;
   }

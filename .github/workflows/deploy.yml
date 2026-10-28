@@ -73,7 +73,8 @@ jobs:
           name: ready-responsive-qa
           path: .qa-screenshots
           retention-days: 7
-          if-no-files-found: ignore
+          if-no-files-found: error
+          include-hidden-files: true
   deploy:
     if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
     needs: build
