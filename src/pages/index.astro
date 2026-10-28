@@ -5,7 +5,7 @@ const quickLinks=[
  {icon:'◇',label:'3분 행동 연습',description:'공습·화학·지진 대응 미리 연습',href:'/drill/',meta:'평상시 훈련'},
  {icon:'☑',label:'준비물 체크리스트',description:'집에 있는 준비물부터 점검',href:'/checklist/',meta:'기본 22항목'},
  {icon:'⌂',label:'가족 연락 계획',description:'연락 두절 시 집결·대체 계획',href:'/plan/',meta:'인쇄용 카드'},
- {icon:'▣',label:'비상 준비 장바구니',description:'물·식량·조명 6가지 한번에 점검',href:'/starter-kit/',meta:'부족한 것만 준비'},
+ {icon:'▣',label:'우리 집 준비물 점검',description:'가족 수 계산·확인 필요 목록',href:'/starter-kit/',meta:'부족한 것만 준비'},
 ] as const;
 const situationLinks=[
  {icon:'▣',label:'공습경보',description:'가까운 안전한 대피시설로 이동',href:'/situations/#air-raid',warning:true},
@@ -43,7 +43,7 @@ const situationLinks=[
    <span class="eyebrow">전시·재난 대비 생활 안내</span>
    <h1 id="hero-title">전시·재난 대비, <em>필요한 준비부터.</em></h1>
    <p class="lead"><strong>대피 방법·가족 연락·비상물품</strong>을 평상시 미리 확인하세요. 실제 상황은 정부 경보와 현장 지시가 우선입니다.</p>
-   <div class="hero-actions"><a class="btn primary" href="/plan/">가족 연락 계획 만들기 →</a><a class="btn secondary" href="/checklist/">우리 집 준비 점검</a></div>
+   <div class="hero-actions"><a class="btn primary" href="/plan/">가족 연락 계획 만들기 →</a><a class="btn secondary" href="/starter-kit/#starter-personal">우리 집 준비물 확인</a></div>
    <p class="brief-meta">정보 확인일: 2026년 10월 28일 · 실제 재난에는 최신 공식 지시 우선</p>
   </div>
   <aside class="brief-box" aria-label="사이트 이용 순서">
@@ -69,7 +69,7 @@ const situationLinks=[
   </a>)}</div>
   <p class="hub-caution">경보 종류·지역·침수·오염 여부에 따라 대피 방법이 달라집니다. 위 내용은 사전 학습용 요약이며 실제 상황에서는 공식 지시를 우선하세요.</p>
  </section>
- <a class="home-kit-banner" href="/starter-kit/"><span class="home-kit-symbol" aria-hidden="true">▣</span><div><strong>비상 준비물, 6가지부터 확인하기</strong><p>집에 있는 물품은 체크하고 부족한 것만 준비하세요.</p></div><span class="home-kit-arrow" aria-hidden="true">→</span></a>
+ <a class="home-kit-banner" href="/starter-kit/"><span class="home-kit-symbol" aria-hidden="true">▣</span><div><strong>우리 집 준비물 6가지 점검하기</strong><p>식수 필요량 계산부터 확인할 물품 정리까지 한 번에</p></div><span class="home-kit-arrow" aria-hidden="true">→</span></a>
  <nav class="home-resource-links" aria-label="비상용품 구매 전 안내">
   <a href="/buying/food/">비상식량·식수 고르는 법 <span aria-hidden="true">→</span></a>
   <a href="/buying/gear/">손전등·구급용품 고르는 법 <span aria-hidden="true">→</span></a>
