@@ -1,0 +1,16 @@
+---
+import Base from '../layouts/Base.astro';
+import { sources } from '../data/resources';
+---
+<Base title="공식 재난 정보와 자료 출처">
+<div class="container narrow"><header class="page-intro"><span class="eyebrow">OFFICIAL SOURCES</span><h1>필요할 때 바로<br/>확인할 공식 자료</h1><p>행동요령과 재난 상태는 정부·지자체의 최신 공지를 확인하세요. 이 사이트는 해당 기관을 대신하지 않습니다.</p></header>
+<div class="source-grid">
+ <a href={sources.government} target="_blank" rel="noopener noreferrer" class="source-card"><span>대한민국 정부</span><strong>국민안전24</strong><p>재난 행동요령, 민방위 대피시설, 각종 안전 정보</p><b>공식 사이트 열기 ↗</b></a>
+ <a href={sources.supplies} target="_blank" rel="noopener noreferrer" class="source-card"><span>국민안전24</span><strong>비상대비 물자 준비요령</strong><p>식수·식량·의약품·의류·통신 물품 준비 기준</p><b>공식 자료 열기 ↗</b></a>
+ <a href={sources.safetyVideo} target="_blank" rel="noopener noreferrer" class="source-card"><span>서울특별시</span><strong>비상시 국민행동요령</strong><p>비상사태 시 대피소 확인과 기본 행동요령</p><b>공식 자료 열기 ↗</b></a>
+ <a href={sources.shelterHelp} target="_blank" rel="noopener noreferrer" class="source-card"><span>서울특별시</span><strong>민방위 대피소 찾는 법</strong><p>안전디딤돌과 국민재난안전포털 활용 안내</p><b>설명 보기 ↗</b></a>
+ <a href={sources.foodsafety} target="_blank" rel="noopener noreferrer" class="source-card"><span>식품의약품안전처</span><strong>식품안전나라</strong><p>식품 안전, 제조사 안내와 소비기한 관련 자료</p><b>공식 사이트 열기 ↗</b></a>
+ <a href={sources.readyKit} target="_blank" rel="noopener noreferrer" class="source-card"><span>미국 연방정부 참고자료</span><strong>Ready.gov 재난 키트</strong><p>단기 비상 키트 비교 참고. 국내 공식 지침을 대체하지 않습니다.</p><b>자료 열기 ↗</b></a>
+</div>
+<p class="source-caption">자료 확인: 2026년 10월 28일. 긴급 상황에서는 실제 경보와 해당 지역 관할기관의 지시를 우선합니다.</p>
+</div></Base>
