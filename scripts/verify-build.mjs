@@ -30,11 +30,11 @@ if (!feed.includes('<rss version="2.0"')||!feed.includes('<language>ko-KR</langu
 if (!home.includes('type="application/rss+xml"')||!home.includes('href="/rss.xml"'))throw Error('RSS feed discovery link missing');
 if (feed.includes('sample-draft'))throw Error('Draft appeared in RSS');
 if (!home.includes('평소 준비') || !home.includes('상황별 안내') || !home.includes('/situations/#air-raid') || !home.includes('/situations/#chemical')) throw Error('Emergency and routine sections missing');
-if (!home.includes('emergency-home-action')||!home.includes('/emergency/#air-raid')||!home.includes('official') && !home.includes('민방위 대피소 공식 지도')) throw Error('Urgent action not reachable from top of homepage');
+if (!home.includes('emergency-home-action')||!home.includes('/emergency/#air-raid')||!home.includes('공식 민방위 대피소 찾기')) throw Error('Urgent action not reachable from top of homepage');
 if (home.indexOf('emergency-home-action')>home.indexOf('hero brief-hero')) throw Error('Immediate safety must precede routine preparation');
 for (const x of ['emergency/index.html','family-emergency/index.html','family-card/index.html','offline/ready-card.html']) if(!existsSync(join('dist',x)))throw Error('User-test P0/P1 deliverable missing: '+x);
 const urgent=file('emergency/index.html');
-if(!urgent.includes('instant-steps-grid') || !urgent.includes('민방위 대피소 공식 지도') || !urgent.includes('/offline/ready-card.html')||!urgent.includes('지금 할 일'))throw Error('First 3 actions and offline/shelter route missing');
+if(!urgent.includes('instant-steps-grid') || !urgent.includes('민방위 대피소 공식 지도') || !urgent.includes('/offline/ready-card.html')||!urgent.includes('상황에 맞는 첫 3단계부터 확인하세요'))throw Error('First 3 actions and offline/shelter route missing');
 const details=file('situations/index.html');
 if(!details.includes('first-three-visible')||!details.includes('action-details'))throw Error('Immediate actions not persistently visible in detailed scenarios');
 const familyNow=file('family-emergency/index.html');
