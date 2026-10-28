@@ -73,6 +73,13 @@ if(!starter.includes('완료로 자동 처리하지 않습니다')||!design.incl
 if(!starter.includes('미체크는 미보유 확정이 아닙니다')||!starter.includes('현재 가격·재고·판매자·배송은 쿠팡에서 확인하세요'))throw Error('Shopping area lacks non-coercive disclosure of verification limits');
 if(!starter.includes('data-missing-for="water"')||!starter.includes('data-missing-for="light"')||!starter.includes('id="starter-show-unchecked"')||!starter.includes('id="starter-copy-missing"'))throw Error('Missing-only product decision tool incomplete');
 if((starter.match(/https:\/\/link\.coupang\.com\/a\/idtdhvDZ3A/g)||[]).length<1)throw Error('Approved affiliate link lost');
+const gear=file('buying/gear/index.html');
+for(const id of ['iekaW7GSFE','iekgMwsEmq']){
+ const url='https://link.coupang.com/a/'+id;
+ if(!gear.includes(url)||!starter.includes(url))throw Error('Supplied affiliate URL missing from buying page or starter kit: '+id);
+ if(!gear.includes('rel="sponsored nofollow noopener noreferrer"')||!starter.includes('rel="sponsored nofollow noopener noreferrer"'))throw Error('Supplied affiliate URL requires disclosure and safe link attributes');
+}
+if(!gear.includes('확인하지 못했습니다')||!gear.includes('특정 삼성 모델이나 10,000mAh 제품이라고 보장하지 않습니다')||!gear.includes('쿠팡 파트너스 활동의 일환')||!starter.includes('모델 미확인'))throw Error('Unverified model/option risk disclosure missing');
 const e20=file('reviews/fenix-e20-v2-flashlight/index.html');
 if(!e20.includes('simple-product-hero')||!e20.includes('simple-product-media')||!e20.includes('simple-buy-button')||!e20.includes('idtdhvDZ3A')||!e20.includes('sponsored nofollow'))throw Error('Product landing needs top image, visible buy button and verified link');
 if(e20.includes('공식 밝기와 사용 시간을 구별해야 합니다')||e20.includes('pageKey=2211811247'))throw Error('Technical tracking or dense old table leaked into shopping landing');
