@@ -1,0 +1,89 @@
+# GuideHollow Ready — 국내 판매 옵션 우선순위 및 제휴 승인 게이트
+
+담당: 채팅 3 · 검토 기준일: 2026-10-28 · 상태: **상품별 제휴 승인 0건**
+대상: 개별 제품 13종(조명 3, 라디오 2, 전원 2, 방수 3, 의료 1, 보온·위생 2). 완성형 키트 2종은 별도 구성 감사·미추천 제품으로 집계에서 제외.
+
+## 판정 정의 — 혼용 금지
+
+| 판정 | 의미 | 판매 링크 허용 |
+| --- | --- | --- |
+| F: 문헌·기능 검증 | 제조사+독립 자료로 모델과 장단점 검증, `verified:true`로 공개될 수 있음 | 아니오 |
+| R1: 국내 옵션 정합성 확인 우선 | 국내 제조사 전체 코드/KC 원장/타 소매 플랫폼의 정확한 코드 등을 확보. 수익성 보증이 아닌 다음 검증 우선순위 | 아니오 |
+| R2: 국내 상품군·규격 확인 | 국내 취급 또는 제품군은 보이나 색상/세대/구성·유통/인증 누락, 공급 불안정 | 아니오 |
+| R3: 국내 동일 모델 옵션 미확인 | 변형·지역판·배치 위험이 남아 있고 동일 판매 옵션 확인 불가 | 아니오 |
+| A: 특정 쿠팡파트너스 옵션 승인 | URL 실제 열람, 동일 코드·옵션·법적 표시·위험·제휴 고지 모두 완성 | **해당 옵션만** |
+
+**현재 상태: R1 2건, R2 3건, R3 8건, A 0건.** 점수·효과·가격·인기도 순위 아님. R1을 “판매 준비 완료”, R2를 “인증 상품”, R3를 “불량품”으로 바꿔 쓰지 않음.
+
+## R1 — KC 및 국내 품번이 뒷받침되는 두 모델
+
+### Samsung EB-P4520XUEGKR (P1-1)
+- 제조사 한국 품번·74Wh·45W·402g: https://www.samsung.com/sec/support/model/EB-P4520XUEGKR/
+- KC 원장: https://www.safetykorea.kr/release/certDetail?certNum=XU103282-23002A&certUid=5664089 → **KTC / EB-P4520 / XU103282-23002A / 적합**
+- 국내 판매 등록의 전체 코드 및 A 접미 번호: https://www.ssg.com/item/itemView.ssg?itemId=1000597792772 / https://www.ssg.com/item/itemView.ssg?itemId=2097002215691
+- 삼성전자 및 삼성전자서비스 페이지에는 **XU103282-23002 (A 없음)**: https://www.samsungsvc.co.kr/shop/product/0000116005
+- **미완료 체크:** `XU103282-23002`와 `XU103282-23002A`의 현재 관계 및 개별 판매품 포장/라벨 상의 실제 번호, 생산 로트, 현재 옵션, 쿠팡 파트너스 링크.
+- **결론:** 모델 수준의 안전확인 기록은 있으나 특정 판매품 인증번호의 접미차 정리가 필요. **구매 추천 승인/제휴 보류**.
+
+### Samsung EB-P3400XUKGKR (P1-2)
+- 제조사: https://www.samsung.com/sec/support/model/EB-P3400XUKGKR/ → `2023`, 37Wh, 25W, 210g, KC `XU102985-22001C`.
+- 해당 번호 국가 원장: https://www.safetykorea.kr/search/searchPop?certNum=XU102985-22001C → KTC, 모델 EB-P3400, **적합**.
+- 2026형 EB-P3401XUKGKR는 별도 품번: https://www.samsung.com/sec/support/model/EB-P3401XUKGKR/
+- 국내 2023년형 **현재 실제 주문 가능 판매 옵션과 생산 로트**의 확인 부족. 오래된 충전지 노화를 무시한 추천 금지.
+- **미완료 체크:** 정확한 구매 옵션 및 2023 모델 여부, 날짜/상태와 환불/AS, 쿠팡파트너스 링크. **제휴 보류**.
+
+## R2 — 국내 규격·상품군은 있으나 옵션 미완료
+
+### Fenix E12 V3.0 (P2-1)
+- 국내 Fenix Korea 상품 코드 `1000000075`, 모델 `E12 V3.0`: https://www.fenixkorea.com/goods/goods_view.php?goodsNo=1000000075
+- 페이지에서 **구매 불가** 표시가 관찰됨(2026-10-28 조회). 재고 숫자만으로 구매 가능성을 확정하지 않음.
+- 제조사 E12 V3용 AA 규격과 14500 3.7V 금지 확인. 해당 판매 제품 V3 세대, 정상 주문 가능 여부와 필요한 법적 표시 확인 전 링크 보류.
+
+### Sea to Summit Big River Dry Bag 35L (P2-2)
+- 국내 35L 상품군: https://m.netpx.co.kr/app/contents/brandshoplist/STS
+- 제조사 35L 모델 기능: https://seatosummit.com/products/the-big-river-dry-bag
+- 판매처 등록 코드가 **제조사 색상/세대 SKU라는 증거는 없다**. 제품 사진과 35L 표시만으로 전체 제품 옵션 승인 불가. 롤탑 침수 금지.
+- 색상·용량·롤탑 버클·스트랩 포함 여부, 쿠팡 링크 매칭 필요.
+
+### Solventum 3M Tegaderm 1624W (P2-3)
+- 공식 제품 `1624W`, 6×7cm 투명 필름, **100매/상자**: https://www.solventum.com/ko-kr/home/v/v000058079/
+- 제조사 페이지의 의약외품 표시가 현물 로트의 허가/멸균/사용기한을 대신하지 않음.
+- 소포장 판매자는 재포장 여부·포장 손상·원래 매수·로트/기한 확인. 의료 효능·응급 지혈·압박용 패드 대체로 과장 금지.
+- 제휴 링크 미확인.
+
+## R3 — 국내 동일 판매 옵션과 근거 미확인
+
+| 모델 | 사양 검증이 곧 구매 승인이 아닌 이유 | 다음 확인 조건 |
+| --- | --- | --- |
+| Petzl TIKKINA `E060AB00` BLACK | 국내 색상 옵션의 **전체 SKU** 및 CORE 별매 확인 필요 | 블랙 300lm 코드, AAA 기본 구성, 법정 표시/해당 여부 |
+| Petzl ACTIK CORE `E065AB00` BLACK | CORE 기본 구성, 국내 전지 표시, 같은 625lm 세대 판매품 미확인 | 정품 SKU·구성품·배터리와 KC 대상 여부 |
+| Sony ICF-P26 | 국내 AM 방송 대역/지역판, 실제 유통 형태 미확인 | 한국 9kHz AM·지역 주파수와 실물 확인 |
+| Sangean MMR-99 AM/FM 국제판 | 미국 WX, 유럽 DAB+ 지역판과 이름 혼재. 동일한 국제판 실물 시험도 제한 | 한국 9kHz·지역판·모델·포함 셀/전원 |
+| Sea to Summit Lightweight Dry Bag 5L | 제조사 5L 세대·색상과 한국 상품 옵션 일치 미확인 | 롤탑 제품군/실물 규격/품번 |
+| Nite Ize RunOff Hip Pack Charcoal `ROHP-09-R8` | IP67 시험을 받은 정확한 제품, 국내 색상·포장·지퍼 구조 미확인 | 차콜 SKU/지퍼/TRU Zip 관리 조건 |
+| SOL Emergency Blanket `0140-1222` | 일부 판매 단서 있지만 동일 코드·구성·현물 상태 완전 검증 못함 | 1인용 56×84in·포장 코드·실물 상태 |
+| Sea to Summit Wilderness Wipes Compact 12 `AWWC` | 과거 제품 코드가 현행 한국 포장에 유지되는지·위생 유효기간 미확인 | 12매·20×16cm·전성분·포장 로트/기한 |
+
+## 특정 쿠팡파트너스 상품 승인 6개 게이트
+
+| 순번 | 필수 게이트 | 증빙을 남길 데이터 | 실패 시 |
+| --- | --- | --- | --- |
+| 1 | 공식 모델/옵션 정확히 일치 | `manufacturer_model`, `full_sku`, `color`, `capacity`, `generation`, `region_variant`, `contents` | 보류 |
+| 2 | 국내 법정 인증·표시 적용 여부/동일성 | `legal_category`, `official_registry_url`, `registry_model`, `registry_status`, `product_label`, `uncertainty` | 보류 |
+| 3 | 공식+독립 성능과 안전 한계 | `manual_url`, `independent_test_url`, `hazards`, `test_variant` | 보류 |
+| 4 | 개별 제품 상태·로트/사용기한 | `lot`, `expiry`, `seal`, `cell_condition`, `seller_disclosures` 등 **품목 해당 사항** | 불확실하면 보류 |
+| 5 | 사용자가 제공한 제휴 링크를 실제 열어서 같은 상품 확인 | `submitted_partner_url`, `resolved_final_url`, `exact_listing_and_option`, `checked_at` | 링크 없음/불일치 → 보류 |
+| 6 | 제휴 고지 + 사이트 테스트 | `affiliate:true` 및 **해당 제품만** `partnerProductMatched:true`, 정적 단일상품 a 태그 또는 HTTPS URL, Astro/HTML 파서 CI | 배포 보류 |
+
+- 모델별 `verified:true`는 **1~3 중 사양 검증용 항목의 편집 검증**을 나타낼 뿐 위 6개 판매 게이트를 통과한 것이 아님.
+- **상품 옵션 확인**과 **판매 재고·가격 보증** 역시 다른 문제. 재고·가격이 변하면 숫자를 추정하지 않고 해당 판매 사이트에서 사용자 확인 필요.
+- 링크가 **없으면 게이트 5를 통과했다고 처리할 수 없음**. 단순 쇼핑몰 URL을 쿠팡파트너스 링크로 '변환'하지 말 것.
+- 현재 승인 0건 유지. 개인정보·계정정보·쿠팡파트너스 토큰을 원고/문서에 기록하지 말 것.
+
+## 다음 작업 우선순위 / 중단선
+
+1. 삼성 EB-P4520XUEGKR의 KC 접미 번호와 **실제 쿠팡 상품의 표시**가 일치하는지 검증.
+2. 삼성 EB-P3400XUKGKR의 주문 가능한 2023년형 재고/생산 시기 확인(2026형 P3401과 혼동 금지).
+3. Fenix E12 V3.0의 국내 정상 판매 옵션 및 정확한 AA 구성; 빅리버 35L 색상/세대; 테가덤 1624W 100매 vs 소포장.
+4. 지역판/현물 상태 미확인 R3 제품은 재검증 전까지 노출하되 제휴 상품 추천 금지.
+5. 모든 확인 결과는 날짜·개별 URL·미확인 사항을 동반해 사이트 공개 문서에도 업데이트.
