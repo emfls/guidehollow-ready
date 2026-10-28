@@ -86,6 +86,15 @@ import { sources } from '../data/resources';
   <p id="stock-backup-status" role="status" aria-live="polite" class="stock-backup-status"></p>
  </section>
  <div id="stock-stale" class="stock-stale" role="alert" hidden><strong>다른 탭에서 비축품 기록이 변경됐습니다.</strong> 이전 화면에서 저장하면 새 기록이 사라질 수 있어 변경을 차단했습니다. 입력 중인 내용이 있다면 따로 메모한 뒤 새로고침하세요. <button id="stock-reload" type="button">현재 기록 새로 불러오기</button></div>
+ <section id="stock-recovery" class="stock-recovery" aria-labelledby="stock-recovery-title" hidden>
+  <h3 id="stock-recovery-title">읽을 수 없는 비축품 기록 복구</h3>
+  <p>저장된 기록의 형식이 잘못되어 추가·편집·삭제를 차단했습니다. <strong>원본 파일을 먼저 다운로드</strong>한 다음, 정말 필요할 때만 기록을 초기화하세요. 원본 파일에는 품목명·보관 위치가 포함될 수 있습니다. 개인 정보처럼 보호하세요.</p>
+  <div class="stock-recovery-actions">
+   <button id="stock-save-corrupt" type="button">손상된 원본 파일 저장</button>
+   <button id="stock-reset-corrupt" type="button">손상된 기록 초기화</button>
+  </div>
+  <p id="stock-recovery-status" class="stock-recovery-status" role="status" aria-live="polite"></p>
+ </section>
  <p class="stock-note" id="stock-privacy">계정 없이 브라우저 내부 저장소에만 보관합니다. 다른 기기와 동기화되지 않으며 서버로 보내지 않습니다. 공용 기기에서는 삭제하고, 처방약명 등 민감한 정보는 기록하지 마세요.</p>
  <ul id="stock-list" class="stock-list" aria-label="우리 집 비축품 목록"></ul>
  <p id="stock-empty" class="stock-empty">등록된 비축품이 없습니다. 집에 있는 물품부터 추가하세요.</p>
@@ -124,6 +133,10 @@ const cancelButton=document.querySelector<HTMLButtonElement>('#stock-cancel');
 const list=document.querySelector<HTMLUListElement>('#stock-list');
 const empty=document.querySelector<HTMLElement>('#stock-empty');
 const feedback=document.querySelector<HTMLElement>('#stock-feedback');
+const recovery=document.querySelector<HTMLElement>('#stock-recovery');
+const recoveryStatus=document.querySelector<HTMLElement>('#stock-recovery-status');
+const recoverySave=document.querySelector<HTMLButtonElement>('#stock-save-corrupt');
+const recoveryReset=document.querySelector<HTMLButtonElement>('#stock-reset-corrupt');
 const staleWarning=document.querySelector<HTMLElement>('#stock-stale');
 const reloadButton=document.querySelector<HTMLButtonElement>('#stock-reload');
 const total=document.querySelector<HTMLElement>('#stock-total');
@@ -131,6 +144,7 @@ const due=document.querySelector<HTMLElement>('#stock-due');
 let items:StockItem[]=[];
 let editingId:string|null=null;
 let canPersist=true;
+let storageFault:'corrupt'|'unavailable'|null=null;
 let savedRaw:string|null=null;
 let stale=false;
 const kinds=['food','bottled','filled','other'];
@@ -172,8 +186,49 @@ try{
  }
 }catch{
  canPersist=false;
- if(feedback)feedback.textContent='비축품 저장 기록이 손상되었거나 접근이 차단되었습니다. 기존 데이터를 보호하기 위해 추가·편집·삭제를 차단했습니다.';
+ storageFault=savedRaw!==null?'corrupt':'unavailable';
+ if(recovery)recovery.hidden=storageFault!=='corrupt';
+ if(feedback)feedback.textContent=storageFault==='corrupt'
+  ?'비축품 저장 형식을 읽을 수 없습니다. 원본을 보호하고 복구 안내를 표시했습니다.'
+  :'브라우저 저장소에 접근할 수 없어 비축품 변경을 차단했습니다.';
 }
+recoverySave?.addEventListener('click',()=>{
+ if(storageFault!=='corrupt'||savedRaw===null)return;
+ if(!currentStock())return;
+ try{
+  const data=new Blob([savedRaw],{type:'text/plain;charset=utf-8'});
+  const url=URL.createObjectURL(data);
+  const a=document.createElement('a');
+  a.href=url;
+  a.download='guidehollow-ready-damaged-stock-original.txt';
+  document.body.append(a);
+  a.click();
+  a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),1000);
+  if(recoveryStatus)recoveryStatus.textContent='원본 파일 다운로드를 요청했습니다. 저장된 파일을 직접 확인하세요.';
+ }catch{
+  if(recoveryStatus)recoveryStatus.textContent='원본 파일을 생성할 수 없습니다. 초기화 전에 브라우저 데이터를 다른 방법으로 보관하세요.';
+ }
+});
+recoveryReset?.addEventListener('click',()=>{
+ if(storageFault!=='corrupt'||savedRaw===null)return;
+ if(!currentStock())return;
+ if(!confirm('손상된 비축품 원본을 이 브라우저에서 초기화할까요? 기록은 되돌릴 수 없습니다. 가능하면 먼저 원본 파일을 저장하세요.'))return;
+ if(!currentStock())return;
+ try{
+  localStorage.setItem(STORAGE,'[]');
+  savedRaw='[]';
+  items=[];
+  canPersist=true;
+  storageFault=null;
+  if(recovery)recovery.hidden=true;
+  finishEditing();
+  render();
+  if(feedback)feedback.textContent='손상된 기록을 초기화했습니다. 필요하다면 정상 백업 JSON을 불러오세요.';
+ }catch{
+  if(recoveryStatus)recoveryStatus.textContent='브라우저 저장소에 기록할 수 없어 초기화하지 못했습니다. 기존 원본은 그대로 유지됩니다.';
+ }
+});
 // Prevent a stale tab from overwriting changes made in a different tab.
 function currentStock():boolean{
  if(stale){if(staleWarning)staleWarning.hidden=false;return false;}
@@ -507,6 +562,15 @@ render();
 .stock-backup-button:focus-visible,.stock-backup-actions input:focus-visible,.stock-backup-actions input::file-selector-button:focus-visible{outline:3px solid #ffd18b;outline-offset:2px}
 .stock-backup-status{color:#f0d4a5;font-size:.83rem;line-height:1.6;margin:11px 0 0}
 .stock-backup-status:empty{display:none}
+.stock-recovery{margin:15px 0;padding:18px 20px;border:2px solid #e7bc7d;border-radius:13px;background:#4a322d;color:#fff2e4}
+.stock-recovery[hidden]{display:none!important}
+.stock-recovery h3{color:#ffe2af;font-size:1.05rem;margin:0 0 8px}
+.stock-recovery p{line-height:1.75;font-size:.87rem}
+.stock-recovery-actions{display:flex;gap:10px;flex-wrap:wrap}
+.stock-recovery-actions button{min-height:44px;border:1px solid #e3d6c4;background:#24434a;border-radius:9px;padding:10px 14px;color:#fff4e8;font-weight:750}
+.stock-recovery-actions button:focus-visible{outline:3px solid #fff;outline-offset:3px}
+.stock-recovery-status{margin:9px 0 0;color:#ffdda6}
+.stock-recovery-status:empty{display:none}
 .stock-stale{background:#523429;border:2px solid #ffd08e;border-radius:12px;color:#fff1d7;line-height:1.75;padding:15px 17px;margin:12px 0;font-size:.88rem}
 .stock-stale[hidden]{display:none!important}
 .stock-stale strong{display:block}
@@ -534,5 +598,5 @@ render();
 .stock-empty[hidden]{display:none!important}
 @media(max-width:800px){.water-coverage-results{grid-template-columns:1fr 1fr}.stock-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.stock-list{grid-template-columns:1fr}}
 @media(max-width:540px){.stock-backup{padding:15px}.stock-backup-actions{align-items:stretch;flex-direction:column}.stock-backup-button{width:100%}.water-coverage{padding:16px}.water-coverage-head{display:block}.water-coverage-head label{max-width:160px;margin-bottom:13px}.water-coverage-results{grid-template-columns:1fr}.water-coverage-results>div{padding:13px}.stock-section{padding-top:26px}.stock-form{padding:16px}.stock-grid{grid-template-columns:1fr}.stock-summary{align-items:flex-start}.stock-clear{margin-left:0;width:100%;min-height:44px}.stock-form-bottom .btn,.stock-cancel{width:100%}.stock-card{padding:15px 13px}}
-@media print{.stock-backup,.stock-stale{display:none!important}.water-coverage,.water-coverage-results>div{background:white!important;color:#111!important;border-color:#999!important}.water-coverage-head h3,.water-coverage-results output,.water-coverage-status,.water-coverage-excluded,.water-coverage .stock-note{color:#111!important}.water-coverage-head input{background:white!important;color:#111!important}.stock-form,.stock-clear,.stock-remove,.stock-edit,.stock-warning{display:none!important}.stock-section{border-color:#999}.stock-header h2,.stock-name,.stock-facts,.stock-kind,.stock-status,.stock-header p,.stock-summary,.stock-note{color:#111!important}.stock-card,.stock-summary{background:white!important;border-color:#aaa!important;break-inside:avoid}.stock-list{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media print{.stock-backup,.stock-stale,.stock-recovery{display:none!important}.water-coverage,.water-coverage-results>div{background:white!important;color:#111!important;border-color:#999!important}.water-coverage-head h3,.water-coverage-results output,.water-coverage-status,.water-coverage-excluded,.water-coverage .stock-note{color:#111!important}.water-coverage-head input{background:white!important;color:#111!important}.stock-form,.stock-clear,.stock-remove,.stock-edit,.stock-warning{display:none!important}.stock-section{border-color:#999}.stock-header h2,.stock-name,.stock-facts,.stock-kind,.stock-status,.stock-header p,.stock-summary,.stock-note{color:#111!important}.stock-card,.stock-summary{background:white!important;border-color:#aaa!important;break-inside:avoid}.stock-list{grid-template-columns:repeat(2,minmax(0,1fr))}}
 </style>
