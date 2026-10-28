@@ -691,3 +691,74 @@ a:hover{color:#c1f0e4}
  .site-header,.topnote,.site-footer{display:none!important}
  a{color:#173d34!important}
 }
+
+/* CARD-FIRST EMERGENCY HUB — high contrast and fast scanning */
+.brief-hero{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(275px,.7fr);gap:28px;align-items:center}
+.brief-meta{font-size:.79rem;color:#b5cbcb;margin:21px 0 0}
+.brief-box{background:#172b35;border:1px solid #547078;border-radius:16px;padding:24px;position:relative;z-index:1}
+.brief-box>span{display:block;color:#eec28b;font-size:.76rem;font-weight:850;letter-spacing:.08em}
+.brief-box h2{font-size:1.35rem;color:#f7e5c8;letter-spacing:-.035em;margin:10px 0}
+.brief-box p{color:#d1dfe0;font-size:.9rem;margin:0 0 18px;line-height:1.74}
+.brief-box a{display:block;border-top:1px solid #435964;color:#a6edd7;font-weight:800;padding-top:14px;font-size:.84rem;text-decoration:underline;text-underline-offset:3px}
+.dashboard-section{padding:42px 0}
+.quick-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.brief-card{min-width:0;display:flex;flex-direction:column;background:#1c2e37;border:1px solid #425863;border-top:3px solid #8abda8;border-radius:15px;padding:20px 18px;min-height:218px;transition:transform .15s,border-color .15s}
+.brief-card:first-child{border-top-color:#e9b478}
+.brief-card:hover,.situation-hub-card:hover{transform:translateY(-2px);border-color:#b8e2d8}
+.brief-card-icon{display:grid;place-items:center;width:40px;height:40px;border-radius:11px;background:#30474b;color:#fae0ba;font-size:1.3rem;margin-bottom:12px}
+.brief-card small{font-size:.75rem;color:#a3c0c4}
+.brief-card h3{color:#f3f7f4;font-size:1.11rem;line-height:1.4;letter-spacing:-.03em;margin:7px 0}
+.brief-card p{font-size:.86rem;color:#c1d1d5;line-height:1.67;flex:1;margin:0}
+.brief-card-action{display:block;margin-top:15px;color:#b4efdc;font-size:.84rem;font-weight:800}
+.starter-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}
+.starter-card{display:flex;flex-direction:column;background:#1c303a;border:1px solid #435963;border-radius:15px;padding:21px;min-width:0}
+.starter-card>span{font-size:.78rem;font-weight:900;color:#eaba80}
+.starter-card h3{font-size:1.09rem;color:#f0f4f3;margin:10px 0 7px;letter-spacing:-.035em}
+.starter-card p{font-size:.85rem;color:#b8cfd0;line-height:1.65;margin:0 0 17px;flex:1}
+.starter-card a{font-weight:800;color:#abebd5;font-size:.84rem}
+.situation-hub-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.situation-hub-card{min-width:0;display:flex;flex-direction:column;background:#192c35;border:1px solid #405966;border-left:3px solid #87c5b8;border-radius:14px;padding:18px;min-height:200px;transition:transform .15s,border-color .15s}
+.situation-hub-card--urgent{border-left-color:#e7b27b}
+.situation-hub-icon{display:grid;place-items:center;width:34px;height:34px;border-radius:9px;background:#2e454a;color:#f6d5a9;font-size:1.11rem}
+.situation-hub-card h3{font-size:1.06rem;color:#f5f6f3;margin:12px 0 6px;letter-spacing:-.035em}
+.situation-hub-card p{font-size:.83rem;color:#c1d2d4;line-height:1.65;margin:0;flex:1}
+.situation-hub-card>span:last-child{font-size:.79rem;font-weight:800;color:#b3e9d9;margin-top:15px}
+.hub-caution{font-size:.8rem;line-height:1.68;color:#bbcbce;margin:17px 0 0}
+.situation-shortcuts{padding:18px 19px;background:#1a2c36;border:1px solid #476169;border-radius:14px;margin:18px 0 25px}
+.situation-shortcuts>strong{display:block;color:#f1e8d7;margin-bottom:11px;font-size:.95rem}
+.situation-shortcuts>div{display:flex;gap:9px;flex-wrap:wrap}
+.situation-shortcuts a{display:inline-flex;gap:10px;align-items:center;min-height:38px;border-radius:99px;border:1px solid #547078;background:#263d45;padding:7px 12px;color:#e2f1ec;font-size:.82rem;font-weight:700}
+.situation-shortcuts a:hover{border-color:#b2e4d3;background:#314a4f}
+.situation-shortcuts a span{color:#b9dacf}
+.situation-card--brief{scroll-margin-top:110px;align-self:start}
+.situation-card--brief .situation-heading{align-items:center}
+.situation-card--brief .situation-heading h2{margin-bottom:3px}
+.situation-number{display:grid;place-items:center;width:33px;height:33px;background:#33484a;border-radius:9px;color:#f6c592!important}
+.first-action{background:#243c40;border:1px solid #42625c;border-radius:12px;padding:15px;margin:17px 0 14px}
+.first-action>span{font-size:.73rem;color:#f4c08d;font-weight:900;letter-spacing:.02em}
+.first-action p{font-size:.91rem;color:#f5f6ed;line-height:1.73;font-weight:750;margin:5px 0 0}
+.situation-note--visible{background:#302d2c;border:1px solid #695d55;border-radius:10px;padding:13px!important;margin:0 0 12px!important;color:#e7d7c7!important;line-height:1.7}
+.situation-note--visible strong{color:#ffdaaa}
+.action-details{border-top:1px solid #40555b;padding-top:4px;margin-bottom:15px}
+.action-details summary{display:flex;justify-content:space-between;align-items:center;gap:12px;cursor:pointer;color:#a9e8d7;font-weight:800;font-size:.85rem;padding:12px 0;list-style:none}
+.action-details summary::-webkit-details-marker{display:none}
+.action-details summary>span{font-size:1.15rem}
+.action-details[open] summary>span{transform:rotate(180deg)}
+.action-details ol{padding-left:20px;font-size:.88rem;line-height:1.75;color:#e0eaec;margin:5px 0 15px}
+.action-details li+li{margin-top:10px}
+.situation-card--brief>.text-link{color:#a7e8d4}
+@media(max-width:1060px){.quick-grid,.situation-hub-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:800px){.brief-hero{grid-template-columns:1fr}.brief-box{max-width:690px}}
+@media(max-width:620px){
+ .quick-grid,.situation-hub-grid,.starter-grid{grid-template-columns:1fr}
+ .dashboard-section{padding:32px 0}
+ .brief-card,.situation-hub-card{min-height:0}
+ .brief-card{padding:17px}
+ .brief-card-icon{margin-bottom:8px}
+ .brief-card-action,.situation-hub-card>span:last-child{margin-top:10px}
+ .starter-card{padding:18px}
+ .brief-box{padding:19px}
+ .situation-shortcuts{padding:16px}
+ .situation-card--brief{padding:18px}
+}
+@media(prefers-reduced-motion:reduce){.brief-card,.situation-hub-card{transition:none}}
