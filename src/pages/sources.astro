@@ -16,6 +16,8 @@ const refs=[
  {agency:'행정안전부 · 국민안전24',title:'민방공경보 단계별 행동요령',detail:'경계경보·공습경보 등 단계별 대피 준비와 행동 확인',href:'https://safekorea.go.kr/safekorea-kor/acts/nacts/action-guide.do?actsHeaderTitle=%EB%AF%BC%EB%B0%A9%EA%B3%B5%EA%B2%BD%EB%B3%B4&category=civlAirDefenseWarning&menuSn=4'},
  {agency:'행정안전부 · 국민안전24',title:'지진해일 긴급대피 행동요령',detail:'해안에서 지진이 발생하거나 지진해일 특보가 있을 때 높은 곳으로 이동하고 반복 파도에 대비',href:'https://safekorea.go.kr/safekorea-kor/em/emergency/emergency_eq3.html'},
  {agency:'행정안전부 · 국민안전24',title:'산사태 발생 전·중·후 행동요령',detail:'산사태 경보·전조증상 확인, 산사태 진행 방향 회피, 계곡과 하천을 무리하게 건너지 않는 대피 지침',href:'https://safekorea.go.kr/safekorea-kor/acts/nacts/action-guide.do?actsHeaderTitle=%EC%82%B0%EC%82%AC%ED%83%9C&category=landSlide&menuSn=4'},
+ {agency:'행정안전부 · 국민안전24',title:'산불 국민행동요령',detail:'산불 발견 시 신고, 산림 인근 주택·산행·야영지 대피, 어린이·이동약자 지원, 진화 후 귀가 시 주의사항',href:'https://www.safekorea.go.kr/safekorea-kor/acts/nacts/action-guide.do?category=forestFires&menuSn=4'},
+ {agency:'행정안전부 · 국민안전24',title:'재난 유형별 대피시설 지도',detail:'민방위·지진옥외·지진해일·화학사고 대피소 등 서로 다른 시설 종류를 필터로 구별해 검색',href:'https://www.safekorea.go.kr/safekorea-kor/flsm/flsm/facilitiesSafteyMap.do?menuSn=234'},
  {agency:'기상청',title:'지진 발생 시 상황별 대피요령',detail:'실내에서 흔들릴 때 몸 보호, 흔들림 후 계단 대피와 야외 낙하물 주의',href:'https://www.weather.go.kr/w/wnuri-eqk-vol/eqk/warning.do'},
  {agency:'행정안전부 · 국민안전24',title:'화재 행동요령',detail:'대피 가능한 경로와 대피로에 연기가 있을 때의 대응을 구분',href:'https://www.safekorea.go.kr/safekorea-kor/acts/nacts/action-guide.do?actsHeaderTitle=%ED%99%94%EC%9E%AC&category=fires&menuSn=4'},
  {agency:'행정안전부 · 국민안전24',title:'침수 행동요령',detail:'침수 지하공간·지하차도·차량 대피 등 위험상황 확인',href:'https://www.safekorea.go.kr/safekorea-kor/acts/nacts/action-guide.do?actsHeaderTitle=%EC%B9%A8%EC%88%98&category=inundation&menuSn=4'},
@@ -35,10 +37,14 @@ const refs=[
   <h2>대피시설을 조회할 때 유의하세요</h2>
   <p>민방위 대피시설, 지진 옥외대피장소, 지진해일 긴급대피장소, 침수 대피장소는 목적이 다릅니다. 지도에 표시된 장소라도 모든 재난에 적합하다는 뜻은 아닙니다. 최신 시설 정보·접근 가능 여부·현장 대피 지시를 함께 확인하세요.</p>
   <p>안전디딤돌 앱이나 지도 앱에서 ‘민방위 대피소’를 검색할 수 있습니다. 검색 결과를 공식 지정 여부나 실시간 수용 가능 인원의 보증으로 간주하지 마세요.</p>
+  <p>시설안전지도에서 <strong>민방위 대피소·지진옥외 대피소·지진해일 대피소·화학사고 대피소</strong>는 서로 다른 항목입니다. 산불 때는 지도에 보이는 아무 대피소가 아니라 지자체·구조기관이 안내하는 대피장소로 이동해야 합니다.</p>
   <p>시설안전지도는 <strong>대피시설 → 민방위 대피소</strong>와 <strong>대피시설 → 비상급수시설</strong>을 구분해 표시합니다. 정부의 경량 조회 페이지가 기본 상태에서 ‘0건’을 표시하더라도 지역을 선택하기 전에는 대피시설 부재로 해석하지 마세요. 지도와 검색 결과는 실시간 수용 인원·개방 여부·급수 가능 여부를 보장하지 않습니다.</p>
   <h2>비슷해 보여도 대피 방향이 다른 재난</h2>
   <p><strong>일반 지진</strong>은 낙하물 위험이 적은 옥외 장소를 선택하지만, 해안의 <strong>지진해일</strong>은 해안·하천에서 떨어진 높은 지역과 긴급대피장소로 이동해야 합니다. 지진해일은 반복될 수 있으므로 공식 해제 전에는 저지대에 돌아가지 않습니다.</p>
   <p><strong>일반 침수</strong>에서는 물이 차오르는 낮은 곳을 피하지만, <strong>산사태</strong> 위험이 있는 산비탈·계곡에서는 산사태 진행 경로에서 벗어나는 안전한 방향으로 이동해야 합니다. 산지 인근에서 임의로 높은 언덕을 택하지 말고 지자체의 대피 명령·현장 안내를 우선하세요.</p>
+  <h2>산불 대피와 귀가 시 주의</h2>
+  <p>국민안전24의 산불 행동요령에 따라 산림 인근 거주자와 야외 활동자는 산불의 진행 경로에서 벗어나고, 재난문자·지자체 대피 안내에 따라 산에서 떨어진 안전한 곳으로 이동합니다. 영유아·노인·장애인의 이동 지원 방법도 미리 정해두세요.</p>
+  <p>진화가 끝난 뒤에도 현장 위험이 사라졌다고 단정하지 마세요. 지자체의 귀가 안내, 주택·전기·수도 시설 상태와 남은 불씨 위험을 확인한 뒤 안전하게 이동해야 합니다.</p>
   <h2>경보해제와 오염 노출 이후</h2>
   <p>국민안전24에는 민방공 <strong>경보해제</strong>의 의미와 행동요령이 정리되어 있습니다. 경보해제는 추가 공격이 예상되지 않는 단계이므로 정부 방송을 계속 확인해야 하며, 위험 시설·오염지역의 안전이 보증됐다는 의미로 확대하지 마세요.</p>
   <p>화학물질 및 방사성 물질에 노출됐다면 두 상황의 제염 방법을 구별하고, 해당 지역의 구조·보건당국 지침을 우선하세요. 피부 세척과 오염 의복 처리 안내는 위의 <strong>화생방무기 대응·자가 제염</strong> 자료를 확인하세요.</p>
