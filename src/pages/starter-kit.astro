@@ -33,16 +33,19 @@ const groups=[
    {groups.map(g=><article class="starter-set-card">
      <div class="starter-set-card-top"><span class="starter-set-index">{g.number}</span><span class="starter-set-emoji" aria-hidden="true">{g.icon}</span><span class="starter-set-tag">{g.tag}</span></div>
      <h3>{g.title}</h3><p class="starter-set-desc">{g.description}</p>
-     {'verified' in g && g.verified &&
-      <a class="starter-set-product" href="/reviews/fenix-e20-v2-flashlight/"><img src={verifiedFlashlightImage} width="92" height="92" loading="lazy" referrerpolicy="no-referrer" decoding="async" alt="페닉스 E20 V2.0 손전등"/><span><strong>페닉스 E20 V2.0</strong><small>AA 건전지 2개로 작동</small><em>제품 장단점 보기 →</em></span></a>}
+
      <p class="starter-set-need"><strong>이 정도를 준비하세요</strong>{g.need}</p>
      <div class="starter-set-actions">
-      {'verified' in g && g.verified && <a href={verifiedFlashlightUrl} rel="sponsored nofollow noopener noreferrer" target="_blank" class="starter-buy-now">쿠팡에서 손전등 보기 ↗</a>}
       <a href={g.guide} class="starter-guide-link">{g.guideText} →</a>
      </div>
      <label class="starter-owned"><input class="starter-owned-checkbox" type="checkbox" data-starter-id={g.id}/><span>우리 집에 충분히 준비돼 있어요</span></label>
     </article>)}
   </div>
+  <section class="kit-featured-product" aria-labelledby="kit-product-title">
+   <a class="kit-featured-image" href="/reviews/fenix-e20-v2-flashlight/"><img src={verifiedFlashlightImage} width="212" height="212" loading="lazy" decoding="async" referrerpolicy="no-referrer" alt="페닉스 E20 V2.0 손전등 상품 사진"/></a>
+   <div><span class="review-chip">실제 쿠팡 상품 링크 확인</span><h3 id="kit-product-title">추천 구매 후보 · 페닉스 E20 V2.0 손전등</h3><p>충전 없이 AA 건전지 2개로 사용하는 예비 손전등입니다. 필요한 분만 구매하고, 이미 손전등이 있다면 작동부터 확인하세요.</p>
+   <div class="kit-featured-actions"><a href={verifiedFlashlightUrl} rel="sponsored nofollow noopener noreferrer" target="_blank" class="starter-buy-now">쿠팡에서 상품 확인하기 ↗</a><a class="starter-guide-link" href="/reviews/fenix-e20-v2-flashlight/">장점·단점 읽기 →</a></div></div>
+  </section>
   <p class="starter-affiliate-notice">손전등 구매 버튼은 쿠팡파트너스 제휴 링크입니다. 이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다. 다른 품목에는 아직 검증되지 않은 상품 광고를 붙이지 않았습니다.</p>
  </section>
  <section class="starter-special" aria-labelledby="starter-special-title">
