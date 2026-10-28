@@ -439,3 +439,48 @@ main{min-width:0}
 
 /* The 320px viewport must not force two tiny columns for emergency labels. */
 @media(max-width:360px){.situation-hub-grid{grid-template-columns:1fr}.situation-hub-card{min-height:0}}
+
+/* GuideHollow Ready — privacy-friendly household needs list, Night Operations only */
+.starter-personal{margin:22px 0 34px;border:1px solid #45616c;background:#182c36;border-radius:18px;padding:24px;color:#e3eeee;scroll-margin-top:108px}
+.starter-personal-head{display:flex;justify-content:space-between;align-items:flex-start;gap:16px}
+.starter-personal-head h2{color:#fff1d9;font-size:clamp(1.32rem,2.8vw,1.65rem);line-height:1.43;margin:8px 0}
+.starter-personal-head p{margin:0;color:#c6d9db;font-size:.91rem;line-height:1.6;max-width:670px}
+.starter-personal-head strong{color:#f9d29c}
+.starter-emergency-link{flex:none;display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:10px 12px;border:1px solid #9d7555;background:#382d2c;border-radius:10px;color:#ffdbaf;font-size:.83rem;font-weight:850}
+.starter-water-calc{display:grid;grid-template-columns:minmax(150px,.75fr) minmax(150px,.85fr) minmax(235px,1.35fr);align-items:stretch;gap:12px;margin:22px 0 12px}
+.starter-water-calc label{display:flex;align-items:center;gap:9px;flex-wrap:wrap;border:1px solid #4b626d;background:#203640;border-radius:12px;padding:12px 14px;color:#d7e7e6;font-weight:800;font-size:.86rem}
+.starter-water-calc input{width:82px;min-width:0;max-width:100%;background:#101f28;border:1px solid #728a8f;border-radius:8px;padding:9px;color:#fff;font:inherit;font-size:1rem;line-height:1.4}
+.starter-water-result{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.starter-water-result>div{display:flex;flex-direction:column;justify-content:center;background:#2a3b38;border:1px solid #638070;border-radius:12px;padding:10px 12px;min-width:0}
+.starter-water-result small{color:#c1d6cf;font-size:.75rem}
+.starter-water-result strong{color:#ffdab0;font-size:clamp(1.1rem,2.3vw,1.4rem);font-variant-numeric:tabular-nums}
+.starter-water-note{color:#b6cacf;font-size:.82rem;line-height:1.72;margin:0 0 23px}
+.starter-water-note a{color:#b8eddc;text-decoration:underline}
+.starter-missing-head{border-top:1px solid #425965;padding-top:21px;display:flex;align-items:flex-end;justify-content:space-between;gap:14px}
+.starter-missing-head h3{color:#f3f5f0;margin:0 0 5px;font-size:1.19rem}
+.starter-missing-head h3 span{color:#ffce8b;font-variant-numeric:tabular-nums}
+.starter-missing-head p{color:#b9d0d2;font-size:.83rem;line-height:1.65;max-width:630px;margin:0}
+.starter-missing-head p strong{color:#f7d5a7}
+.starter-missing-actions{display:flex;gap:8px;flex-wrap:wrap;flex:none}
+.starter-tool-btn{min-height:44px;background:#283c43;border:1px solid #678178;border-radius:10px;color:#e7f3ed;font-size:.81rem;font-weight:850;padding:9px 13px;white-space:normal}
+.starter-tool-btn:hover,.starter-tool-btn[aria-pressed="true"]{background:#395248;border-color:#e0b47b;color:#fff3dd}
+.starter-missing-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;list-style:none;padding:0;margin:18px 0 0}
+.starter-missing-list li{display:flex;align-items:center;justify-content:space-between;gap:13px;border:1px solid #4b6069;background:#20333d;border-radius:11px;padding:12px 14px;min-width:0}
+.starter-missing-list li[hidden],.starter-set-card[hidden],.starter-missing-empty[hidden],.starter-copy-fallback[hidden]{display:none!important}
+.starter-missing-list li>span{display:flex;flex-direction:column;gap:4px;min-width:0}
+.starter-missing-list b{color:#f0f4ef;font-size:.9rem;word-break:keep-all}
+.starter-missing-list small{color:#b6cbd1;font-size:.76rem;line-height:1.55;word-break:keep-all;overflow-wrap:break-word}
+.starter-missing-list a{display:inline-flex;align-items:center;justify-content:center;flex:none;max-width:135px;min-height:44px;padding:8px 10px;color:#c3e9d9;border:1px solid #53796a;border-radius:9px;font-size:.78rem;font-weight:850;text-align:center;word-break:keep-all}
+.starter-missing-empty{margin:17px 0;color:#d4ecdf;background:#254138;border:1px solid #648b71;border-radius:11px;padding:14px;line-height:1.65}
+.starter-copy-fallback{margin-top:14px}
+.starter-copy-fallback label{display:block;color:#e7d5c2;font-size:.85rem;margin-bottom:8px}
+.starter-copy-fallback textarea{width:100%;min-width:0;background:#12242f;border:1px solid #718a88;border-radius:10px;color:#eff6f5;font:inherit;padding:11px;line-height:1.65}
+.starter-missing-note{color:#b4c8ca;margin:16px 0 0;font-size:.79rem;line-height:1.7}
+.starter-missing-note a{color:#b1e7d5;text-decoration:underline}
+.kit-product-facts{list-style:none;margin:0 0 13px;padding:0;display:grid;gap:8px}
+.kit-product-facts li{font-size:.84rem;line-height:1.65;border-left:3px solid #6c917b;padding-left:10px;color:#d6e5df}
+.kit-product-facts strong{color:#f7d19c}
+@media(max-width:1024px){.starter-water-calc{grid-template-columns:repeat(2,minmax(0,1fr))}.starter-water-result{grid-column:1/-1}.starter-personal-head{flex-direction:column}.starter-emergency-link{align-self:flex-start}.starter-missing-head{align-items:stretch;flex-direction:column}.starter-missing-actions{flex:none}}
+@media(max-width:650px){.starter-personal{padding:17px;margin:15px 0 24px}.starter-water-calc{grid-template-columns:1fr}.starter-water-result{grid-column:auto}.starter-water-calc label{justify-content:space-between}.starter-missing-list{grid-template-columns:1fr}.starter-missing-list li{align-items:stretch}.starter-missing-list a{max-width:110px}.starter-missing-actions{display:grid;grid-template-columns:1fr 1fr}.starter-tool-btn{padding:10px 8px}}
+@media(max-width:360px){.starter-missing-list li{flex-direction:column;align-items:stretch}.starter-missing-list a{max-width:none}}
+@media print{.starter-personal{background:white!important;color:#111!important;border-color:#aaa}.starter-personal *{color:#111!important}.starter-missing-actions,.starter-water-calc input,.starter-emergency-link{display:none!important}}
