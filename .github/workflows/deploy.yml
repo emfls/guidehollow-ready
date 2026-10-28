@@ -33,6 +33,18 @@ jobs:
         run: npm run build
       - name: Verify navigation, official safety links, Naver meta and draft isolation
         run: npm run verify
+      - name: Install headless browser for responsive testing
+        run: npm install --no-save --package-lock=false playwright-core@1.56.1
+      - name: Responsive mobile browser checks
+        run: node scripts/test-responsive-layout.mjs
+      - name: Upload responsive QA screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ready-responsive-qa
+          path: .qa-screenshots
+          if-no-files-found: ignore
+          retention-days: 7
       - name: Configure GitHub Pages
         if: github.event_name != 'pull_request'
         uses: actions/configure-pages@v5
