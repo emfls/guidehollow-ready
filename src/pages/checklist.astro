@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import {checkGroups,sources} from '../data/resources';
+import StockManager from '../components/StockManager.astro';
 const initialTotal=checkGroups.filter(g=>!('audience' in g)).reduce((sum,g)=>sum+g.items.length,0);
 ---
 <Base title="72시간 대비 가정 준비 체크리스트" description="기본 72시간 대비 물품을 점검하고 영유아·고령자·반려동물 가족에 필요한 준비를 추가하세요. 진행 상태는 이 기기에만 저장됩니다.">
@@ -47,6 +48,7 @@ const initialTotal=checkGroups.filter(g=>!('audience' in g)).reduce((sum,g)=>sum
    </label>)}</div>
   </section>)}
  </div>
+ <StockManager />
  <section class="next-step"><div><h2>체크 후 무엇을 할까요?</h2><p>식수·식량의 실제 보관 조건을 확인하고, 대피소·연락 계획도 가족과 함께 정하세요.</p></div><a href="/buying/food/" class="btn primary">비상식량·식수 가이드 →</a></section>
  <section class="check-sources" aria-label="기준과 출처">
   <strong>검수 기준 · 2026년 10월 28일</strong>
