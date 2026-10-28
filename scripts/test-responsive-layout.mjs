@@ -20,7 +20,7 @@ const chrome=['/usr/bin/google-chrome','/usr/bin/google-chrome-stable','/opt/goo
 if(!chrome)throw Error('GitHub runner has no Chrome binary for real responsive QA');
 const browser=await chromium.launch({executablePath:chrome,headless:true,args:['--no-sandbox','--disable-dev-shm-usage']});
 await mkdir('.qa-screenshots',{recursive:true});
-const paths=['/','/emergency/','/family-emergency/','/family-card/','/situations/','/checklist/','/plan/','/starter-kit/','/buying/food/','/buying/gear/','/sources/','/reviews/','/reviews/fenix-e20-v2-flashlight/','/reviews/emergency-am-fm-radios/','/reviews/emergency-bags-dry-pouches/','/reviews/emergency-blankets-and-hygiene-wipes/','/reviews/emergency-first-aid-kit-and-dressings/','/reviews/emergency-flashlights-headlamps/','/reviews/emergency-kit-set-composition-audit/','/reviews/emergency-power-banks-10000-vs-20000/','/reviews/emergency-products-kc-model-expiry-audit/','/reviews/emergency-retail-option-priority-and-affiliate-gates/','/reviews/coupang-stock-audit-samsung-p3400-p3401/'];
+const paths=['/','/drill/','/emergency/','/family-emergency/','/family-card/','/situations/','/checklist/','/plan/','/starter-kit/','/buying/food/','/buying/gear/','/sources/','/reviews/','/reviews/fenix-e20-v2-flashlight/','/reviews/emergency-am-fm-radios/','/reviews/emergency-bags-dry-pouches/','/reviews/emergency-blankets-and-hygiene-wipes/','/reviews/emergency-first-aid-kit-and-dressings/','/reviews/emergency-flashlights-headlamps/','/reviews/emergency-kit-set-composition-audit/','/reviews/emergency-power-banks-10000-vs-20000/','/reviews/emergency-products-kc-model-expiry-audit/','/reviews/emergency-retail-option-priority-and-affiliate-gates/','/reviews/coupang-stock-audit-samsung-p3400-p3401/'];
 const widths=[320,375,390,430,768,1024,1440];
 const errors=[]; let checks=0;let screenshots=0;
 try{
@@ -55,6 +55,10 @@ try{
     const link=page.locator('a[href*="facilitiesSafteyMap.do"]');
     if(await link.count()===0)failed.push('official shelter action missing');
     if(await page.locator('.emergency-home-action').count()===0)failed.push('urgent and routine modes not separated');
+  }
+  if(route==='/drill/'){
+    if(await page.locator('.drill-card').count()!==3)failed.push('three practical scenarios missing');
+    if(await page.locator('.drill-options button').count()!==9)failed.push('practice answers are not clickable');
   }
   if(route==='/emergency/'){
     if(await page.locator('.instant-step-card').count()!==3)failed.push('air chemical nuclear first-action cards missing');
@@ -93,6 +97,11 @@ try{
    await page.locator('#starter-reset').click();
    if(await page.locator('#starter-ready-count').textContent()!=='0')errors.push({width,route:'/starter-kit/',issues:['reset button failed']});
   }
+  await page.goto(`http://127.0.0.1:${PORT}/drill/`);
+  const first=page.locator('.drill-card').first();
+  await first.locator('button[data-answer="correct"]').click();
+  if(!await first.locator('.drill-result').isVisible())errors.push({width,route:'/drill/',issues:['selected practice answer shows no explanation']});
+  if(await first.locator('button[data-answer="correct"]').getAttribute('aria-pressed')!=='true')errors.push({width,route:'/drill/',issues:['practice selection lacks accessible state']});
   await page.goto(`http://127.0.0.1:${PORT}/checklist/`);
   if(await page.locator('.check-item input').count()===0)errors.push({width,route:'/checklist/',issues:['interactive checkboxes missing']});
   const d=page.locator('.check-backup.guide-extra');

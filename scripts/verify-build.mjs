@@ -1,6 +1,6 @@
 import {existsSync,readFileSync,readdirSync} from 'node:fs';
 import {join} from 'node:path';
-const required=['index.html','CNAME','.nojekyll','favicon.svg','robots.txt','sitemap.xml','rss.xml','reviews/index.html','starter-kit/index.html','situations/index.html','checklist/index.html','plan/index.html','buying/food/index.html','buying/gear/index.html','about/index.html','disclosure/index.html','privacy/index.html','sources/index.html'];
+const required=['index.html','CNAME','.nojekyll','favicon.svg','robots.txt','sitemap.xml','rss.xml','reviews/index.html','starter-kit/index.html','drill/index.html','situations/index.html','checklist/index.html','plan/index.html','buying/food/index.html','buying/gear/index.html','about/index.html','disclosure/index.html','privacy/index.html','sources/index.html'];
 const file=(p)=>readFileSync(join('dist',p),'utf8');
 for(const p of required)if(!existsSync(join('dist',p)))throw Error('Build missing '+p);
 if(file('CNAME').trim()!=='ready.guidehollow.com')throw Error('CNAME mismatch');
@@ -12,7 +12,7 @@ for(const p of pages){
  if(!html.includes('ready.guidehollow.com'))throw Error('Wrong canonical host: '+p);
 }
 const design=readFileSync('src/styles/night-layout.css','utf8');
-for(const rule of ['.mobile-tabbar','.review-directory-grid','.starter-set-grid','@media(max-width:540px)','word-break:keep-all','grid-auto-rows:1fr']) if(!design.includes(rule))throw Error('Mobile-first shared design contract missing: '+rule);
+for(const rule of ['.mobile-tabbar','.review-directory-grid','.starter-set-grid','@media(max-width:540px)','word-break:keep-all','grid-auto-rows:auto']) if(!design.includes(rule))throw Error('Mobile-first shared design contract missing: '+rule);
 const home=file('index.html');
 if (!home.includes('mobile-tabbar') || !home.includes('aria-label="모바일 빠른 메뉴"')) throw Error('Unified mobile navigation missing');
 if (home.includes('home-three-steps') || home.includes('ui-refresh.css')) throw Error('Redundant light homepage design still present');
@@ -50,6 +50,10 @@ const reviewHub=file('reviews/index.html');
 if(!reviewHub.includes('review-directory-grid')||!reviewHub.includes('review-featured-grid'))throw Error('Readable review directory not generated');
 if (!reviewHub.includes('실제 구매 링크는 동일 제품이 확인된 경우에만 표시합니다')||!reviewHub.includes('/reviews/emergency-flashlights-headlamps/')) throw Error('Verified product hub is missing purchase verification notice or existing report');
 if (!home.includes('href="/reviews/"')) throw Error('Product comparison discoverability missing from home');
+if (!home.includes('href="/drill/"')) throw Error('Short routine practice is not linked from home');
+const drill=file('drill/index.html');
+if (!drill.includes('data-answer="correct"') || !drill.includes('aria-live="polite"') || !drill.includes('실제 위험한 상황인가요?') || !drill.includes('/situations/#chemical')) throw Error('Practice page lacks interactive safe answers or emergency caveat');
+if((drill.match(/class="drill-card"/g)||[]).length!==3) throw Error('Exactly three short practice scenarios required');
 const starter=file('starter-kit/index.html');
 if(!starter.includes('우리 집 비상 준비')||!starter.includes('guidehollow-ready-starter-set-v1')||!starter.includes('페닉스 E20 V2.0')||!starter.includes('idtdhvDZ3A'))throw Error('Starter kit missing functional checklist or vetted shopping product');
 if(starter.includes('iframe')||starter.includes('한 번에 구매 완료'))throw Error('Unsafe iframe or misleading whole-kit purchase claim');
