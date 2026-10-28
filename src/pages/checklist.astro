@@ -1,60 +1,149 @@
 ---
 import Base from '../layouts/Base.astro';
 import {checkGroups,sources} from '../data/resources';
-const total=checkGroups.reduce((sum,g)=>sum+g.items.length,0);
+const initialTotal=checkGroups.filter(g=>!('audience' in g)).reduce((sum,g)=>sum+g.items.length,0);
 ---
-<Base title="72시간 대비 입문 체크리스트">
+<Base title="72시간 대비 가정 준비 체크리스트" description="기본 72시간 대비 물품을 점검하고 영유아·고령자·반려동물 가족에 필요한 준비를 추가하세요. 진행 상태는 이 기기에만 저장됩니다.">
 <div class="container">
- <header class="page-intro"><span class="eyebrow">INTERACTIVE CHECKLIST</span><h1>우리 집 준비 상태,<br/><em>지금 체크해 보세요</em></h1><p>가장 기본적인 준비 항목을 가족 상황에 맞춰 점검합니다. 체크 결과는 이 기기의 브라우저에만 저장하며 다른 곳으로 전송하지 않습니다.</p></header>
+ <header class="page-intro">
+  <span class="eyebrow">INTERACTIVE CHECKLIST · UPDATED 2026.10.28</span>
+  <h1>우리 집 비상 준비,<br/><em>있는 것부터 확인하세요</em></h1>
+  <p>22개 기본 항목부터 점검하고, 해당하는 가족 유형만 추가하세요. 새 물건을 사기 전에 집에 있는 물품과 유효한 보관 상태를 먼저 확인합니다.</p>
+ </header>
  <section class="check-overview" aria-label="준비 진행률" data-progress>
-  <div><span class="section-label">YOUR PROGRESS</span><h2><span id="done-count">0</span><span class="muted"> / {total}개 준비</span></h2><p>준비가 끝난 항목에 표시하세요. 나중에 다시 확인하고 보관 물품의 기한도 점검하세요.</p></div>
+  <div><span class="section-label">PREPAREDNESS STATUS</span><h2><span id="done-count">0</span><span class="muted"> / <span id="total-count">{initialTotal}</span>개 준비</span></h2>
+   <p>체크된 항목은 이 브라우저에만 저장됩니다. 진행률은 실제 안전을 보장하는 점수가 아닙니다.</p>
+  </div>
   <div class="progress-visual" aria-hidden="true"><span id="progress-label">0%</span></div>
-  <progress max={total} value="0" id="ready-progress" aria-label="비상 준비물 완료 비율"></progress>
+  <progress max={initialTotal} value="0" id="ready-progress" aria-label="선택된 가족 상황에 맞춘 비상 준비물 진행률"></progress>
  </section>
- <div class="info-note"><strong>이 목록의 범위</strong><p>72시간은 시작 단계의 정리용 기간입니다. <strong>국내 전시 대비 물자 지침에는 가정 비축 식량·식수 약 30일분 권고도 있으므로</strong>, 이 목록만으로 전시에 충분하다는 의미가 아닙니다. 가족 특성과 보관 여건에 맞춰 범위를 늘리세요. <a href={sources.supplies} target="_blank" rel="noopener noreferrer">국내 공식 비상대비 물자 안내 ↗</a></p></div>
- <div class="check-actions"><button id="print-list" type="button" class="btn secondary">목록 인쇄</button><button id="reset-list" type="button" class="quiet-button">체크 초기화</button><span id="saved-indicator" class="small-muted" aria-live="polite"></span></div>
- <div class="check-groups">
- {checkGroups.map(group=><section class="check-group">
-  <div class="check-group-heading"><div><h2>{group.name}</h2><p>{group.detail}</p></div><span>{group.items.length}개 항목</span></div>
-  <div class="check-items">{group.items.map(item=><label class="check-item" for={item.id}>
-   <input type="checkbox" class="kit-check" id={item.id} data-key={item.id}/>
-   <span class="check-copy"><strong>{item.text}</strong><small>{item.hint}</small></span>
-  </label>)}</div>
- </section>)}
+
+ <div class="info-note"><strong>72시간과 전시 장기 비축은 다릅니다</strong>
+  <p>이 목록은 정전·단수 등 초기 72시간을 준비하는 출발점입니다. <a href={sources.supplies} target="_blank" rel="noopener noreferrer">국민안전24의 비상대비 물자 안내</a>는 별도로 <strong>식량·식수 30일분</strong>을 권고합니다. 3일분만으로 전시 대비가 끝났다고 생각하지 마세요. 과도한 한 번 구매보다 단계적 비축과 순환 교체가 중요합니다.</p>
  </div>
- <section class="next-step"><div><h2>체크를 마쳤다면?</h2><p>가족의 대피소와 연락 계획을 세우고, 부족한 물품이 있을 때만 제품별 사양을 비교하세요.</p></div><a class="btn primary" href="/plan/">가족 계획 만들기 →</a></section>
+
+ <fieldset class="family-select" aria-describedby="family-help">
+  <legend>해당하는 가족 상황을 선택하세요</legend>
+  <p id="family-help">선택한 경우에만 추가 항목이 보이고 준비율에 포함됩니다. 선택 상태도 이 브라우저에만 저장됩니다.</p>
+  <div class="family-options">
+   <label class="family-option"><input type="checkbox" class="audience-check" data-audience-key="baby" /> <span>영유아 가족 <small>수유·기저귀</small></span></label>
+   <label class="family-option"><input type="checkbox" class="audience-check" data-audience-key="care" /> <span>고령자·돌봄 가족 <small>이동·약품</small></span></label>
+   <label class="family-option"><input type="checkbox" class="audience-check" data-audience-key="pet" /> <span>반려동물 가족 <small>사료·이동</small></span></label>
+  </div>
+ </fieldset>
+
+ <div class="check-actions">
+  <button id="print-list" type="button" class="btn secondary">체크리스트 인쇄</button>
+  <button id="reset-list" type="button" class="quiet-button">체크만 초기화</button>
+  <span id="saved-indicator" class="small-muted" role="status" aria-live="polite"></span>
+ </div>
+
+ <div class="check-groups">
+  {checkGroups.map(group=><section class="check-group" data-audience={'audience' in group?group.audience:undefined}>
+   <div class="check-group-heading"><div><h2>{group.name}</h2><p>{group.detail}</p></div><span data-group-progress>{group.items.length}개 항목</span></div>
+   <div class="check-items">{group.items.map(item=><label class="check-item" for={item.id}>
+    <input type="checkbox" class="kit-check" id={item.id} data-key={item.id} />
+    <span class="check-copy"><strong>{item.text}</strong><small>{item.hint}</small></span>
+   </label>)}</div>
+  </section>)}
+ </div>
+ <section class="next-step"><div><h2>체크 후 무엇을 할까요?</h2><p>식수·식량의 실제 보관 조건을 확인하고, 대피소·연락 계획도 가족과 함께 정하세요.</p></div><a href="/buying/food/" class="btn primary">비상식량·식수 가이드 →</a></section>
+ <section class="check-sources" aria-label="기준과 출처">
+  <strong>검수 기준 · 2026년 10월 28일</strong>
+  <p>국내 기준: <a href={sources.supplies} target="_blank" rel="noopener noreferrer">국민안전24 비상대비 물자 준비</a>. 추가 참고: <a href={sources.waterGuide} target="_blank" rel="noopener noreferrer">미국 CDC 비상 식수</a>, <a href={sources.infantGuide} target="_blank" rel="noopener noreferrer">미국 CDC 영유아 수유</a>, <a href={sources.readyKit} target="_blank" rel="noopener noreferrer">미국 Ready.gov 비상물품</a>. 해외 자료의 수량은 국내 의무 기준이 아닙니다.</p>
+  <p>이 페이지는 계정·서버 저장 없이 동작합니다. 공용 기기라면 사용 후 ‘체크만 초기화’를 누르고 가족 유형 선택도 해제하세요. 브라우저 저장 기능이 제한된 경우 체크 상태는 유지되지 않을 수 있습니다.</p>
+ </section>
+ <noscript><p class="info-note">자바스크립트가 꺼져 있으면 체크 상태 저장과 자동 진행률·가족별 필터가 동작하지 않습니다. 인쇄 후 종이로 표시해도 됩니다.</p></noscript>
 </div>
 <script>
 const boxes=[...document.querySelectorAll<HTMLInputElement>('.kit-check')];
+const audiences=[...document.querySelectorAll<HTMLInputElement>('.audience-check')];
+const groups=[...document.querySelectorAll<HTMLElement>('.check-group')];
 const progress=document.querySelector<HTMLProgressElement>('#ready-progress');
 const count=document.querySelector<HTMLElement>('#done-count');
+const totalEl=document.querySelector<HTMLElement>('#total-count');
 const label=document.querySelector<HTMLElement>('#progress-label');
 const note=document.querySelector<HTMLElement>('#saved-indicator');
+// Existing checked-item key is preserved, including all original item IDs.
 const STORAGE='guidehollow-ready-check-v1';
-function update(){
- const done=boxes.filter(x=>x.checked).length;
- if(progress)progress.value=done;
- if(count)count.textContent=String(done);
- if(label)label.textContent=Math.round(done/boxes.length*100)+'%';
- const p=document.querySelector<HTMLElement>('.progress-visual');
- if(p)p.style.setProperty('--percent',Math.round(done/boxes.length*100)+'%');
+const FAMILY_STORAGE='guidehollow-ready-family-filters-v1';
+function selectedBoxes(){
+ return boxes.filter(x=>!x.closest<HTMLElement>('.check-group')?.hidden);
 }
-try {
- const stored=JSON.parse(localStorage.getItem(STORAGE)||'[]');
- if(Array.isArray(stored)) boxes.forEach(x=>x.checked=stored.includes(x.dataset.key));
-}catch { if(note)note.textContent='브라우저에 저장할 수 없어 현재 화면에서만 표시됩니다.'; }
-update();
-boxes.forEach(x=>x.addEventListener('change',()=>{
- try{localStorage.setItem(STORAGE,JSON.stringify(boxes.filter(x=>x.checked).map(x=>x.dataset.key)));if(note)note.textContent='이 기기에 저장했습니다.';}catch{if(note)note.textContent='저장이 차단되어 현재 화면에서만 유지됩니다.';}
+function update(){
+ const active=selectedBoxes();
+ const done=active.filter(x=>x.checked).length;
+ const total=active.length;
+ const percent=total?Math.round(done/total*100):0;
+ if(progress){progress.max=total||1;progress.value=done;}
+ if(count)count.textContent=String(done);
+ if(totalEl)totalEl.textContent=String(total);
+ if(label)label.textContent=percent+'%';
+ document.querySelector<HTMLElement>('.progress-visual')?.style.setProperty('--percent',percent+'%');
+ groups.forEach(group=>{
+  const groupBoxes=[...group.querySelectorAll<HTMLInputElement>('.kit-check')];
+  const status=group.querySelector<HTMLElement>('[data-group-progress]');
+  if(status)status.textContent=groupBoxes.filter(x=>x.checked).length+' / '+groupBoxes.length+'개';
+ });
+}
+function applyFamilyFilters(){
+ const chosen=new Set(audiences.filter(x=>x.checked).map(x=>x.dataset.audienceKey));
+ groups.forEach(group=>{
+  const audience=group.dataset.audience;
+  group.hidden=Boolean(audience&&!chosen.has(audience));
+ });
  update();
+}
+function saveChecks(){
+ try{
+  localStorage.setItem(STORAGE,JSON.stringify(boxes.filter(x=>x.checked).map(x=>x.dataset.key)));
+  if(note)note.textContent='체크 결과를 이 기기에 저장했습니다.';
+ }catch{
+  if(note)note.textContent='저장이 차단되어 현재 화면에서만 유지됩니다.';
+ }
+ update();
+}
+try{
+ const stored=JSON.parse(localStorage.getItem(STORAGE)||'[]');
+ if(Array.isArray(stored))boxes.forEach(x=>x.checked=stored.includes(x.dataset.key));
+ const filters=JSON.parse(localStorage.getItem(FAMILY_STORAGE)||'[]');
+ if(Array.isArray(filters))audiences.forEach(x=>x.checked=filters.includes(x.dataset.audienceKey));
+}catch{if(note)note.textContent='저장된 상태를 읽지 못했습니다. 현재 화면에서 다시 체크하세요.';}
+applyFamilyFilters();
+boxes.forEach(x=>x.addEventListener('change',saveChecks));
+audiences.forEach(x=>x.addEventListener('change',()=>{
+ try{
+  localStorage.setItem(FAMILY_STORAGE,JSON.stringify(audiences.filter(a=>a.checked).map(a=>a.dataset.audienceKey)));
+  if(note)note.textContent='가족 유형을 이 기기에 저장했습니다.';
+ }catch{if(note)note.textContent='가족 유형을 저장하지 못했습니다.';}
+ applyFamilyFilters();
 }));
 document.querySelector('#reset-list')?.addEventListener('click',()=>{
- if(!confirm('체크 표시를 모두 초기화할까요?')) return;
+ if(!confirm('체크한 항목을 모두 초기화할까요? 가족 유형 선택은 유지됩니다.'))return;
  boxes.forEach(x=>x.checked=false);
  try{localStorage.removeItem(STORAGE);}catch{}
- if(note)note.textContent='초기화했습니다.';
+ if(note)note.textContent='모든 체크를 초기화했습니다.';
  update();
 });
 document.querySelector('#print-list')?.addEventListener('click',()=>window.print());
 </script>
+<style>
+.family-select{border:1px solid #486665;border-radius:16px;background:#1a2b32;padding:19px 22px;margin:24px 0;color:#eaf1f0;min-width:0}
+.family-select legend{padding:0 8px;font-size:1.09rem;font-weight:800;color:#f1dbb8}
+.family-select p{font-size:.89rem;line-height:1.65;color:#bfd1d4;margin:0 0 15px}
+.family-options{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.family-option{display:flex;gap:10px;align-items:center;border:1px solid #4e6469;background:#263b42;padding:13px;border-radius:11px;cursor:pointer;min-height:65px;color:#f3f7f6}
+.family-option:has(input:checked){border-color:#efb974;background:#344543}
+.family-option input{width:20px;height:20px;accent-color:#efb974;flex:none}
+.family-option input:focus-visible{outline:3px solid #ffd58f;outline-offset:3px}
+.family-option span{font-weight:750;font-size:.92rem;line-height:1.4}
+.family-option small{display:block;color:#b9d0d0;font-weight:400;margin-top:3px;font-size:.8rem}
+.check-group[hidden]{display:none!important}
+.check-sources{margin:6px 0 50px;border-top:1px solid #43545d;padding:20px 0;font-size:.86rem;line-height:1.75;color:#bbcbd0}
+.check-sources strong{display:block;color:#f1e1c5;margin-bottom:7px}
+.check-sources p{margin:9px 0}
+.check-sources a{color:#a8e8d7;text-decoration:underline;text-underline-offset:3px}
+@media(max-width:740px){.family-options{grid-template-columns:1fr}.family-select{padding:16px}.family-option{min-height:54px}.check-actions{gap:10px}.check-actions button{min-height:44px}}
+@media print{.family-select,.check-actions{display:none!important}.check-sources{color:#222;border-color:#888}.check-sources strong{color:#222}.check-sources a{color:#222}.check-group[hidden]{display:none!important}}
+</style>
 </Base>
