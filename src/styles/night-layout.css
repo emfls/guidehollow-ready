@@ -557,3 +557,19 @@ main{min-width:0}
 .instant-step-card li{height:auto;flex-shrink:0}
 .instant-card-warning{height:auto;flex-shrink:0}
 .instant-shortcuts a{display:inline-flex;align-items:center;justify-content:center}
+
+/* 2026-10-28 – detailed 22-item progress shown without rewriting either checklist */
+.starter-detail-bridge{border:1px solid #456f66;background:#203b39;border-radius:15px;margin:18px 0 25px;padding:19px;color:#e3f0e9}
+.starter-detail-heading{display:flex;justify-content:space-between;align-items:center;gap:17px}
+.starter-detail-heading h3{font-size:1.14rem;line-height:1.45;color:#f5eddc;margin:5px 0 8px}
+.starter-detail-heading h3 span{color:#ffce93;font-variant-numeric:tabular-nums}
+.starter-detail-heading p{font-size:.82rem;line-height:1.6;color:#c0d7d0;margin:0}
+.starter-detail-heading p a{color:#bdebd9;text-decoration:underline}
+.starter-detail-go{display:inline-flex;justify-content:center;align-items:center;flex:none;min-height:44px;border:1px solid #80a998;background:#294b44;color:#e8ffef;border-radius:10px;padding:9px 13px;font-size:.81rem;font-weight:850}
+.starter-detail-areas{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:15px}
+.starter-detail-areas a{display:flex;align-items:center;justify-content:space-between;gap:9px;border:1px solid #567369;background:#162f32;border-radius:10px;padding:10px 12px;min-height:49px;color:#e5efe8;font-size:.81rem;overflow-wrap:anywhere}
+.starter-detail-areas a strong{font-size:.81rem;color:#f4cf98;font-variant-numeric:tabular-nums;white-space:nowrap}
+.starter-detail-help{margin:12px 0 0;font-size:.76rem;line-height:1.5;color:#bed4d0}
+@media(max-width:900px){.starter-detail-areas{grid-template-columns:repeat(2,minmax(0,1fr))}.starter-detail-heading{align-items:stretch;flex-direction:column}.starter-detail-go{align-self:flex-start}}
+@media(max-width:460px){.starter-detail-bridge{padding:14px;margin:14px 0 20px}.starter-detail-areas{gap:7px}.starter-detail-areas a{padding:9px 8px;font-size:.74rem;align-items:start;flex-direction:column;gap:4px}.starter-detail-areas a strong{align-self:flex-end}}
+@media print{.starter-detail-bridge{background:#fff!important;border-color:#999!important}.starter-detail-bridge *{color:#111!important}}
