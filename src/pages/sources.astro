@@ -5,7 +5,12 @@ const verified='2026-10-28';
 const refs=[
  {agency:'행정안전부 · 국민안전24',title:'비상시 국민행동요령',detail:'경계·공습·화생방·핵 경보, 대피 후 행동, 재난 유형별 대피 위치',href:'https://safekorea.go.kr/safekorea-kor/acts/nacts/action-guide.do?actsHeaderTitle=%EB%B9%84%EC%83%81%EC%82%AC%ED%83%9C&category=stateOfEmergency&menuSn=4'},
  {agency:'행정안전부',title:'민방위 경보 종류·발령 체계',detail:'경계경보·공습경보·화생방경보·핵 경보의 의미와 신호 방식',href:'https://www.mois.go.kr/frt/sub/a06/b12/civildefensework/screen.do'},
- {agency:'행정안전부 · 국민안전24',title:'민방위 대피시설 조회',detail:'실제 시설 위치를 공식 서비스에서 재확인하는 경로. 현장 접근·운영 여부는 별도 확인',href:'https://www.safekorea.go.kr/safekorea-kor/em/shelter/main.html'},
+ {agency:'행정안전부 · 국민안전24',title:'시설안전지도 — 민방위 대피소',detail:'대피시설 → 민방위 대피소 선택. 시설 위치와 경로를 확인하고 실제 운영·접근 가능 여부는 별도 확인',href:'https://www.safekorea.go.kr/safekorea-kor/flsm/flsm/facilitiesSafteyMap.do'},
+ {agency:'행정안전부 · 국민안전24',title:'시설안전지도 — 비상급수시설',detail:'대피시설 → 비상급수시설 선택. 물 공급 가능 여부·용도·운영시간은 지자체 안내로 재확인',href:'https://www.safekorea.go.kr/safekorea-kor/flsm/flsm/facilitiesSafteyMap.do'},
+ {agency:'행정안전부 · 국민안전24',title:'민방위 대피시설 경량 조회',detail:'일반 안전지도에 접근하기 어려울 때 지역을 선택해 이용할 수 있는 별도 화면',href:'https://www.safekorea.go.kr/safekorea-kor/em/shelter/emergency_df2.html'},
+ {agency:'행정안전부 · 국민안전24',title:'민방위 급수시설 경량 조회',detail:'대체 검색 경로. 지역을 선택하고 시설 정보를 재확인',href:'https://www.safekorea.go.kr/safekorea-kor/em/shelter/emergency_df3.html'},
+ {agency:'행정안전부',title:'2026년 비상시 국민행동요령 홍보책자·리플릿',detail:'2026년 8월 13일 공개한 최신 공식 홍보자료. 브라우저에서 책자·리플릿 자료 확인',href:'https://www.mois.go.kr/frt/bbs/type001/commonSelectBoardArticle.do?bbsId=BBSMSTR_000000000015&nttId=128721'},
+ {agency:'행정안전부',title:'민방위 비상급수시설 현황 조회 안내',detail:'2026년 10월 21일 공개한 정부 안내. 국민안전24 지도에서 지역별 급수시설 조회 가능',href:'https://www.mois.go.kr/frt/bbs/type001/commonSelectBoardArticle.do?bbsId=BBSMSTR_000000000327&nttId=130400'},
  {agency:'행정안전부 · 국민안전24',title:'민방공경보 단계별 행동요령',detail:'경계경보·공습경보 등 단계별 대피 준비와 행동 확인',href:'https://safekorea.go.kr/safekorea-kor/acts/nacts/action-guide.do?actsHeaderTitle=%EB%AF%BC%EB%B0%A9%EA%B3%B5%EA%B2%BD%EB%B3%B4&category=civlAirDefenseWarning&menuSn=4'},
  {agency:'기상청',title:'지진 발생 시 상황별 대피요령',detail:'실내에서 흔들릴 때 몸 보호, 흔들림 후 계단 대피와 야외 낙하물 주의',href:'https://www.weather.go.kr/w/wnuri-eqk-vol/eqk/warning.do'},
  {agency:'행정안전부 · 국민안전24',title:'화재 행동요령',detail:'대피 가능한 경로와 대피로에 연기가 있을 때의 대응을 구분',href:'https://www.safekorea.go.kr/safekorea-kor/acts/nacts/action-guide.do?actsHeaderTitle=%ED%99%94%EC%9E%AC&category=fires&menuSn=4'},
@@ -18,7 +23,7 @@ const refs=[
 <Base title="공식 재난 정보와 자료 출처" description="비상시 행동요령의 근거가 되는 행정안전부·국민안전24·기상청 공식 자료를 주제별로 정리했습니다.">
 <div class="container narrow">
  <header class="page-intro"><span class="eyebrow">OFFICIAL SOURCES</span><h1>상황별 공식 지침을<br/>원문으로 확인하세요</h1><p>이 페이지의 링크는 재난 정보와 행동요령을 확인하기 위한 자료입니다. 실시간 경보를 제공하거나 정부·지자체 지시를 대체하지 않습니다.</p></header>
- <section class="readable"><div class="info-note"><strong>정보 확인 순서</strong><p>실제 경보가 있으면 해당 지역의 재난문자·정부방송·현장 지시를 우선하세요. 이 사이트에 인용한 내용은 사전 학습용으로, 공식 원문이 개정되면 달라질 수 있습니다.</p></div><p>아래 공식 자료의 확인일: <time datetime={verified}>2026년 10월 28일</time>. 확인일은 원문이 발행되거나 마지막으로 개정된 날짜를 뜻하지 않습니다.</p></section>
+ <section class="readable"><div class="info-note"><strong>정보 확인 순서</strong><p>실제 경보가 있으면 해당 지역의 재난문자·정부방송·현장 지시를 우선하세요. 이 사이트에 인용한 내용은 사전 학습용으로, 공식 원문이 개정되면 달라질 수 있습니다.</p></div><p>아래 공식 자료의 확인일: <time datetime={verified}>2026년 10월 28일</time>. 확인일은 원문이 발행되거나 마지막으로 개정된 날짜를 뜻하지 않습니다. 2026년 홍보책자와 비상급수 안내의 게시일은 각 링크 설명에 따로 표시했습니다.</p></section>
  <div class="source-grid">
  {refs.map(item=><a href={item.href} target="_blank" rel="noopener noreferrer" class="source-card"><span>{item.agency}</span><strong>{item.title}</strong><p>{item.detail}</p><b>공식 원문 보기 ↗</b></a>)}
  </div>
@@ -26,6 +31,7 @@ const refs=[
   <h2>대피시설을 조회할 때 유의하세요</h2>
   <p>민방위 대피시설, 지진 옥외대피장소, 침수 대피장소는 목적이 다릅니다. 지도에 표시된 장소라도 모든 재난에 적합하다는 뜻은 아닙니다. 최신 시설 정보·접근 가능 여부·현장 대피 지시를 함께 확인하세요.</p>
   <p>안전디딤돌 앱이나 지도 앱에서 ‘민방위 대피소’를 검색할 수 있습니다. 검색 결과를 공식 지정 여부나 실시간 수용 가능 인원의 보증으로 간주하지 마세요.</p>
+  <p>시설안전지도는 <strong>대피시설 → 민방위 대피소</strong>와 <strong>대피시설 → 비상급수시설</strong>을 구분해 표시합니다. 정부의 경량 조회 페이지가 기본 상태에서 ‘0건’을 표시하더라도 지역을 선택하기 전에는 대피시설 부재로 해석하지 마세요. 지도와 검색 결과는 실시간 수용 인원·개방 여부·급수 가능 여부를 보장하지 않습니다.</p>
   <h2>추가 참고자료</h2>
   <p><a href={sources.shelterHelp} target="_blank" rel="noopener noreferrer">서울특별시 민방위 대피소 찾는 법 ↗</a> · <a href={sources.safetyVideo} target="_blank" rel="noopener noreferrer">서울특별시 비상시 국민행동요령 ↗</a> · <a href={sources.foodsafety} target="_blank" rel="noopener noreferrer">식품의약품안전처 식품안전나라 ↗</a></p>
   <p><a href={sources.readyKit} target="_blank" rel="noopener noreferrer">미국 Ready.gov 비상 키트 참고자료 ↗</a>는 해외 사례 비교용으로만 제공하며 대한민국의 공식 전시 행동요령을 대신하지 않습니다.</p>
