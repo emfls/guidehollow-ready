@@ -12,7 +12,7 @@ for(const p of pages){
  if(!html.includes('ready.guidehollow.com'))throw Error('Wrong canonical host: '+p);
 }
 const home=file('index.html');
-if (!home.includes('mobile-tabbar') || !home.includes('ui-refresh')) throw Error('Unified mobile navigation or new design stylesheet missing');
+if (!home.includes('mobile-tabbar') || !home.includes('aria-label="모바일 빠른 메뉴"')) throw Error('Unified mobile navigation missing');
 if (!home.includes('name="theme-color" content="#ffffff"')) throw Error('Night operations browser theme is missing');
 if (!home.includes('stylesheet')) throw Error('Site styles missing');
 if(!home.includes('전시·재난 대비 생활 안내')||!home.includes('/checklist/')||!home.includes('실시간 재난 경보 서비스가 아닙니다'))throw Error('Emergency homepage incomplete');
