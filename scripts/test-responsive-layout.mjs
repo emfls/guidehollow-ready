@@ -162,6 +162,8 @@ try{
   if(route==='/buying/'){
     if(await page.locator('.shop-guide-item').count()!==30)failed.push('buyer hub does not have exactly 30 candidate products');
     if(await page.locator('.shop-guide-buy').count()!==6)failed.push('six genuine affiliate buttons not available');
+    if(await page.locator('[data-buy-selected="yes"]').count()!==6)failed.push('six selected candidate products missing');
+    if(await page.locator('[data-buy-selected="yes"] .shop-guide-buy').count()!==0)failed.push('candidate must never have a non-issued affiliate checkout URL');
     if(await page.locator('[data-buy-linked="no"] .shop-guide-buy').count()>0)failed.push('unverified product has misleading buy button');
     if(await page.locator('.shop-guide-item:visible').count()<=0||await page.locator('.shop-guide-item:visible').count()>=30)failed.push('initial 3-day priority filter not effective');
     if(await page.locator('.shop-guide-group').count()!==6)failed.push('six buying departments missing');
@@ -264,6 +266,12 @@ try{
   if(await page.locator('.shop-guide-item:visible').count()!==30)errors.push({width,route:'/buying/',issues:['30-day filter should show all 30 candidates']});
   await page.locator('#shop-guide-link-filter').selectOption('linked');
   if(await page.locator('.shop-guide-item:visible').count()!==6)errors.push({width,route:'/buying/',issues:['linked-only filter must show exactly six verified affiliate offers']});
+  await page.locator('#shop-guide-link-filter').selectOption('selected');
+  if(await page.locator('.shop-guide-item:visible').count()!==6)errors.push({width,route:'/buying/',issues:['selected-only filter must show exactly six named product picks']});
+  for(const id of ['aa-batteries','headlamp','firstaid-kit','wet-wipes','thermal-blanket','manual-opener']){
+    const card=page.locator('[data-buy-id="'+id+'"]');
+    if(!await card.isVisible()||await card.locator('.shop-guide-buy').count()!==0)errors.push({width,route:'/buying/',issues:['unissued affiliate product must remain selected-only and non-clickable '+id]});
+  }
   await page.locator('#shop-guide-link-filter').selectOption('pending');
   if(await page.locator('.shop-guide-item:visible').count()!==24)errors.push({width,route:'/buying/',issues:['pending filter must show exactly 24 product candidates without URLs']});
   await page.locator('#shop-guide-link-filter').selectOption('all');
