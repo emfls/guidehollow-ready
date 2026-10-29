@@ -19,7 +19,8 @@ const ga4Configured=/^G-[A-Z0-9]{6,}$/.test(ga4Id);
   <!-- Google tag (gtag.js). Load in head so Google's site test can detect it. -->
   <script is:inline define:vars={{ ga4Id }}>
    window.dataLayer=window.dataLayer||[];
-   function gtag(){window.dataLayer.push(arguments);}
+   // Explicit global for affiliate event listeners and Tag Assistant.
+   window.gtag=function gtag(){window.dataLayer.push(arguments);};
    let off=false;
    try{
     const current=localStorage.getItem('guidehollow-ready-ga4-setting-v2');
@@ -28,14 +29,14 @@ const ga4Configured=/^G-[A-Z0-9]{6,}$/.test(ga4Id);
    }catch{}
    window.__guidehollowGa4Disabled=off;
    window['ga-disable-'+ga4Id]=off;
-   gtag('consent','default',{
+   window.gtag('consent','default',{
     analytics_storage:off?'denied':'granted',
     ad_storage:'denied',
     ad_user_data:'denied',
     ad_personalization:'denied'
    });
-   gtag('js',new Date());
-   if(!off)gtag('config',ga4Id,{
+   window.gtag('js',new Date());
+   if(!off)window.gtag('config',ga4Id,{
     send_page_view:true,
     allow_google_signals:false,
     allow_ad_personalization_signals:false
