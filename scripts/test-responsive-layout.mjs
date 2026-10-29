@@ -116,7 +116,7 @@ try{
     if(await page.locator('.ready-shop-card img').count()!==3)failed.push('Three new product banners must appear in starter kit');
     if(await page.locator('.starter-affiliate-product-visual img').count()!==2)failed.push('Radio/power-bank portrait banners missing');
   }
-  if(route==='/buying/food/' && await page.locator('.ready-shop-card img').count()!==2)failed.push('Water and tuna portraits missing');
+  if(route==='/buying/food/' && await page.locator('[data-affiliate-offer="water"] img,[data-affiliate-offer="tuna"] img').count()!==2)failed.push('Water and tuna portraits missing');
   if(route==='/buying/gear/' && await page.locator('#drybag-coupang img').count()!==1)failed.push('Drybag photo missing');
   if(route==='/protocols/'){
     if(await page.locator('.protocol-stage-btn').count()!==6)failed.push('six period selector buttons missing');
