@@ -195,6 +195,14 @@ try{
    if(urls<1)failed.push('review article has no genuine linked purchase option');
    if(!((await page.locator('body').textContent())||'').includes('쿠팡 파트너스 활동의 일환'))failed.push('review article fails affiliate disclosure');
   }
+  if(route.startsWith('/reviews/')&&route!=='/reviews/'&&route!=='/reviews/fenix-e20-v2-flashlight/'){
+   const guide=page.locator('.review-decision');
+   if(await guide.count()!==1||!await guide.isVisible())failed.push('review buyer decision must be visible without opening details');
+  }
+  if(route==='/buying/food/'){
+   const guide=page.locator('.food-buying-decision');
+   if(await guide.count()!==1||!await guide.isVisible()||await guide.locator('tbody tr').count()!==4)failed.push('four-row food buying comparison missing');
+  }
   if(route==='/buying/food/'&&await page.locator('.ready-shop-card').count()!==8)failed.push('food page missing six supplementary approved purchase offers');
   if(route==='/buying/gear/'&&(await page.locator('.ready-shop-card').count()!==19||await page.locator('a.review-direct-buy').count()!==1))failed.push('gear page missing registered supplemental product cards or exact flashlight CTA');
   if(route==='/reviews/fenix-e20-v2-flashlight/'){
