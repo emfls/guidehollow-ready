@@ -5,6 +5,8 @@ import { getPublishedReviews } from '../../lib/reviews';
 import { resolvePartnerLink } from '../../lib/partner-code';
 import ProductPhoto from '../../components/ProductPhoto.astro';
 import PartnerOfferCard from '../../components/PartnerOfferCard.astro';
+import { reviewShoppingOffers } from '../../data/buying-guide';
+import { affiliateOffers } from '../../data/affiliate-product-visuals';
 export async function getStaticPaths() {
  const rows=await getPublishedReviews();
  return rows.map(row=>({params:{slug:row.id},props:{row}}));
@@ -25,6 +27,9 @@ const saleComparison=actualSaleOffer==='battery'?{
  caution:'구성품 19종의 개별 규격·멸균·사용기한은 판매 상세에서 확인하세요. 아래 테가덤 1624W 필름은 이 구급함과 다른 상품이며 포함된다고 보증하지 않습니다.',
 }:undefined;
 const featured=isSimpleE20?products[0]:undefined;
+const reviewOffers=reviewShoppingOffers[row.id]??[];
+const additionalOffers=reviewOffers.filter(item=>item.offer!==actualSaleOffer &&
+ !products.some(product=>product.partner?.url===affiliateOffers[item.offer].url));
 const verifiedCoupangPhoto='https://thumbnail1.coupangcdn.com/thumbnails/remote/212x212ex/image/vendor_inventory/9c13/0524ccbea15e678332b3299a00596c66101a6e50f267850bb9970650169a.jpg';
 ---
 <Base title={row.data.title} description={row.data.description}>
@@ -58,6 +63,13 @@ const verifiedCoupangPhoto='https://thumbnail1.coupangcdn.com/thumbnails/remote/
    <div><b>✓</b><strong>비상가방에 넣어 두기</strong><span>휴대하기 좋은 크기</span></div>
   </div>
   <article class="simple-product-story readable" id="read-before-buy"><Content/></article>
+  {additionalOffers.length>0 && <section class="review-related-buying" aria-labelledby="review-related-title">
+   <h2 id="review-related-title">함께 준비할 물품</h2>
+   <p>손전등에 쓰는 규격을 확인한 뒤 필요하면 예비 건전지를 준비하세요. 구성과 가격은 쿠팡에서 다시 확인하세요.</p>
+   <div class="review-related-buy-grid">
+    {additionalOffers.map(item=><PartnerOfferCard offer={item.offer} title={affiliateOffers[item.offer].alt} note={item.why}/>)}
+   </div>
+  </section>}
   <section class="simple-product-bottom-buy">
    <div><h2>우리 집 손전등으로 괜찮겠다면</h2><p>현재 가격과 실제 건전지 구성, 배송 조건을 쿠팡에서 확인하세요.</p></div>
    <a class="simple-buy-button" href={featured.partner.url} target="_blank" rel="sponsored nofollow noopener noreferrer" aria-label="페닉스 E20 V2.0 쿠팡에서 구매하기 (새 창)">구매하기 ↗</a>
@@ -74,8 +86,8 @@ const verifiedCoupangPhoto='https://thumbnail1.coupangcdn.com/thumbnails/remote/
 <div class="container review-reading">
  <nav class="review-breadcrumb"><a href="/reviews/">제품·준비물 가이드</a><span aria-hidden="true">›</span><span>자세히 보기</span></nav>
  <header class="review-reading-head">
-  <span class="review-chip">{row.data.affiliate||actualSaleOffer?'판매 제품 확인 · 구매 전 참고':'제품 정보 · 구매 전 참고'}</span>
-  {(row.data.affiliate||actualSaleOffer) && <p class="review-affiliate-top">이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.</p>}
+  <span class="review-chip">{row.data.affiliate||actualSaleOffer||additionalOffers.length?'관련 구매 상품 있음 · 비교 모델 구분':'제품 정보 · 구매 전 참고'}</span>
+  {(row.data.affiliate||actualSaleOffer||additionalOffers.length>0) && <p class="review-affiliate-top">이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.</p>}
   <h1>{row.data.title}</h1>
   <p>{row.data.description}</p>
   <span class="review-date">검토 {date} · 제품 {products.length}개</span>
@@ -91,6 +103,14 @@ const verifiedCoupangPhoto='https://thumbnail1.coupangcdn.com/thumbnails/remote/
   <PartnerOfferCard offer={actualSaleOffer} title={saleComparison.title} note={saleComparison.caution}/>
   <p class="review-matched-note"><strong>아래 제품 비교는 참고 자료입니다.</strong> 모델번호가 다른 제품의 시험 결과를 현재 판매 상품에 적용하지 않습니다. 결제 전에 쿠팡에서 실제 옵션·가격·배송을 확인하세요.</p>
  </section>}
+ {additionalOffers.length>0 && <section class="review-related-buying" aria-labelledby="review-related-title">
+  <span class="review-matched-kicker">현재 등록된 쿠팡 상품 · 부족한 품목만 구매</span>
+  <h2 id="review-related-title">이 글과 함께 확인할 실제 판매 상품</h2>
+  <p>아래 상품은 사용자 제공 쿠팡파트너스 링크에 연결된 <strong>정확한 판매 상품명·옵션</strong>입니다. 비교 글의 다른 모델과 동일하다는 뜻이 아니며, 해당 모델의 시험·인증·성능을 전용하지 않습니다. 집에 있는 물품·규격·가족 조건을 먼저 확인하세요.</p>
+  <div class="review-related-buy-grid">
+   {additionalOffers.map(item=><PartnerOfferCard offer={item.offer} title={affiliateOffers[item.offer].alt} note={item.why}/>)}
+  </div>
+ </section>}
  {products.length>0 && <div class="review-product-grid" aria-label="제품별 쉬운 비교">
   {products.map((p,i)=><section class="review-product-compact">
    <div class="review-product-top"><span>제품 {i+1}</span><span>{p.partner?'구매 링크 확인':'구매 링크 미확인'}</span></div>
@@ -100,7 +120,7 @@ const verifiedCoupangPhoto='https://thumbnail1.coupangcdn.com/thumbnails/remote/
    <p class="review-product-for">{p.bestFor}</p>
    <div class="review-procon"><strong>좋은 점</strong><p>{p.strengths[0]}</p></div>
    <div class="review-procon review-procon--caution"><strong>아쉬운 점</strong><p>{p.limitations[0]}</p></div>
-   {p.partner ? <a class="btn primary review-cta" href={p.partner.url} target="_blank" rel="sponsored nofollow noopener noreferrer" aria-label={p.name+' 쿠팡에서 구매하기 (새 창)'}>구매하기 ↗</a> : <span class="review-not-ready">검증된 쿠팡 구매 링크가 아직 없습니다</span>}
+   {p.partner ? <a class="btn primary review-cta" href={p.partner.url} target="_blank" rel="sponsored nofollow noopener noreferrer" aria-label={p.name+' 쿠팡에서 구매하기 (새 창)'}>구매하기 ↗</a> : <span class="review-not-ready">이 비교 모델의 동일 옵션 구매 링크는 미확인 · 위의 연결 상품은 별도 제품</span>}
    <details class="review-card-details">
     <summary>다른 특징·주의사항 보기</summary>
     <h3>장점 더 보기</h3><ul>{p.strengths.slice(1).map(s=><li>{s}</li>)}</ul>

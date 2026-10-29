@@ -171,6 +171,21 @@ try{
     if(!await page.locator('#shop-guide-unchecked').isDisabled())failed.push('unchecked item filter must be unavailable without saved checklist');
   }
   if(route==='/checklist/'&&!details.hasStock)failed.push('stock manager missing');
+  if(route==='/reviews/'){
+   if(await page.locator('a.review-direct-buy').count()!==11)failed.push('review directory missing linked product CTA on eleven entries');
+   if(await page.locator('.review-directory-shop').count()!==9)failed.push('nine evidence-only reviews require linked sale product previews');
+   if(await page.locator('.review-directory-shop .product-photo-frame img').count()!==9)failed.push('review directory missing exact publisher-supplied related product photos');
+   if(!((await page.locator('.review-affiliate-top').textContent())||'').includes('쿠팡 파트너스'))failed.push('review directory does not disclose purchase commissions');
+  }
+  if(route.startsWith('/reviews/')&&route!=='/reviews/'){
+   if(await page.locator('.review-related-buying').count()!==1)failed.push('review article missing approved related-products section');
+   if(await page.locator('.review-related-buy-grid .ready-shop-card').count()<1)failed.push('review missing actionable offer matched to its topic');
+   const urls=await page.locator('a[href^="https://link.coupang.com/a/"]').count();
+   if(urls<1)failed.push('review article has no genuine linked purchase option');
+   if(!((await page.locator('body').textContent())||'').includes('쿠팡 파트너스 활동의 일환'))failed.push('review article fails affiliate disclosure');
+  }
+  if(route==='/buying/food/'&&await page.locator('.ready-shop-card').count()!==8)failed.push('food page missing six supplementary approved purchase offers');
+  if(route==='/buying/gear/'&&(await page.locator('.ready-shop-card').count()!==19||await page.locator('a.review-direct-buy').count()!==1))failed.push('gear page missing registered supplemental product cards or exact flashlight CTA');
   if(route==='/reviews/fenix-e20-v2-flashlight/'){
     const a=await page.locator('a[href="https://link.coupang.com/a/idtdhvDZ3A"]').first();
     if(await a.count()===0)failed.push('matching E20 affiliate link missing');

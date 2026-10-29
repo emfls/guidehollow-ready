@@ -1058,3 +1058,35 @@ main{min-width:0}
  .home-fast-save-actions button,.home-fast-save-actions a{width:100%;justify-content:center;text-align:center}
  .review-matched-offer{padding:13px}
 }
+
+/* Site-wide verified offer discovery: related sale items are NOT asserted to be the exact compared review model. */
+.review-related-buying{margin:20px 0 23px;padding:18px;border:1px solid #597681;border-radius:15px;background:#1c333b}
+.review-related-buying>h2{margin:4px 0 8px;color:#ffe2b8;font-size:1.19rem;line-height:1.4}
+.review-related-buying>p{color:#d8e6e1;line-height:1.75;font-size:.85rem;margin:0 0 14px}
+.review-related-buy-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}
+.review-related-buy-grid .ready-shop-card{min-width:0}
+.review-hub-buy-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.review-direct-buy{display:inline-flex;min-height:44px;align-items:center;justify-content:center;border:1px solid #eab775;border-radius:9px;background:#e8b677;padding:9px 12px;text-decoration:none;color:#1c2b2c;font-size:.81rem;font-weight:880;line-height:1.4}
+.review-hub-buy-actions .review-direct-buy{margin-top:8px}
+.review-directory-card{height:100%;text-decoration:none}
+.review-directory-card .review-directory-link{display:inline-flex;min-height:44px;align-items:center;text-decoration:underline}
+.review-directory-shop{display:grid;grid-template-columns:76px minmax(0,1fr);align-items:center;gap:10px;border-top:1px solid #537078;margin-top:14px;padding-top:13px}
+.review-directory-shop-image{min-width:0;width:76px;overflow:hidden;border-radius:9px}
+.review-directory-shop .product-photo-frame{width:76px}
+.review-directory-shop-content{display:flex;flex-direction:column;gap:6px;min-width:0}
+.review-directory-shop-content small{color:#edce9b;font-size:.72rem;line-height:1.4;font-weight:790}
+.review-directory-shop-content strong{color:#e7f0e9;font-size:.78rem;line-height:1.5;overflow-wrap:anywhere;word-break:keep-all}
+.review-directory-shop-content .review-direct-buy{font-size:.76rem;min-height:42px;padding:8px}
+.review-extra-offers{margin:20px 0;padding:15px;border:1px solid #527177;border-radius:13px;background:#1d333b}
+.review-extra-offers>summary{cursor:pointer;min-height:44px;padding:10px 3px;color:#f2d3a5;font-weight:850}
+.review-extra-offers>p{color:#cddcd9;font-size:.85rem;line-height:1.7;margin:12px 0}
+.review-extra-offers .ready-shop-grid{margin-top:12px}
+.review-direct-buy:focus-visible,.review-extra-offers>summary:focus-visible{outline:3px solid #ffe0a5;outline-offset:3px}
+@media(max-width:900px){.review-related-buy-grid{grid-template-columns:1fr}}
+@media(max-width:600px){
+ .review-related-buying{padding:13px}
+ .review-hub-buy-actions{flex-direction:column;align-items:stretch}
+ .review-hub-buy-actions>a{width:100%;text-align:center}
+ .review-directory-shop{grid-template-columns:68px minmax(0,1fr);gap:9px}
+ .review-directory-shop-image,.review-directory-shop .product-photo-frame{width:68px}
+}
