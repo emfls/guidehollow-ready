@@ -1135,3 +1135,21 @@ main{min-width:0}
  .food-buying-decision .comparison-scroll{max-width:100%}
  .food-decision-jump{flex-direction:column;align-items:stretch}
 }
+
+/* GA4 consent — unobtrusive optional analytics; dark theme parity. */
+.ga4-consent-panel[hidden]{display:none!important}
+.ga4-consent-panel{position:fixed;z-index:9000;bottom:18px;left:max(14px,env(safe-area-inset-left));right:max(14px,env(safe-area-inset-right));margin:0 auto;max-width:920px;padding:18px 20px;display:flex;align-items:center;gap:18px 24px;flex-wrap:wrap;background:#20343c;border:1px solid #719087;border-radius:15px;box-shadow:0 11px 35px rgba(0,0,0,.4);color:#f0f4ee}
+.ga4-consent-panel>div:first-child{flex:1 1 480px;min-width:0}
+.ga4-consent-panel strong{display:block;color:#ffe3ba;font-size:.97rem}
+.ga4-consent-panel p{font-size:.8rem;line-height:1.65;margin:7px 0 0;color:#d5e6df;word-break:keep-all}
+.ga4-consent-panel a{color:#c7f4e2;text-decoration:underline;text-underline-offset:3px}
+.ga4-consent-actions{display:flex;gap:9px;justify-content:flex-end;align-items:center;flex:1 0 auto}
+.ga4-consent-actions button{border:1px solid #92aaa3;border-radius:9px;background:#31464e;color:#f1f5f2;padding:10px 15px;min-height:44px;font-size:.83rem;font-weight:850;cursor:pointer}
+.ga4-consent-actions #ga4-allow{color:#17262c;background:#eebf83;border-color:#eebf83}
+.ga4-footer-settings{border:0;background:none;padding:0;font:inherit;color:inherit;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.ga4-consent-panel button:focus-visible,.ga4-consent-panel a:focus-visible,.ga4-footer-settings:focus-visible{outline:3px solid #f0c586;outline-offset:3px}
+@media(max-width:800px){
+ .ga4-consent-panel{bottom:calc(72px + env(safe-area-inset-bottom,0px));padding:14px 16px;gap:12px;max-height:calc(100dvh - 110px);overflow:auto}
+ .ga4-consent-actions{width:100%;justify-content:stretch}
+ .ga4-consent-actions button{flex:1;padding:10px 7px}
+}

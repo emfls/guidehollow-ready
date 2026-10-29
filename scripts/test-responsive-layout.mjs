@@ -26,6 +26,10 @@ const errors=[]; let checks=0;let screenshots=0;
 try{
  for(const width of widths){
  const context=await browser.newContext({viewport:{width,height:845},deviceScaleFactor:1,reducedMotion:'reduce',locale:'ko-KR'});
+ await context.route('https://www.googletagmanager.com/**',route=>route.abort());
+ await context.route('https://www.google-analytics.com/**',route=>route.abort());
+ // Consent disabled by default during the other responsive interactions.
+ await context.addInitScript(()=>{try{localStorage.setItem('guidehollow-ready-ga4-consent-v1','no')}catch{}});
  const page=await context.newPage();
  for(const route of paths){
   await page.goto(`http://127.0.0.1:${PORT}${route}`,{waitUntil:'domcontentloaded',timeout:30000});
@@ -202,6 +206,25 @@ try{
   if(route==='/buying/food/'){
    const guide=page.locator('.food-buying-decision');
    if(await guide.count()!==1||!await guide.isVisible()||await guide.locator('tbody tr').count()!==4)failed.push('four-row food buying comparison missing');
+  }
+  if(route==='/buying/'&&width===390&&await page.locator('#ga4-settings').count()===1){
+   const noGoogleTag=await page.evaluate(()=>![...document.scripts].some(s=>s.src.includes('googletagmanager.com/gtag/js')));
+   if(!noGoogleTag)failed.push('GA4 tag was loaded without visitor opt-in');
+   await page.locator('#ga4-settings').click();
+   if(!(await page.locator('#ga4-consent-panel').isVisible()))failed.push('Consent panel cannot be reopened from footer');
+   await page.locator('#ga4-allow').click();
+   const consent=await page.evaluate(()=>({
+     script:[...document.scripts].some(s=>s.src.includes('googletagmanager.com/gtag/js?id=G-READYTEST123')),
+     config:(window.dataLayer||[]).some(x=>x[0]==='config'&&x[1]==='G-READYTEST123'),
+     noAdvertising:(window.dataLayer||[]).some(x=>x[0]==='consent'&&x[1]==='default'&&x[2].ad_storage==='denied')
+   }));
+   if(!consent.script||!consent.config||!consent.noAdvertising)failed.push('GA4 opt-in did not configure consented pageview correctly');
+   await page.evaluate(()=>document.addEventListener('click',e=>{
+      if(e.target instanceof Element&&e.target.closest('a[href^="https://link.coupang.com/a/"]'))e.preventDefault();
+   },true));
+   await page.locator('.shop-guide-item:visible a[href^="https://link.coupang.com/a/"]').first().click();
+   const tracked=await page.evaluate(()=>(window.dataLayer||[]).some(x=>x[0]==='event'&&x[1]==='affiliate_click'&&typeof x[2].offer_code==='string'&&x[2].page_path==='/buying/'));
+   if(!tracked)failed.push('Affiliate link click did not produce safe GA4 affiliate_click event');
   }
   if(route==='/buying/food/'&&await page.locator('.ready-shop-card').count()!==8)failed.push('food page missing six supplementary approved purchase offers');
   if(route==='/buying/gear/'&&(await page.locator('.ready-shop-card').count()!==19||await page.locator('a.review-direct-buy').count()!==1))failed.push('gear page missing registered supplemental product cards or exact flashlight CTA');
