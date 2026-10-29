@@ -90,7 +90,7 @@ for(const days of [3,7,14,30,60,90]){
 }
 if(!protocolHtml.includes('protocol-water-total')||!protocolHtml.includes('protocol-water-cartons')||!protocolSource.includes('chosenDays>14'))throw Error('Progressive family water calculator missing');
 if(!protocolHtml.includes('정부 의무 기준이 아닌')||!protocolHtml.includes('90일치')||!protocolHtml.includes('국민안전24'))throw Error('Long-term protocols must not be presented as official mandatory purchase quantities');
-for(const id of ['water','tuna','flashlight','radio','battery','drybag'])if(!protocolHtml.includes('data-protocol-item="'+id+'"'))throw Error('Missing core item '+id);
+for(const id of ['water','food','flashlight','radio','powerbank','drybag'])if(!protocolHtml.includes('data-protocol-item="'+id+'"'))throw Error('Missing core item '+id);
 for(const id of ['ienLu8j8IC','ienNhlQsPk','ienOFQc21I','ienRftVDYy','ienSxmfDUW','idtdhvDZ3A'])if(!protocolHtml.includes('https://link.coupang.com/a/'+id))throw Error('Protocol missing verified single-product affiliate '+id);
 if(!protocolHtml.includes('쿠팡 파트너스 활동의 일환')||!protocolHtml.includes('rel="sponsored nofollow noopener noreferrer"'))throw Error('Protocol affiliate disclosure or sponsored rel missing');
 if(protocolSource.includes("localStorage.setItem('guidehollow-ready-check-v1'"))throw Error('Protocol must never write back the baseline checklist');
