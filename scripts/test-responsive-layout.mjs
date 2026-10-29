@@ -119,13 +119,33 @@ try{
     if(await page.locator('.protocol-item-offer img').count()!==6)failed.push('all six approved partner images must exist');
     if(!(await page.locator('#protocol-water-warning').textContent()||'').includes('CDC'))failed.push('first-stage water safety guidance missing');
   }
-  if(route==='/checklist/'&&!details.hasStock)failed.push('stock manager missing');
+  if(['/starter-kit/','/buying/food/','/buying/gear/','/protocols/','/reviews/','/reviews/emergency-am-fm-radios/'].includes(route)){
+   const crop=await page.locator('.product-photo-frame--banner .product-photo-window').first().evaluate(el=>{
+     const frame=el.getBoundingClientRect();
+     const img=el.querySelector('img')?.getBoundingClientRect();
+     return {frameHeight:frame.height,imageHeight:img?.height||0,imageTop:img?.top||0,frameTop:frame.top,overflow:getComputedStyle(el).overflow};
+   }).catch(()=>null);
+   if(!crop || crop.imageHeight<crop.frameHeight*1.9 || crop.imageTop>=crop.frameTop || crop.overflow!=='hidden')
+     failed.push('partner banner product-only crop not applied');
+  }
+  if(route==='/reviews/emergency-am-fm-radios/'){
+   const card=page.locator('.review-product-compact').first();
+   if(await card.locator('.review-product-photo .product-photo-frame--banner').count()!==1)failed.push('radio review still shows full affiliate banner');
+   const aligned=await card.evaluate(el=>{
+     const btn=el.querySelector('.review-cta')?.getBoundingClientRect();
+     const box=el.getBoundingClientRect();
+     return btn?btn.right>=box.right-40&&btn.bottom<=box.bottom&&btn.width<box.width*.85:false;
+   });
+   if(!aligned)failed.push('review shopping button not aligned at card lower right');
+  }
+  if(route==='/starter-kit/' && await page.locator('.ready-shop-footer').count()!==3)failed.push('buy buttons must be separate from all three new product photos');
+    if(route==='/checklist/'&&!details.hasStock)failed.push('stock manager missing');
   if(route==='/reviews/fenix-e20-v2-flashlight/'){
     const a=await page.locator('a[href="https://link.coupang.com/a/idtdhvDZ3A"]').first();
     if(await a.count()===0)failed.push('matching E20 affiliate link missing');
     else if(!(await a.getAttribute('rel')||'').includes('sponsored'))failed.push('affiliate disclosure missing');
   }
-  if(width===390&&['/','/drill/','/emergency/','/family-emergency/','/family-card/','/starter-kit/','/checklist/','/plan/','/reviews/','/reviews/fenix-e20-v2-flashlight/'].includes(route)){
+  if(width===390&&['/','/reviews/emergency-am-fm-radios/','/drill/','/emergency/','/family-emergency/','/family-card/','/starter-kit/','/checklist/','/plan/','/reviews/','/reviews/fenix-e20-v2-flashlight/'].includes(route)){
    let name=route==='/'?'home':route.replaceAll('/','_').replace(/^_|_$/g,'');
    await page.screenshot({path:`.qa-screenshots/${name}-390.png`,fullPage:false});screenshots++;
   }
