@@ -15,7 +15,7 @@ const {row}=Astro.props;
 const {Content}=await render(row);
 // Only show personally issued, exact-option product links. Other comparison models stay in archival source data.
 const products=row.data.products.map(p=>({...p,partner:resolvePartnerLink(p)})).filter(p=>Boolean(p.partner));
-const date=row.data.publishedDate.toISOString().slice(0,10);
+const date=(row.data.updatedDate??row.data.publishedDate).toISOString().slice(0,10);
 const isSimpleE20=row.id==='fenix-e20-v2-flashlight';
 const actualSaleOffer=row.id==='emergency-power-banks-10000-vs-20000'?'battery':row.id==='emergency-first-aid-kit-and-dressings'?'firstaid':undefined;
 const saleComparison=actualSaleOffer==='battery'?{
@@ -91,7 +91,7 @@ const verifiedCoupangPhoto='https://thumbnail1.coupangcdn.com/thumbnails/remote/
   {(row.data.affiliate||actualSaleOffer||additionalOffers.length>0) && <p class="review-affiliate-top">이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.</p>}
   <h1>{row.data.title}</h1>
   <p>{row.data.description}</p>
-  <span class="review-date">자료 검토 {date} · 이 글의 직접 연결 모델 {products.length}종 · 관련 판매 상품 {reviewOffers.length}종</span>
+  <span class="review-date">정보 확인·수정 {date} · 관련 쿠팡 등록 상품 {reviewOffers.length}종</span>
  </header>
  {row.data.keyTakeaways.length>0 && <section class="review-quick-read" aria-labelledby="quick-review-title">
   <h2 id="quick-review-title">먼저 이것만 확인하세요</h2>
@@ -112,6 +112,10 @@ const verifiedCoupangPhoto='https://thumbnail1.coupangcdn.com/thumbnails/remote/
    {additionalOffers.map(item=><PartnerOfferCard offer={item.offer} title={affiliateOffers[item.offer].alt} note={item.why}/>)}
   </div>
  </section>}
+ <section class="review-decision readable" aria-labelledby="review-decision-title">
+  <h2 id="review-decision-title">이 상품, 우리 집에 필요할까요?</h2>
+  <Content/>
+ </section>
  {products.length>0 && <div class="review-product-grid" aria-label="제품별 쉬운 비교">
   {products.map((p,i)=><section class="review-product-compact">
    <div class="review-product-top"><span>제품 {i+1}</span><span>쿠팡 구매 링크 등록</span></div>
@@ -132,7 +136,7 @@ const verifiedCoupangPhoto='https://thumbnail1.coupangcdn.com/thumbnails/remote/
  </div>}
  <details class="review-source-expand">
   <summary>검증 근거와 상세 설명 펼쳐보기 <span aria-hidden="true">⌄</span></summary>
-  <div class="review-source-content readable"><Content/>
+  <div class="review-source-content readable">
    {products.map(p=><section><h3>{p.name} 확인 자료</h3><p>{p.verificationNotes}</p><p><a href={p.officialUrl} target="_blank" rel="noopener noreferrer">제조사 공식 제품 안내</a></p></section>)}
    <p><a href="/sources/">공식 재난 대응 정보·출처 확인</a>. 과거에 검토한 다른 판매 모델은 구매 추천 목록에 표시하지 않습니다.</p>
   </div>
