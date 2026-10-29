@@ -68,7 +68,7 @@ const initialDays=3;
        </div>
        {item.offer && <div class="protocol-item-offer">
         <ProductPhoto src={affiliatePhoto(item.offer)} alt={affiliateOffers[item.offer].alt+' 제품 사진'} offer={item.offer} fallback={affiliateOffers[item.offer].emoji}/>
-        <a href={affiliateOffers[item.offer].url} target="_blank" rel="sponsored nofollow noopener noreferrer">쇼핑하기 ↗</a>
+        <a href={affiliateOffers[item.offer].url} target="_blank" rel="sponsored nofollow noopener noreferrer" aria-label={affiliateOffers[item.offer].alt+' 쿠팡에서 구매하기 (새 창)'}>구매하기 ↗</a>
        </div>}
       </article>)}
      </div>

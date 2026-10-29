@@ -36,7 +36,7 @@ const verifiedCoupangPhoto='https://thumbnail1.coupangcdn.com/thumbnails/remote/
     <div class="simple-product-points">
      <span>AA 건전지 2개</span><span>밝기 4단계</span><span>길이 약 12.7cm</span>
     </div>
-    <a class="simple-buy-button" href={featured.partner.url} target="_blank" rel="sponsored nofollow noopener noreferrer">쿠팡에서 이 상품 확인하기 <span aria-hidden="true">↗</span></a>
+    <a class="simple-buy-button" href={featured.partner.url} target="_blank" rel="sponsored nofollow noopener noreferrer" aria-label="페닉스 E20 V2.0 쿠팡에서 구매하기 (새 창)">구매하기 <span aria-hidden="true">↗</span></a>
     <small>제조사 자료 기반 검토 · 직접 사용한 후기가 아닙니다 · 가격·판매자·배송·옵션은 쿠팡에서 확인</small>
     <a href="#read-before-buy" class="simple-read-more">구매 전에 장점과 단점 읽기 ↓</a>
    </div>
@@ -49,7 +49,7 @@ const verifiedCoupangPhoto='https://thumbnail1.coupangcdn.com/thumbnails/remote/
   <article class="simple-product-story readable" id="read-before-buy"><Content/></article>
   <section class="simple-product-bottom-buy">
    <div><h2>우리 집 손전등으로 괜찮겠다면</h2><p>현재 가격과 실제 건전지 구성, 배송 조건을 쿠팡에서 확인하세요.</p></div>
-   <a class="simple-buy-button" href={featured.partner.url} target="_blank" rel="sponsored nofollow noopener noreferrer">쿠팡에서 제품 보러 가기 ↗</a>
+   <a class="simple-buy-button" href={featured.partner.url} target="_blank" rel="sponsored nofollow noopener noreferrer" aria-label="페닉스 E20 V2.0 쿠팡에서 구매하기 (새 창)">구매하기 ↗</a>
   </section>
   <details class="simple-product-sources">
    <summary>검증 근거·출처와 구매 전 주의사항 보기 <span aria-hidden="true">⌄</span></summary>
@@ -82,7 +82,7 @@ const verifiedCoupangPhoto='https://thumbnail1.coupangcdn.com/thumbnails/remote/
    <p class="review-product-for">{p.bestFor}</p>
    <div class="review-procon"><strong>좋은 점</strong><p>{p.strengths[0]}</p></div>
    <div class="review-procon review-procon--caution"><strong>아쉬운 점</strong><p>{p.limitations[0]}</p></div>
-   {p.partner ? <a class="btn primary review-cta" href={p.partner.url} target="_blank" rel="sponsored nofollow noopener noreferrer">쇼핑하기 ↗</a> : <span class="review-not-ready">검증된 쿠팡 구매 링크가 아직 없습니다</span>}
+   {p.partner ? <a class="btn primary review-cta" href={p.partner.url} target="_blank" rel="sponsored nofollow noopener noreferrer" aria-label={p.name+' 쿠팡에서 구매하기 (새 창)'}>구매하기 ↗</a> : <span class="review-not-ready">검증된 쿠팡 구매 링크가 아직 없습니다</span>}
    <details class="review-card-details">
     <summary>다른 특징·주의사항 보기</summary>
     <h3>장점 더 보기</h3><ul>{p.strengths.slice(1).map(s=><li>{s}</li>)}</ul>
