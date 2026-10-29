@@ -1,4 +1,34 @@
-# GuideHollow Ready — 쿠팡파트너스 잔여 18개 상품 등록 원장
+# GuideHollow Ready — 쿠팡파트너스 상품 연결 원장
+
+
+> **기록 보존** — 아래 18개 등록 원장과 검색 후보 목록은 상품 링크 15개 추가 이전 이력입니다. 최신 상태는 바로 아래 표가 우선합니다.
+ 
+## 최종 상태 (2026-10-29 신규 제휴 HTML 15개 수신)
+
+- 기존 연결 12종 + 신규 15종 = **27종의 검증된 사용자 발급 단축 제휴 URL** 연결.
+- 남은 링크 미발급 3종: `portable-toilet`, `baby-diapers`, `pet-food`.
+- **명시적 블랙리스트**: 온리빙 쉬포켓. 절대로 연결하거나 대체 상품으로 자동 추천하지 않습니다. 비상 화장실 품목은 안전·구성 및 새 개별 제휴 URL이 확인될 때까지 미연결 상태로 유지합니다.
+- 구급함과 드레싱 등 의료 품목의 개별 구성·사용기한, 10L 약수통의 음용수용 재질, 150ml 컵 용량, 60개 닭가슴살 대량 구매 필요성은 상품 상세에서 확인하도록 구매 가이드에 주의문구를 유지합니다.
+
+| 준비 품목 | 제휴 URL (정확히 수신한 HTML) |
+|---|---|
+| ready-meals | https://link.coupang.com/a/ieOGyQEiDQ |
+| charging-cable | https://link.coupang.com/a/ieOIzHSJZk |
+| hand-soap | https://link.coupang.com/a/ieOLFFT9Ua |
+| waste-bags | https://link.coupang.com/a/ieONgl6IV2 |
+| sterile-gauze | https://link.coupang.com/a/ieOPxyN1VI |
+| backpack | https://link.coupang.com/a/iePsXGU1F6 |
+| ready-snacks | https://link.coupang.com/a/iePvyD2Ywe |
+| led-lantern | https://link.coupang.com/a/iePwJgYiAK |
+| whistle | https://link.coupang.com/a/iePyyD8lZk |
+| water-container | https://link.coupang.com/a/ieQaqXhm9Y |
+| food-bins | https://link.coupang.com/a/ieQi5ugNwG |
+| document-pouch | https://link.coupang.com/a/ieQkYMMM9Y |
+| rain-poncho | https://link.coupang.com/a/ieQmvw3VzU |
+| utensils | https://link.coupang.com/a/ieQnVXXJ36 |
+| car-charger | https://link.coupang.com/a/ieQsAO8UbQ |
+
+---
 
 기준: 2026-10-29 · 기존 저장소 `emfls/guidehollow-ready` · 구매 허브 `/buying/`
 

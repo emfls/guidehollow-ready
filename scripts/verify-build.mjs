@@ -117,8 +117,8 @@ const buyingHub=file('buying/index.html');
 const buyingData=readFileSync('src/data/buying-guide.ts','utf8');
 const buyingSource=readFileSync('src/pages/buying/index.astro','utf8');
 if((buyingHub.match(/data-buy-id="/g)||[]).length!==30)throw Error('Buyer guide requires 30 actionable categories, without fake listing links');
-if((buyingHub.match(/data-buy-linked="yes"/g)||[]).length!==12||(buyingHub.match(/data-buy-linked="no"/g)||[]).length!==18)throw Error('Exactly twelve approved affiliate offers and 18 honest pending slots expected');
-if((buyingHub.match(/data-buy-selected="yes"/g)||[]).length!==6)throw Error('Six newly linked buyer products must remain selectable under new-products filter');
+if((buyingHub.match(/data-buy-linked="yes"/g)||[]).length!==27||(buyingHub.match(/data-buy-linked="no"/g)||[]).length!==3)throw Error('Exactly 27 user-issued affiliate offers and three honest pending slots expected');
+if((buyingHub.match(/data-buy-selected="yes"/g)||[]).length!==15)throw Error('Fifteen newest links must appear under latest-products filter');
 for(const [id,needle] of [
  ['aa-batteries','벡셀 알카라인 AA 건전지'],
  ['headlamp','에너자이저 비전 HD+ LED 헤드랜턴'],
@@ -130,14 +130,18 @@ for(const [id,needle] of [
  if(!buyingData.includes("'"+id+"':{")||!buyingHub.includes(needle))throw Error('Selected real browser-tab product is not reflected: '+id);
 }
 if(!buyingHub.includes('이번에 등록한 상품')||!buyingHub.includes('value="selected"'))throw Error('Newly linked products filter missing');
-if(!buyingSource.includes("card.dataset.buySelected==='yes'"))throw Error('Selected product filter missing');
+if(!buyingSource.includes("card.dataset.buySelected==='yes'")||!buyingSource.includes("newlyLinkedBuyingIds"))throw Error('Latest 15 links must have dedicated selection filter');
 
 for(const id of ['water','tuna','flashlight','radio','battery','drybag']){
  if(!buyingData.includes("offer:'"+id+"'"))throw Error('Expected matching user-supplied offer absent '+id);
 }
 for(const id of ['ienLu8j8IC','ienNhlQsPk','ienOFQc21I','ienRftVDYy','ienSxmfDUW','idtdhvDZ3A','ieCtE2caFU','ieCuYrnIu4','ieCxqq6mui','ieCyTiU5ts','ieCBNk88su','ieCDsQuq84'])
  if(!buyingHub.includes('https://link.coupang.com/a/'+id))throw Error('A previously verified buyer offer was lost '+id);
-if((buyingHub.match(/class="shop-guide-buy"/g)||[]).length!==12)throw Error('Buying guide must have twelve real CTAs and zero fabricated pending buttons');
+if((buyingHub.match(/class="shop-guide-buy"/g)||[]).length!==27)throw Error('Buying guide must have 27 real CTA links and zero fabricated pending links');
+const newOfferIds=['ieOGyQEiDQ','ieOIzHSJZk','ieOLFFT9Ua','ieONgl6IV2','ieOPxyN1VI','iePsXGU1F6','iePvyD2Ywe','iePwJgYiAK','iePyyD8lZk','ieQaqXhm9Y','ieQi5ugNwG','ieQkYMMM9Y','ieQmvw3VzU','ieQnVXXJ36','ieQsAO8UbQ'];
+for(const id of newOfferIds)if(!buyingHub.includes('https://link.coupang.com/a/'+id))throw Error('New affiliate link missing from buyer hub: '+id);
+if(!buyingHub.includes('운영자 제외 상품')||!buyingData.includes('온리빙 쉬포켓'))throw Error('Blacklisted portable toilet must remain excluded and traceable');
+if((readFileSync('src/data/protocols.ts','utf8').match(/offer:'/g)||[]).length!==21)throw Error('Staged protocol should contain 21 distinct original and optional affiliate offers');
 const verifiedImageCatalog=readFileSync('src/data/affiliate-product-visuals.ts','utf8');
 for(const id of ['ieCtE2caFU','ieCuYrnIu4','ieCxqq6mui','ieCyTiU5ts','ieCBNk88su','ieCDsQuq84']){
  if(!verifiedImageCatalog.includes('https://link.coupang.com/a/'+id)||!protocolHtml.includes('https://link.coupang.com/a/'+id))throw Error('New affiliate offer not wired through central catalog and staged protocols: '+id);
