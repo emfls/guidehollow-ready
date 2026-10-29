@@ -4,6 +4,8 @@ import { sources } from '../../data/resources';
 import { affiliateOffers, affiliatePhoto } from '../../data/affiliate-product-visuals';
 import PartnerOfferCard from '../../components/PartnerOfferCard.astro';
 import ProductPhoto from '../../components/ProductPhoto.astro';
+import { buyingGuideProducts } from '../../data/buying-guide';
+const otherGearOffers=buyingGuideProducts.filter(p=>p.group!=='food'&&p.offer&&!['flashlight','radio','powerbank','drybag'].includes(p.id));
 const userRadioLink=affiliateOffers.radio.url;
 const userBatteryLink=affiliateOffers.battery.url;
 const flashlightPhoto=affiliatePhoto('flashlight');
@@ -32,7 +34,8 @@ const batteryPhoto=affiliatePhoto('battery');
  <h2 id="light">1. 손전등: 건전지부터 확인하세요</h2>
  <p>집에 손전등이 있다면 직접 켜 보세요. 새로 고를 때는 <strong>어떤 건전지를 쓰는지, 여분이 있는지</strong>를 먼저 확인하세요. 손이 바쁠 때는 머리에 쓰는 헤드랜턴이 편합니다.</p>
  <div class="guide-choice-link guide-product-with-image"><a class="guide-product-visual" href="/reviews/fenix-e20-v2-flashlight/" aria-label="페닉스 E20 V2.0 손전등 사진과 상세 안내">{flashlightPhoto ? <img src={flashlightPhoto} width="160" height="160" loading="lazy" decoding="async" referrerpolicy="no-referrer" alt="페닉스 E20 V2.0 손전등 상품 사진"/> : <span aria-hidden="true">🔦</span>}</a><div><strong>구매 가능한 제품 확인</strong><p>페닉스 E20 V2.0은 AA 건전지 2개를 쓰는 손전등입니다. 확인된 쿠팡 상품 링크와 장단점을 한 페이지에 정리했습니다.</p><a href="/reviews/fenix-e20-v2-flashlight/">제품 사진과 구매 정보 보기 →</a></div></div>
- <p>다른 모델도 비교하고 싶다면 <a href="/reviews/emergency-flashlights-headlamps/">손전등과 헤드랜턴 고르기</a>를 참고하세요. 아직 정확한 쿠팡 판매 옵션을 확인하지 못한 모델에는 구매 버튼을 표시하지 않습니다.</p>
+ <p>다른 모델도 비교하고 싶다면 <a href="/reviews/emergency-flashlights-headlamps/">손전등과 헤드랜턴 고르기</a>를 참고하세요. 비교 원고의 다른 모델은 정확한 쿠팡 선택 옵션을 확인한 경우에만 동일 모델 구매 버튼을 연결합니다.</p>
+ <p><a class="review-direct-buy" href={affiliateOffers.flashlight.url} target="_blank" rel="sponsored nofollow noopener noreferrer">페닉스 E20 V2.0 · 쿠팡에서 현재 가격 확인 ↗</a></p>
 
  <h2 id="radio">2. 라디오: 우리 동네 방송이 들리나요?</h2>
  <p>휴대전화 통신이 어려울 때를 대비해 지역 방송을 들을 수 있는 라디오를 준비할 수 있습니다. 집에서 미리 방송을 켜 보고 <strong>건전지나 충전 상태</strong>도 확인하세요.</p>
@@ -89,6 +92,13 @@ const batteryPhoto=affiliatePhoto('battery');
    <tr><td>비상가방</td><td>크기·무게·젖지 않게 보관하는 방법</td></tr>
   </tbody></table></div>
   <p>정확한 모델과 쿠팡 선택 상품이 확인된 제품에만 구매 링크가 표시됩니다. 제조사 정보나 검색 결과만으로 같은 제품이라고 판단하지 않습니다.</p>
+ </details>
+ <details class="review-extra-offers" id="gear-extra-buying">
+  <summary>조명·구급·위생·대피용품 추가 {otherGearOffers.length}종 구매 상품 보기</summary>
+  <p>이미 집에 있는 물건은 다시 구매할 필요가 없습니다. 아래 상품은 각각 판매 옵션이 연결된 개별 품목이며, 제품의 안전·방수·멸균·전원 사양을 임의로 보증하지 않습니다.</p>
+  <div class="ready-shop-grid">
+   {otherGearOffers.map(item=><PartnerOfferCard offer={item.offer!} title={affiliateOffers[item.offer!].alt} note={item.caution}/>)}
+  </div>
  </details>
  <p class="source-caption">내용 보완: 2026년 10월 29일 · <a href={sources.supplies} target="_blank" rel="noopener noreferrer">국민안전24 비상물자 안내 ↗</a></p>
 </article>
