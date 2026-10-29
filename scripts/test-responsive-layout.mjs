@@ -44,6 +44,12 @@ try{
    return {overflow:document.documentElement.scrollWidth-window.innerWidth,cards,headings:h,navVisible,meta:m,rootScheme:getComputedStyle(document.documentElement).colorScheme,hasKit:Boolean(document.querySelector('.kit-featured-product')),hasStock:Boolean(document.querySelector('.stock-section'))};
   });
   const failed=[];
+  const photoBorderIssues=await page.locator('.product-photo-frame,.ready-shop-image,.shop-guide-photo,.home-fast-result-photo,.review-directory-shop-image,.review-featured-image,.kit-featured-image,.review-product-photo,.guide-choice-link .guide-product-visual,.partner-model-pending .partner-product-visual,.starter-secondary-affiliates-grid .starter-affiliate-product-visual,.simple-product-media>a').evaluateAll(nodes=>nodes.flatMap(el=>{
+   const css=getComputedStyle(el);
+   const widths=[css.borderTopWidth,css.borderRightWidth,css.borderBottomWidth,css.borderLeftWidth].map(parseFloat);
+   return widths.some(n=>n>0)?[{className:String(el.className).slice(0,60),border:widths}]:[];
+  }));
+  if(photoBorderIssues.length)failed.push('Affiliate photos still have outer borders: '+JSON.stringify(photoBorderIssues.slice(0,4)));
   if(details.overflow>3)failed.push('page horizontally overflows by '+details.overflow+'px');
   if(details.headings.length)failed.push('clipped headings '+JSON.stringify(details.headings));
   for(const row of details.cards)if(row.range>4)failed.push('card heights differ '+row.sel+' '+Math.round(row.range)+'px');

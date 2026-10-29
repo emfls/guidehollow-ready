@@ -1090,3 +1090,21 @@ main{min-width:0}
  .review-directory-shop{grid-template-columns:68px minmax(0,1fr);gap:9px}
  .review-directory-shop-image,.review-directory-shop .product-photo-frame{width:68px}
 }
+
+/* Publisher-linked product photography: no decorative border around the media.
+   The outer information cards keep their own separation and focus-visible
+   outlines on interactive photo links remain intact. */
+:is(
+ .product-photo-frame,
+ .ready-shop-image,
+ .shop-guide-photo,
+ .home-fast-result-photo,
+ .review-directory-shop-image,
+ .review-featured-image,
+ .kit-featured-image,
+ .review-product-photo,
+ .guide-choice-link .guide-product-visual,
+ .partner-model-pending .partner-product-visual,
+ .starter-secondary-affiliates-grid .starter-affiliate-product-visual,
+ .simple-product-media>a
+){border:0;box-shadow:none}
