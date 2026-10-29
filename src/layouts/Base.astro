@@ -9,10 +9,40 @@ const pageTitle = title === site.name ? site.name : `${title} | ${site.name}`;
 const canonical = new URL(Astro.url.pathname,site.url).toString();
 const robots = !site.indexingEnabled || noindex ? 'noindex, follow' : 'index, follow';
 const path=Astro.url.pathname;
+const ga4Id=(import.meta.env.PUBLIC_GA4_MEASUREMENT_ID??'').trim();
+const ga4Configured=/^G-[A-Z0-9]{6,}$/.test(ga4Id);
 ---
 <!doctype html>
 <html lang="ko">
 <head>
+ {ga4Configured && <>
+  <!-- Google tag (gtag.js). Load in head so Google's site test can detect it. -->
+  <script is:inline define:vars={{ ga4Id }}>
+   window.dataLayer=window.dataLayer||[];
+   function gtag(){window.dataLayer.push(arguments);}
+   let off=false;
+   try{
+    const current=localStorage.getItem('guidehollow-ready-ga4-setting-v2');
+    const prior=localStorage.getItem('guidehollow-ready-ga4-consent-v1');
+    off=current==='off'||(current===null&&prior==='no');
+   }catch{}
+   window.__guidehollowGa4Disabled=off;
+   window['ga-disable-'+ga4Id]=off;
+   gtag('consent','default',{
+    analytics_storage:off?'denied':'granted',
+    ad_storage:'denied',
+    ad_user_data:'denied',
+    ad_personalization:'denied'
+   });
+   gtag('js',new Date());
+   if(!off)gtag('config',ga4Id,{
+    send_page_view:true,
+    allow_google_signals:false,
+    allow_ad_personalization_signals:false
+   });
+  </script>
+  <script async src={`https://www.googletagmanager.com/gtag/js?id=${ga4Id}`}></script>
+ </>}
  <meta charset="utf-8"/>
  <meta name="viewport" content="width=device-width,initial-scale=1"/>
  <meta name="theme-color" content="#0e151d"/>
@@ -52,7 +82,7 @@ const path=Astro.url.pathname;
  <footer class="site-footer">
   <div class="container footer-grid">
    <div><strong>GUIDEHOLLOW <span>READY</span></strong><p>상황별 재난 행동요령과<br/>가정의 비상 준비를 위한 안내.</p></div>
-   <div class="footer-links"><a href="/about/">사이트 소개·편집 원칙</a><a href="/disclosure/">광고·제휴 고지</a><a href="/privacy/">개인정보 안내</a>{/^G-[A-Z0-9]{6,}$/.test(import.meta.env.PUBLIC_GA4_MEASUREMENT_ID??'') && <button id="ga4-settings" class="ga4-footer-settings" type="button">방문 통계 설정</button>}<a href="/sources/">공식 자료 모음</a><a href="/rss.xml">RSS 구독</a></div>
+   <div class="footer-links"><a href="/about/">사이트 소개·편집 원칙</a><a href="/disclosure/">광고·제휴 고지</a><a href="/privacy/">개인정보 안내</a>{ga4Configured && <button id="ga4-settings" class="ga4-footer-settings" type="button">방문 통계 끄기</button>}<a href="/sources/">공식 자료 모음</a><a href="/rss.xml">RSS 구독</a></div>
   </div>
   <div class="container footer-bottom">© 2026 GuideHollow Ready · 비공식 민간 정보 사이트 · <a href="https://guidehollow.com/" rel="noopener noreferrer">GuideHollow</a></div>
  </footer>

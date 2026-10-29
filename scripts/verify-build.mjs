@@ -19,11 +19,17 @@ const home=file('index.html');
 const ga4Id=(process.env.PUBLIC_GA4_MEASUREMENT_ID||'').trim();
 if(ga4Id&&!/^G-[A-Z0-9]{6,}$/.test(ga4Id))throw Error('Invalid GA4 web measurement ID');
 if(ga4Id){
- if(!home.includes('id="ga4-consent-panel"')||!home.includes('id="ga4-settings"')||!home.includes(ga4Id))throw Error('Opt-in GA4 analytics missing from generated public pages');
- if(!home.includes('analytics_storage')||!home.includes('affiliate_click')||!home.includes('ad_personalization'))throw Error('GA4 consent or safe outbound click instrumentation missing');
-}else if(home.includes('id="ga4-consent-panel"')||home.includes('googletagmanager.com/gtag/js'))throw Error('Unconfigured site must not emit Google tracking code');
+ for(const target of ['index.html','buying/index.html','reviews/index.html']){
+  const html=file(target),head=html.split('</head>')[0];
+  const tag='https://www.googletagmanager.com/gtag/js?id='+ga4Id;
+  if(!head.includes(tag)||!head.includes('window.dataLayer')||!head.includes("gtag('config',ga4Id"))throw Error('Detectable GA4 tag missing from head: '+target);
+  if(html.split('googletagmanager.com/gtag/js?id=').length!==2)throw Error('Duplicate Google tag or tag not in head: '+target);
+  if(html.includes('id="ga4-consent-panel"')||html.includes('ga4-consent-actions'))throw Error('Intrusive analytics popup remains: '+target);
+  if(!html.includes('id="ga4-settings"')||!html.includes('affiliate_click')||!html.includes('analytics_storage'))throw Error('GA4 opt-out or affiliate event missing: '+target);
+ }
+}else if(home.includes('id="ga4-settings"')||home.includes('googletagmanager.com/gtag/js'))throw Error('Unconfigured site must not emit Google tracking code');
 const privacy=file('privacy/index.html');
-if(!privacy.includes('Google 애널리틱스 4(GA4)')||!privacy.includes('쿠팡파트너스 링크 클릭 이벤트'))throw Error('Google Analytics disclosure missing from privacy page');
+if(!privacy.includes('Google 애널리틱스 4(GA4)')||!privacy.includes('방문 통계 끄기')||!privacy.includes('affiliate_click'))throw Error('GA4 default and opt-out disclosure missing from privacy page');
 if (!home.includes('mobile-tabbar') || !home.includes('aria-label="모바일 빠른 메뉴"')) throw Error('Unified mobile navigation missing');
 if (home.includes('home-three-steps') || home.includes('ui-refresh.css')) throw Error('Redundant light homepage design still present');
 if (!design.includes('color-scheme:dark') || !design.includes('#0e151d')) throw Error('Dark theme regression');

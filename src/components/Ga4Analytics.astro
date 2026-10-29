@@ -1,117 +1,63 @@
 ---
 /**
- * Consent-first GA4 integration for the published static site.
- * Configured ONLY by PUBLIC_GA4_MEASUREMENT_ID (GitHub Actions repository var:
- * READY_GA4_MEASUREMENT_ID). No Google requests are made without opt-in.
+ * Affiliate click instrumentation and unobtrusive opt-out control.
+ * The standard Google tag is rendered once in the global <head> by Base.astro.
+ * No automatic popup, modal, or consent prompt is shown.
  */
-const measurementId=(import.meta.env.PUBLIC_GA4_MEASUREMENT_ID??'').trim();
-const configured=/^G-[A-Z0-9]{6,}$/.test(measurementId);
+const ga4Id=(import.meta.env.PUBLIC_GA4_MEASUREMENT_ID??'').trim();
+const enabled=/^G-[A-Z0-9]{6,}$/.test(ga4Id);
 ---
-{configured && <>
-  <section id="ga4-consent-panel" class="ga4-consent-panel" aria-labelledby="ga4-consent-title" hidden>
-   <div>
-    <strong id="ga4-consent-title">방문 통계 수집 선택</strong>
-    <p>사이트 개선을 위해 Google 애널리틱스로 방문 페이지와 쿠팡 상품 링크 클릭을 분석할 수 있습니다. 구매 여부·가족 연락처·체크리스트 입력 내용은 전송하지 않습니다. 동의하지 않아도 사이트를 이용할 수 있습니다. <a href="/privacy/">자세히 보기</a></p>
-   </div>
-   <div class="ga4-consent-actions">
-    <button type="button" id="ga4-deny">동의 안 함</button>
-    <button type="button" id="ga4-allow">분석에 동의</button>
-   </div>
-  </section>
-  <script is:inline define:vars={{ measurementId }}>
-  (() => {
-    'use strict';
-    const storageKey='guidehollow-ready-ga4-consent-v1';
-    const panel=document.getElementById('ga4-consent-panel');
-    const settings=document.getElementById('ga4-settings');
-    const yes=document.getElementById('ga4-allow');
-    const no=document.getElementById('ga4-deny');
-    if (!panel || !yes || !no) return;
-    const consentValues=(analytics)=>({
-      analytics_storage:analytics?'granted':'denied',
-      ad_storage:'denied',
-      ad_user_data:'denied',
-      ad_personalization:'denied'
-    });
-    window.dataLayer=window.dataLayer||[];
-    function gtag(){window.dataLayer.push(arguments);}
-    // Always specify defaults before a config or event command.
-    gtag('consent','default',consentValues(false));
-    const getChoice=()=>{
-      try {return window.localStorage.getItem(storageKey);} catch {return null;}
-    };
-    const setChoice=(choice)=>{
-      try {window.localStorage.setItem(storageKey,choice);} catch {/* browsing without storage */}
-    };
-    let active=false;
-    let choice=getChoice();
-    function start(){
-      if(active)return;
-      active=true;
-      gtag('consent','update',consentValues(true));
-      gtag('js',new Date());
-      gtag('config',measurementId,{
-        send_page_view:true,
-        allow_google_signals:false,
-        allow_ad_personalization_signals:false
-      });
-      const tag=document.createElement('script');
-      tag.async=true;
-      tag.src='https://www.googletagmanager.com/gtag/js?id='+encodeURIComponent(measurementId);
-      document.head.appendChild(tag);
-    }
-    function deleteAnalyticsCookies(){
-      // Expire cookies accessible to the present site, including GA's root-domain cookies.
-      const names=document.cookie.split(';').map(x=>x.trim().split('=')[0]).filter(x=>/^_ga(?:_|$)/.test(x));
-      const domains=['',location.hostname,'guidehollow.com'];
-      for(const name of names)for(const domain of domains){
-        document.cookie=encodeURIComponent(name)+'=; Max-Age=0; Path=/; SameSite=Lax'+(domain?'; Domain='+domain:'');
-      }
-    }
-    function hide(){panel.hidden=true;}
-    function show(){panel.hidden=false;}
-    function choose(allowed){
-      choice=allowed?'yes':'no';
-      setChoice(choice);
-      if(allowed){
-        hide();
-        start();
-      }else{
-        gtag('consent','update',consentValues(false));
-        deleteAnalyticsCookies();
-        hide();
-        if(active)window.location.reload(); // ensure previously loaded tag stops tracking
-      }
-    }
-    yes.addEventListener('click',()=>choose(true));
-    no.addEventListener('click',()=>choose(false));
-    settings?.addEventListener('click',()=>show());
-    if(choice==='yes')start();
-    else if(choice!=='no')show();
-    // This event measures affiliate OUTBOUND CLICKS, not orders or commissions.
-    // No link query strings, checkout data, names, or user-supplied text are sent.
-    document.addEventListener('click',(event)=>{
-      if(!active || choice!=='yes')return;
-      const element=event.target;
-      if(!(element instanceof Element))return;
-      const anchor=element.closest('a[href^="https://link.coupang.com/a/"]');
-      if(!anchor)return;
-      const raw=anchor.getAttribute('href')||'';
-      const match=raw.match(/^https:\/\/link\.coupang\.com\/a\/([A-Za-z0-9]{6,20})(?:[?#].*)?$/);
-      if(!match)return;
-      const placement=anchor.closest('.review-related-buying')?'review_related':
-        anchor.closest('.shop-guide-item')?'buying_catalog':
-        anchor.closest('.home-fast-results')?'home_check':
-        anchor.closest('.protocol-item')?'preparedness_plan':
-        anchor.closest('.review-product-compact')?'review_product':
-        anchor.closest('.ready-shop-card')?'offer_card':'other';
-      gtag('event','affiliate_click',{
-        offer_code:match[1],
-        page_path:location.pathname,
-        placement,
-        transport_type:'beacon'
-      });
-    },{capture:true});
-  })();
-  </script>
-</>}
+{enabled && <script is:inline>
+(() => {
+ 'use strict';
+ const settings=document.getElementById('ga4-settings');
+ const key='guidehollow-ready-ga4-setting-v2';
+ const isDisabled=()=>Boolean(window.__guidehollowGa4Disabled);
+ const updateLabel=()=>{
+  if(!settings)return;
+  settings.textContent=isDisabled()?'방문 통계 켜기':'방문 통계 끄기';
+  settings.setAttribute('aria-label',isDisabled()?'GA4 방문 통계 다시 켜기':'GA4 방문 통계 수집 끄기');
+ };
+ updateLabel();
+ settings?.addEventListener('click',()=>{
+  const next=isDisabled()?'on':'off';
+  try{localStorage.setItem(key,next);}catch{}
+  if(next==='off'){
+   // Deny future analytics events, even before the new document loads.
+   if(typeof window.gtag==='function')window.gtag('consent','update',{
+    analytics_storage:'denied',ad_storage:'denied',
+    ad_user_data:'denied',ad_personalization:'denied'
+   });
+   const names=document.cookie.split(';').map(x=>x.trim().split('=')[0]).filter(x=>/^_ga(?:_|$)/.test(x));
+   const domains=['',location.hostname,'guidehollow.com'];
+   for(const name of names)for(const domain of domains){
+    document.cookie=encodeURIComponent(name)+'=; Max-Age=0; Path=/; SameSite=Lax'+(domain?'; Domain='+domain:'');
+   }
+  }
+  location.reload();
+ });
+ // Records outbound clicking only, never order completion or partner commissions.
+ document.addEventListener('click',event=>{
+  if(isDisabled()||typeof window.gtag!=='function')return;
+  const element=event.target;
+  if(!(element instanceof Element))return;
+  const anchor=element.closest('a[href^="https://link.coupang.com/a/"]');
+  if(!anchor)return;
+  const raw=anchor.getAttribute('href')||'';
+  const match=raw.match(/^https:\/\/link\.coupang\.com\/a\/([A-Za-z0-9]{6,20})(?:[?#].*)?$/);
+  if(!match)return;
+  const placement=anchor.closest('.review-related-buying')?'review_related':
+   anchor.closest('.shop-guide-item')?'buying_catalog':
+   anchor.closest('.home-fast-results')?'home_check':
+   anchor.closest('.protocol-item')?'preparedness_plan':
+   anchor.closest('.review-product-compact')?'review_product':
+   anchor.closest('.ready-shop-card')?'offer_card':'other';
+  window.gtag('event','affiliate_click',{
+   offer_code:match[1],
+   page_path:location.pathname,
+   placement,
+   transport_type:'beacon'
+  });
+ },{capture:true});
+})();
+</script>}

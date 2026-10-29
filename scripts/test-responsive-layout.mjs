@@ -28,8 +28,6 @@ try{
  const context=await browser.newContext({viewport:{width,height:845},deviceScaleFactor:1,reducedMotion:'reduce',locale:'ko-KR'});
  await context.route('https://www.googletagmanager.com/**',route=>route.abort());
  await context.route('https://www.google-analytics.com/**',route=>route.abort());
- // Consent disabled by default during the other responsive interactions.
- await context.addInitScript(()=>{try{localStorage.setItem('guidehollow-ready-ga4-consent-v1','no')}catch{}});
  const page=await context.newPage();
  for(const route of paths){
   await page.goto(`http://127.0.0.1:${PORT}${route}`,{waitUntil:'domcontentloaded',timeout:30000});
@@ -207,24 +205,34 @@ try{
    const guide=page.locator('.food-buying-decision');
    if(await guide.count()!==1||!await guide.isVisible()||await guide.locator('tbody tr').count()!==4)failed.push('four-row food buying comparison missing');
   }
-  if(route==='/buying/'&&width===390&&await page.locator('#ga4-settings').count()===1){
-   const noGoogleTag=await page.evaluate(()=>![...document.scripts].some(s=>s.src.includes('googletagmanager.com/gtag/js')));
-   if(!noGoogleTag)failed.push('GA4 tag was loaded without visitor opt-in');
-   await page.locator('#ga4-settings').click();
-   if(!(await page.locator('#ga4-consent-panel').isVisible()))failed.push('Consent panel cannot be reopened from footer');
-   await page.locator('#ga4-allow').click();
-   const consent=await page.evaluate(()=>({
-     script:[...document.scripts].some(s=>s.src.includes('googletagmanager.com/gtag/js?id=G-READYTEST123')),
-     config:(window.dataLayer||[]).some(x=>x[0]==='config'&&x[1]==='G-READYTEST123'),
-     noAdvertising:(window.dataLayer||[]).some(x=>x[0]==='consent'&&x[1]==='default'&&x[2].ad_storage==='denied')
+  if(route==='/buying/'&&width===390){
+   const initial=await page.evaluate(()=>({
+    scripts:[...document.head.querySelectorAll('script[src]')].filter(s=>s.src.includes('googletagmanager.com/gtag/js?id=G-READYTEST123')).length,
+    pageView:(window.dataLayer||[]).some(x=>x[0]==='config'&&x[1]==='G-READYTEST123'&&x[2].send_page_view===true),
+    adDenied:(window.dataLayer||[]).some(x=>x[0]==='consent'&&x[1]==='default'&&x[2].ad_storage==='denied'),
+    popup:!!document.getElementById('ga4-consent-panel'),
+    off:window.__guidehollowGa4Disabled
    }));
-   if(!consent.script||!consent.config||!consent.noAdvertising)failed.push('GA4 opt-in did not configure consented pageview correctly');
+   if(initial.scripts!==1||!initial.pageView||!initial.adDenied||initial.popup||initial.off)failed.push('Tag must appear once in head, start GA4 pageview and never show popup');
    await page.evaluate(()=>document.addEventListener('click',e=>{
-      if(e.target instanceof Element&&e.target.closest('a[href^="https://link.coupang.com/a/"]'))e.preventDefault();
+    if(e.target instanceof Element&&e.target.closest('a[href^="https://link.coupang.com/a/"]'))e.preventDefault();
    },true));
    await page.locator('.shop-guide-item:visible a[href^="https://link.coupang.com/a/"]').first().click();
    const tracked=await page.evaluate(()=>(window.dataLayer||[]).some(x=>x[0]==='event'&&x[1]==='affiliate_click'&&typeof x[2].offer_code==='string'&&x[2].page_path==='/buying/'));
-   if(!tracked)failed.push('Affiliate link click did not produce safe GA4 affiliate_click event');
+   if(!tracked)failed.push('Affiliate click does not register correct event');
+   await page.locator('#ga4-settings').click();
+   await page.waitForLoadState('domcontentloaded');
+   const off=await page.evaluate(()=>({
+    disabled:window.__guidehollowGa4Disabled,
+    value:localStorage.getItem('guidehollow-ready-ga4-setting-v2'),
+    config:(window.dataLayer||[]).some(x=>x[0]==='config'),
+    label:document.getElementById('ga4-settings')?.textContent
+   }));
+   if(!off.disabled||off.value!=='off'||off.config||off.label!=='방문 통계 켜기')failed.push('Footer opt-out must disable tracking on reload');
+   await page.locator('#ga4-settings').click();
+   await page.waitForLoadState('domcontentloaded');
+   const restored=await page.evaluate(()=>!window.__guidehollowGa4Disabled&&(window.dataLayer||[]).some(x=>x[0]==='config'));
+   if(!restored)failed.push('Footer opt-in must restore GA4 pageview after reload');
   }
   if(route==='/buying/food/'&&await page.locator('.ready-shop-card').count()!==8)failed.push('food page missing six supplementary approved purchase offers');
   if(route==='/buying/gear/'&&(await page.locator('.ready-shop-card').count()!==19||await page.locator('a.review-direct-buy').count()!==1))failed.push('gear page missing registered supplemental product cards or exact flashlight CTA');
