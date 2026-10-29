@@ -1,6 +1,6 @@
 ---
-title: "비상담요와 물티슈, 대피가방에 얼마나 필요할까요?"
-description: "추울 때 쓰는 비상담요와 단수 때 사용하는 물티슈의 역할을 쉽게 구분했습니다."
+title: "플리스 담요와 위생 물티슈, 얼마나 준비할까요?"
+description: "구매 가능한 플리스 일반 담요와 물티슈의 실제 용도를 구분해 안내합니다."
 category: general
 publishedDate: 2026-10-28
 draft: false
