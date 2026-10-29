@@ -8,7 +8,7 @@ interface Props {
  buttonText?:string;
  checkId?:string;
 }
-const {offer,title,note,buttonText='쿠팡에서 상품 확인하기 ↗',checkId}=Astro.props;
+const {offer,title,note,buttonText='구매하기 ↗',checkId}=Astro.props;
 const item=affiliateOffers[offer];
 const image=affiliatePhoto(offer);
 ---
