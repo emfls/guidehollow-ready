@@ -3,6 +3,7 @@ import Base from '../../layouts/Base.astro';
 import {sources} from '../../data/resources';
 import {protocolStages,protocolCategories,protocolItems} from '../../data/protocols';
 import {affiliateOffers,affiliatePhoto} from '../../data/affiliate-product-visuals';
+import ProductPhoto from '../../components/ProductPhoto.astro';
 const initialDays=3;
 ---
 <Base title="3일·7일·14일·30일·60일·90일 비상 대비 프로토콜" description="준비 기간을 선택하면 가족별 식수 참고량, 필요한 물품, 기존 체크리스트 현황과 실제 확인된 쿠팡 제휴 상품을 구분해서 보여줍니다.">
@@ -66,8 +67,8 @@ const initialDays=3;
         <div class="protocol-item-links"><a href={item.guide}>준비 기준 보기 →</a></div>
        </div>
        {item.offer && <div class="protocol-item-offer">
-        {affiliatePhoto(item.offer) ? <img src={affiliatePhoto(item.offer)} width="120" height="240" loading="lazy" decoding="async" referrerpolicy="no-referrer" alt={affiliateOffers[item.offer].alt+' 쿠팡파트너스 상품 이미지'}/> : <span aria-hidden="true">{affiliateOffers[item.offer].emoji}</span>}
-        <a href={affiliateOffers[item.offer].url} target="_blank" rel="sponsored nofollow noopener noreferrer">쿠팡 상품 확인 ↗</a>
+        <ProductPhoto src={affiliatePhoto(item.offer)} alt={affiliateOffers[item.offer].alt+' 제품 사진'} offer={item.offer} fallback={affiliateOffers[item.offer].emoji}/>
+        <a href={affiliateOffers[item.offer].url} target="_blank" rel="sponsored nofollow noopener noreferrer">쇼핑하기 ↗</a>
        </div>}
       </article>)}
      </div>
