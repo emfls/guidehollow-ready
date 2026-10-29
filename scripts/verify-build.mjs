@@ -75,7 +75,32 @@ if (!situationPage.includes('situation-shortcuts') || !situationPage.includes('f
 if (!file('buying/food/index.html').includes('buying-summary-grid') || !file('buying/gear/index.html').includes('buying-summary-grid')) throw Error('Evidence-first buying cards missing');
 const reviewHub=file('reviews/index.html');
 if(!reviewHub.includes('review-directory-grid')||!reviewHub.includes('review-featured-grid'))throw Error('Readable review directory not generated');
-if (!reviewHub.includes('쿠팡 구매 링크는 등록 당시 동일 모델·옵션이 확인된 경우에만 표시하며')||!reviewHub.includes('/reviews/emergency-flashlights-headlamps/')) throw Error('Verified product hub is missing purchase verification notice or existing report');
+if (!reviewHub.includes('기존 쿠팡 상품 30종')&&!reviewHub.includes('이미 연결된 쿠팡 상품 30종')) throw Error('Review landing must clearly state thirty published affiliate offers');
+if(!reviewHub.includes('/reviews/emergency-flashlights-headlamps/'))throw Error('Comparison review directory missing');
+if((reviewHub.match(/class="review-direct-buy"/g)||[]).length!==11)throw Error('All eleven review-directory entries must offer one exact registered product link');
+if((reviewHub.match(/class="review-directory-shop"/g)||[]).length!==9)throw Error('Nine non-featured reviews must preview a related product with official photo');
+const reviewRouting=readFileSync('src/data/buying-guide.ts','utf8');
+if(!reviewRouting.includes('reviewShoppingOffers:Record<string,ReviewShoppingOffer[]>'))throw Error('Review product matching crosswalk absent');
+for(const [slug,offer] of [
+ ['coupang-stock-audit-samsung-p3400-p3401','ienNhlQsPk'],
+ ['emergency-am-fm-radios','ienLu8j8IC'],
+ ['emergency-bags-dry-pouches','ienSxmfDUW'],
+ ['emergency-blankets-and-hygiene-wipes','ieCBNk88su'],
+ ['emergency-first-aid-kit-and-dressings','ieCxqq6mui'],
+ ['emergency-flashlights-headlamps','ieCuYrnIu4'],
+ ['emergency-kit-set-composition-audit','ienOFQc21I'],
+ ['emergency-power-banks-10000-vs-20000','ienNhlQsPk'],
+ ['emergency-products-kc-model-expiry-audit','ienNhlQsPk'],
+ ['emergency-retail-option-priority-and-affiliate-gates','idtdhvDZ3A'],
+ ['fenix-e20-v2-flashlight','idtdhvDZ3A']
+]){
+ const html=file('reviews/'+slug+'/index.html');
+ if(!html.includes('https://link.coupang.com/a/'+offer)||!html.includes('rel="sponsored nofollow noopener noreferrer"'))throw Error('Published review missing correct actual sale CTA '+slug);
+ if(!html.includes('이 포스팅은 쿠팡 파트너스 활동의 일환'))throw Error('Published affiliate review has no up-front sponsorship notice '+slug);
+ if(!reviewRouting.includes("'"+slug+"':["))throw Error('Review offer crosswalk missing '+slug);
+}
+if(!file('about/index.html').includes('30개 준비 품목')||file('about/index.html').includes('손전등의 개별 구매 링크가 연결돼 있고'))throw Error('About page incorrectly describes legacy one-link catalog');
+if(!file('disclosure/index.html').includes('30개 준비 품목'))throw Error('Disclosure page outdated');
 if (!home.includes('href="/reviews/"')) throw Error('Product comparison discoverability missing from home');
 if (!home.includes('href="/drill/"')) throw Error('Short routine practice is not linked from home');
 const drill=file('drill/index.html');
@@ -176,7 +201,13 @@ if(!buyingSource.includes('getExistingChecks()')||buyingSource.includes("localSt
 if(!file('sitemap.xml').includes('https://ready.guidehollow.com/buying/'))throw Error('Buyer guide route missing from sitemap');
 for(const page of [home,starter,protocolHtml,file('buying/food/index.html'),file('buying/gear/index.html')])if(!page.includes('href="/buying/"'))throw Error('Buy hub not discoverable from related journey page');
 if(!design.includes('.shop-guide-filter-grid')||!design.includes('.shop-guide-item[hidden]'))throw Error('Responsive mobile buyer list or hidden product states missing');
+const foodGuide=file('buying/food/index.html');
+if((foodGuide.match(/class="ready-shop-card"/g)||[]).length!==8)throw Error('Food buyer guide must expose all eight published related product offers');
+if(!foodGuide.includes('food-extra-buying'))throw Error('Food buyer guide missing optional buying list');
+if(!file('checklist/index.html').includes('30개 연결 상품에서 부족한 물품 찾기'))throw Error('Saved checklist has no clear route to real buying options');
 const gear=file('buying/gear/index.html');
+if((gear.match(/class="ready-shop-card"/g)||[]).length!==19||!gear.includes('gear-extra-buying'))throw Error('Gear guide still hides approved non-food supplier offers');
+if(!gear.includes('https://link.coupang.com/a/idtdhvDZ3A'))throw Error('Gear page lacks direct same-model flashlight link');
 for(const id of ['ienLu8j8IC','ienNhlQsPk']){
  const url='https://link.coupang.com/a/'+id;
  if(!gear.includes(url)||!starter.includes(url))throw Error('Supplied affiliate URL missing from buying page or starter kit: '+id);
