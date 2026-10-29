@@ -66,3 +66,43 @@ export const buyingGuideProducts:GuideProduct[]=[
  {id:'baby-diapers',title:'영유아 기저귀·수유용품',group:'care',days:3,priority:'상황별',why:'영유아가 있는 가족만 연령과 수유 방식에 맞춰 준비',criteria:'실제 사이즈·피부 적합성·필요량·수유 위생 조건 확인',caution:'아기에게 맞지 않는 분유·식품을 비상용이라는 이유로 임의 변경하지 마세요.',guide:'/family-emergency/'},
  {id:'pet-food',title:'반려동물 사료·배변용품',group:'care',days:3,priority:'상황별',why:'반려동물 동반 가족의 먹이·위생·이동 대비',criteria:'동물별 식이·건강 상태·소비기한·이동장 규격 확인',caution:'대피시설 동반 가능 여부는 해당 시설의 공식 규정을 확인하세요.',guide:'/family-emergency/'},
 ];
+
+
+/**
+ * Editorial selections from six Coupang Partners search-result tabs viewed
+ * on 2026-10-29. Product-detail options, contents, safety specs and the
+ * publisher's partner short URLs are NOT yet verified or issued.
+ * These must never be used as affiliate links or definitive tested reviews.
+ */
+export const buyingGuideShortlist:Record<string,{name:string;why:string;verify:string}>={
+ 'aa-batteries':{
+  name:'벡셀 알카라인 AA 건전지, 20개입, 1개',
+  why:'라디오·손전등에 쓰이는 AA 규격을 별도 비축하기 쉬운 구성. 20개입으로 확인됨',
+  verify:'실제 기기가 AA인지 확인. 생산·사용 권장 기한과 정확한 20개입 옵션을 상세 페이지에서 재확인',
+ },
+ 'headlamp':{
+  name:'에너자이저 비전 HD+ LED 헤드랜턴',
+  why:'이름과 제품군이 구분되는 브랜드 제품을 과장된 밝기 광고보다 우선 선정',
+  verify:'쿠팡 검색 제목의 모델 표기가 HDCA3…로 잘렸음. 완전한 모델번호·전원 규격·동봉품 확인 전까지 구매 링크 등록 금지',
+ },
+ 'firstaid-kit':{
+  name:'한양 스피드 구급함 대형 19종세트, 1세트',
+  why:'빈 구급 상자가 아닌 구성품 포함 세트로 표시된 후보',
+  verify:'포함된 19종의 개별 품목·사용기한·의약품 포함 여부를 상세 페이지에서 확인. 미확인 의료 효능 주장 금지',
+ },
+ 'wet-wipes':{
+  name:'탐사 클래식 물티슈 캡형, 100매, 10개',
+  why:'캡형 100매 묶음 10개로 목록에 명시되어 비축 수량을 계획하기 쉬움',
+  verify:'사용 목적·성분·제품별 사용기한과 뚜껑 밀폐 상태 확인. 물티슈는 손 씻기나 소독제를 대신하지 않음',
+ },
+ 'thermal-blanket':{
+  name:'코멧 홈 포근 플리스 똑딱이 담요',
+  why:'전기를 사용하지 않는 일상 겸용 보조 담요 후보',
+  verify:'실제 크기·재질·사용 환경을 확인. 일반 플리스 담요를 전문 저체온증 응급 장비로 설명하지 않음',
+ },
+ 'manual-opener':{
+  name:'코멧 키친 캔오프너 + 병따개, 1개',
+  why:'전원이 필요 없는 수동 제품으로 표시되고 통조림·병따개 기능을 한 도구에 결합',
+  verify:'수동 작동 방식·캔 크기 호환성과 날카로운 절단면 취급 주의 확인',
+ },
+};
