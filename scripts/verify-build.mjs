@@ -148,6 +148,8 @@ if((buyingHub.match(/data-buy-core="yes"/g)||[]).length!==5)throw Error('Five pr
 if(!buyingSource.includes("get('from')==='quick'")||!buyingSource.includes('quickBuyingIds.has'))throw Error('Saved five-question needs must cross-link into buying decision');
 if(!design.includes('.home-fast-water-plan')||!design.includes('.review-matched-offer'))throw Error('Buyer water and exact-model review design missing');
 const reviewPage=readFileSync('src/pages/reviews/[slug].astro','utf8');
+if(!reviewPage.includes('.filter(p=>Boolean(p.partner))')||reviewPage.includes('review-not-ready'))throw Error('Shopper reviews must not render products without an issued Coupang affiliate link');
+
 if(!reviewPage.includes("row.id==='emergency-power-banks-10000-vs-20000'")||!reviewPage.includes("row.id==='emergency-first-aid-kit-and-dressings'")||!reviewPage.includes('PartnerOfferCard offer={actualSaleOffer}'))throw Error('Exact linked models must be visible above unlike-model comparison reviews');
 if((buyingHub.match(/data-shop-preset="/g)||[]).length!==3||!buyingHub.includes('data-shop-preset="linked"')||!buyingHub.includes('data-shop-preset="fresh"'))throw Error('Buyer quick filter controls missing');
 if(!buyingHub.includes('응고제10개+용변봉투10장')||!buyingHub.includes('밴드형 2단계')||!buyingHub.includes('반려견 사료'))throw Error('New buyer product suitability guidance missing');
@@ -263,6 +265,9 @@ if(existsSync(reviewDir)){
  for(const entry of readdirSync(reviewDir,{withFileTypes:true}).filter(x=>x.isDirectory())){
   const content=file(`reviews/${entry.name}/index.html`);
   if(!content.includes('검증 근거')||!content.includes('noindex, follow'))throw Error('Review evidence or noindex missing: '+entry.name);
+  if(content.includes('class="review-not-ready"'))throw Error('Unbuyable product listing leaked into public review '+entry.name);
+  if((content.match(/class="review-product-compact"/g)||[]).length>(content.match(/class="btn primary review-cta"/g)||[]).length)throw Error('Public review contains product card without affiliate CTA '+entry.name);
+
  }
 }
 console.log('GuideHollow Ready smoke test passed: official-sources safety pages, Naver meta, SEO guard, checklist, review isolation.');

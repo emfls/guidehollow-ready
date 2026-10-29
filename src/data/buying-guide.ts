@@ -157,10 +157,9 @@ for(const [key, detail] of Object.entries(recentOfferNotes)){
  };
 }
 
-/** Buyer-friendly crosswalk for ALL 11 published review routes.
- * "Directly reviewed model" applies only to the two independently matched
- * Coupang listing options. All other offers are related, distinct products:
- * never transfer a review's performance tests/certifications to another SKU.
+/** The public review catalog contains only publisher-linked Coupang product options.
+ * Keep archived research on other models out of the rendered buyer experience.
+ * The linked listing is not a real-time stock or delivery guarantee.
  */
 export interface ReviewShoppingOffer {
  offer:AffiliateOfferKey;
@@ -181,26 +180,26 @@ export const reviewShoppingOffers:Record<string,ReviewShoppingOffer[]>={
   {offer:'cable',why:'USB-C 단자를 사용하는 기기에만 적합한 삼성 C to C 1m 케이블. 호환성 확인'},
  ],
  'emergency-power-banks-10000-vs-20000':[
-  {offer:'battery',why:'비교 대상 EB-P3400·EB-P4520과 다른 2026년형 EB-P3401. 시험·무게·출력 수치를 전용 모델로 혼동 금지'},
+  {offer:'battery',why:'쿠팡에 연결된 삼성 EB-P3401 2026년형 10,000mAh. 실제 출력·모델 정보는 이 옵션의 공식 사양과 상세정보 확인'},
   {offer:'cable',why:'연결 기기가 USB-C C to C를 지원할 경우에만 고려할 1m 케이블'},
  ],
  'emergency-flashlights-headlamps':[
-  {offer:'flashlight',why:'본문의 E12 V3.0과 다른 페닉스 E20 V2.0. AA 2개 교체형 손전등 구매 예시'},
-  {offer:'headlamp',why:'본문의 페츨 제품과 다른 에너자이저 HDCA32 헤드랜턴. 실제 전원·착용감 확인'},
+  {offer:'flashlight',why:'판매 링크가 등록된 페닉스 E20 V2.0 손전등. AA 건전지 2개 필요'},
+  {offer:'headlamp',why:'쿠팡에 연결된 에너자이저 HDCA32 헤드랜턴. 착용감·전원 규격 확인'},
   {offer:'aa',why:'AA 규격 조명에만 필요한 예비 건전지 20개입. 다른 크기 건전지와 호환되지 않음'},
  ],
  'emergency-bags-dry-pouches':[
-  {offer:'drybag',why:'본문의 동일 제품군 씨투써밋 라이트웨이트 드라이백 5L. 35L 빅리버와 다른 용량·모델'},
+  {offer:'drybag',why:'씨투써밋 라이트웨이트 드라이백 5L 판매 상품. 실사용 용량·방수 범위 확인'},
   {offer:'backpack',why:'사용 가능한 배낭이 없다면 검토할 라이트론 22L 경량 배낭'},
   {offer:'pouch',why:'서류 정리용 PVC 지퍼 파우치. 완전 방수·침수 보호 성능은 미검증'},
  ],
  'emergency-blankets-and-hygiene-wipes':[
-  {offer:'blanket',why:'본문의 SOL 은박 비상담요와 다른 코멧 플리스 일반 담요. 전문 응급담요로 오인 금지'},
-  {offer:'wipes',why:'본문의 씨투써밋 와일더니스 와이프와 다른 탐사 물티슈 100매×10개'},
+  {offer:'blanket',why:'코멧 플리스 일반 담요 판매 상품. 은박형 응급담요가 아니므로 보온·방풍 용도를 구분'},
+  {offer:'wipes',why:'탐사 물티슈 100매×10개 판매 상품. 손 소독용 제품으로 간주하지 않음'},
  ],
  'emergency-first-aid-kit-and-dressings':[
-  {offer:'firstaid',why:'본문의 3M 테가덤 1624W와 별개인 한양 19종 가정용 구급함. 실제 내용물·사용기한 확인'},
-  {offer:'gauze',why:'구급함 소모품용 네오 멸균거즈 포함 드레싱밴드. 테가덤 필름과 다른 제품'},
+  {offer:'firstaid',why:'한양 스피드 가정용 구급함 대형 19종세트. 실제 구성품·사용기한 확인'},
+  {offer:'gauze',why:'네오 드레싱 멸균거즈밴드 4개입×10개. 멸균 포장·사용기한 확인'},
  ],
  'emergency-kit-set-composition-audit':[
   {offer:'water',why:'별도 품목인 생수 2L×12개. 비상세트 구성품에 포함된다는 의미가 아님'},
@@ -214,6 +213,6 @@ export const reviewShoppingOffers:Record<string,ReviewShoppingOffer[]>={
  'emergency-retail-option-priority-and-affiliate-gates':[
   {offer:'flashlight',why:'모델과 개인 제휴 URL을 연결한 페닉스 E20 V2.0 구매 사례'},
   {offer:'radio',why:'모델 확인 후 연결한 소니 ICF-P26 블랙 라디오 구매 사례'},
-  {offer:'battery',why:'EB-P3400과 별개로 연결된 2026년형 삼성 EB-P3401 베이지 구매 사례'},
+  {offer:'battery',why:'2026년형 삼성 EB-P3401 베이지 10,000mAh 개별 판매 상품'},
  ],
 };

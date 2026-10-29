@@ -178,6 +178,11 @@ try{
    if(!((await page.locator('.review-affiliate-top').textContent())||'').includes('쿠팡 파트너스'))failed.push('review directory does not disclose purchase commissions');
   }
   if(route.startsWith('/reviews/')&&route!=='/reviews/'){
+   if(await page.locator('.review-not-ready').count()!==0)failed.push('unbuyable comparison products must not have public tiles or status labels');
+   if(await page.locator('.review-product-compact:not(:has(a.review-cta))').count()!==0)failed.push('public review includes a model without publisher-issued Coupang link');
+   const visibleReviewText=await page.locator('body').innerText();
+   if(/EB-P3400|EB-P4520|MMR-99|E12 V3\.0|TIKKINA|ACTIK CORE|Big River Dry Bag|Nite Ize|Tegaderm|1624W|Wilderness Wipes|SOL Emergency Blanket/i.test(visibleReviewText))
+      failed.push('old comparison-only models are still visible in shopper-facing review');
    if(await page.locator('.review-related-buying').count()!==1)failed.push('review article missing approved related-products section');
    if(await page.locator('.review-related-buy-grid .ready-shop-card').count()<1)failed.push('review missing actionable offer matched to its topic');
    const urls=await page.locator('a[href^="https://link.coupang.com/a/"]').count();
