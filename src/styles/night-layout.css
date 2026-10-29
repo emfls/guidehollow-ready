@@ -998,3 +998,10 @@ main{min-width:0}
 .shop-guide-unverified .shop-guide-selected-name{color:#fff1d7;font-size:.9rem;font-weight:850;line-height:1.5;margin:0;overflow-wrap:anywhere}
 .shop-guide-unverified .shop-guide-selected-why{color:#d9e5de;font-size:.79rem;line-height:1.63;margin:0;word-break:keep-all}
 .shop-guide-unverified.has-selected-candidate small{color:#eddfbf}
+
+
+/* Recently registered, exact-model verified affiliate products. */
+.shop-guide-selected-info{border-left:3px solid #c99f6b;background:#314247;border-radius:4px 8px 8px 4px;padding:10px 12px;margin:0 0 12px}
+.shop-guide-selected-info strong{display:block;color:#f2d7aa;font-size:.76rem;margin-bottom:4px}
+.shop-guide-selected-info p{color:#e1ebe2;font-size:.78rem;line-height:1.6;margin:0 0 4px;word-break:keep-all}
+.shop-guide-selected-info small{display:block;color:#d2dcd7;font-size:.74rem;line-height:1.55;word-break:keep-all}

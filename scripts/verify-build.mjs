@@ -107,7 +107,7 @@ for(const days of [3,7,14,30,60,90]){
 if(!protocolHtml.includes('protocol-water-total')||!protocolHtml.includes('protocol-water-cartons')||!protocolSource.includes('chosenDays>14'))throw Error('Progressive family water calculator missing');
 if(!protocolHtml.includes('정부 의무 기준이 아닌')||!protocolHtml.includes('90일치')||!protocolHtml.includes('국민안전24'))throw Error('Long-term protocols must not be presented as official mandatory purchase quantities');
 for(const id of ['water','food','flashlight','radio','powerbank','drybag'])if(!protocolHtml.includes('data-protocol-item="'+id+'"'))throw Error('Missing core item '+id);
-for(const id of ['ienLu8j8IC','ienNhlQsPk','ienOFQc21I','ienRftVDYy','ienSxmfDUW','idtdhvDZ3A'])if(!protocolHtml.includes('https://link.coupang.com/a/'+id))throw Error('Protocol missing verified single-product affiliate '+id);
+for(const id of ['ienLu8j8IC','ienNhlQsPk','ienOFQc21I','ienRftVDYy','ienSxmfDUW','idtdhvDZ3A','ieCtE2caFU','ieCuYrnIu4','ieCxqq6mui','ieCyTiU5ts','ieCBNk88su','ieCDsQuq84'])if(!protocolHtml.includes('https://link.coupang.com/a/'+id))throw Error('Protocol missing verified single-product affiliate '+id);
 if(!protocolHtml.includes('쿠팡 파트너스 활동의 일환')||!protocolHtml.includes('rel="sponsored nofollow noopener noreferrer"'))throw Error('Protocol affiliate disclosure or sponsored rel missing');
 if(protocolSource.includes("localStorage.setItem('guidehollow-ready-check-v1'"))throw Error('Protocol must never write back the baseline checklist');
 if(!protocolHtml.includes('https://www.cdc.gov/')||!protocolHtml.includes('https://safekorea.go.kr/'))throw Error('Protocol official sources missing');
@@ -117,8 +117,8 @@ const buyingHub=file('buying/index.html');
 const buyingData=readFileSync('src/data/buying-guide.ts','utf8');
 const buyingSource=readFileSync('src/pages/buying/index.astro','utf8');
 if((buyingHub.match(/data-buy-id="/g)||[]).length!==30)throw Error('Buyer guide requires 30 actionable categories, without fake listing links');
-if((buyingHub.match(/data-buy-linked="yes"/g)||[]).length!==6||(buyingHub.match(/data-buy-linked="no"/g)||[]).length!==24)throw Error('Exactly six matched Coupang offers and 24 candid pending slots expected');
-if((buyingHub.match(/data-buy-selected="yes"/g)||[]).length!==6)throw Error('Six nominated products must be visible, still pending link creation');
+if((buyingHub.match(/data-buy-linked="yes"/g)||[]).length!==12||(buyingHub.match(/data-buy-linked="no"/g)||[]).length!==18)throw Error('Exactly twelve approved affiliate offers and 18 honest pending slots expected');
+if((buyingHub.match(/data-buy-selected="yes"/g)||[]).length!==6)throw Error('Six newly linked buyer products must remain selectable under new-products filter');
 for(const [id,needle] of [
  ['aa-batteries','벡셀 알카라인 AA 건전지'],
  ['headlamp','에너자이저 비전 HD+ LED 헤드랜턴'],
@@ -129,15 +129,22 @@ for(const [id,needle] of [
 ]){
  if(!buyingData.includes("'"+id+"':{")||!buyingHub.includes(needle))throw Error('Selected real browser-tab product is not reflected: '+id);
 }
-if(!buyingHub.includes('선정 상품 · 제휴 링크 미발급')||!buyingHub.includes('value="selected"'))throw Error('Selected-pending products must be distinct from affiliate-ready products');
+if(!buyingHub.includes('이번에 등록한 상품')||!buyingHub.includes('value="selected"'))throw Error('Newly linked products filter missing');
 if(!buyingSource.includes("card.dataset.buySelected==='yes'"))throw Error('Selected product filter missing');
 
 for(const id of ['water','tuna','flashlight','radio','battery','drybag']){
  if(!buyingData.includes("offer:'"+id+"'"))throw Error('Expected matching user-supplied offer absent '+id);
 }
-for(const id of ['ienLu8j8IC','ienNhlQsPk','ienOFQc21I','ienRftVDYy','ienSxmfDUW','idtdhvDZ3A'])
+for(const id of ['ienLu8j8IC','ienNhlQsPk','ienOFQc21I','ienRftVDYy','ienSxmfDUW','idtdhvDZ3A','ieCtE2caFU','ieCuYrnIu4','ieCxqq6mui','ieCyTiU5ts','ieCBNk88su','ieCDsQuq84'])
  if(!buyingHub.includes('https://link.coupang.com/a/'+id))throw Error('A previously verified buyer offer was lost '+id);
-if((buyingHub.match(/class="shop-guide-buy"/g)||[]).length!==6)throw Error('Pending product slots may not have deceptive buy buttons');
+if((buyingHub.match(/class="shop-guide-buy"/g)||[]).length!==12)throw Error('Buying guide must have twelve real CTAs and zero fabricated pending buttons');
+const verifiedImageCatalog=readFileSync('src/data/affiliate-product-visuals.ts','utf8');
+for(const id of ['ieCtE2caFU','ieCuYrnIu4','ieCxqq6mui','ieCyTiU5ts','ieCBNk88su','ieCDsQuq84']){
+ if(!verifiedImageCatalog.includes('https://link.coupang.com/a/'+id)||!protocolHtml.includes('https://link.coupang.com/a/'+id))throw Error('New affiliate offer not wired through central catalog and staged protocols: '+id);
+}
+for(const id of ['aa','headlamp','firstaid','wipes','blanket','opener']){
+ if(!buyingData.includes("offer:'"+id+"'"))throw Error('Exact new partner mapping missing from buying data: '+id);
+}
 if(!buyingHub.includes('쿠팡 파트너스 활동의 일환')||!buyingHub.includes('rel="sponsored nofollow noopener noreferrer"'))throw Error('Buying guide missing affiliate disclosure or rel');
 if(!buyingHub.includes('60일')||!buyingHub.includes('90일')||!buyingHub.includes('30개'))throw Error('Buying guide must distinguish long-range scenarios');
 for(const x of ['shop-guide-duration','shop-guide-category','shop-guide-link-filter','shop-guide-unchecked','shop-guide-no-match'])if(!buyingHub.includes(x))throw Error('Buyer filter control or empty state missing '+x);

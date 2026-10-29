@@ -161,9 +161,9 @@ try{
   }
   if(route==='/buying/'){
     if(await page.locator('.shop-guide-item').count()!==30)failed.push('buyer hub does not have exactly 30 candidate products');
-    if(await page.locator('.shop-guide-buy').count()!==6)failed.push('six genuine affiliate buttons not available');
+    if(await page.locator('.shop-guide-buy').count()!==12)failed.push('twelve genuine affiliate buttons not available');
     if(await page.locator('[data-buy-selected="yes"]').count()!==6)failed.push('six selected candidate products missing');
-    if(await page.locator('[data-buy-selected="yes"] .shop-guide-buy').count()!==0)failed.push('candidate must never have a non-issued affiliate checkout URL');
+    if(await page.locator('[data-buy-selected="yes"] .shop-guide-buy').count()!==6)failed.push('all six user-issued partner URLs must appear on the six selected products');
     if(await page.locator('[data-buy-linked="no"] .shop-guide-buy').count()>0)failed.push('unverified product has misleading buy button');
     if(await page.locator('.shop-guide-item:visible').count()<=0||await page.locator('.shop-guide-item:visible').count()>=30)failed.push('initial 3-day priority filter not effective');
     if(await page.locator('.shop-guide-group').count()!==6)failed.push('six buying departments missing');
@@ -265,15 +265,25 @@ try{
   await page.locator('#shop-guide-duration').selectOption('30');
   if(await page.locator('.shop-guide-item:visible').count()!==30)errors.push({width,route:'/buying/',issues:['30-day filter should show all 30 candidates']});
   await page.locator('#shop-guide-link-filter').selectOption('linked');
-  if(await page.locator('.shop-guide-item:visible').count()!==6)errors.push({width,route:'/buying/',issues:['linked-only filter must show exactly six verified affiliate offers']});
+  if(await page.locator('.shop-guide-item:visible').count()!==12)errors.push({width,route:'/buying/',issues:['linked-only filter must show exactly twelve verified affiliate offers']});
   await page.locator('#shop-guide-link-filter').selectOption('selected');
   if(await page.locator('.shop-guide-item:visible').count()!==6)errors.push({width,route:'/buying/',issues:['selected-only filter must show exactly six named product picks']});
   for(const id of ['aa-batteries','headlamp','firstaid-kit','wet-wipes','thermal-blanket','manual-opener']){
     const card=page.locator('[data-buy-id="'+id+'"]');
-    if(!await card.isVisible()||await card.locator('.shop-guide-buy').count()!==0)errors.push({width,route:'/buying/',issues:['unissued affiliate product must remain selected-only and non-clickable '+id]});
+    if(!await card.isVisible()||await card.locator('.shop-guide-buy').count()!==1)errors.push({width,route:'/buying/',issues:['newly linked product needs its own verified purchase URL '+id]});
+  }
+  for(const [item,url] of [
+    ['aa-batteries','ieCtE2caFU'],['headlamp','ieCuYrnIu4'],['firstaid-kit','ieCxqq6mui'],
+    ['wet-wipes','ieCyTiU5ts'],['thermal-blanket','ieCBNk88su'],['manual-opener','ieCDsQuq84']
+  ]){
+    const card=page.locator('[data-buy-id="'+item+'"]');
+    if((await card.locator('.shop-guide-buy').getAttribute('href'))!=='https://link.coupang.com/a/'+url)
+      errors.push({width,route:'/buying/',issues:['new offer has incorrect exact product URL '+item]});
+    if(await card.locator('.product-photo-frame--banner').count()!==1)
+      errors.push({width,route:'/buying/',issues:['new offer missing supplier product photo '+item]});
   }
   await page.locator('#shop-guide-link-filter').selectOption('pending');
-  if(await page.locator('.shop-guide-item:visible').count()!==24)errors.push({width,route:'/buying/',issues:['pending filter must show exactly 24 product candidates without URLs']});
+  if(await page.locator('.shop-guide-item:visible').count()!==18)errors.push({width,route:'/buying/',issues:['pending filter must show exactly 18 product candidates without URLs']});
   await page.locator('#shop-guide-link-filter').selectOption('all');
   await page.locator('#shop-guide-category').selectOption('food');
   if(await page.locator('.shop-guide-item:visible').count()!==8)errors.push({width,route:'/buying/',issues:['food category should show eight candidates']});
@@ -303,7 +313,7 @@ try{
   await page.locator('#protocol-mode-new').click();
   if((await page.locator('.protocol-item:visible').count())!==2)errors.push({width,route:'/protocols/',issues:['90-day incremental mode should show two new plans only']});
   await page.locator('#protocol-mode-all').click();
-  if((await page.locator('.protocol-item:visible').count())!==25)errors.push({width,route:'/protocols/',issues:['90-day cumulative inventory must show all 25 items']});
+  if((await page.locator('.protocol-item:visible').count())!==26)errors.push({width,route:'/protocols/',issues:['90-day cumulative inventory must show all 26 items']});
   await page.evaluate(()=>localStorage.setItem('guidehollow-ready-check-v1',JSON.stringify(['lamp','radio'])));
   await page.reload();
   if(!(await page.locator('[data-protocol-item="flashlight"] [data-protocol-check-status]').textContent()||'').includes('체크됨'))errors.push({width,route:'/protocols/',issues:['read-only checklist integration not displaying existing selected item']});

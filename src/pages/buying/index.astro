@@ -4,7 +4,7 @@ import ProductPhoto from '../../components/ProductPhoto.astro';
 import { affiliateOffers, affiliatePhoto } from '../../data/affiliate-product-visuals';
 import { buyingGuideProducts, guideGroups, buyingGuideShortlist } from '../../data/buying-guide';
 const linked=buyingGuideProducts.filter(item=>item.offer);
-const shortlisted=buyingGuideProducts.filter(item=>buyingGuideShortlist[item.id]);
+const recentlyLinked=buyingGuideProducts.filter(item=>buyingGuideShortlist[item.id]&&item.offer);
 ---
 <Base title="재난 대비 구매 가이드: 30가지 준비물과 검증된 쿠팡 상품" description="3일~90일 대비를 위한 30개 구매 후보의 선택 기준과 주의점, 보유 체크를 정리합니다. 쿠팡파트너스 링크는 실제 제공된 상품에만 연결합니다.">
 <div class="container shop-guide-page">
@@ -15,14 +15,14 @@ const shortlisted=buyingGuideProducts.filter(item=>buyingGuideShortlist[item.id]
   <div class="shop-guide-hero-stats" aria-label="구매 가이드 구성">
    <span><strong>{buyingGuideProducts.length}</strong>개 준비물 후보</span>
    <span><strong>{linked.length}</strong>개 등록된 쿠팡 제휴 상품</span>
-   <span><strong>{shortlisted.length}</strong>개 추가 상품 선정 · 링크 대기</span>
+   <span><strong>{recentlyLinked.length}</strong>개 신규 제휴 상품 연결</span>
    <span><strong>{guideGroups.length}</strong>개 분류</span>
   </div>
   <div class="shop-guide-hero-links"><a href="/starter-kit/#starter-personal">우리 집 먼저 점검하기 →</a><a href="/protocols/">3~90일 대비 프로토콜 →</a></div>
  </header>
  <aside class="shop-guide-facts" aria-labelledby="shop-guide-facts-title">
   <h2 id="shop-guide-facts-title">구매하기 전에 꼭 확인하세요</h2>
-  <p>이 페이지의 30개는 <strong>실제 판매 제품 30종이 아니라 구매 검토용 품목 30개</strong>입니다. 제휴 링크가 등록된 것은 {linked.length}개뿐이며, 나머지 {buyingGuideProducts.length-linked.length}개 중 {shortlisted.length}개는 쿠팡파트너스 검색 탭에서 후보를 골랐으나, 제휴 링크가 생성되지 않았습니다. 모델·옵션 확인 및 제휴 링크 발급 전까지 구매 버튼을 표시하지 않습니다. 구입했다고 대비가 끝나는 것은 아니며, 위험 상황에는 <a href="/emergency/">긴급 행동 안내</a>와 공식 지시가 우선입니다.</p>
+  <p>이 페이지의 30개는 <strong>실제 판매 제품 30종이 아니라 구매 검토용 품목 30개</strong>입니다. 제휴 링크가 등록된 상품은 {linked.length}개이며, 이 중 {recentlyLinked.length}개는 최근 추가된 상품입니다. 나머지 {buyingGuideProducts.length-linked.length}개는 상품·옵션·제휴 링크를 확인하기 전까지 구매 버튼을 표시하지 않습니다. 구입했다고 대비가 끝나는 것은 아니며, 위험 상황에는 <a href="/emergency/">긴급 행동 안내</a>와 공식 지시가 우선입니다.</p>
  </aside>
  <section class="shop-guide-controls" aria-labelledby="shop-guide-filter-title">
   <div class="section-head"><span class="section-label">품목 찾기</span><h2 id="shop-guide-filter-title">우리 집에 필요한 물품 고르기</h2></div>
@@ -47,7 +47,7 @@ const shortlisted=buyingGuideProducts.filter(item=>buyingGuideShortlist[item.id]
     <select id="shop-guide-link-filter">
      <option value="all" selected>등록 상품 + 후보 전체</option>
      <option value="linked">등록된 쿠팡 상품만</option>
-     <option value="selected">후보 선정·링크 대기 {shortlisted.length}종</option>
+     <option value="selected">이번에 등록한 상품 {recentlyLinked.length}종</option>
      <option value="pending">링크 검증 대기 품목 전체</option>
     </select>
    </label>
@@ -70,6 +70,7 @@ const shortlisted=buyingGuideProducts.filter(item=>buyingGuideShortlist[item.id]
       <div class="shop-guide-item-top"><span class:list={['shop-guide-state',item.offer?'is-linked':buyingGuideShortlist[item.id]?'is-selected':'is-pending']}>{item.offer?'쿠팡 연결됨':buyingGuideShortlist[item.id]?'상품 후보 선정':'상품 검증 대기'}</span><span class="shop-guide-days">{item.days}일부터</span><span class="shop-guide-priority">{item.priority}</span></div>
       <h4>{item.title}</h4>
       <p class="shop-guide-item-why">{item.why}</p>
+      {item.offer && buyingGuideShortlist[item.id] && <div class="shop-guide-selected-info"><strong>이번에 고른 상품</strong><p>{buyingGuideShortlist[item.id].why}</p><small>구매 전 확인: {buyingGuideShortlist[item.id].verify}</small></div>}
       <dl>
        <div><dt>고르는 기준</dt><dd>{item.criteria}</dd></div>
        <div><dt>주의할 점</dt><dd>{item.caution}</dd></div>
