@@ -120,8 +120,8 @@ try{
   if(route==='/buying/gear/' && await page.locator('#drybag-coupang img').count()!==1)failed.push('Drybag photo missing');
   if(route==='/protocols/'){
     if(await page.locator('.protocol-stage-btn').count()!==6)failed.push('six period selector buttons missing');
-    if(await page.locator('.protocol-item:visible').count()!==17)failed.push('3-day initial essentials must render fifteen items');
-    if(await page.locator('.protocol-item-offer img').count()!==24)failed.push('all 21 approved protocol partner images must exist');
+    if(await page.locator('.protocol-item:visible').count()!==17)failed.push('3-day initial list must render seventeen items');
+    if(await page.locator('.protocol-item-offer img').count()!==24)failed.push('all 24 approved protocol partner images must exist');
     if(!(await page.locator('#protocol-water-warning').textContent()||'').includes('CDC'))failed.push('first-stage water safety guidance missing');
   }
   if(['/starter-kit/','/buying/food/','/buying/gear/','/protocols/','/reviews/','/reviews/emergency-am-fm-radios/'].includes(route)){
@@ -161,7 +161,7 @@ try{
   }
   if(route==='/buying/'){
     if(await page.locator('.shop-guide-item').count()!==30)failed.push('buyer hub does not have exactly 30 candidate products');
-    if(await page.locator('[data-shop-preset]').count()!==3)failed.push('missing connected and pending quick-filter buttons');
+    if(await page.locator('[data-shop-preset]').count()!==3)failed.push('missing connected and newest-product quick-filter buttons');
     if(await page.locator('.shop-guide-buy').count()!==30)failed.push('thirty genuine affiliate buttons not available');
     if(await page.locator('[data-buy-selected="yes"]').count()!==15)failed.push('fifteen newly linked product candidates missing');
     if(await page.locator('[data-buy-selected="yes"] .shop-guide-buy').count()!==15)failed.push('fifteen newest user-issued partner URLs must appear on selected products');
