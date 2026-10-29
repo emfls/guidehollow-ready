@@ -1023,3 +1023,38 @@ main{min-width:0}
  .shop-guide-shortcut-actions button{min-height:54px;padding:10px 12px;gap:2px}
  .shop-guide-shortcut-actions button[aria-pressed="true"]{padding:9px 11px}
 }
+
+/* Buyer decision sequence: positive fit, optional evidence, original dark theme. */
+.review-matched-offer{margin:18px 0 22px;padding:18px;background:#1a3039;border:1px solid #58757a;border-radius:15px}
+.review-matched-offer>h2{font-size:1.22rem;color:#f9e4bf;margin:6px 0 9px;line-height:1.4}
+.review-matched-offer>p{font-size:.84rem;line-height:1.75;color:#d6e4df}
+.review-matched-kicker{font-size:.75rem;font-weight:850;color:#f3c78b}
+.review-matched-offer .ready-shop-card{margin:14px 0}
+.review-matched-note{border-top:1px solid #557078;padding-top:12px}
+.home-fast-fit{font-size:.79rem;line-height:1.55;color:#d7e4df}
+.home-fast-fit strong{display:inline-block;margin-right:5px;color:#f0d2a6}
+.home-fast-water-plan{padding:15px;margin-top:16px;border:1px solid #58767e;border-radius:12px;background:#203943}
+.home-fast-water-plan h4{color:#f8e2bf;margin:0 0 5px;font-size:1rem}
+.home-fast-water-plan p{color:#deece7;font-size:.81rem;line-height:1.6;margin:4px 0 10px}
+.home-fast-water-plan small{display:block;color:#c1d8d4;line-height:1.6}
+.home-fast-water-inputs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:11px 0}
+.home-fast-water-inputs label{display:flex;flex-direction:column;gap:5px;font-size:.79rem;font-weight:750;color:#e6e8dc}
+.home-fast-water-inputs input{width:100%;min-width:0;min-height:44px;padding:9px 12px;border:1px solid #78918e;border-radius:8px;background:#162e37;color:#fff;font:inherit}
+.home-fast-water-answer{padding:10px 12px;background:#2b4549;border-radius:9px;font-weight:750}
+.home-fast-save-actions{display:flex;align-items:center;flex-wrap:wrap;gap:10px 12px;margin-top:16px}
+.home-fast-save-actions button,.home-fast-save-actions a{min-height:44px;padding:10px 12px;border-radius:9px;font-size:.82rem;font-weight:850}
+.home-fast-save-actions button{color:#17292c;background:#f0c48b;border:1px solid #f0c48b;cursor:pointer}
+.home-fast-save-actions a{display:inline-flex;align-items:center;background:#27574d;border:1px solid #81a99d;color:#e7f9f2;text-decoration:none}
+.home-fast-save-actions a[hidden]{display:none!important}
+.home-fast-save-actions p{flex-basis:100%;font-size:.76rem;line-height:1.65;color:#d1e2df;margin:0}
+.shop-guide-model-fit{font-size:.82rem;line-height:1.65;color:#e4ece2;margin:9px 0}
+.shop-guide-model-fit strong{display:block;color:#f1d19e;font-size:.75rem;margin-bottom:3px}
+.shop-guide-decision-details{border-top:1px solid #55727a;margin-top:11px;padding-top:9px}
+.shop-guide-decision-details summary{cursor:pointer;color:#d7f0e7;font-size:.78rem;font-weight:820;min-height:36px;padding:6px 0}
+.shop-guide-decision-details summary:focus-visible{outline:3px solid #f2c485;outline-offset:3px}
+.shop-guide-decision-details dl{margin-top:9px}
+@media(max-width:600px){
+ .home-fast-water-inputs{grid-template-columns:1fr}
+ .home-fast-save-actions button,.home-fast-save-actions a{width:100%;justify-content:center;text-align:center}
+ .review-matched-offer{padding:13px}
+}

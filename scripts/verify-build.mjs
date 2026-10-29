@@ -38,7 +38,9 @@ for(const offer of ['water','tuna','flashlight','radio','battery']){
 }
 if(home.indexOf('emergency-home-action')>home.indexOf('home-fast-check'))throw Error('Purchase UI must never precede emergency action');
 if(!quickComponent.includes('updateQuickCheck')||!quickComponent.includes("results.hidden=answered===0")||!quickComponent.includes('card.hidden=field?.dataset.answered'))throw Error('Result cards must render only when that need is explicitly selected');
-if(quickComponent.includes('localStorage.setItem')||quickComponent.includes('fetch('))throw Error('Read-only quick check must never store or transmit family answers');
+if(!quickComponent.includes("save?.addEventListener('click'")||!quickComponent.includes('localStorage.setItem(quickKey')||!quickComponent.includes('localStorage.setItem(detailKey')||quickComponent.includes('fetch('))throw Error('Quick check persistence must be explicit and local only');
+if(!home.includes('id="home-fast-water-total"')||!home.includes('id="home-fast-save"')||!home.includes('id="home-fast-shop-continue"'))throw Error('Household water estimate and saved-needs buyer continuation missing');
+if(!quickComponent.includes("answer==='have'&&checkId")||!quickComponent.includes('new Set([...(stored as string[]),...confirmed])'))throw Error('Home may add confirmed owned items only; must preserve other saved checks');
 if(!home.includes('쿠팡 파트너스 활동의 일환')||!home.includes('구매하기 ↗'))throw Error('Quick check affiliate disclosure and purchase CTA missing');
 if(!design.includes('.home-fast-questions')||!design.includes('.home-fast-results[hidden]')||!design.includes('.home-fast-result-card[hidden]'))throw Error('Quick check dark mode, responsive grid or result hiding missing');
 const feed=file('rss.xml');
@@ -117,6 +119,11 @@ const buyingHub=file('buying/index.html');
 const buyingData=readFileSync('src/data/buying-guide.ts','utf8');
 const buyingSource=readFileSync('src/pages/buying/index.astro','utf8');
 if((buyingHub.match(/data-buy-id="/g)||[]).length!==30)throw Error('Buyer guide requires 30 actionable categories, without fake listing links');
+if((buyingHub.match(/data-buy-core="yes"/g)||[]).length!==5)throw Error('Five priority buyer products missing');
+if(!buyingSource.includes("get('from')==='quick'")||!buyingSource.includes('quickBuyingIds.has'))throw Error('Saved five-question needs must cross-link into buying decision');
+if(!design.includes('.home-fast-water-plan')||!design.includes('.review-matched-offer'))throw Error('Buyer water and exact-model review design missing');
+const reviewPage=readFileSync('src/pages/reviews/[slug].astro','utf8');
+if(!reviewPage.includes("row.id==='emergency-power-banks-10000-vs-20000'")||!reviewPage.includes("row.id==='emergency-first-aid-kit-and-dressings'")||!reviewPage.includes('PartnerOfferCard offer={actualSaleOffer}'))throw Error('Exact linked models must be visible above unlike-model comparison reviews');
 if((buyingHub.match(/data-shop-preset="/g)||[]).length!==3||!buyingHub.includes('data-shop-preset="linked"')||!buyingHub.includes('data-shop-preset="pending"'))throw Error('Buyer quick filter controls missing');
 if(!buyingHub.includes('응가맨 응고제 10개 + 용변봉투 10장')||!buyingHub.includes('기저귀는 실제 착용 중인')||!buyingHub.includes('평소 급여하는'))throw Error('Pending-category suitability guidance missing');
 if(!design.includes('.shop-guide-shortcut-actions'))throw Error('Quick filter responsive dark styles missing');
@@ -132,7 +139,7 @@ for(const [id,needle] of [
 ]){
  if(!buyingData.includes("'"+id+"':{")||!buyingHub.includes(needle))throw Error('Selected real browser-tab product is not reflected: '+id);
 }
-if(!buyingHub.includes('이번에 등록한 상품')||!buyingHub.includes('value="selected"'))throw Error('Newly linked products filter missing');
+if(!buyingHub.includes('최근 추가된 상품')||!buyingHub.includes('value="selected"'))throw Error('Newly linked products filter missing');
 if(!buyingSource.includes("card.dataset.buySelected==='yes'")||!buyingSource.includes("newlyLinkedBuyingIds"))throw Error('Latest 15 links must have dedicated selection filter');
 
 for(const id of ['water','tuna','flashlight','radio','battery','drybag']){
@@ -143,7 +150,7 @@ for(const id of ['ienLu8j8IC','ienNhlQsPk','ienOFQc21I','ienRftVDYy','ienSxmfDUW
 if((buyingHub.match(/class="shop-guide-buy"/g)||[]).length!==27)throw Error('Buying guide must have 27 real CTA links and zero fabricated pending links');
 const newOfferIds=['ieOGyQEiDQ','ieOIzHSJZk','ieOLFFT9Ua','ieONgl6IV2','ieOPxyN1VI','iePsXGU1F6','iePvyD2Ywe','iePwJgYiAK','iePyyD8lZk','ieQaqXhm9Y','ieQi5ugNwG','ieQkYMMM9Y','ieQmvw3VzU','ieQnVXXJ36','ieQsAO8UbQ'];
 for(const id of newOfferIds)if(!buyingHub.includes('https://link.coupang.com/a/'+id))throw Error('New affiliate link missing from buyer hub: '+id);
-if(!buyingHub.includes('운영자 제외 상품')||!buyingData.includes('온리빙 쉬포켓'))throw Error('Blacklisted portable toilet must remain excluded and traceable');
+if(!buyingHub.includes('대체 상품 구성 확인 중')||!buyingData.includes('온리빙 쉬포켓'))throw Error('Blacklisted portable toilet must remain excluded and traceable');
 if((readFileSync('src/data/protocols.ts','utf8').match(/offer:'/g)||[]).length!==21)throw Error('Staged protocol should contain 21 distinct original and optional affiliate offers');
 const verifiedImageCatalog=readFileSync('src/data/affiliate-product-visuals.ts','utf8');
 for(const id of ['ieCtE2caFU','ieCuYrnIu4','ieCxqq6mui','ieCyTiU5ts','ieCBNk88su','ieCDsQuq84']){
