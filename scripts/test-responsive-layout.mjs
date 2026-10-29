@@ -218,8 +218,12 @@ try{
     if(e.target instanceof Element&&e.target.closest('a[href^="https://link.coupang.com/a/"]'))e.preventDefault();
    },true));
    await page.locator('.shop-guide-item:visible a[href^="https://link.coupang.com/a/"]').first().click();
-   const tracked=await page.evaluate(()=>(window.dataLayer||[]).some(x=>x[0]==='event'&&x[1]==='affiliate_click'&&typeof x[2].offer_code==='string'&&x[2].page_path==='/buying/'));
-   if(!tracked)failed.push('Affiliate click does not register correct event');
+   const tracked=await page.evaluate(()=>({
+    ok:(window.dataLayer||[]).some(x=>x[0]==='event'&&x[1]==='affiliate_click'&&typeof x[2]?.offer_code==='string'&&x[2].page_path==='/buying/'),
+    gtag:typeof window.gtag,
+    events:(window.dataLayer||[]).filter(x=>x[0]==='event').map(x=>x[1]).slice(-4)
+   }));
+   if(!tracked.ok)failed.push('Affiliate click does not register correct event: '+JSON.stringify(tracked));
    await page.locator('#ga4-settings').click();
    await page.waitForLoadState('domcontentloaded');
    const off=await page.evaluate(()=>({
