@@ -45,7 +45,7 @@ Use Node 24 locally; Astro 7 requires Node >=22.23.4.
 - `docs/editorial-policy.ko.md`: emergency safety, ad disclosure, search and product quality policy
 - `docs/ui-editorial-guide.ko.md`: **all chat workstreams' common mobile UI, equal-height card, short-form writing and product UX standard**
 
-**A product-matched Coupang Partners link is active for the Fenix E20 V2.0 flashlight only.** Every other item remains unlinked until its exact product and option are verified. Never create fake recommendations, stock, prices or discounts.
+**Thirty individually issued Coupang Partners offer links** are recorded in `src/data/affiliate-product-visuals.ts`. Never fabricate or replace affiliate links or infer real-time inventory from the existence of an offer.
 
 ## Naver Search Advisor
 
@@ -55,7 +55,23 @@ Ownership code is installed globally:
 <meta name="naver-site-verification" content="4a3c4cef3cedf9582280c00ff70ebff66b9b7de8" />
 ```
 
-The initial `src/site.ts` sets `indexingEnabled:false`, so pages have `noindex, follow`. Site ownership verification works without allowing indexing. Re-enable indexing only after review of public content and links.
+The published `src/site.ts` enables indexing for public, reviewed pages. Only 404/unpublished pages remain excluded.
+
+## Google Analytics 4 (consent-first)
+
+Google Analytics is NOT transmitting traffic data until a real GA4 **web data stream**
+measurement ID (e.g. `G-...`) is configured specifically for
+`https://ready.guidehollow.com`.
+
+1. In [Google Analytics](https://analytics.google.com/), go to **관리 → 데이터 스트림 → 웹 스트림** and create/select the `ready.guidehollow.com` stream; copy its `G-...` **측정 ID** (not the numeric property or stream ID).
+2. In **GitHub → emfls/guidehollow-ready → Settings → Secrets and variables → Actions → Variables**, add the repository variable `READY_GA4_MEASUREMENT_ID` with that measurement ID. Only the measurement ID is needed; do not publish any API secrets or service-account keys.
+3. Re-run the `Build and deploy GuideHollow Ready (Astro)` workflow (or merge a change to `main`). The build injects `PUBLIC_GA4_MEASUREMENT_ID`. When absent or invalid, the generated pages contain no Google tracking tag or consent popup.
+4. Visit the site, choose **분석에 동의**, and verify `page_view` in GA4's Realtime/DebugView. Click a real Coupang product link (you can cancel checkout) and verify the custom `affiliate_click` event with `offer_code`, `page_path`, and `placement`. It measures click intent, **not completed orders/commission**. For per-product reporting, register `offer_code` and optionally `placement` as **event-scoped custom dimensions** in GA4.
+5. Test the **방문 통계 설정** button in the footer. Declining must prevent the Google script from loading and accepting must enable events. Visit `/privacy/` for the published disclosure.
+
+Consent is opt-in, only analytics storage may be granted, no ads storage is requested.
+Google receives no values from household checklist, contact fields, family planning, or user-generated form inputs.
+The Playwright QA uses a **test-only synthetic measurement ID** and blocks Google endpoints; it cannot contaminate the actual GA4 property.
 
 ## Safety
 
