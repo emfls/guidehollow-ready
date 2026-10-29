@@ -55,4 +55,14 @@ export const protocolItems:ProtocolItem[]=[
  {id:'supply-chain',from:60,category:'food',title:'주기적 교체와 생활비 계획',note:'비축을 소비하면서 채우는 순환 방식으로 비용·보관 공간을 관리하세요. 과잉 구매를 피하세요.',guide:'/checklist/'},
  {id:'recovery',from:90,category:'plan',title:'대체 거처·장기 돌봄·복구 계획',note:'계속 집에 머무는 것만 가정하지 마세요. 공식 대피·재난 지원 정보와 가족별 이동 수단을 미리 확인하세요.',guide:'/plan/'},
  {id:'longhealth',from:90,category:'health',title:'위생·건강 관리 지속성',note:'장기간 도움을 받기 어려운 상황을 고려해 개인 의료 연락망, 위생 유지와 폐기물 처리 계획을 갱신하세요.',guide:'/checklist/#kit-medical/'},
+ {id:'readymeal-extra',from:3,category:'food',title:'상온 조리 없는 간편식 추가 선택',note:'비가열 닭가슴살 100g×60개는 대용량 예시입니다. 60개를 구매할 필요는 없으며 알레르기·소비기한·보관 공간을 먼저 점검하세요.',offer:'readymeal',optional:true,guide:'/buying/'},
+ {id:'cable-extra',from:3,category:'power',title:'휴대전화 충전 케이블 확인',note:'기존 보조배터리·충전기가 USB-C to C를 지원하는지 먼저 확인하세요. 삼성 SU-CC3110은 USB-C용 1m 케이블 1개 상품입니다.',offer:'cable',optional:true,guide:'/buying/'},
+ {id:'soap-extra',from:3,category:'health',title:'비누·손 세정제 용기와 리필',note:'리필형 600ml는 호환되는 용기가 있어야 편리합니다. 비누를 이미 보유하면 추가 구매 대신 작동·보관 상태를 점검하세요.',offer:'soap',optional:true,guide:'/buying/'},
+ {id:'bags-extra',from:3,category:'health',title:'위생 폐기물 임시 분리용 봉투',note:'검정 50L×100장 분리수거 봉투 상품입니다. 지자체 종량제봉투를 대신할 수 없으며 보유 수량을 먼저 확인하세요.',offer:'bags',optional:true,guide:'/buying/'},
+ {id:'backpack-extra',from:3,category:'plan',title:'가볍게 휴대할 수 있는 대피 배낭',note:'22L 배낭은 예시입니다. 적재량·착용감이 맞고 이미 사용 가능한 가방이 있다면 별도 구매할 필요가 없습니다.',offer:'backpack',optional:true,guide:'/buying/'},
+ {id:'whistle-extra',from:3,category:'plan',title:'손 닿는 곳에 둘 비상 신호 호루라기',note:'낫소 듀얼호각은 보조 신호 장치입니다. 공식 경보·대피 지시·구조 요청을 대신하지 않습니다.',offer:'whistle',optional:true,guide:'/buying/'},
+ {id:'snacks-extra',from:7,category:'food',title:'별도 간식과 알레르기·소비기한 확인',note:'에너지바 미니 310g×3개는 식사·식수 대용이 아닙니다. 가족 식이에 맞는 경우에만 준비하세요.',offer:'snacks',optional:true,guide:'/buying/'},
+ {id:'lantern-extra',from:7,category:'power',title:'공용 공간의 LED 보조 조명',note:'에너자이저 360 Area 랜턴의 전원 규격·건전지 포함 여부를 상품 상세에서 확인하세요. 기존 조명이 충분하면 중복 구매하지 않습니다.',offer:'lantern',optional:true,guide:'/buying/'},
+ {id:'poncho-extra',from:7,category:'plan',title:'비 오는 날 이동용 판초우의',note:'기존 우비로 충분하다면 추가 구매하지 않아도 됩니다. 판초우의가 침수도로·급류를 지나도 안전하게 해 주는 것은 아닙니다.',offer:'poncho',optional:true,guide:'/buying/'},
+
 ];
