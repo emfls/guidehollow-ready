@@ -20,7 +20,7 @@ const chrome=['/usr/bin/google-chrome','/usr/bin/google-chrome-stable','/opt/goo
 if(!chrome)throw Error('GitHub runner has no Chrome binary for real responsive QA');
 const browser=await chromium.launch({executablePath:chrome,headless:true,args:['--no-sandbox','--disable-dev-shm-usage']});
 await mkdir('.qa-screenshots',{recursive:true});
-const paths=['/','/drill/','/emergency/','/family-emergency/','/family-card/','/situations/','/checklist/','/plan/','/starter-kit/','/protocols/','/buying/food/','/buying/gear/','/sources/','/reviews/','/reviews/fenix-e20-v2-flashlight/','/reviews/emergency-am-fm-radios/','/reviews/emergency-bags-dry-pouches/','/reviews/emergency-blankets-and-hygiene-wipes/','/reviews/emergency-first-aid-kit-and-dressings/','/reviews/emergency-flashlights-headlamps/','/reviews/emergency-kit-set-composition-audit/','/reviews/emergency-power-banks-10000-vs-20000/','/reviews/emergency-products-kc-model-expiry-audit/','/reviews/emergency-retail-option-priority-and-affiliate-gates/','/reviews/coupang-stock-audit-samsung-p3400-p3401/'];
+const paths=['/','/drill/','/emergency/','/family-emergency/','/family-card/','/situations/','/checklist/','/plan/','/starter-kit/','/protocols/','/buying/','/buying/food/','/buying/gear/','/sources/','/reviews/','/reviews/fenix-e20-v2-flashlight/','/reviews/emergency-am-fm-radios/','/reviews/emergency-bags-dry-pouches/','/reviews/emergency-blankets-and-hygiene-wipes/','/reviews/emergency-first-aid-kit-and-dressings/','/reviews/emergency-flashlights-headlamps/','/reviews/emergency-kit-set-composition-audit/','/reviews/emergency-power-banks-10000-vs-20000/','/reviews/emergency-products-kc-model-expiry-audit/','/reviews/emergency-retail-option-priority-and-affiliate-gates/','/reviews/coupang-stock-audit-samsung-p3400-p3401/'];
 const widths=[320,375,390,430,768,1024,1440];
 const errors=[]; let checks=0;let screenshots=0;
 try{
@@ -146,8 +146,8 @@ try{
   if(route==='/starter-kit/' && await page.locator('.ready-shop-footer').count()!==3)failed.push('buy buttons must be separate from all three new product photos');
     // Each outbound affiliate CTA must have a consistent short label, its
   // actual product in the accessible name, and no duplicate embedded CTA.
-  if(['/starter-kit/','/buying/gear/','/buying/food/','/protocols/','/reviews/emergency-am-fm-radios/','/reviews/fenix-e20-v2-flashlight/'].includes(route)){
-    const buttons=page.locator('.ready-shop-footer a,.review-cta,.starter-affiliate-links a[href^="https://link.coupang.com/"],.partner-model-pending .partner-check-action,.protocol-item-offer a[href^="https://link.coupang.com/"],.starter-buy-now,.starter-missing-buy,.simple-buy-button');
+  if(['/starter-kit/','/buying/','/buying/gear/','/buying/food/','/protocols/','/reviews/emergency-am-fm-radios/','/reviews/fenix-e20-v2-flashlight/'].includes(route)){
+    const buttons=page.locator('.ready-shop-footer a,.review-cta,.starter-affiliate-links a[href^="https://link.coupang.com/"],.partner-model-pending .partner-check-action,.protocol-item-offer a[href^="https://link.coupang.com/"],.starter-buy-now,.starter-missing-buy,.simple-buy-button,.shop-guide-buy');
     const num=await buttons.count();
     if(num===0)failed.push('no accessible purchase button found');
     for(const a of await buttons.all()){
@@ -159,13 +159,21 @@ try{
       if(!rel.includes('sponsored')||!rel.includes('noopener'))failed.push('affiliate purchase rel incomplete');
     }
   }
+  if(route==='/buying/'){
+    if(await page.locator('.shop-guide-item').count()!==30)failed.push('buyer hub does not have exactly 30 candidate products');
+    if(await page.locator('.shop-guide-buy').count()!==6)failed.push('six genuine affiliate buttons not available');
+    if(await page.locator('[data-buy-linked="no"] .shop-guide-buy').count()>0)failed.push('unverified product has misleading buy button');
+    if(await page.locator('.shop-guide-item:visible').count()<=0||await page.locator('.shop-guide-item:visible').count()>=30)failed.push('initial 3-day priority filter not effective');
+    if(await page.locator('.shop-guide-group').count()!==6)failed.push('six buying departments missing');
+    if(!await page.locator('#shop-guide-unchecked').isDisabled())failed.push('unchecked item filter must be unavailable without saved checklist');
+  }
   if(route==='/checklist/'&&!details.hasStock)failed.push('stock manager missing');
   if(route==='/reviews/fenix-e20-v2-flashlight/'){
     const a=await page.locator('a[href="https://link.coupang.com/a/idtdhvDZ3A"]').first();
     if(await a.count()===0)failed.push('matching E20 affiliate link missing');
     else if(!(await a.getAttribute('rel')||'').includes('sponsored'))failed.push('affiliate disclosure missing');
   }
-  if(width===390&&['/','/reviews/emergency-am-fm-radios/','/drill/','/emergency/','/family-emergency/','/family-card/','/starter-kit/','/checklist/','/plan/','/reviews/','/reviews/fenix-e20-v2-flashlight/'].includes(route)){
+  if(width===390&&['/','/reviews/emergency-am-fm-radios/','/drill/','/emergency/','/family-emergency/','/family-card/','/starter-kit/','/buying/','/checklist/','/plan/','/reviews/','/reviews/fenix-e20-v2-flashlight/'].includes(route)){
    let name=route==='/'?'home':route.replaceAll('/','_').replace(/^_|_$/g,'');
    await page.screenshot({path:`.qa-screenshots/${name}-390.png`,fullPage:false});screenshots++;
   }
@@ -249,6 +257,32 @@ try{
    await page.locator('#starter-reset').click();
    if(await page.locator('#starter-ready-count').textContent()!=='0')errors.push({width,route:'/starter-kit/',issues:['reset button failed']});
   }
+  await page.evaluate(()=>localStorage.removeItem('guidehollow-ready-check-v1'));
+  await page.goto(`http://127.0.0.1:${PORT}/buying/`);
+  if(await page.locator('.shop-guide-item').count()!==30)errors.push({width,route:'/buying/',issues:['exactly thirty buying candidates required']});
+  await page.locator('#shop-guide-duration').selectOption('30');
+  if(await page.locator('.shop-guide-item:visible').count()!==30)errors.push({width,route:'/buying/',issues:['30-day filter should show all 30 candidates']});
+  await page.locator('#shop-guide-link-filter').selectOption('linked');
+  if(await page.locator('.shop-guide-item:visible').count()!==6)errors.push({width,route:'/buying/',issues:['linked-only filter must show exactly six verified affiliate offers']});
+  await page.locator('#shop-guide-link-filter').selectOption('pending');
+  if(await page.locator('.shop-guide-item:visible').count()!==24)errors.push({width,route:'/buying/',issues:['pending filter must show exactly 24 product candidates without URLs']});
+  await page.locator('#shop-guide-link-filter').selectOption('all');
+  await page.locator('#shop-guide-category').selectOption('food');
+  if(await page.locator('.shop-guide-item:visible').count()!==8)errors.push({width,route:'/buying/',issues:['food category should show eight candidates']});
+  await page.locator('#shop-guide-category').selectOption('all');
+  await page.locator('#shop-guide-duration').selectOption('90');
+  if(await page.locator('.shop-guide-item:visible').count()!==30||!(await page.locator('#shop-guide-period-note').textContent()||'').includes('더 많이 사라는 뜻이 아닙니다'))errors.push({width,route:'/buying/',issues:['90-day stage must not invent additional buying requirements']});
+  await page.evaluate(()=>localStorage.setItem('guidehollow-ready-check-v1',JSON.stringify(['water-bottles','radio'])));
+  await page.reload();
+  if(await page.locator('#shop-guide-unchecked').isDisabled())errors.push({width,route:'/buying/',issues:['read-only detailed checklist toggle not enabled with valid record']});
+  await page.locator('#shop-guide-unchecked').click();
+  if(await page.locator('[data-buy-id="drinking-water"]').isVisible()||await page.locator('[data-buy-id="radio"]').isVisible())errors.push({width,route:'/buying/',issues:['already checked relevant categories should be excluded']});
+  if(await page.evaluate(()=>localStorage.getItem('guidehollow-ready-check-v1'))!=='["water-bottles","radio"]')errors.push({width,route:'/buying/',issues:['buying guide must never modify detailed checklist data']});
+  await page.locator('#shop-guide-clear').click();
+  if(await page.locator('#shop-guide-duration').inputValue()!=='3'||await page.locator('#shop-guide-link-filter').inputValue()!=='all')errors.push({width,route:'/buying/',issues:['reset all filters should return to 3-day complete catalogue view']});
+  await page.evaluate(()=>localStorage.removeItem('guidehollow-ready-check-v1'));
+  await page.reload();
+  if(!await page.locator('#shop-guide-unchecked').isDisabled())errors.push({width,route:'/buying/',issues:['empty record should not claim to know owned products']});
   await page.goto(`http://127.0.0.1:${PORT}/protocols/`);
   if(await page.locator('.protocol-item:visible').count()!==9)errors.push({width,route:'/protocols/',issues:['3-day initial card count incorrect']});
   await page.locator('#protocol-people').fill('3');
