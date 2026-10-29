@@ -358,7 +358,7 @@ try{
   await page.locator('#protocol-mode-new').click();
   if((await page.locator('.protocol-item:visible').count())!==2)errors.push({width,route:'/protocols/',issues:['90-day incremental mode should show two new plans only']});
   await page.locator('#protocol-mode-all').click();
-  if((await page.locator('.protocol-item:visible').count())!==35)errors.push({width,route:'/protocols/',issues:['90-day cumulative inventory must show all 35 items']});
+  if((await page.locator('.protocol-item:visible').count())!==37)errors.push({width,route:'/protocols/',issues:['90-day cumulative inventory must show all 37 items']});
   await page.evaluate(()=>localStorage.setItem('guidehollow-ready-check-v1',JSON.stringify(['lamp','radio'])));
   await page.reload();
   if(!(await page.locator('[data-protocol-item="flashlight"] [data-protocol-check-status]').textContent()||'').includes('체크됨'))errors.push({width,route:'/protocols/',issues:['read-only checklist integration not displaying existing selected item']});
