@@ -95,10 +95,10 @@ export const buyingGuideProducts:GuideProduct[]=[
  */
 export const pendingBuyingGuideNotes: Record<string,{state:string;candidate:string;reason:string;check:string}> = {
  'portable-toilet':{
-  state:'운영자 제외 상품 · 대체 후보 검토 중',
+  state:'대체 상품 구성 확인 중',
   candidate:'응가맨 응고제 10개 + 용변봉투 10장 구성 (검색 결과 후보)',
   reason:'검색 결과 제목에는 봉투와 응고제가 함께 표기되어 있습니다. 실제 구성과 폐기 방법은 아직 확인되지 않았습니다.',
-  check:'온리빙 쉬포켓은 제외합니다. 봉투·응고제 포함 수량, 악취·누수 방지와 사용 후 처리 방법을 상세에서 확인하기 전에는 구매 링크를 연결하지 않습니다.',
+  check:'기존 검토에서 제외한 상품은 소개하지 않습니다. 봉투·응고제 포함 수량과 사용 후 처리 방법을 확인하기 전에는 구매 링크를 연결하지 않습니다.',
  },
  'baby-diapers':{
   state:'가족별 사이즈 확인 · 제휴 링크 미발급',
