@@ -864,3 +864,52 @@ main{min-width:0}
  .protocol-item-offer{width:82px}
 }
 @media print{.ready-shop-footer,.review-cta,.protocol-item-offer a,.starter-affiliate-links a[href^="https://link.coupang.com/"]{display:none!important}}
+
+
+/* 72h quick self-assessment, normal-preparation-only. */
+.home-routine-heading{position:relative}
+.home-routine-start{display:inline-flex;align-items:center;min-height:44px;margin-left:auto;padding:9px 15px;border:1px solid #d8a96b;border-radius:9px;background:#dcb67c;color:#17252c;font-size:.87rem;font-weight:900;text-decoration:none;white-space:nowrap}
+.home-fast-check{border:1px solid #56736f;border-radius:17px;padding:clamp(16px,3vw,28px);margin:18px 0 33px;background:linear-gradient(140deg,#1b3438,#192b37);scroll-margin-top:85px}
+.home-fast-check-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:19px}
+.home-fast-check-head>div{max-width:760px}
+.home-fast-check-head h2{color:#fff1d5;line-height:1.4;font-size:clamp(1.19rem,2.3vw,1.5rem);margin:5px 0 9px}
+.home-fast-check-head p{font-size:.86rem;line-height:1.75;color:#d7e3e0;margin:0}
+.home-fast-protocol-link{display:flex;justify-content:center;align-items:center;border:1px solid #637f80;border-radius:9px;padding:11px 13px;min-height:44px;text-decoration:none;color:#d2f1e6;font-size:.82rem;font-weight:800;white-space:nowrap;flex:none}
+.home-fast-questions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.home-fast-question{border:1px solid #4e6872;border-radius:11px;background:#253b45;padding:13px 14px;min-width:0;margin:0}
+.home-fast-question legend{display:flex;align-items:center;gap:6px;color:#f4f0e6;font-size:.88rem;font-weight:780;line-height:1.5;padding:0;margin:0 0 7px;float:left;width:100%}
+.home-fast-question legend>span:first-child{flex:none;font-size:1.03rem}
+.home-fast-number{font-size:.71rem;color:#eac99a;font-weight:880}
+.home-fast-options{display:grid;grid-template-columns:1fr 1fr;gap:7px;clear:both}
+.home-fast-options label{position:relative;display:flex;min-height:44px;justify-content:center;align-items:center;border:1px solid #688083;background:#1f3039;border-radius:8px;color:#d1dddb;cursor:pointer;font-size:.81rem;font-weight:780;text-align:center;transition:background-color .1s,border-color .1s}
+.home-fast-options label:has(input:checked){background:#39594f;border-color:#aeccaa;color:#f5f8f1}
+.home-fast-options label:has(input[value="need"]:checked){background:#564634;border-color:#efc282;color:#fff1db}
+.home-fast-options input{position:absolute;opacity:0;width:100%;height:100%;cursor:pointer;inset:0;margin:0}
+.home-fast-options label:has(input:focus-visible){outline:3px solid #f4d18d;outline-offset:3px}
+.home-fast-progress{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:14px 0 0;padding:0 2px;color:#c6d7d6;font-size:.8rem}
+.home-fast-progress button{background:transparent;color:#d1e4e0;border:1px solid #66807e;padding:8px 11px;border-radius:7px;min-height:44px;cursor:pointer}
+.home-fast-results{border-top:1px solid #61777b;padding-top:20px;margin-top:15px}
+.home-fast-results[hidden],.home-fast-result-card[hidden],.home-fast-all-ready[hidden]{display:none!important}
+.home-fast-results-head h3{font-size:1.12rem;line-height:1.5;color:#f4e5c9;margin:0 0 4px}
+.home-fast-results-head p{font-size:.84rem;line-height:1.6;color:#cbded9;margin:0 0 15px}
+.home-fast-result-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}
+.home-fast-result-card{display:grid;grid-template-columns:104px minmax(0,1fr);gap:13px;border:1px solid #5a7276;border-radius:12px;padding:13px;background:#243841;min-width:0;align-items:start}
+.home-fast-result-photo{width:104px;max-width:100%;border-radius:10px;overflow:hidden;background:#fff}
+.home-fast-result-photo .product-photo-frame{padding:6px}
+.home-fast-result-copy{min-width:0;display:flex;flex-direction:column;gap:7px;height:100%}
+.home-fast-match-label{font-size:.71rem;color:#ecc28d;font-weight:900}
+.home-fast-result-copy h4{margin:0;color:#fff2e4;font-size:.94rem;line-height:1.45;word-break:keep-all}
+.home-fast-result-copy p{margin:0;color:#d2e1df;font-size:.79rem;line-height:1.58;word-break:keep-all}
+.home-fast-result-copy small{color:#c3d0d0;font-size:.73rem;line-height:1.5;word-break:keep-all}
+.home-fast-result-actions{display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-end;gap:8px;margin-top:auto;padding-top:9px}
+.home-fast-result-actions a{display:inline-flex;justify-content:center;align-items:center;padding:8px 10px;border-radius:8px;font-size:.78rem;line-height:1.4;min-height:44px;font-weight:850;text-decoration:none}
+.home-fast-learn{border:1px solid #6c8b87;color:#d6eee5}
+.home-fast-buy{background:#f0bc79;border:1px solid #f0bc79;color:#17252a}
+.home-fast-disclosure{border-top:1px solid #526a6d;margin:16px 0 0;padding:13px 0 0;color:#c7d5d1;font-size:.78rem;line-height:1.65}
+.home-fast-all-ready{margin:0;padding:12px 14px;background:#25453f;border-radius:9px;color:#d9f0e4;font-size:.82rem;line-height:1.65}
+.home-fast-check-foot{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-top:16px;color:#d0dcda;font-size:.76rem}
+.home-fast-check-foot a{display:inline-flex;align-items:center;min-height:44px;color:#c5f2df;text-decoration:underline;font-weight:850}
+@media(max-width:800px){.home-fast-check-head{flex-direction:column}.home-fast-result-grid{grid-template-columns:1fr}}
+@media(max-width:600px){.home-routine-start{width:100%;justify-content:center;margin:10px 0 0}.home-fast-questions{grid-template-columns:1fr}.home-fast-question{padding:12px}.home-fast-check{margin:13px 0 26px}.home-fast-check-head{margin-bottom:15px}.home-fast-result-card{grid-template-columns:90px minmax(0,1fr);gap:10px}.home-fast-result-photo{width:90px}.home-fast-result-actions{gap:6px}}
+@media(max-width:355px){.home-fast-result-card{grid-template-columns:80px minmax(0,1fr)}.home-fast-result-photo{width:80px}.home-fast-result-actions a{padding:8px 9px}}
+@media print{.home-fast-check .home-fast-options,.home-fast-check .home-fast-buy,.home-routine-start{display:none!important}}
