@@ -23,7 +23,7 @@ if(ga4Id){
   const html=file(target),head=html.split('</head>')[0];
   const tag='https://www.googletagmanager.com/gtag/js?id='+ga4Id;
   if(!head.includes(tag)||!head.includes('window.dataLayer')||!head.includes("gtag('config',ga4Id"))throw Error('Detectable GA4 tag missing from head: '+target);
-  if((html.match(/googletagmanager.com\\/gtag\\/js\\?id=/g)||[]).length!==1)throw Error('Duplicate Google tag or tag not in head: '+target);
+  if(html.split('googletagmanager.com/gtag/js?id=').length!==2)throw Error('Duplicate Google tag or tag not in head: '+target);
   if(html.includes('id="ga4-consent-panel"')||html.includes('ga4-consent-actions'))throw Error('Intrusive analytics popup remains: '+target);
   if(!html.includes('id="ga4-settings"')||!html.includes('affiliate_click')||!html.includes('analytics_storage'))throw Error('GA4 opt-out or affiliate event missing: '+target);
  }
