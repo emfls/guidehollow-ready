@@ -2,8 +2,9 @@
 import Base from '../../layouts/Base.astro';
 import ProductPhoto from '../../components/ProductPhoto.astro';
 import { affiliateOffers, affiliatePhoto } from '../../data/affiliate-product-visuals';
-import { buyingGuideProducts, guideGroups } from '../../data/buying-guide';
+import { buyingGuideProducts, guideGroups, buyingGuideShortlist } from '../../data/buying-guide';
 const linked=buyingGuideProducts.filter(item=>item.offer);
+const shortlisted=buyingGuideProducts.filter(item=>buyingGuideShortlist[item.id]);
 ---
 <Base title="재난 대비 구매 가이드: 30가지 준비물과 검증된 쿠팡 상품" description="3일~90일 대비를 위한 30개 구매 후보의 선택 기준과 주의점, 보유 체크를 정리합니다. 쿠팡파트너스 링크는 실제 제공된 상품에만 연결합니다.">
 <div class="container shop-guide-page">
@@ -14,13 +15,14 @@ const linked=buyingGuideProducts.filter(item=>item.offer);
   <div class="shop-guide-hero-stats" aria-label="구매 가이드 구성">
    <span><strong>{buyingGuideProducts.length}</strong>개 준비물 후보</span>
    <span><strong>{linked.length}</strong>개 등록된 쿠팡 제휴 상품</span>
+   <span><strong>{shortlisted.length}</strong>개 추가 상품 선정 · 링크 대기</span>
    <span><strong>{guideGroups.length}</strong>개 분류</span>
   </div>
   <div class="shop-guide-hero-links"><a href="/starter-kit/#starter-personal">우리 집 먼저 점검하기 →</a><a href="/protocols/">3~90일 대비 프로토콜 →</a></div>
  </header>
  <aside class="shop-guide-facts" aria-labelledby="shop-guide-facts-title">
   <h2 id="shop-guide-facts-title">구매하기 전에 꼭 확인하세요</h2>
-  <p>이 페이지의 30개는 <strong>실제 판매 제품 30종이 아니라 구매 검토용 품목 30개</strong>입니다. 제휴 링크가 등록된 것은 {linked.length}개뿐이며, 나머지는 모델·옵션·제휴 링크 확인 전까지 구매 버튼을 표시하지 않습니다. 구입했다고 대비가 끝나는 것은 아니며, 위험 상황에는 <a href="/emergency/">긴급 행동 안내</a>와 공식 지시가 우선입니다.</p>
+  <p>이 페이지의 30개는 <strong>실제 판매 제품 30종이 아니라 구매 검토용 품목 30개</strong>입니다. 제휴 링크가 등록된 것은 {linked.length}개뿐이며, 나머지 {buyingGuideProducts.length-linked.length}개 중 {shortlisted.length}개는 쿠팡파트너스 검색 탭에서 후보를 골랐으나, 제휴 링크가 생성되지 않았습니다. 모델·옵션 확인 및 제휴 링크 발급 전까지 구매 버튼을 표시하지 않습니다. 구입했다고 대비가 끝나는 것은 아니며, 위험 상황에는 <a href="/emergency/">긴급 행동 안내</a>와 공식 지시가 우선입니다.</p>
  </aside>
  <section class="shop-guide-controls" aria-labelledby="shop-guide-filter-title">
   <div class="section-head"><span class="section-label">품목 찾기</span><h2 id="shop-guide-filter-title">우리 집에 필요한 물품 고르기</h2></div>
@@ -45,7 +47,8 @@ const linked=buyingGuideProducts.filter(item=>item.offer);
     <select id="shop-guide-link-filter">
      <option value="all" selected>등록 상품 + 후보 전체</option>
      <option value="linked">등록된 쿠팡 상품만</option>
-     <option value="pending">링크 검증 대기 품목만</option>
+     <option value="selected">후보 선정·링크 대기 {shortlisted.length}종</option>
+     <option value="pending">링크 검증 대기 품목 전체</option>
     </select>
    </label>
   </div>
@@ -62,9 +65,9 @@ const linked=buyingGuideProducts.filter(item=>item.offer);
   {guideGroups.map(group=><section class="shop-guide-group" data-buy-group={group.id} aria-labelledby={'shop-group-'+group.id}>
    <div class="shop-guide-group-heading"><span aria-hidden="true">{group.icon}</span><div><h3 id={'shop-group-'+group.id}>{group.title}</h3><p>{group.description}</p></div></div>
    <div class="shop-guide-product-grid">
-    {buyingGuideProducts.filter(item=>item.group===group.id).map(item=><article class="shop-guide-item" data-buy-id={item.id} data-buy-days={item.days} data-buy-category={item.group} data-buy-linked={item.offer?'yes':'no'} data-buy-check-id={item.checkId||undefined} hidden={item.days>3}>
+    {buyingGuideProducts.filter(item=>item.group===group.id).map(item=><article class="shop-guide-item" data-buy-id={item.id} data-buy-days={item.days} data-buy-category={item.group} data-buy-linked={item.offer?'yes':'no'} data-buy-selected={buyingGuideShortlist[item.id]?'yes':'no'} data-buy-check-id={item.checkId||undefined} hidden={item.days>3}>
      <div class="shop-guide-item-main">
-      <div class="shop-guide-item-top"><span class:list={['shop-guide-state',item.offer?'is-linked':'is-pending']}>{item.offer?'쿠팡 연결됨':'상품 검증 대기'}</span><span class="shop-guide-days">{item.days}일부터</span><span class="shop-guide-priority">{item.priority}</span></div>
+      <div class="shop-guide-item-top"><span class:list={['shop-guide-state',item.offer?'is-linked':buyingGuideShortlist[item.id]?'is-selected':'is-pending']}>{item.offer?'쿠팡 연결됨':buyingGuideShortlist[item.id]?'상품 후보 선정':'상품 검증 대기'}</span><span class="shop-guide-days">{item.days}일부터</span><span class="shop-guide-priority">{item.priority}</span></div>
       <h4>{item.title}</h4>
       <p class="shop-guide-item-why">{item.why}</p>
       <dl>
@@ -78,7 +81,17 @@ const linked=buyingGuideProducts.filter(item=>item.offer);
        <div class="shop-guide-photo"><ProductPhoto src={affiliatePhoto(item.offer)} offer={item.offer} alt={affiliateOffers[item.offer].alt+' 제품 사진'} fallback={affiliateOffers[item.offer].emoji}/></div>
        <p class="shop-guide-photo-label">{affiliateOffers[item.offer].alt}</p>
        <a href={affiliateOffers[item.offer].url} class="shop-guide-buy" target="_blank" rel="sponsored nofollow noopener noreferrer" aria-label={affiliateOffers[item.offer].alt+' 쿠팡에서 구매하기 (새 창)'}>구매하기 ↗</a>
-      </div> : <div class="shop-guide-unverified"><span aria-hidden="true">⌕</span><strong>구매 링크 준비 중</strong><small>정확한 판매 상품·옵션 및 제휴 링크 확인 전에는 구매 버튼을 표시하지 않습니다.</small></div>}
+      </div> : <div class:list={['shop-guide-unverified',buyingGuideShortlist[item.id]?'has-selected-candidate':'']}><span aria-hidden="true">⌕</span>
+       {buyingGuideShortlist[item.id] ? <>
+        <strong>선정 상품 · 제휴 링크 미발급</strong>
+        <p class="shop-guide-selected-name">{buyingGuideShortlist[item.id].name}</p>
+        <p class="shop-guide-selected-why">{buyingGuideShortlist[item.id].why}</p>
+        <small>구매 전 확인: {buyingGuideShortlist[item.id].verify}</small>
+       </> : <>
+        <strong>구매 링크 준비 중</strong>
+        <small>정확한 판매 상품·옵션 및 제휴 링크 확인 전에는 구매 버튼을 표시하지 않습니다.</small>
+       </>}
+      </div>}
     </article>)}
    </div>
   </section>)}
@@ -123,7 +136,7 @@ function updateGuide(){
   const isChecked=hasCheck&&checked.ids.has(code);
   const checkLabel=card.querySelector<HTMLElement>('[data-check-state]');
   if(checkLabel)checkLabel.textContent=!checked.valid?'체크 기록 확인 불가':!checked.known?'저장된 상세 체크 기록 없음':isChecked?'관련 상세 항목 체크됨 · 품목 수량은 별도 확인':'관련 상세 항목 미체크 · 보유 여부 확인 필요';
-  const show=Number(card.dataset.buyDays)<=days&&(selectedGroup==='all'||selectedGroup===card.dataset.buyCategory)&&(filter==='all'||(filter==='linked')===linked)&&(!uncheckedOnly||(hasCheck&&!isChecked));
+  const show=Number(card.dataset.buyDays)<=days&&(selectedGroup==='all'||selectedGroup===card.dataset.buyCategory)&&(filter==='all'||filter==='linked'&&linked||filter==='pending'&&!linked||filter==='selected'&&card.dataset.buySelected==='yes')&&(!uncheckedOnly||(hasCheck&&!isChecked));
   card.hidden=!show;
   if(show){shown++;if(linked)live++;else pending++;}
  }

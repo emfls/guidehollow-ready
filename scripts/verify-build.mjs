@@ -118,6 +118,20 @@ const buyingData=readFileSync('src/data/buying-guide.ts','utf8');
 const buyingSource=readFileSync('src/pages/buying/index.astro','utf8');
 if((buyingHub.match(/data-buy-id="/g)||[]).length!==30)throw Error('Buyer guide requires 30 actionable categories, without fake listing links');
 if((buyingHub.match(/data-buy-linked="yes"/g)||[]).length!==6||(buyingHub.match(/data-buy-linked="no"/g)||[]).length!==24)throw Error('Exactly six matched Coupang offers and 24 candid pending slots expected');
+if((buyingHub.match(/data-buy-selected="yes"/g)||[]).length!==6)throw Error('Six nominated products must be visible, still pending link creation');
+for(const [id,needle] of [
+ ['aa-batteries','벡셀 알카라인 AA 건전지'],
+ ['headlamp','에너자이저 비전 HD+ LED 헤드랜턴'],
+ ['firstaid-kit','한양 스피드 구급함 대형 19종세트'],
+ ['wet-wipes','탐사 클래식 물티슈 캡형'],
+ ['thermal-blanket','코멧 홈 포근 플리스 똑딱이 담요'],
+ ['manual-opener','코멧 키친 캔오프너 + 병따개'],
+]){
+ if(!buyingData.includes("'"+id+"':{")||!buyingHub.includes(needle))throw Error('Selected real browser-tab product is not reflected: '+id);
+}
+if(!buyingHub.includes('선정 상품 · 제휴 링크 미발급')||!buyingHub.includes('value="selected"'))throw Error('Selected-pending products must be distinct from affiliate-ready products');
+if(!buyingSource.includes("card.dataset.buySelected==='yes'"))throw Error('Selected product filter missing');
+
 for(const id of ['water','tuna','flashlight','radio','battery','drybag']){
  if(!buyingData.includes("offer:'"+id+"'"))throw Error('Expected matching user-supplied offer absent '+id);
 }

@@ -990,3 +990,11 @@ main{min-width:0}
 @media(max-width:600px){.shop-guide-page{padding-top:17px}.shop-guide-hero{padding:21px}.shop-guide-hero h1{font-size:1.73rem}.shop-guide-controls{padding:15px}.shop-guide-filter-grid{grid-template-columns:1fr}.shop-guide-group{padding:13px}.shop-guide-item{padding:13px}.shop-guide-product-option{grid-template-columns:92px minmax(0,1fr);gap:9px}.shop-guide-photo{width:92px}.shop-guide-filter-bottom button{flex:1}.shop-guide-filter-bottom #shop-guide-results-count{width:100%;margin:0}.shop-guide-item dl>div{grid-template-columns:69px minmax(0,1fr)}}
 @media(max-width:350px){.shop-guide-product-option{grid-template-columns:84px minmax(0,1fr)}.shop-guide-photo{width:84px}.shop-guide-buy{min-width:100px;padding:8px 10px}}
 @media print{.shop-guide-hero-links,.shop-guide-filter-bottom,.shop-guide-buy{display:none!important}.shop-guide-item{break-inside:avoid}}
+
+
+/* Editorial selections are candidates, not working affiliate links. */
+.shop-guide-state.is-selected{background:#55503d;color:#f4deb0}
+.shop-guide-unverified.has-selected-candidate{background:#2e3c3e;border-style:solid;border-color:#8b7e5d}
+.shop-guide-unverified .shop-guide-selected-name{color:#fff1d7;font-size:.9rem;font-weight:850;line-height:1.5;margin:0;overflow-wrap:anywhere}
+.shop-guide-unverified .shop-guide-selected-why{color:#d9e5de;font-size:.79rem;line-height:1.63;margin:0;word-break:keep-all}
+.shop-guide-unverified.has-selected-candidate small{color:#eddfbf}
