@@ -20,7 +20,7 @@ const chrome=['/usr/bin/google-chrome','/usr/bin/google-chrome-stable','/opt/goo
 if(!chrome)throw Error('GitHub runner has no Chrome binary for real responsive QA');
 const browser=await chromium.launch({executablePath:chrome,headless:true,args:['--no-sandbox','--disable-dev-shm-usage']});
 await mkdir('.qa-screenshots',{recursive:true});
-const paths=['/','/drill/','/emergency/','/family-emergency/','/family-card/','/situations/','/checklist/','/plan/','/starter-kit/','/buying/food/','/buying/gear/','/sources/','/reviews/','/reviews/fenix-e20-v2-flashlight/','/reviews/emergency-am-fm-radios/','/reviews/emergency-bags-dry-pouches/','/reviews/emergency-blankets-and-hygiene-wipes/','/reviews/emergency-first-aid-kit-and-dressings/','/reviews/emergency-flashlights-headlamps/','/reviews/emergency-kit-set-composition-audit/','/reviews/emergency-power-banks-10000-vs-20000/','/reviews/emergency-products-kc-model-expiry-audit/','/reviews/emergency-retail-option-priority-and-affiliate-gates/','/reviews/coupang-stock-audit-samsung-p3400-p3401/'];
+const paths=['/','/drill/','/emergency/','/family-emergency/','/family-card/','/situations/','/checklist/','/plan/','/starter-kit/','/protocols/','/buying/food/','/buying/gear/','/sources/','/reviews/','/reviews/fenix-e20-v2-flashlight/','/reviews/emergency-am-fm-radios/','/reviews/emergency-bags-dry-pouches/','/reviews/emergency-blankets-and-hygiene-wipes/','/reviews/emergency-first-aid-kit-and-dressings/','/reviews/emergency-flashlights-headlamps/','/reviews/emergency-kit-set-composition-audit/','/reviews/emergency-power-banks-10000-vs-20000/','/reviews/emergency-products-kc-model-expiry-audit/','/reviews/emergency-retail-option-priority-and-affiliate-gates/','/reviews/coupang-stock-audit-samsung-p3400-p3401/'];
 const widths=[320,375,390,430,768,1024,1440];
 const errors=[]; let checks=0;let screenshots=0;
 try{
@@ -113,6 +113,12 @@ try{
   }
   if(route==='/buying/food/' && await page.locator('.ready-shop-card img').count()!==2)failed.push('Water and tuna portraits missing');
   if(route==='/buying/gear/' && await page.locator('#drybag-coupang img').count()!==1)failed.push('Drybag photo missing');
+  if(route==='/protocols/'){
+    if(await page.locator('.protocol-stage-btn').count()!==6)failed.push('six period selector buttons missing');
+    if(await page.locator('.protocol-item:visible').count()!==9)failed.push('3-day initial essentials must render nine items');
+    if(await page.locator('.protocol-item-offer img').count()!==6)failed.push('all six approved partner images must exist');
+    if(!(await page.locator('#protocol-water-warning').textContent()||'').includes('CDC'))failed.push('first-stage water safety guidance missing');
+  }
   if(route==='/checklist/'&&!details.hasStock)failed.push('stock manager missing');
   if(route==='/reviews/fenix-e20-v2-flashlight/'){
     const a=await page.locator('a[href="https://link.coupang.com/a/idtdhvDZ3A"]').first();
@@ -188,6 +194,25 @@ try{
    await page.locator('#starter-reset').click();
    if(await page.locator('#starter-ready-count').textContent()!=='0')errors.push({width,route:'/starter-kit/',issues:['reset button failed']});
   }
+  await page.goto(`http://127.0.0.1:${PORT}/protocols/`);
+  if(await page.locator('.protocol-item:visible').count()!==9)errors.push({width,route:'/protocols/',issues:['3-day initial card count incorrect']});
+  await page.locator('#protocol-people').fill('3');
+  await page.locator('#protocol-water-owned').fill('10');
+  if((await page.locator('#protocol-water-total').textContent())!=='34.2 L'||(await page.locator('#protocol-water-gap').textContent())!=='24.2 L'||(await page.locator('#protocol-water-cartons').textContent())!=='2묶음')errors.push({width,route:'/protocols/',issues:['3-day family water 24L-package estimate incorrect']});
+  await page.locator('button[data-protocol-days="14"]').click();
+  if((await page.locator('#protocol-water-total').textContent())!=='159.6 L'||(await page.locator('#protocol-water-cartons').textContent())!=='7묶음')errors.push({width,route:'/protocols/',issues:['14-day staged water arithmetic incorrect']});
+  await page.locator('button[data-protocol-days="90"]').click();
+  if((await page.locator('#protocol-water-total').textContent())!=='1026.0 L'||!(await page.locator('#protocol-water-cartons-card').isHidden()))errors.push({width,route:'/protocols/',issues:['90-day simulation must hide bulk bottle purchase quantities']});
+  await page.locator('#protocol-mode-new').click();
+  if((await page.locator('.protocol-item:visible').count())!==2)errors.push({width,route:'/protocols/',issues:['90-day incremental mode should show two new plans only']});
+  await page.locator('#protocol-mode-all').click();
+  if((await page.locator('.protocol-item:visible').count())!==25)errors.push({width,route:'/protocols/',issues:['90-day cumulative inventory must show all 25 items']});
+  await page.evaluate(()=>localStorage.setItem('guidehollow-ready-check-v1',JSON.stringify(['lamp','radio'])));
+  await page.reload();
+  if(!(await page.locator('[data-protocol-item="flashlight"] [data-protocol-check-status]').textContent()||'').includes('체크됨'))errors.push({width,route:'/protocols/',issues:['read-only checklist integration not displaying existing selected item']});
+  const storedAfter=await page.evaluate(()=>localStorage.getItem('guidehollow-ready-check-v1'));
+  if(storedAfter!==JSON.stringify(['lamp','radio']))errors.push({width,route:'/protocols/',issues:['protocol wrote back into original checklist data']});
+  await page.evaluate(()=>localStorage.removeItem('guidehollow-ready-check-v1'));
   await page.goto(`http://127.0.0.1:${PORT}/drill/`);
   const first=page.locator('.drill-card').first();
   await first.locator('button[data-answer="correct"]').click();
