@@ -202,7 +202,22 @@ try{
   if(urls.length!==2||!urls.includes('https://link.coupang.com/a/ienOFQc21I')||!urls.includes('https://link.coupang.com/a/idtdhvDZ3A'))errors.push({width,route:'/',issues:['verified product links mismatched or unavailable']});
   const firstA=page.locator('[data-home-fast-product="water"] a.home-fast-buy');
   if(!(await firstA.getAttribute('rel')||'').includes('sponsored')||!(await firstA.getAttribute('aria-label')||'').includes('쿠팡에서 구매하기'))errors.push({width,route:'/',issues:['quick check purchase accessibility or sponsored disclosure missing']});
+  if(await page.evaluate(()=>localStorage.getItem('guidehollow-ready-quick-check-v1'))!==null)errors.push({width,route:'/',issues:['quick check must not store answers without explicit save']});
+  await page.locator('#home-fast-people').fill('3');
+  await page.locator('#home-fast-water-owned').fill('12');
+  if((await page.locator('#home-fast-water-total').textContent())!=='34.2L'||(await page.locator('#home-fast-water-gap').textContent())!=='22.2L'||(await page.locator('#home-fast-water-packs').textContent())!=='1')
+    errors.push({width,route:'/',issues:['household water estimate is inaccurate']});
+  await page.locator('#home-fast-save').click();
+  if(await page.evaluate(()=>localStorage.getItem('guidehollow-ready-quick-check-v1'))===null||!(await page.evaluate(()=>JSON.parse(localStorage.getItem('guidehollow-ready-check-v1')||'[]'))).includes('shelf-food'))
+    errors.push({width,route:'/',issues:['explicit opt-in must persist quiz and merge confirmed ownership without losing checklist data']});
+  await page.goto(`http://127.0.0.1:${PORT}/buying/?from=quick`);
+  if(await page.locator('.shop-guide-item:visible').count()!==2||!(await page.locator('[data-buy-id="drinking-water"]').isVisible())||!(await page.locator('[data-buy-id="flashlight"]').isVisible()))
+    errors.push({width,route:'/buying/',issues:['saved quick check must show exactly the two buyer needs']});
+  await page.goto(`http://127.0.0.1:${PORT}/`);
+  if((await page.locator('.home-fast-result-card:visible').count())!==2)
+    errors.push({width,route:'/',issues:['saved home answers must survive navigation']});
   await page.locator('#home-fast-reset').click();
+  await page.evaluate(()=>localStorage.removeItem('guidehollow-ready-check-v1'));
   if(!await page.locator('#home-fast-results').isHidden()||(await page.locator('.home-fast-result-card:visible').count())!==0)errors.push({width,route:'/',issues:['quick check reset should remove product prompts']});
   const initialHomeCount=await page.locator('#home-checked-count').textContent();
   if(initialHomeCount!=='0')errors.push({width,route:'/',issues:['fresh home should reflect 0 of 22 locally checked']});
@@ -263,6 +278,7 @@ try{
   await page.evaluate(()=>localStorage.removeItem('guidehollow-ready-check-v1'));
   await page.goto(`http://127.0.0.1:${PORT}/buying/`);
   if(await page.locator('.shop-guide-item').count()!==30)errors.push({width,route:'/buying/',issues:['exactly thirty buying candidates required']});
+  if(await page.locator('.shop-guide-item:visible').count()!==5)errors.push({width,route:'/buying/',issues:['initial buyer view should focus on five essential products']});
   await page.locator('[data-shop-preset="linked"]').click();
   if(await page.locator('#shop-guide-duration').inputValue()!=='30'||await page.locator('#shop-guide-link-filter').inputValue()!=='linked'||await page.locator('.shop-guide-item:visible').count()!==27)
     errors.push({width,route:'/buying/',issues:['one-click linked view must expose all 27 offers across preparation periods']});
@@ -302,7 +318,7 @@ try{
   await page.locator('#shop-guide-link-filter').selectOption('pending');
   if(await page.locator('.shop-guide-item:visible').count()!==3)errors.push({width,route:'/buying/',issues:['pending filter must show exactly three product categories without URLs']});
   const blocked=page.locator('[data-buy-id="portable-toilet"]');
-  if(await blocked.locator('.shop-guide-buy').count()!==0 || !(await blocked.textContent()||'').includes('운영자 제외 상품'))
+  if(await blocked.locator('.shop-guide-buy').count()!==0 || !(await blocked.textContent()||'').includes('대체 상품 구성 확인 중'))
     errors.push({width,route:'/buying/',issues:['publisher-blacklisted portable toilet must remain unlinked']});
   await page.locator('#shop-guide-link-filter').selectOption('all');
   await page.locator('#shop-guide-category').selectOption('food');
