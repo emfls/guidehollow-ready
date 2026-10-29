@@ -1,6 +1,6 @@
 import {existsSync,readFileSync,readdirSync} from 'node:fs';
 import {join} from 'node:path';
-const required=['index.html','CNAME','.nojekyll','favicon.svg','robots.txt','sitemap.xml','rss.xml','reviews/index.html','starter-kit/index.html','protocols/index.html','drill/index.html','situations/index.html','checklist/index.html','plan/index.html','buying/food/index.html','buying/gear/index.html','about/index.html','disclosure/index.html','privacy/index.html','sources/index.html'];
+const required=['index.html','CNAME','.nojekyll','favicon.svg','robots.txt','sitemap.xml','rss.xml','reviews/index.html','starter-kit/index.html','protocols/index.html','buying/index.html','drill/index.html','situations/index.html','checklist/index.html','plan/index.html','buying/food/index.html','buying/gear/index.html','about/index.html','disclosure/index.html','privacy/index.html','sources/index.html'];
 const file=(p)=>readFileSync(join('dist',p),'utf8');
 for(const p of required)if(!existsSync(join('dist',p)))throw Error('Build missing '+p);
 if(file('CNAME').trim()!=='ready.guidehollow.com')throw Error('CNAME mismatch');
@@ -113,6 +113,24 @@ if(protocolSource.includes("localStorage.setItem('guidehollow-ready-check-v1'"))
 if(!protocolHtml.includes('https://www.cdc.gov/')||!protocolHtml.includes('https://safekorea.go.kr/'))throw Error('Protocol official sources missing');
 if(!home.includes('/protocols/')||!starter.includes('/protocols/')||!file('checklist/index.html').includes('/protocols/'))throw Error('Protocol not discoverable from homepage, starter hub and checklist');
 if(!file('sitemap.xml').includes('https://ready.guidehollow.com/protocols/'))throw Error('New protocol route missing in sitemap');
+const buyingHub=file('buying/index.html');
+const buyingData=readFileSync('src/data/buying-guide.ts','utf8');
+const buyingSource=readFileSync('src/pages/buying/index.astro','utf8');
+if((buyingHub.match(/data-buy-id="/g)||[]).length!==30)throw Error('Buyer guide requires 30 actionable categories, without fake listing links');
+if((buyingHub.match(/data-buy-linked="yes"/g)||[]).length!==6||(buyingHub.match(/data-buy-linked="no"/g)||[]).length!==24)throw Error('Exactly six matched Coupang offers and 24 candid pending slots expected');
+for(const id of ['water','tuna','flashlight','radio','battery','drybag']){
+ if(!buyingData.includes("offer:'"+id+"'"))throw Error('Expected matching user-supplied offer absent '+id);
+}
+for(const id of ['ienLu8j8IC','ienNhlQsPk','ienOFQc21I','ienRftVDYy','ienSxmfDUW','idtdhvDZ3A'])
+ if(!buyingHub.includes('https://link.coupang.com/a/'+id))throw Error('A previously verified buyer offer was lost '+id);
+if((buyingHub.match(/class="shop-guide-buy"/g)||[]).length!==6)throw Error('Pending product slots may not have deceptive buy buttons');
+if(!buyingHub.includes('쿠팡 파트너스 활동의 일환')||!buyingHub.includes('rel="sponsored nofollow noopener noreferrer"'))throw Error('Buying guide missing affiliate disclosure or rel');
+if(!buyingHub.includes('60일')||!buyingHub.includes('90일')||!buyingHub.includes('30개'))throw Error('Buying guide must distinguish long-range scenarios');
+for(const x of ['shop-guide-duration','shop-guide-category','shop-guide-link-filter','shop-guide-unchecked','shop-guide-no-match'])if(!buyingHub.includes(x))throw Error('Buyer filter control or empty state missing '+x);
+if(!buyingSource.includes('getExistingChecks()')||buyingSource.includes("localStorage.setItem('guidehollow-ready-check-v1'"))throw Error('Buyer guide must never edit existing preparedness checklist records');
+if(!file('sitemap.xml').includes('https://ready.guidehollow.com/buying/'))throw Error('Buyer guide route missing from sitemap');
+for(const page of [home,starter,protocolHtml,file('buying/food/index.html'),file('buying/gear/index.html')])if(!page.includes('href="/buying/"'))throw Error('Buy hub not discoverable from related journey page');
+if(!design.includes('.shop-guide-filter-grid')||!design.includes('.shop-guide-item[hidden]'))throw Error('Responsive mobile buyer list or hidden product states missing');
 const gear=file('buying/gear/index.html');
 for(const id of ['ienLu8j8IC','ienNhlQsPk']){
  const url='https://link.coupang.com/a/'+id;
