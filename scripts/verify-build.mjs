@@ -117,6 +117,9 @@ const buyingHub=file('buying/index.html');
 const buyingData=readFileSync('src/data/buying-guide.ts','utf8');
 const buyingSource=readFileSync('src/pages/buying/index.astro','utf8');
 if((buyingHub.match(/data-buy-id="/g)||[]).length!==30)throw Error('Buyer guide requires 30 actionable categories, without fake listing links');
+if((buyingHub.match(/data-shop-preset="/g)||[]).length!==3||!buyingHub.includes('data-shop-preset="linked"')||!buyingHub.includes('data-shop-preset="pending"'))throw Error('Buyer quick filter controls missing');
+if(!buyingHub.includes('응가맨 응고제 10개 + 용변봉투 10장')||!buyingHub.includes('기저귀는 실제 착용 중인')||!buyingHub.includes('평소 급여하는'))throw Error('Pending-category suitability guidance missing');
+if(!design.includes('.shop-guide-shortcut-actions'))throw Error('Quick filter responsive dark styles missing');
 if((buyingHub.match(/data-buy-linked="yes"/g)||[]).length!==27||(buyingHub.match(/data-buy-linked="no"/g)||[]).length!==3)throw Error('Exactly 27 user-issued affiliate offers and three honest pending slots expected');
 if((buyingHub.match(/data-buy-selected="yes"/g)||[]).length!==15)throw Error('Fifteen newest links must appear under latest-products filter');
 for(const [id,needle] of [
