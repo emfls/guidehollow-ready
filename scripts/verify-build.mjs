@@ -25,6 +25,22 @@ const heroHeading = home.match(/<h1(?:\s[^>]*)?>([\s\S]*?)<\/h1>/)?.[1] ?? '';
 if(!heroHeading.includes('전시·재난 대비,') || !heroHeading.includes('필요한 준비부터.') || /<br\s*\/?>/i.test(heroHeading))throw Error('Main headline should flow without forced line breaks');
 if(home.includes('class="status-dot"')||home.includes('class="eyebrow-dot"')||home.includes('R<span>·</span>'))throw Error('Decorative pseudo-status lights should not appear');
 
+// The emergency-first homepage retains its original three routine links and
+// four situation links. A five-question shopping self-check sits BELOW the
+// emergency action and does not write to the persistent 22-item checklist.
+const quickComponent=readFileSync('src/components/HomeQuickCheck.astro','utf8');
+if(!home.includes('id="home-fast-check"')||!home.includes('class="home-routine-start"')||!home.includes('3일 대비 시작'))throw Error('Prominent three-day starter journey missing from homepage');
+if((home.match(/data-home-fast-question=/g)||[]).length!==5)throw Error('Homepage should show five accessible quick-check questions');
+if((home.match(/data-home-fast-product=/g)||[]).length!==5)throw Error('Five matching product results must exist, hidden until user needs them');
+for(const offer of ['water','tuna','flashlight','radio','battery']){
+ const slug={water:'ienOFQc21I',tuna:'ienRftVDYy',flashlight:'idtdhvDZ3A',radio:'ienLu8j8IC',battery:'ienNhlQsPk'}[offer];
+ if(!home.includes('https://link.coupang.com/a/'+slug))throw Error('Quick check lacks exact approved partner product '+offer);
+}
+if(home.indexOf('emergency-home-action')>home.indexOf('home-fast-check'))throw Error('Purchase UI must never precede emergency action');
+if(!quickComponent.includes('updateQuickCheck')||!quickComponent.includes("results.hidden=answered===0")||!quickComponent.includes('card.hidden=field?.dataset.answered'))throw Error('Result cards must render only when that need is explicitly selected');
+if(quickComponent.includes('localStorage.setItem')||quickComponent.includes('fetch('))throw Error('Read-only quick check must never store or transmit family answers');
+if(!home.includes('쿠팡 파트너스 활동의 일환')||!home.includes('구매하기 ↗'))throw Error('Quick check affiliate disclosure and purchase CTA missing');
+if(!design.includes('.home-fast-questions')||!design.includes('.home-fast-results[hidden]')||!design.includes('.home-fast-result-card[hidden]'))throw Error('Quick check dark mode, responsive grid or result hiding missing');
 const feed=file('rss.xml');
 if (!feed.includes('<rss version="2.0"')||!feed.includes('<language>ko-KR</language>')||!feed.includes('/situations/')||!feed.includes('실시간 재난 경보가 아닙니다'))throw Error('RSS feed is missing safety entries or metadata');
 if (!home.includes('type="application/rss+xml"')||!home.includes('href="/rss.xml"'))throw Error('RSS feed discovery link missing');

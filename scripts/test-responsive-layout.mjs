@@ -58,6 +58,11 @@ try{
     if(await page.locator('.quick-grid .brief-card').count()!==3)failed.push('homepage forces too many competing routine actions');
     if(await page.locator('.situation-hub-grid .situation-hub-card').count()!==4)failed.push('routine situation shortcuts should be four non-duplicate hazards');
     if(await page.locator('.home-checklist-progress').count()!==1)failed.push('22 item local checklist summary missing');
+    if(await page.locator('#home-fast-check').count()!==1||await page.locator('.home-fast-question').count()!==5||await page.locator('.home-fast-result-card').count()!==5)failed.push('five-question check or product mapping missing');
+    if(!(await page.locator('#home-fast-results').isHidden()))failed.push('quick-check product suggestions visible without a user answer');
+    if(await page.locator('.home-routine-start').count()!==1)failed.push('three-day preparedness entry is not prominent');
+    if(await page.locator('a.home-fast-buy').count()!==5)failed.push('five approved product links not accessible from fast check');
+
     if(await page.locator('.site-nav a').count()!==5)failed.push('desktop nav has too many destinations');
     if(width<=540){
      const cols=await page.locator('.situation-hub-grid').evaluate(el=>getComputedStyle(el).gridTemplateColumns.split(' ').length);
@@ -173,6 +178,21 @@ try{
  }
  if(width===390){
   await page.goto(`http://127.0.0.1:${PORT}/`);
+  // Simulate a shopper: only explicitly flagged needs may reveal products.
+  const waterNeed=page.locator('[data-home-fast-question="water"] input[value="need"]');
+  const lightNeed=page.locator('[data-home-fast-question="light"] input[value="need"]');
+  const foodHave=page.locator('[data-home-fast-question="food"] input[value="have"]');
+  await waterNeed.check();
+  await lightNeed.check();
+  await foodHave.check();
+  if((await page.locator('.home-fast-result-card:visible').count())!==2)errors.push({width,route:'/',issues:['fast check should show only two selected product cards']});
+  if(!await page.locator('[data-home-fast-product="water"]').isVisible()||!await page.locator('[data-home-fast-product="light"]').isVisible()||await page.locator('[data-home-fast-product="food"]').isVisible())errors.push({width,route:'/',issues:['fast check need-to-product mapping incorrect']});
+  const urls=await page.locator('.home-fast-result-card:visible .home-fast-buy').evaluateAll(links=>links.map(el=>el.getAttribute('href')));
+  if(urls.length!==2||!urls.includes('https://link.coupang.com/a/ienOFQc21I')||!urls.includes('https://link.coupang.com/a/idtdhvDZ3A'))errors.push({width,route:'/',issues:['verified product links mismatched or unavailable']});
+  const firstA=page.locator('[data-home-fast-product="water"] a.home-fast-buy');
+  if(!(await firstA.getAttribute('rel')||'').includes('sponsored')||!(await firstA.getAttribute('aria-label')||'').includes('쿠팡에서 구매하기'))errors.push({width,route:'/',issues:['quick check purchase accessibility or sponsored disclosure missing']});
+  await page.locator('#home-fast-reset').click();
+  if(!await page.locator('#home-fast-results').isHidden()||(await page.locator('.home-fast-result-card:visible').count())!==0)errors.push({width,route:'/',issues:['quick check reset should remove product prompts']});
   const initialHomeCount=await page.locator('#home-checked-count').textContent();
   if(initialHomeCount!=='0')errors.push({width,route:'/',issues:['fresh home should reflect 0 of 22 locally checked']});
   const baseIds=await page.locator('.home-checklist-progress').getAttribute('data-check-ids');
