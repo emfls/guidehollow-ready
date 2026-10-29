@@ -82,7 +82,7 @@ const verifiedCoupangPhoto='https://thumbnail1.coupangcdn.com/thumbnails/remote/
    <p class="review-product-for">{p.bestFor}</p>
    <div class="review-procon"><strong>좋은 점</strong><p>{p.strengths[0]}</p></div>
    <div class="review-procon review-procon--caution"><strong>아쉬운 점</strong><p>{p.limitations[0]}</p></div>
-   {p.partner ? <a class="btn primary review-cta" href={p.partner.url} target="_blank" rel="sponsored nofollow noopener noreferrer">쇼핑하기 ↗</a> : <span class="review-not-ready">검증된 쿠팡 구매 링크가 아직 없습니다</span>}
+   {p.partner ? <a class="btn primary review-cta" href={p.partner.url} target="_blank" rel="sponsored nofollow noopener noreferrer">구매하기 ↗</a> : <span class="review-not-ready">검증된 쿠팡 구매 링크가 아직 없습니다</span>}
    <details class="review-card-details">
     <summary>다른 특징·주의사항 보기</summary>
     <h3>장점 더 보기</h3><ul>{p.strengths.slice(1).map(s=><li>{s}</li>)}</ul>
