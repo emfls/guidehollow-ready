@@ -8,7 +8,8 @@ const pages=required.filter(p=>p.endsWith('index.html'));
 for(const p of pages){
  const html=file(p);
  if(!html.includes('4a3c4cef3cedf9582280c00ff70ebff66b9b7de8'))throw Error('Missing Naver verification tag: '+p);
- if(!html.includes('noindex, follow'))throw Error('Premature search indexing: '+p);
+ if(!html.includes('name="robots" content="index, follow"'))throw Error('Public page is not indexable: '+p);
+ if(html.includes('name="robots" content="noindex'))throw Error('Noindex leaked into public page: '+p);
  if(!html.includes('ready.guidehollow.com'))throw Error('Wrong canonical host: '+p);
 }
 const design=readFileSync('src/styles/night-layout.css','utf8');
@@ -260,14 +261,18 @@ if(!sitemap.includes('https://ready.guidehollow.com/checklist/'))throw Error('Si
 for(const p of ['/emergency/','/family-emergency/','/family-card/'])if(!sitemap.includes('https://ready.guidehollow.com'+p))throw Error('Sitemap lacks '+p);
 if(sitemap.includes('sample-draft')||existsSync(join('dist','reviews','sample-draft','index.html')))throw Error('Draft leaked');
 if(!file('robots.txt').includes('https://ready.guidehollow.com/sitemap.xml'))throw Error('Robots sitemap missing');
+if(!file('robots.txt').includes('Allow: /')||/Disallow:\\s*\\//.test(file('robots.txt')))throw Error('Public crawlers are blocked by robots.txt');
+const notFound=file('404.html');
+if(!notFound.includes('name="robots" content="noindex, follow"'))throw Error('404 must stay excluded from indexing');
 const reviewDir=join('dist','reviews');
 if(existsSync(reviewDir)){
  for(const entry of readdirSync(reviewDir,{withFileTypes:true}).filter(x=>x.isDirectory())){
   const content=file(`reviews/${entry.name}/index.html`);
-  if(!content.includes('검증 근거')||!content.includes('noindex, follow'))throw Error('Review evidence or noindex missing: '+entry.name);
+  if(!content.includes('검증 근거')||!content.includes('name="robots" content="index, follow"'))throw Error('Published review evidence or index setting missing: '+entry.name);
+  if(content.includes('name="robots" content="noindex'))throw Error('Published review still noindex: '+entry.name);
   if(content.includes('class="review-not-ready"'))throw Error('Unbuyable product listing leaked into public review '+entry.name);
   if((content.match(/class="review-product-compact"/g)||[]).length>(content.match(/class="btn primary review-cta"/g)||[]).length)throw Error('Public review contains product card without affiliate CTA '+entry.name);
 
  }
 }
-console.log('GuideHollow Ready smoke test passed: official-sources safety pages, Naver meta, SEO guard, checklist, review isolation.');
+console.log('GuideHollow Ready smoke test passed: public search indexing enabled, drafts/404 excluded, sitemap/robots valid, safety pages and affiliate integrity.');
