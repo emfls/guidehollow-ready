@@ -90,6 +90,30 @@ export const buyingGuideProducts:GuideProduct[]=[
  * medical kit contents and product safety claims remain unverified; never
  * represent these as personally tested reviews.
  */
+/** Buyer-facing explanations for three categories with no publisher-issued partner URL.
+ * A search-result title is NOT a verified listing, product recommendation or affiliate link.
+ */
+export const pendingBuyingGuideNotes: Record<string,{state:string;candidate:string;reason:string;check:string}> = {
+ 'portable-toilet':{
+  state:'운영자 제외 상품 · 대체 후보 검토 중',
+  candidate:'응가맨 응고제 10개 + 용변봉투 10장 구성 (검색 결과 후보)',
+  reason:'검색 결과 제목에는 봉투와 응고제가 함께 표기되어 있습니다. 실제 구성과 폐기 방법은 아직 확인되지 않았습니다.',
+  check:'온리빙 쉬포켓은 제외합니다. 봉투·응고제 포함 수량, 악취·누수 방지와 사용 후 처리 방법을 상세에서 확인하기 전에는 구매 링크를 연결하지 않습니다.',
+ },
+ 'baby-diapers':{
+  state:'가족별 사이즈 확인 · 제휴 링크 미발급',
+  candidate:'기저귀는 실제 착용 중인 브랜드·단계·밴드형/팬티형 기준으로 선택',
+  reason:'열어둔 쿠팡 검색 탭에서 팬티형을 검색했지만 밴드형 2단계가 표시됩니다. 검색 결과를 그대로 확정 추천하지 않습니다.',
+  check:'아기 체중, 피부 적합성, 사용 중인 유형, 며칠분의 실제 사용량과 수유용품을 각각 확인해야 합니다.',
+ },
+ 'pet-food':{
+  state:'반려동물별 선택 필요 · 제휴 링크 미발급',
+  candidate:'평소 급여하는 강아지·고양이 사료와 배변용품을 따로 확인',
+  reason:'열어둔 검색 탭은 반려견 사료 검색 결과입니다. 반려묘나 처방식이 필요한 동물에게 그대로 추천할 수 없습니다.',
+  check:'동물 종·연령·기존 사료·식이 제한·소비기한을 확인하고 급격한 사료 변경을 피하세요.',
+ },
+};
+
 export const buyingGuideShortlist:Record<string,{name:string;why:string;verify:string}>={
  'aa-batteries':{
   name:'벡셀 알카라인 AA 건전지, 20개입, 1개',
