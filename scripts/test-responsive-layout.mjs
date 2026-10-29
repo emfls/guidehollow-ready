@@ -139,7 +139,22 @@ try{
    if(!aligned)failed.push('review shopping button not aligned at card lower right');
   }
   if(route==='/starter-kit/' && await page.locator('.ready-shop-footer').count()!==3)failed.push('buy buttons must be separate from all three new product photos');
-    if(route==='/checklist/'&&!details.hasStock)failed.push('stock manager missing');
+    // Each outbound affiliate CTA must have a consistent short label, its
+  // actual product in the accessible name, and no duplicate embedded CTA.
+  if(['/starter-kit/','/buying/gear/','/buying/food/','/protocols/','/reviews/emergency-am-fm-radios/','/reviews/fenix-e20-v2-flashlight/'].includes(route)){
+    const buttons=page.locator('.ready-shop-footer a,.review-cta,.starter-affiliate-links a[href^="https://link.coupang.com/"],.partner-model-pending .partner-check-action,.protocol-item-offer a[href^="https://link.coupang.com/"],.starter-buy-now,.starter-missing-buy,.simple-buy-button');
+    const num=await buttons.count();
+    if(num===0)failed.push('no accessible purchase button found');
+    for(const a of await buttons.all()){
+      const text=(await a.textContent()||'').trim();
+      const label=await a.getAttribute('aria-label')||'';
+      const rel=await a.getAttribute('rel')||'';
+      if(!text.startsWith('구매하기'))failed.push('inconsistent purchase CTA: '+text.slice(0,60));
+      if(!label.includes('구매하기')||!label.includes('새 창'))failed.push('product-specific accessible purchase label missing');
+      if(!rel.includes('sponsored')||!rel.includes('noopener'))failed.push('affiliate purchase rel incomplete');
+    }
+  }
+  if(route==='/checklist/'&&!details.hasStock)failed.push('stock manager missing');
   if(route==='/reviews/fenix-e20-v2-flashlight/'){
     const a=await page.locator('a[href="https://link.coupang.com/a/idtdhvDZ3A"]').first();
     if(await a.count()===0)failed.push('matching E20 affiliate link missing');
