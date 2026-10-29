@@ -1,6 +1,6 @@
 import {existsSync,readFileSync,readdirSync} from 'node:fs';
 import {join} from 'node:path';
-const required=['index.html','CNAME','.nojekyll','favicon.svg','robots.txt','sitemap.xml','rss.xml','reviews/index.html','starter-kit/index.html','drill/index.html','situations/index.html','checklist/index.html','plan/index.html','buying/food/index.html','buying/gear/index.html','about/index.html','disclosure/index.html','privacy/index.html','sources/index.html'];
+const required=['index.html','CNAME','.nojekyll','favicon.svg','robots.txt','sitemap.xml','rss.xml','reviews/index.html','starter-kit/index.html','protocols/index.html','drill/index.html','situations/index.html','checklist/index.html','plan/index.html','buying/food/index.html','buying/gear/index.html','about/index.html','disclosure/index.html','privacy/index.html','sources/index.html'];
 const file=(p)=>readFileSync(join('dist',p),'utf8');
 for(const p of required)if(!existsSync(join('dist',p)))throw Error('Build missing '+p);
 if(file('CNAME').trim()!=='ready.guidehollow.com')throw Error('CNAME mismatch');
@@ -81,6 +81,22 @@ if(starter.includes('data-affiliate-offer="drybag" data-offer-check-id='))throw 
 if(!starterSource.includes('syncOfferFilter')||!starterSource.includes("window.addEventListener('pageshow',syncOfferFilter)")||!starterSource.includes('onlyUncheckedOffers'))throw Error('Checklist offer filter does not synchronize on navigation');
 if(starterSource.includes("localStorage.setItem('guidehollow-ready-check-v1'"))throw Error('Read-only purchase filter must not modify detailed checklist');
 if(!design.includes('.starter-offer-filter-actions')||!design.includes('.ready-shop-checkstatus'))throw Error('Purchase filter mobile styles missing');
+const protocolHtml=file('protocols/index.html');
+const protocolSource=readFileSync('src/pages/protocols/index.astro','utf8');
+const protocolData=readFileSync('src/data/protocols.ts','utf8');
+for(const days of [3,7,14,30,60,90]){
+ if(!protocolHtml.includes('data-protocol-days="'+days+'"'))throw Error('Protocol stage missing '+days);
+ if(!protocolData.includes('days:'+days+','))throw Error('Missing defined protocol stage '+days);
+}
+if(!protocolHtml.includes('protocol-water-total')||!protocolHtml.includes('protocol-water-cartons')||!protocolSource.includes('chosenDays>14'))throw Error('Progressive family water calculator missing');
+if(!protocolHtml.includes('정부 의무 기준이 아닌')||!protocolHtml.includes('90일치')||!protocolHtml.includes('국민안전24'))throw Error('Long-term protocols must not be presented as official mandatory purchase quantities');
+for(const id of ['water','tuna','flashlight','radio','battery','drybag'])if(!protocolHtml.includes('data-protocol-item="'+id+'"'))throw Error('Missing core item '+id);
+for(const id of ['ienLu8j8IC','ienNhlQsPk','ienOFQc21I','ienRftVDYy','ienSxmfDUW','idtdhvDZ3A'])if(!protocolHtml.includes('https://link.coupang.com/a/'+id))throw Error('Protocol missing verified single-product affiliate '+id);
+if(!protocolHtml.includes('쿠팡 파트너스 활동의 일환')||!protocolHtml.includes('rel="sponsored nofollow noopener noreferrer"'))throw Error('Protocol affiliate disclosure or sponsored rel missing');
+if(protocolSource.includes("localStorage.setItem('guidehollow-ready-check-v1'"))throw Error('Protocol must never write back the baseline checklist');
+if(!protocolHtml.includes('https://www.cdc.gov/')||!protocolHtml.includes('https://safekorea.go.kr/'))throw Error('Protocol official sources missing');
+if(!home.includes('/protocols/')||!starter.includes('/protocols/')||!file('checklist/index.html').includes('/protocols/'))throw Error('Protocol not discoverable from homepage, starter hub and checklist');
+if(!file('sitemap.xml').includes('https://ready.guidehollow.com/protocols/'))throw Error('New protocol route missing in sitemap');
 const gear=file('buying/gear/index.html');
 for(const id of ['ienLu8j8IC','ienNhlQsPk']){
  const url='https://link.coupang.com/a/'+id;
