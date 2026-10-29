@@ -41,7 +41,8 @@ products:
     verified: true
     checkedAt: 2026-10-29
     partnerProductMatched: true
-    affiliateUrl: "https://link.coupang.com/a/iekaW7GSFE"
+    affiliateUrl: "https://link.coupang.com/a/ienLu8j8IC"
+    partnerHtml: '<a href="https://link.coupang.com/a/ienLu8j8IC" target="_blank" referrerpolicy="unsafe-url"><img src="https://img2a.coupangcdn.com/image/affiliate/banner/2773295bd616eb0be0db4e5b696d0f9f@2x.jpg" alt="소니 핸디 휴대용 라디오 ICF-P26 : FMAM와이드 FM 대응 세로 두어형 블랙 ICF-P26 B, Black" width="120" height="240"></a>'
   - name: "Sangean MMR-99 AM/FM (Desert Tan 국제판)"
     modelNumber: "MMR-99 (AM/FM/BT, Desert Tan; DAB+ 제외)"
     label: "USB-C·손잡이 발전·태양광 겸용 비상 라디오"

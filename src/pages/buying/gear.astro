@@ -2,6 +2,7 @@
 import Base from '../../layouts/Base.astro';
 import { sources } from '../../data/resources';
 import { affiliateOffers, affiliatePhoto } from '../../data/affiliate-product-visuals';
+import PartnerOfferCard from '../../components/PartnerOfferCard.astro';
 const userRadioLink=affiliateOffers.radio.url;
 const userBatteryLink=affiliateOffers.battery.url;
 const flashlightPhoto=affiliatePhoto('flashlight');
@@ -57,6 +58,9 @@ const batteryPhoto=affiliatePhoto('battery');
  <h2 id="bags">4. 비상가방: 평소 가방부터 활용하세요</h2>
  <p>튼튼하고 편하게 메는 배낭이 있으면 먼저 활용하세요. 종이 서류나 의류처럼 젖기 쉬운 물건은 안쪽 방수팩에 나눠 담으면 좋습니다.</p>
  <p>방수팩이 있다고 침수된 도로나 급류 속에서 안전해지는 것은 아닙니다. <a href="/reviews/emergency-bags-dry-pouches/">방수팩 종류 알아보기 →</a></p>
+ <div class="ready-shop-grid ready-shop-grid-single" id="drybag-coupang">
+  <PartnerOfferCard offer="drybag" title="씨투써밋 라이트웨이트 드라이백 5L · 서프 더 웹" note="여벌옷·서류 등 작고 젖기 쉬운 물건을 나눠 담는 5L 보조 방수팩입니다. 침수나 급류에서 물품 보호를 보증하지 않으므로 집에 있는 가방과 비교 후 선택하세요."/>
+ </div>
 
  <h2 id="medical">5. 구급함: 필요한 구성품이 있나요?</h2>
  <p>거즈·붕대·일회용 장갑·가위와 가족의 평소 복용약부터 확인하세요. 사용기한과 포장 손상을 점검하고, 어린이 손이 닿지 않는 곳에 두세요.</p>

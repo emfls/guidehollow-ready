@@ -74,17 +74,28 @@ if(!starter.includes('미체크는 미보유 확정이 아닙니다')||!starter.
 if(!starter.includes('data-missing-for="water"')||!starter.includes('data-missing-for="light"')||!starter.includes('id="starter-show-unchecked"')||!starter.includes('id="starter-copy-missing"'))throw Error('Missing-only product decision tool incomplete');
 if((starter.match(/https:\/\/link\.coupang\.com\/a\/idtdhvDZ3A/g)||[]).length<1)throw Error('Approved affiliate link lost');
 const gear=file('buying/gear/index.html');
-for(const id of ['iekaW7GSFE','iekgMwsEmq']){
+for(const id of ['ienLu8j8IC','ienNhlQsPk']){
  const url='https://link.coupang.com/a/'+id;
  if(!gear.includes(url)||!starter.includes(url))throw Error('Supplied affiliate URL missing from buying page or starter kit: '+id);
  if(!gear.includes('rel="sponsored nofollow noopener noreferrer"')||!starter.includes('rel="sponsored nofollow noopener noreferrer"'))throw Error('Supplied affiliate URL requires disclosure and safe link attributes');
 }
 if(!gear.includes('소니 ICF-P26, 블랙')||!gear.includes('삼성 EB-P3401XUKGKR, 베이지')||!gear.includes('쿠팡 파트너스 활동의 일환')||!starter.includes('삼성 EB-P3401'))throw Error('Coupang model and affiliate notices must reflect observed product options');
 const radioReview=file('reviews/emergency-am-fm-radios/index.html');
-if(!radioReview.includes('iekaW7GSFE')||!radioReview.includes('7757158175')||!radioReview.includes('20909933080')||!radioReview.includes('sponsored nofollow'))throw Error('Matched ICF-P26 radio purchase card not displayed');
+if(!radioReview.includes('ienLu8j8IC')||!radioReview.includes('7757158175')||!radioReview.includes('20909933080')||!radioReview.includes('sponsored nofollow'))throw Error('Matched ICF-P26 radio purchase card not displayed');
 if(!file('reviews/coupang-stock-audit-samsung-p3400-p3401/index.html').includes('EB-P3401XUKGKR'))throw Error('Stock audit has not been updated with verified 2026 Samsung model');
 if(!gear.includes('class="guide-product-visual"')||!gear.includes('페닉스 E20 V2.0 손전등 상품 사진')||!gear.includes('class="partner-product-visual"'))throw Error('Shopping cards need real Fenix photo and media slots for exact radio and battery models');
-if((starter.match(/class="starter-affiliate-product-visual"/g)||[]).length!==2||!starter.includes('라디오 상품 사진 준비 중')||!starter.includes('보조배터리 상품 사진 준비 중'))throw Error('Image placeholders must not pretend to be an unverified product photo');
+if((starter.match(/class="starter-affiliate-product-visual"/g)||[]).length!==2)throw Error('Radio and power-bank photo tiles missing');
+for(const id of ['ienLu8j8IC','ienNhlQsPk','ienOFQc21I','ienRftVDYy','ienSxmfDUW']){
+ if(!starter.includes('https://link.coupang.com/a/'+id))throw Error('Missing user-provided link in starter hub '+id);
+}
+const food=file('buying/food/index.html');
+for(const id of ['ienOFQc21I','ienRftVDYy'])if(!food.includes('https://link.coupang.com/a/'+id))throw Error('Water or tuna product missing '+id);
+if(!gear.includes('ienSxmfDUW'))throw Error('5L drybag product missing in gear');
+if(!radioReview.includes('2773295bd616eb0be0db4e5b696d0f9f@2x.jpg'))throw Error('Radio review missing official product banner');
+const bannerSource=readFileSync('src/data/affiliate-product-visuals.ts','utf8');
+for(const key of ['radio','battery','water','tuna','drybag'])if(!bannerSource.includes(key+": '<a href="))throw Error('Exact vendor banner absent: '+key);
+if(starter.includes('referrerpolicy="unsafe-url"')||food.includes('referrerpolicy="unsafe-url"')||gear.includes('referrerpolicy="unsafe-url"'))throw Error('Unsafe partner HTML attributes leaked into rendered page');
+if(!design.includes('.ready-shop-image img')||!design.includes('object-fit:contain'))throw Error('Portrait banner sizing missing');
 const mediaSource=readFileSync('src/data/affiliate-product-visuals.ts','utf8');
 if(!mediaSource.includes('parseStaticPartnerHtml')||!mediaSource.includes("parsed?.url===offer.url")||!mediaSource.includes("officialImageTags"))throw Error('Product image source must be official and URL-matched');
 const e20=file('reviews/fenix-e20-v2-flashlight/index.html');

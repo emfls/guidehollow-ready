@@ -2,6 +2,7 @@
 import Base from '../layouts/Base.astro';
 import { sources, checkGroups } from '../data/resources';
 import { affiliateOffers, affiliatePhoto } from '../data/affiliate-product-visuals';
+import PartnerOfferCard from '../components/PartnerOfferCard.astro';
 // One-to-many crosswalk, not an automatic completion claim: the six broad areas and 22 detailed checks have different grains.
 const detailCrosswalk={
  water:['water-bottles','water-storage'],
@@ -70,7 +71,7 @@ const groups=[
   </ul>
   <div id="starter-missing-empty" class="starter-missing-empty" hidden>간편 점검의 6개 분야를 모두 확인했습니다. 실제 보유량과 22항목 상세 기록은 별도로 확인하세요.</div>
   <div id="starter-copy-fallback-wrap" class="starter-copy-fallback" hidden><label for="starter-copy-fallback">복사를 허용하지 않는 브라우저입니다. 아래 내용을 직접 선택해 복사하세요.</label><textarea id="starter-copy-fallback" readonly rows="8"></textarea></div>
-  <p class="starter-missing-note"><a href="/checklist/">기본 22개 항목과 영유아·어르신·반려동물 추가 준비 확인 →</a> · 해당하는 물품만 구매하세요. 손전등·라디오·보조배터리 3종의 제휴 링크를 안내합니다. 라디오는 소니 ICF-P26 블랙, 보조배터리는 삼성 EB-P3401 베이지 10,000mAh 모델을 연결 상품에서 확인했습니다. 현재 가격·재고·판매자·배송은 쿠팡에서 확인하세요.</p>
+  <p class="starter-missing-note"><a href="/checklist/">기본 22개 항목과 영유아·어르신·반려동물 추가 준비 확인 →</a> · 해당하는 물품만 구매하세요. 손전등·라디오·보조배터리·생수·참치·드라이백 6종의 제휴 링크를 안내합니다. 라디오는 소니 ICF-P26 블랙, 보조배터리는 삼성 EB-P3401 베이지 10,000mAh 모델을 연결 상품에서 확인했습니다. 현재 가격·재고·판매자·배송은 쿠팡에서 확인하세요.</p>
  </section>
  <section id="starter-cards" class="starter-list-section" aria-labelledby="starter-list-title">
   <div class="starter-list-heading"><div><span class="section-label">기본 6가지</span><h2 id="starter-list-title">먼저 챙길 기본 6가지</h2><p>체크는 '충분한 양과 작동 상태까지 확인했다'는 뜻으로 사용하세요.</p></div><button id="starter-reset" class="starter-reset" type="button">체크 초기화</button></div>
@@ -98,7 +99,15 @@ const groups=[
       <article><div class="starter-affiliate-product-visual" aria-label="삼성 EB-P3401 이미지 표시 영역">{batteryProductImage ? <img src={batteryProductImage} width="160" height="160" loading="lazy" decoding="async" referrerpolicy="no-referrer" alt="삼성 EB-P3401 베이지 보조배터리 상품 이미지"/> : <span role="img" aria-label="보조배터리 상품 사진 준비 중">🔋</span>}</div><div><h4>삼성 EB-P3401 · 10,000mAh</h4><p>쿠팡에 등록된 EB-P3401XUKGKR 베이지·25W, 상품번호 7168741650·옵션 18055607738을 확인했습니다. 케이블·KC 표시·정품·배송은 구매 전 확인하세요.</p><a href={userBatteryLink} target="_blank" rel="sponsored nofollow noopener noreferrer">쿠팡 보조배터리 확인 ↗</a><a href="/reviews/emergency-power-banks-10000-vs-20000/">보조배터리 선택법 →</a></div></article>
     </div>
   </section>
-  <p class="starter-affiliate-notice">손전등·라디오·보조배터리의 쿠팡 이동 버튼은 제휴 링크입니다. 이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다. 등록된 라디오·보조배터리의 모델·선택 옵션을 확인했으나 직접 사용하거나 정품 여부를 검증한 후기가 아닙니다. 가격·재고·정품·A/S·배송은 쿠팡에서 다시 확인하세요.</p>
+  <section class="starter-essential-offers" aria-labelledby="starter-essential-offers-title">
+    <div class="starter-secondary-affiliates-head"><span class="section-label">식수·식량·가방</span><h3 id="starter-essential-offers-title">부족한 생필품은 필요한 수량만</h3><p>실제로 사용하는 식품과 가방을 우선 활용하세요. 이미 충분하다면 추가 구매하지 않아도 됩니다.</p></div>
+    <div class="ready-shop-grid">
+      <PartnerOfferCard offer="water" title="아이시스 무라벨 생수 2L × 12개" note="24L 묶음 상품입니다. 가족별 72시간 참고량과 기존 비축량을 먼저 비교하고, 실제 소비기한·보관 조건·배송을 확인하세요."/>
+      <PartnerOfferCard offer="tuna" title="동원 라이트 스탠다드 참치 100g × 10개" note="상온 식품 비축의 한 가지 예시입니다. 영양·알레르기·소비기한을 확인하고 캔따개와 다른 식품도 준비하세요."/>
+      <PartnerOfferCard offer="drybag" title="씨투써밋 라이트웨이트 드라이백 5L" note="서프 더 웹 색상·1개 구성입니다. 문서와 작은 물품의 방습용으로 검토할 수 있으나 침수 상황의 완전 방수는 보증하지 않습니다."/>
+    </div>
+  </section>
+  <p class="starter-affiliate-notice">손전등·라디오·보조배터리·생수·참치·드라이백의 쿠팡 이동 버튼은 제휴 링크입니다. 이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다. 등록된 라디오·보조배터리의 모델·선택 옵션을 확인했으나 직접 사용하거나 정품 여부를 검증한 후기가 아닙니다. 가격·재고·정품·A/S·배송은 쿠팡에서 다시 확인하세요.</p>
  </section>
  <section class="starter-special" aria-labelledby="starter-special-title">
   <div><span class="section-label">가족에 맞춰 더 준비</span><h2 id="starter-special-title">우리 가족에게 필요한 건 더 챙기세요</h2><p>아기·어르신·반려동물이 함께라면 기본 세트만으로는 부족할 수 있습니다.</p></div>
