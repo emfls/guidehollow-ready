@@ -1005,3 +1005,21 @@ main{min-width:0}
 .shop-guide-selected-info strong{display:block;color:#f2d7aa;font-size:.76rem;margin-bottom:4px}
 .shop-guide-selected-info p{color:#e1ebe2;font-size:.78rem;line-height:1.6;margin:0 0 4px;word-break:keep-all}
 .shop-guide-selected-info small{display:block;color:#d2dcd7;font-size:.74rem;line-height:1.55;word-break:keep-all}
+
+/* Buying hub quick views: preserve the established dark palette and hierarchy. */
+.shop-guide-shortcuts{margin:0 0 16px;padding:16px 18px;border:1px solid #486772;background:#182d36;border-radius:14px}
+.shop-guide-shortcuts-heading strong{display:block;color:#f6e6c9;font-size:1rem;line-height:1.4}
+.shop-guide-shortcuts-heading p{margin:4px 0 13px;color:#cddbdc;font-size:.83rem;line-height:1.6}
+.shop-guide-shortcut-actions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
+.shop-guide-shortcut-actions button{display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:4px;min-width:0;min-height:66px;padding:12px 14px;border:1px solid #5a7980;border-radius:10px;background:#273f49;color:#f4f5eb;text-align:left;cursor:pointer}
+.shop-guide-shortcut-actions button strong{font-size:.93rem;line-height:1.45}
+.shop-guide-shortcut-actions button span{font-size:.76rem;line-height:1.4;color:#cfdcdd;word-break:keep-all}
+.shop-guide-shortcut-actions button[aria-pressed="true"]{border:2px solid #efc286;background:#3d4d45;padding:11px 13px}
+.shop-guide-shortcut-actions button[aria-pressed="true"] strong{color:#ffe2b1}
+.shop-guide-shortcut-actions button:focus-visible{outline:3px solid #f2c485;outline-offset:3px}
+@media(max-width:640px){
+ .shop-guide-shortcuts{padding:13px}
+ .shop-guide-shortcut-actions{grid-template-columns:1fr;gap:7px}
+ .shop-guide-shortcut-actions button{min-height:54px;padding:10px 12px;gap:2px}
+ .shop-guide-shortcut-actions button[aria-pressed="true"]{padding:9px 11px}
+}
