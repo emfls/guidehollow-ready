@@ -156,3 +156,64 @@ for(const [key, detail] of Object.entries(recentOfferNotes)){
   verify:detail.verify,
  };
 }
+
+/** Buyer-friendly crosswalk for ALL 11 published review routes.
+ * "Directly reviewed model" applies only to the two independently matched
+ * Coupang listing options. All other offers are related, distinct products:
+ * never transfer a review's performance tests/certifications to another SKU.
+ */
+export interface ReviewShoppingOffer {
+ offer:AffiliateOfferKey;
+ why:string;
+ sameModel?:boolean;
+}
+export const reviewShoppingOffers:Record<string,ReviewShoppingOffer[]>={
+ 'fenix-e20-v2-flashlight':[
+  {offer:'flashlight',why:'본문에서 다룬 페닉스 E20 V2.0의 연결 상품입니다',sameModel:true},
+  {offer:'aa',why:'AA 건전지 2개를 사용하는 손전등의 예비 전원용. 건전지 동봉 여부와 필요 수량 확인'},
+ ],
+ 'emergency-am-fm-radios':[
+  {offer:'radio',why:'본문에서 다룬 소니 ICF-P26 블랙 옵션입니다',sameModel:true},
+  {offer:'aa',why:'AA 건전지형 기기에만 사용하는 예비 AA 20개입. 수신 테스트 및 건전지 필요량 확인'},
+ ],
+ 'coupang-stock-audit-samsung-p3400-p3401':[
+  {offer:'battery',why:'문서에서 확인한 2026년형 삼성 EB-P3401 베이지 10,000mAh의 연결 상품'},
+  {offer:'cable',why:'USB-C 단자를 사용하는 기기에만 적합한 삼성 C to C 1m 케이블. 호환성 확인'},
+ ],
+ 'emergency-power-banks-10000-vs-20000':[
+  {offer:'battery',why:'비교 대상 EB-P3400·EB-P4520과 다른 2026년형 EB-P3401. 시험·무게·출력 수치를 전용 모델로 혼동 금지'},
+  {offer:'cable',why:'연결 기기가 USB-C C to C를 지원할 경우에만 고려할 1m 케이블'},
+ ],
+ 'emergency-flashlights-headlamps':[
+  {offer:'flashlight',why:'본문의 E12 V3.0과 다른 페닉스 E20 V2.0. AA 2개 교체형 손전등 구매 예시'},
+  {offer:'headlamp',why:'본문의 페츨 제품과 다른 에너자이저 HDCA32 헤드랜턴. 실제 전원·착용감 확인'},
+  {offer:'aa',why:'AA 규격 조명에만 필요한 예비 건전지 20개입. 다른 크기 건전지와 호환되지 않음'},
+ ],
+ 'emergency-bags-dry-pouches':[
+  {offer:'drybag',why:'본문의 동일 제품군 씨투써밋 라이트웨이트 드라이백 5L. 35L 빅리버와 다른 용량·모델'},
+  {offer:'backpack',why:'사용 가능한 배낭이 없다면 검토할 라이트론 22L 경량 배낭'},
+  {offer:'pouch',why:'서류 정리용 PVC 지퍼 파우치. 완전 방수·침수 보호 성능은 미검증'},
+ ],
+ 'emergency-blankets-and-hygiene-wipes':[
+  {offer:'blanket',why:'본문의 SOL 은박 비상담요와 다른 코멧 플리스 일반 담요. 전문 응급담요로 오인 금지'},
+  {offer:'wipes',why:'본문의 씨투써밋 와일더니스 와이프와 다른 탐사 물티슈 100매×10개'},
+ ],
+ 'emergency-first-aid-kit-and-dressings':[
+  {offer:'firstaid',why:'본문의 3M 테가덤 1624W와 별개인 한양 19종 가정용 구급함. 실제 내용물·사용기한 확인'},
+  {offer:'gauze',why:'구급함 소모품용 네오 멸균거즈 포함 드레싱밴드. 테가덤 필름과 다른 제품'},
+ ],
+ 'emergency-kit-set-composition-audit':[
+  {offer:'water',why:'별도 품목인 생수 2L×12개. 비상세트 구성품에 포함된다는 의미가 아님'},
+  {offer:'firstaid',why:'별도 판매 19종 구급함. 이 구급함 하나로 완성형 재난 대비 세트가 되지 않음'},
+  {offer:'backpack',why:'물품을 모아 들기 위한 22L 배낭 예시. 식수·의약품이 포함된 키트가 아님'},
+ ],
+ 'emergency-products-kc-model-expiry-audit':[
+  {offer:'battery',why:'안전 표시·모델번호를 구매자가 확인해야 하는 실제 삼성 EB-P3401 판매 상품 예시'},
+  {offer:'gauze',why:'개별 멸균·사용기한 확인이 필요한 드레싱밴드 판매 상품 예시'},
+ ],
+ 'emergency-retail-option-priority-and-affiliate-gates':[
+  {offer:'flashlight',why:'모델과 개인 제휴 URL을 연결한 페닉스 E20 V2.0 구매 사례'},
+  {offer:'radio',why:'모델 확인 후 연결한 소니 ICF-P26 블랙 라디오 구매 사례'},
+  {offer:'battery',why:'EB-P3400과 별개로 연결된 2026년형 삼성 EB-P3401 베이지 구매 사례'},
+ ],
+};
