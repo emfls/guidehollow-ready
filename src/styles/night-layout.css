@@ -1094,7 +1094,7 @@ main{min-width:0}
 /* Publisher-linked product photography: no decorative border around the media.
    The outer information cards keep their own separation and focus-visible
    outlines on interactive photo links remain intact. */
-:where(
+:is(
  .product-photo-frame,
  .ready-shop-image,
  .shop-guide-photo,
