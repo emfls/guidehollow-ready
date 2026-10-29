@@ -261,7 +261,7 @@ if(!sitemap.includes('https://ready.guidehollow.com/checklist/'))throw Error('Si
 for(const p of ['/emergency/','/family-emergency/','/family-card/'])if(!sitemap.includes('https://ready.guidehollow.com'+p))throw Error('Sitemap lacks '+p);
 if(sitemap.includes('sample-draft')||existsSync(join('dist','reviews','sample-draft','index.html')))throw Error('Draft leaked');
 if(!file('robots.txt').includes('https://ready.guidehollow.com/sitemap.xml'))throw Error('Robots sitemap missing');
-if(!file('robots.txt').includes('Allow: /')||/Disallow:\\s*\\//.test(file('robots.txt')))throw Error('Public crawlers are blocked by robots.txt');
+if(!file('robots.txt').includes('Allow: /')||file('robots.txt').split('\n').some(line=>line.trim()==='Disallow: /'))throw Error('Public crawlers are blocked by robots.txt');
 const notFound=file('404.html');
 if(!notFound.includes('name="robots" content="noindex, follow"'))throw Error('404 must stay excluded from indexing');
 const reviewDir=join('dist','reviews');
