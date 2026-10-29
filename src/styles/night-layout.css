@@ -773,3 +773,15 @@ main{min-width:0}
 @media(max-width:580px){.protocol-page{padding-top:17px}.protocol-hero{padding:22px}.protocol-hero h1{font-size:1.75rem}.protocol-guidance,.protocol-calculator,.protocol-group{padding:15px}.protocol-stage-picker{grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}.protocol-stage-btn{min-height:71px}.protocol-stage-btn strong{font-size:1.11rem}.protocol-stage-btn small{font-size:.7rem}.protocol-result-grid{grid-template-columns:1fr 1fr}.protocol-result-grid>div{padding:12px}.protocol-result-grid>div:last-child{grid-column:1/-1}.protocol-item{padding:12px;gap:10px}.protocol-item-offer{width:83px}.protocol-item-offer img{width:80px;height:160px}.protocol-item-offer a{font-size:.7rem}.protocol-selected{padding:17px}.protocol-calc-inputs label{padding:11px}.protocol-filterbar{padding:11px}.protocol-display-modes{width:100%}.protocol-display-modes button{flex:1}}
 @media(max-width:365px){.protocol-stage-picker{grid-template-columns:repeat(2,minmax(0,1fr))}.protocol-hero-actions{flex-direction:column}.protocol-item-offer{width:76px}.protocol-item-offer img{width:74px;height:148px}}
 @media print{.protocol-item-offer a,.protocol-hero-actions,.protocol-display-modes{display:none!important}.protocol-page{color:#000}.protocol-item{break-inside:avoid}}
+
+
+/* Entry points to the duration-aware preparation journey. */
+.home-protocol-banner{display:flex;align-items:center;gap:17px;background:#253e44;border:1px solid #7a9382;border-radius:14px;padding:19px 22px;margin:24px 0 11px;color:#fff2dc;text-decoration:none}
+.home-protocol-banner>span:first-child{display:grid;place-items:center;width:47px;height:47px;border-radius:10px;background:#405b50;color:#f4dbb3;font-size:1.6rem;flex:none}
+.home-protocol-banner>div{min-width:0;flex:1}
+.home-protocol-banner strong{font-size:1.04rem;line-height:1.5;display:block}
+.home-protocol-banner p{font-size:.82rem;line-height:1.65;color:#ccdcd7;margin:5px 0 0}
+.home-protocol-banner>span:last-child{font-size:1.3rem;color:#f2d3a8}
+.starter-protocol-route{margin:12px 0 16px}
+.starter-protocol-route a,.checklist-protocol-route{display:inline-flex;align-items:center;min-height:44px;padding:9px 13px;font-size:.85rem;color:#c7f0dd;background:#27463f;border:1px solid #668d7d;border-radius:9px;text-decoration:none;font-weight:850}
+@media(max-width:540px){.home-protocol-banner{gap:11px;padding:15px}.home-protocol-banner>span:first-child{width:40px;height:40px}.home-protocol-banner strong{font-size:.92rem}.home-protocol-banner p{font-size:.78rem}}
