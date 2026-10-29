@@ -2,10 +2,12 @@
 import Base from '../../layouts/Base.astro';
 import ProductPhoto from '../../components/ProductPhoto.astro';
 import { affiliateOffers, affiliatePhoto } from '../../data/affiliate-product-visuals';
-import { buyingGuideProducts, guideGroups, buyingGuideShortlist, newlyLinkedBuyingIds, pendingBuyingGuideNotes } from '../../data/buying-guide';
+import { buyingGuideProducts, guideGroups, buyingGuideShortlist, newlyLinkedBuyingIds, latestLinkedBuyingIds } from '../../data/buying-guide';
 const linked=buyingGuideProducts.filter(item=>item.offer);
 const newlyLinkedSet=new Set<string>(newlyLinkedBuyingIds);
 const recentlyLinked=buyingGuideProducts.filter(item=>newlyLinkedSet.has(item.id)&&item.offer);
+const latestLinkedSet=new Set<string>(latestLinkedBuyingIds);
+const latestLinked=buyingGuideProducts.filter(item=>latestLinkedSet.has(item.id)&&item.offer);
 const primaryBuyingIds=new Set(['drinking-water','canned-protein','flashlight','radio','powerbank']);
 ---
 <Base title="재난 대비 구매 가이드: 30가지 준비물과 검증된 쿠팡 상품" description="3일~90일 대비를 위한 30개 구매 후보의 선택 기준과 주의점, 보유 체크를 정리합니다. 쿠팡파트너스 링크는 실제 제공된 상품에만 연결합니다.">
@@ -18,13 +20,13 @@ const primaryBuyingIds=new Set(['drinking-water','canned-protein','flashlight','
    <span><strong>{buyingGuideProducts.length}</strong>개 준비물 후보</span>
    <span><strong>{linked.length}</strong>개 등록된 쿠팡 제휴 상품</span>
    <span><strong>{primaryBuyingIds.size}</strong>개 먼저 살펴볼 핵심 품목</span>
-   <span><strong>{buyingGuideProducts.length-linked.length}</strong>개 가족별 선택·확인 대기</span>
+   <span><strong>{latestLinked.length}</strong>개 생활·돌봄 추가 품목</span>
   </div>
   <div class="shop-guide-hero-links"><a href="/starter-kit/#starter-personal">우리 집 먼저 점검하기 →</a><a href="/protocols/">3~90일 대비 프로토콜 →</a></div>
  </header>
  <aside class="shop-guide-facts" aria-labelledby="shop-guide-facts-title">
   <h2 id="shop-guide-facts-title">구매하기 전에 꼭 확인하세요</h2>
-  <p>이 페이지의 30개는 <strong>실제 판매 제품 30종이 아니라 구매 검토용 품목 30개</strong>입니다. 제휴 링크가 등록된 상품은 {linked.length}개이며, 이 중 {recentlyLinked.length}개는 최근 추가된 상품입니다. 나머지 {buyingGuideProducts.length-linked.length}개는 상품·옵션·제휴 링크를 확인하기 전까지 구매 버튼을 표시하지 않습니다. 구입했다고 대비가 끝나는 것은 아니며, 위험 상황에는 <a href="/emergency/">긴급 행동 안내</a>와 공식 지시가 우선입니다.</p>
+  <p>30개 준비 품목 모두에 사용자 제공 <strong>쿠팡 상품별 제휴 링크</strong>가 등록되어 있습니다. 상품을 실제 사용해 시험한 결과가 아니며, <strong>기저귀는 밴드형 2단계, 사료는 반려견용</strong>처럼 가족에 따라 적합하지 않은 품목도 있습니다. 이미 가진 물품과 수량부터 확인하고, 가격·배송·구성은 구매 시점의 쿠팡 안내를 확인하세요. 위험 상황에는 <a href="/emergency/">긴급 행동 안내</a>와 공식 지시가 우선입니다.</p>
  </aside>
  <section class="shop-guide-shortcuts" aria-label="준비물 빠른 보기">
   <div class="shop-guide-shortcuts-heading">
@@ -34,7 +36,7 @@ const primaryBuyingIds=new Set(['drinking-water','canned-protein','flashlight','
   <div class="shop-guide-shortcut-actions">
    <button type="button" data-shop-preset="initial" aria-pressed="true"><strong>핵심 5개 먼저</strong><span>식수·음식·손전등·라디오·예비 전원</span></button>
    <button type="button" data-shop-preset="linked" aria-pressed="false"><strong>쿠팡 연결 {linked.length}종</strong><span>등록된 상품만 모아보기</span></button>
-   <button type="button" data-shop-preset="pending" aria-pressed="false"><strong>연결 대기 {buyingGuideProducts.length-linked.length}종</strong><span>구매 버튼 없는 검토 품목</span></button>
+   <button type="button" data-shop-preset="fresh" aria-pressed="false"><strong>추가 연결 {latestLinked.length}종</strong><span>비상 화장실·기저귀·반려견 사료</span></button>
   </div>
  </section>
  <section class="shop-guide-controls" aria-labelledby="shop-guide-filter-title">
@@ -58,10 +60,10 @@ const primaryBuyingIds=new Set(['drinking-water','canned-protein','flashlight','
    </label>
    <label for="shop-guide-link-filter">구매 가능 상태
     <select id="shop-guide-link-filter">
-     <option value="all" selected>등록 상품 + 후보 전체</option>
+     <option value="all" selected>전체 품목</option>
      <option value="linked">등록된 쿠팡 상품만</option>
      <option value="selected">최근 추가된 상품 {recentlyLinked.length}종</option>
-     <option value="pending">링크 검증 대기 품목 전체</option>
+     <option value="fresh">이번에 추가된 상품 {latestLinked.length}종</option>
     </select>
    </label>
   </div>
@@ -79,7 +81,7 @@ const primaryBuyingIds=new Set(['drinking-water','canned-protein','flashlight','
   {guideGroups.map(group=><section class="shop-guide-group" data-buy-group={group.id} aria-labelledby={'shop-group-'+group.id}>
    <div class="shop-guide-group-heading"><span aria-hidden="true">{group.icon}</span><div><h3 id={'shop-group-'+group.id}>{group.title}</h3><p>{group.description}</p></div></div>
    <div class="shop-guide-product-grid">
-    {buyingGuideProducts.filter(item=>item.group===group.id).map(item=><article class="shop-guide-item" data-buy-id={item.id} data-buy-days={item.days} data-buy-category={item.group} data-buy-linked={item.offer?'yes':'no'} data-buy-selected={newlyLinkedSet.has(item.id)?'yes':'no'} data-buy-check-id={item.checkId||undefined} data-buy-core={primaryBuyingIds.has(item.id)?'yes':'no'} hidden={item.days>3}>
+    {buyingGuideProducts.filter(item=>item.group===group.id).map(item=><article class="shop-guide-item" data-buy-id={item.id} data-buy-days={item.days} data-buy-category={item.group} data-buy-linked={item.offer?'yes':'no'} data-buy-selected={newlyLinkedSet.has(item.id)?'yes':'no'} data-buy-fresh={latestLinkedSet.has(item.id)?'yes':'no'} data-buy-check-id={item.checkId||undefined} data-buy-core={primaryBuyingIds.has(item.id)?'yes':'no'} hidden={item.days>3}>
      <div class="shop-guide-item-main">
       <div class="shop-guide-item-top"><span class:list={['shop-guide-state',item.offer?'is-linked':buyingGuideShortlist[item.id]?'is-selected':'is-pending']}>{item.offer?'쿠팡 연결됨':buyingGuideShortlist[item.id]?'상품 후보 선정':'상품 검증 대기'}</span><span class="shop-guide-days">{item.days}일부터</span><span class="shop-guide-priority">{item.priority}</span></div>
       <h4>{item.title}</h4>
@@ -106,12 +108,6 @@ const primaryBuyingIds=new Set(['drinking-water','canned-protein','flashlight','
         <p class="shop-guide-selected-name">{buyingGuideShortlist[item.id].name}</p>
         <p class="shop-guide-selected-why">{buyingGuideShortlist[item.id].why}</p>
         <small>구매 전 확인: {buyingGuideShortlist[item.id].verify}</small>
-       </> : pendingBuyingGuideNotes[item.id] ? <>
-        <strong>{pendingBuyingGuideNotes[item.id].state}</strong>
-        <p class="shop-guide-selected-name">{pendingBuyingGuideNotes[item.id].candidate}</p>
-        <p class="shop-guide-selected-why">{pendingBuyingGuideNotes[item.id].reason}</p>
-        <small>구매 전 확인: {pendingBuyingGuideNotes[item.id].check}</small>
-        <small>사용자 발급 제휴 링크가 없으므로 구매하기 버튼은 표시하지 않습니다.</small>
        </> : <>
         <strong>구매 링크 준비 중</strong>
         <small>정확한 판매 상품·옵션 및 제휴 링크 확인 전에는 구매 버튼을 표시하지 않습니다.</small>
@@ -177,7 +173,7 @@ function updateGuide(){
   const isChecked=hasCheck&&checked.ids.has(code);
   const checkLabel=card.querySelector<HTMLElement>('[data-check-state]');
   if(checkLabel)checkLabel.textContent=!checked.valid?'체크 기록 확인 불가':!checked.known?'저장된 상세 체크 기록 없음':isChecked?'관련 상세 항목 체크됨 · 품목 수량은 별도 확인':'관련 상세 항목 미체크 · 보유 여부 확인 필요';
-  const show=Number(card.dataset.buyDays)<=days&&(selectedGroup==='all'||selectedGroup===card.dataset.buyCategory)&&(filter==='all'||filter==='linked'&&linked||filter==='pending'&&!linked||filter==='selected'&&card.dataset.buySelected==='yes')&&(!uncheckedOnly||(hasCheck&&!isChecked))&&(!coreOnly||card.dataset.buyCore==='yes')&&(!quickOnly||quickBuyingIds.has(card.dataset.buyId||''));
+  const show=Number(card.dataset.buyDays)<=days&&(selectedGroup==='all'||selectedGroup===card.dataset.buyCategory)&&(filter==='all'||filter==='linked'&&linked||filter==='fresh'&&card.dataset.buyFresh==='yes'||filter==='selected'&&card.dataset.buySelected==='yes')&&(!uncheckedOnly||(hasCheck&&!isChecked))&&(!coreOnly||card.dataset.buyCore==='yes')&&(!quickOnly||quickBuyingIds.has(card.dataset.buyId||''));
   card.hidden=!show;
   if(show){shown++;if(linked)live++;else pending++;}
  }
@@ -187,11 +183,11 @@ function updateGuide(){
   const selected=!uncheckedOnly&&selectedGroup==='all'&&(
    preset==='initial'&&days===3&&filter==='all'&&coreOnly&&!quickOnly||
    preset==='linked'&&days===30&&filter==='linked'&&!quickOnly||
-   preset==='pending'&&days===30&&filter==='pending'&&!quickOnly
+   preset==='fresh'&&days===30&&filter==='fresh'&&!quickOnly
   );
   button.setAttribute('aria-pressed',String(selected));
  }
- if(status)status.textContent=shown+'개 품목 표시 · 구매 링크 '+live+'개 · 선택 안내 '+pending+'개';
+ if(status)status.textContent=shown+'개 품목 표시 · 구매 링크 '+live+'개'+(pending?' · 연결 확인 중 '+pending+'개':'');
  if(focusNote)focusNote.textContent=quickOnly?'홈 진단에서 확인이 필요하다고 선택한 '+quickBuyingIds.size+'개 품목입니다. 다시 점검하거나 이미 보유한 물품이 있다면 구매를 미뤄도 됩니다.':coreOnly?'처음에는 5개 핵심 품목만 표시합니다. 기간·종류를 바꾸면 더 많은 품목을 살펴볼 수 있습니다.':'품목 수보다 집에 실제로 부족한 물품을 우선하세요. 가격과 배송은 구매 전에 쿠팡에서 확인하세요.';
  if(noMatch)noMatch.hidden=shown!==0;
  if(note)note.textContent=!checked.valid?'상세 체크 기록을 읽을 수 없어 미체크 필터를 끕니다. 기존 기록은 변경하지 않았습니다.':!checked.known?'상세 체크 기록이 없습니다. /checklist/에서 기본 22항목을 점검하면 관련 항목 확인 상태를 볼 수 있습니다.':'미체크는 미보유 확정이 아닙니다. 여러 품목이 같은 상세 항목과 연결될 수 있으므로 집에 있는 수량·상태부터 확인하세요.';
@@ -201,7 +197,7 @@ for(const button of presetButtons)button.addEventListener('click',()=>{
  const preset=button.dataset.shopPreset;
  if(stage)stage.value=preset==='initial'?'3':'30';
  if(category)category.value='all';
- if(linkFilter)linkFilter.value=preset==='linked'?'linked':preset==='pending'?'pending':'all';
+ if(linkFilter)linkFilter.value=preset==='linked'?'linked':preset==='fresh'?'fresh':'all';
  uncheckedOnly=false;
  quickOnly=false;
  coreOnly=preset==='initial';
