@@ -218,6 +218,7 @@ try{
     errors.push({width,route:'/',issues:['saved home answers must survive navigation']});
   await page.locator('#home-fast-reset').click();
   await page.evaluate(()=>localStorage.removeItem('guidehollow-ready-check-v1'));
+  await page.reload();
   if(!await page.locator('#home-fast-results').isHidden()||(await page.locator('.home-fast-result-card:visible').count())!==0)errors.push({width,route:'/',issues:['quick check reset should remove product prompts']});
   const initialHomeCount=await page.locator('#home-checked-count').textContent();
   if(initialHomeCount!=='0')errors.push({width,route:'/',issues:['fresh home should reflect 0 of 22 locally checked']});
