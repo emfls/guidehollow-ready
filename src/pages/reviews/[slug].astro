@@ -4,6 +4,7 @@ import { render } from 'astro:content';
 import { getPublishedReviews } from '../../lib/reviews';
 import { resolvePartnerLink } from '../../lib/partner-code';
 import ProductPhoto from '../../components/ProductPhoto.astro';
+import PartnerOfferCard from '../../components/PartnerOfferCard.astro';
 export async function getStaticPaths() {
  const rows=await getPublishedReviews();
  return rows.map(row=>({params:{slug:row.id},props:{row}}));
@@ -13,6 +14,16 @@ const {Content}=await render(row);
 const products=row.data.products.map(p=>({...p,partner:resolvePartnerLink(p)}));
 const date=row.data.publishedDate.toISOString().slice(0,10);
 const isSimpleE20=row.id==='fenix-e20-v2-flashlight';
+const actualSaleOffer=row.id==='emergency-power-banks-10000-vs-20000'?'battery':row.id==='emergency-first-aid-kit-and-dressings'?'firstaid':undefined;
+const saleComparison=actualSaleOffer==='battery'?{
+ title:'현재 연결된 구매 상품: 삼성 EB-P3401XUKGKR (2026년형, 10,000mAh)',
+ why:'정전 대비 휴대용 예비 전원으로 검토할 수 있는 별도 2026년형입니다. 제조사 표기는 USB-C 2포트·최대 25W이며, 아래 EB-P3400·EB-P4520 비교와는 다른 모델입니다.',
+ caution:'EB-P3400의 무게·KC 번호·독립 시험 수치를 EB-P3401에 그대로 적용하지 않습니다. 실제 옵션·정품 유통·배송 조건을 판매 페이지에서 확인하세요.',
+}:actualSaleOffer==='firstaid'?{
+ title:'현재 연결된 구매 상품: 한양 스피드 구급함 대형 19종세트',
+ why:'이미 구성품이 들어 있는 구급함을 찾는 가정이 확인할 수 있는 판매 상품입니다. 기본 비상물품을 한곳에 정리하는 용도입니다.',
+ caution:'구성품 19종의 개별 규격·멸균·사용기한은 판매 상세에서 확인하세요. 아래 테가덤 1624W 필름은 이 구급함과 다른 상품이며 포함된다고 보증하지 않습니다.',
+}:undefined;
 const featured=isSimpleE20?products[0]:undefined;
 const verifiedCoupangPhoto='https://thumbnail1.coupangcdn.com/thumbnails/remote/212x212ex/image/vendor_inventory/9c13/0524ccbea15e678332b3299a00596c66101a6e50f267850bb9970650169a.jpg';
 ---
@@ -63,8 +74,8 @@ const verifiedCoupangPhoto='https://thumbnail1.coupangcdn.com/thumbnails/remote/
 <div class="container review-reading">
  <nav class="review-breadcrumb"><a href="/reviews/">제품·준비물 가이드</a><span aria-hidden="true">›</span><span>자세히 보기</span></nav>
  <header class="review-reading-head">
-  <span class="review-chip">{row.data.affiliate?'구매 링크가 있는 상품':'제품 정보 · 구매 전 참고'}</span>
-  {row.data.affiliate && <p class="review-affiliate-top">이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.</p>}
+  <span class="review-chip">{row.data.affiliate||actualSaleOffer?'판매 제품 확인 · 구매 전 참고':'제품 정보 · 구매 전 참고'}</span>
+  {(row.data.affiliate||actualSaleOffer) && <p class="review-affiliate-top">이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.</p>}
   <h1>{row.data.title}</h1>
   <p>{row.data.description}</p>
   <span class="review-date">검토 {date} · 제품 {products.length}개</span>
@@ -72,6 +83,13 @@ const verifiedCoupangPhoto='https://thumbnail1.coupangcdn.com/thumbnails/remote/
  {row.data.keyTakeaways.length>0 && <section class="review-quick-read" aria-labelledby="quick-review-title">
   <h2 id="quick-review-title">먼저 이것만 확인하세요</h2>
   <ul>{row.data.keyTakeaways.slice(0,3).map(text=><li>{text}</li>)}</ul>
+ </section>}
+ {actualSaleOffer && saleComparison && <section class="review-matched-offer" aria-labelledby="review-matched-offer-title">
+  <span class="review-matched-kicker">지금 구매할 상품 · 비교 제품과 모델 구분</span>
+  <h2 id="review-matched-offer-title">{saleComparison.title}</h2>
+  <p>{saleComparison.why}</p>
+  <PartnerOfferCard offer={actualSaleOffer} title={saleComparison.title} note={saleComparison.caution}/>
+  <p class="review-matched-note"><strong>아래 제품 비교는 참고 자료입니다.</strong> 모델번호가 다른 제품의 시험 결과를 현재 판매 상품에 적용하지 않습니다. 결제 전에 쿠팡에서 실제 옵션·가격·배송을 확인하세요.</p>
  </section>}
  {products.length>0 && <div class="review-product-grid" aria-label="제품별 쉬운 비교">
   {products.map((p,i)=><section class="review-product-compact">
