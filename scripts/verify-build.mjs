@@ -139,7 +139,7 @@ for(const [id,needle] of [
 ]){
  if(!buyingData.includes("'"+id+"':{")||!buyingHub.includes(needle))throw Error('Selected real browser-tab product is not reflected: '+id);
 }
-if(!buyingHub.includes('이번에 등록한 상품')||!buyingHub.includes('value="selected"'))throw Error('Newly linked products filter missing');
+if(!buyingHub.includes('최근 추가된 상품')||!buyingHub.includes('value="selected"'))throw Error('Newly linked products filter missing');
 if(!buyingSource.includes("card.dataset.buySelected==='yes'")||!buyingSource.includes("newlyLinkedBuyingIds"))throw Error('Latest 15 links must have dedicated selection filter');
 
 for(const id of ['water','tuna','flashlight','radio','battery','drybag']){
