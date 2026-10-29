@@ -12,7 +12,7 @@ concurrency:
 jobs:
   build:
     env:
-      PUBLIC_GA4_MEASUREMENT_ID: ${{ vars.READY_GA4_MEASUREMENT_ID }}
+      PUBLIC_GA4_MEASUREMENT_ID: G-6YFWRC72RG
     runs-on: ubuntu-latest
     timeout-minutes: 12
     steps:
