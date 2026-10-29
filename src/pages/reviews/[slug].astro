@@ -13,18 +13,19 @@ export async function getStaticPaths() {
 }
 const {row}=Astro.props;
 const {Content}=await render(row);
-const products=row.data.products.map(p=>({...p,partner:resolvePartnerLink(p)}));
+// Only show personally issued, exact-option product links. Other comparison models stay in archival source data.
+const products=row.data.products.map(p=>({...p,partner:resolvePartnerLink(p)})).filter(p=>Boolean(p.partner));
 const date=row.data.publishedDate.toISOString().slice(0,10);
 const isSimpleE20=row.id==='fenix-e20-v2-flashlight';
 const actualSaleOffer=row.id==='emergency-power-banks-10000-vs-20000'?'battery':row.id==='emergency-first-aid-kit-and-dressings'?'firstaid':undefined;
 const saleComparison=actualSaleOffer==='battery'?{
  title:'현재 연결된 구매 상품: 삼성 EB-P3401XUKGKR (2026년형, 10,000mAh)',
- why:'정전 대비 휴대용 예비 전원으로 검토할 수 있는 별도 2026년형입니다. 제조사 표기는 USB-C 2포트·최대 25W이며, 아래 EB-P3400·EB-P4520 비교와는 다른 모델입니다.',
- caution:'EB-P3400의 무게·KC 번호·독립 시험 수치를 EB-P3401에 그대로 적용하지 않습니다. 실제 옵션·정품 유통·배송 조건을 판매 페이지에서 확인하세요.',
+ why:'정전 대비 휴대용 예비 전원으로 검토할 수 있는 2026년형 삼성 EB-P3401입니다. USB-C 2포트·최대 25W 등은 삼성 공식 사양 기준이며, 실제 구성·가격·배송은 판매 화면에서 확인하세요.',
+ caution:'일부 이전 출시 제품의 시험 수치가 아니라 이 상품의 실제 옵션과 제조사 사양을 기준으로 선택하세요. KC·정품 유통·배송·케이블 동봉 여부는 판매 페이지에서 확인하세요.',
 }:actualSaleOffer==='firstaid'?{
  title:'현재 연결된 구매 상품: 한양 스피드 구급함 대형 19종세트',
  why:'이미 구성품이 들어 있는 구급함을 찾는 가정이 확인할 수 있는 판매 상품입니다. 기본 비상물품을 한곳에 정리하는 용도입니다.',
- caution:'구성품 19종의 개별 규격·멸균·사용기한은 판매 상세에서 확인하세요. 아래 테가덤 1624W 필름은 이 구급함과 다른 상품이며 포함된다고 보증하지 않습니다.',
+ caution:'구성품 19종의 개별 규격·멸균 여부·사용기한은 판매 상세에서 확인하세요. 다른 드레싱 제품의 구성과 혼동하지 마세요.',
 }:undefined;
 const featured=isSimpleE20?products[0]:undefined;
 const reviewOffers=reviewShoppingOffers[row.id]??[];
@@ -86,41 +87,41 @@ const verifiedCoupangPhoto='https://thumbnail1.coupangcdn.com/thumbnails/remote/
 <div class="container review-reading">
  <nav class="review-breadcrumb"><a href="/reviews/">제품·준비물 가이드</a><span aria-hidden="true">›</span><span>자세히 보기</span></nav>
  <header class="review-reading-head">
-  <span class="review-chip">{row.data.affiliate||actualSaleOffer||additionalOffers.length?'관련 구매 상품 있음 · 비교 모델 구분':'제품 정보 · 구매 전 참고'}</span>
+  <span class="review-chip">쿠팡 제휴 상품 연결 · 구매 전 참고</span>
   {(row.data.affiliate||actualSaleOffer||additionalOffers.length>0) && <p class="review-affiliate-top">이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.</p>}
   <h1>{row.data.title}</h1>
   <p>{row.data.description}</p>
-  <span class="review-date">검토 {date} · 제품 {products.length}개</span>
+  <span class="review-date">자료 검토 {date} · 이 글의 직접 연결 모델 {products.length}종 · 관련 판매 상품 {reviewOffers.length}종</span>
  </header>
  {row.data.keyTakeaways.length>0 && <section class="review-quick-read" aria-labelledby="quick-review-title">
   <h2 id="quick-review-title">먼저 이것만 확인하세요</h2>
   <ul>{row.data.keyTakeaways.slice(0,3).map(text=><li>{text}</li>)}</ul>
  </section>}
  {actualSaleOffer && saleComparison && <section class="review-matched-offer" aria-labelledby="review-matched-offer-title">
-  <span class="review-matched-kicker">지금 구매할 상품 · 비교 제품과 모델 구분</span>
+  <span class="review-matched-kicker">쿠팡파트너스 등록 · 구매할 상품</span>
   <h2 id="review-matched-offer-title">{saleComparison.title}</h2>
   <p>{saleComparison.why}</p>
   <PartnerOfferCard offer={actualSaleOffer} title={saleComparison.title} note={saleComparison.caution}/>
-  <p class="review-matched-note"><strong>아래 제품 비교는 참고 자료입니다.</strong> 모델번호가 다른 제품의 시험 결과를 현재 판매 상품에 적용하지 않습니다. 결제 전에 쿠팡에서 실제 옵션·가격·배송을 확인하세요.</p>
+  <p class="review-matched-note">쿠팡에서 이 상품의 정확한 옵션·현재 가격·배송·반품 조건을 확인한 후 구매를 결정하세요.</p>
  </section>}
  {additionalOffers.length>0 && <section class="review-related-buying" aria-labelledby="review-related-title">
-  <span class="review-matched-kicker">현재 등록된 쿠팡 상품 · 부족한 품목만 구매</span>
-  <h2 id="review-related-title">이 글과 함께 확인할 실제 판매 상품</h2>
-  <p>아래 상품은 사용자 제공 쿠팡파트너스 링크에 연결된 <strong>정확한 판매 상품명·옵션</strong>입니다. 비교 글의 다른 모델과 동일하다는 뜻이 아니며, 해당 모델의 시험·인증·성능을 전용하지 않습니다. 집에 있는 물품·규격·가족 조건을 먼저 확인하세요.</p>
+  <span class="review-matched-kicker">쿠팡파트너스 등록 상품 · 부족한 품목만 구매</span>
+  <h2 id="review-related-title">선택 가능한 판매 상품</h2>
+  <p>아래에는 게시자가 제공한 쿠팡파트너스 링크가 있는 상품만 표시합니다. 현재 가격·재고·배송은 변동될 수 있으므로 판매 화면에서 다시 확인하세요. 가족 상황과 보유 장비에 맞는 경우에만 선택하세요.</p>
   <div class="review-related-buy-grid">
    {additionalOffers.map(item=><PartnerOfferCard offer={item.offer} title={affiliateOffers[item.offer].alt} note={item.why}/>)}
   </div>
  </section>}
  {products.length>0 && <div class="review-product-grid" aria-label="제품별 쉬운 비교">
   {products.map((p,i)=><section class="review-product-compact">
-   <div class="review-product-top"><span>제품 {i+1}</span><span>{p.partner?'구매 링크 확인':'구매 링크 미확인'}</span></div>
+   <div class="review-product-top"><span>제품 {i+1}</span><span>쿠팡 구매 링크 등록</span></div>
    {p.partner?.imageUrl && <div class="review-product-photo"><ProductPhoto src={p.partner.imageUrl} alt={p.name+' '+p.modelNumber+' 제품 사진'}/></div>}
    <h2>{p.name}</h2>
    <p class="review-model">{p.modelNumber}</p>
    <p class="review-product-for">{p.bestFor}</p>
    <div class="review-procon"><strong>좋은 점</strong><p>{p.strengths[0]}</p></div>
    <div class="review-procon review-procon--caution"><strong>아쉬운 점</strong><p>{p.limitations[0]}</p></div>
-   {p.partner ? <a class="btn primary review-cta" href={p.partner.url} target="_blank" rel="sponsored nofollow noopener noreferrer" aria-label={p.name+' 쿠팡에서 구매하기 (새 창)'}>구매하기 ↗</a> : <span class="review-not-ready">이 비교 모델의 동일 옵션 구매 링크는 미확인 · 위의 연결 상품은 별도 제품</span>}
+   {p.partner && <a class="btn primary review-cta" href={p.partner.url} target="_blank" rel="sponsored nofollow noopener noreferrer" aria-label={p.name+' 쿠팡에서 구매하기 (새 창)'}>구매하기 ↗</a>}
    <details class="review-card-details">
     <summary>다른 특징·주의사항 보기</summary>
     <h3>장점 더 보기</h3><ul>{p.strengths.slice(1).map(s=><li>{s}</li>)}</ul>
@@ -132,8 +133,8 @@ const verifiedCoupangPhoto='https://thumbnail1.coupangcdn.com/thumbnails/remote/
  <details class="review-source-expand">
   <summary>검증 근거와 상세 설명 펼쳐보기 <span aria-hidden="true">⌄</span></summary>
   <div class="review-source-content readable"><Content/>
-   {products.map(p=><section><h3>{p.name} 확인 자료</h3><p>{p.verificationNotes}</p><p><a href={p.officialUrl} target="_blank" rel="noopener noreferrer">공식 제품 안내</a></p></section>)}
-   <section class="references"><h2>자료·출처</h2><ul>{row.data.sources.map(url=><li><a href={url} target="_blank" rel="noopener noreferrer">{url}</a></li>)}</ul></section>
+   {products.map(p=><section><h3>{p.name} 확인 자료</h3><p>{p.verificationNotes}</p><p><a href={p.officialUrl} target="_blank" rel="noopener noreferrer">제조사 공식 제품 안내</a></p></section>)}
+   <p><a href="/sources/">공식 재난 대응 정보·출처 확인</a>. 과거에 검토한 다른 판매 모델은 구매 추천 목록에 표시하지 않습니다.</p>
   </div>
  </details>
  <aside class="review-reading-next"><div><strong>무엇부터 준비해야 할지 모르겠다면?</strong><p>물·식량·전원·구급용품을 한 번에 점검하세요.</p></div><a href="/starter-kit/" class="btn primary">준비물 6가지 보기 →</a></aside>
