@@ -161,6 +161,7 @@ try{
   }
   if(route==='/buying/'){
     if(await page.locator('.shop-guide-item').count()!==30)failed.push('buyer hub does not have exactly 30 candidate products');
+    if(await page.locator('[data-shop-preset]').count()!==3)failed.push('missing connected and pending quick-filter buttons');
     if(await page.locator('.shop-guide-buy').count()!==27)failed.push('twenty-seven genuine affiliate buttons not available');
     if(await page.locator('[data-buy-selected="yes"]').count()!==15)failed.push('fifteen newly linked product candidates missing');
     if(await page.locator('[data-buy-selected="yes"] .shop-guide-buy').count()!==15)failed.push('fifteen newest user-issued partner URLs must appear on selected products');
@@ -262,6 +263,19 @@ try{
   await page.evaluate(()=>localStorage.removeItem('guidehollow-ready-check-v1'));
   await page.goto(`http://127.0.0.1:${PORT}/buying/`);
   if(await page.locator('.shop-guide-item').count()!==30)errors.push({width,route:'/buying/',issues:['exactly thirty buying candidates required']});
+  await page.locator('[data-shop-preset="linked"]').click();
+  if(await page.locator('#shop-guide-duration').inputValue()!=='30'||await page.locator('#shop-guide-link-filter').inputValue()!=='linked'||await page.locator('.shop-guide-item:visible').count()!==27)
+    errors.push({width,route:'/buying/',issues:['one-click linked view must expose all 27 offers across preparation periods']});
+  await page.locator('[data-shop-preset="pending"]').click();
+  if(await page.locator('.shop-guide-item:visible').count()!==3 || await page.locator('.shop-guide-item:visible .shop-guide-buy').count()!==0)
+    errors.push({width,route:'/buying/',issues:['one-click pending view must show all three unlinked products and zero fake buttons']});
+  if(!(await page.locator('[data-buy-id="portable-toilet"]').textContent()||'').includes('응가맨 응고제 10개 + 용변봉투 10장'))
+    errors.push({width,route:'/buying/',issues:['portable-toilet candidate details missing or hidden in pending view']});
+  if(!(await page.locator('[data-buy-id="baby-diapers"]').textContent()||'').includes('밴드형') || !(await page.locator('[data-buy-id="pet-food"]').textContent()||'').includes('반려견'))
+    errors.push({width,route:'/buying/',issues:['pending animal and diaper options lack suitability warnings']});
+  await page.locator('[data-shop-preset="initial"]').click();
+  if(await page.locator('#shop-guide-duration').inputValue()!=='3'||await page.locator('#shop-guide-link-filter').inputValue()!=='all')
+    errors.push({width,route:'/buying/',issues:['one-click initial view did not restore three-day preparation']});
   await page.locator('#shop-guide-duration').selectOption('30');
   if(await page.locator('.shop-guide-item:visible').count()!==30)errors.push({width,route:'/buying/',issues:['30-day filter should show all 30 candidates']});
   await page.locator('#shop-guide-link-filter').selectOption('linked');
