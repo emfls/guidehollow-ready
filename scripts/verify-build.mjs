@@ -73,6 +73,14 @@ if(!starter.includes('완료로 자동 처리하지 않습니다')||!design.incl
 if(!starter.includes('미체크는 미보유 확정이 아닙니다')||!starter.includes('현재 가격·재고·판매자·배송은 쿠팡에서 확인하세요'))throw Error('Shopping area lacks non-coercive disclosure of verification limits');
 if(!starter.includes('data-missing-for="water"')||!starter.includes('data-missing-for="light"')||!starter.includes('id="starter-show-unchecked"')||!starter.includes('id="starter-copy-missing"'))throw Error('Missing-only product decision tool incomplete');
 if((starter.match(/https:\/\/link\.coupang\.com\/a\/idtdhvDZ3A/g)||[]).length<1)throw Error('Approved affiliate link lost');
+if(!starter.includes('id="starter-offer-filter"')||!starter.includes('id="starter-offer-toggle"')||!starter.includes('id="starter-offer-status"'))throw Error('Checklist-linked purchasing filter UI missing');
+for(const id of ['lamp','radio','powerbank','water-bottles','shelf-food']){
+ if(!starter.includes('data-offer-check-id="'+id+'"'))throw Error('Missing exact item linkage for purchase option: '+id);
+}
+if(starter.includes('data-affiliate-offer="drybag" data-offer-check-id='))throw Error('Optional drybag must not masquerade as a mandatory checklist item');
+if(!starterSource.includes('syncOfferFilter')||!starterSource.includes("window.addEventListener('pageshow',syncOfferFilter)")||!starterSource.includes('onlyUncheckedOffers'))throw Error('Checklist offer filter does not synchronize on navigation');
+if(starterSource.includes("localStorage.setItem('guidehollow-ready-check-v1'"))throw Error('Read-only purchase filter must not modify detailed checklist');
+if(!design.includes('.starter-offer-filter-actions')||!design.includes('.ready-shop-checkstatus'))throw Error('Purchase filter mobile styles missing');
 const gear=file('buying/gear/index.html');
 for(const id of ['ienLu8j8IC','ienNhlQsPk']){
  const url='https://link.coupang.com/a/'+id;
