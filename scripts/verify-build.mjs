@@ -83,6 +83,10 @@ if(!gear.includes('소니 ICF-P26, 블랙')||!gear.includes('삼성 EB-P3401XUKG
 const radioReview=file('reviews/emergency-am-fm-radios/index.html');
 if(!radioReview.includes('iekaW7GSFE')||!radioReview.includes('7757158175')||!radioReview.includes('20909933080')||!radioReview.includes('sponsored nofollow'))throw Error('Matched ICF-P26 radio purchase card not displayed');
 if(!file('reviews/coupang-stock-audit-samsung-p3400-p3401/index.html').includes('EB-P3401XUKGKR'))throw Error('Stock audit has not been updated with verified 2026 Samsung model');
+if(!gear.includes('class="guide-product-visual"')||!gear.includes('페닉스 E20 V2.0 손전등 상품 사진')||!gear.includes('class="partner-product-visual"'))throw Error('Shopping cards need real Fenix photo and media slots for exact radio and battery models');
+if((starter.match(/class="starter-affiliate-product-visual"/g)||[]).length!==2||!starter.includes('라디오 상품 사진 준비 중')||!starter.includes('보조배터리 상품 사진 준비 중'))throw Error('Image placeholders must not pretend to be an unverified product photo');
+const mediaSource=readFileSync('src/data/affiliate-product-visuals.ts','utf8');
+if(!mediaSource.includes('parseStaticPartnerHtml')||!mediaSource.includes("parsed?.url===offer.url")||!mediaSource.includes("officialImageTags"))throw Error('Product image source must be official and URL-matched');
 const e20=file('reviews/fenix-e20-v2-flashlight/index.html');
 if(!e20.includes('simple-product-hero')||!e20.includes('simple-product-media')||!e20.includes('simple-buy-button')||!e20.includes('idtdhvDZ3A')||!e20.includes('sponsored nofollow'))throw Error('Product landing needs top image, visible buy button and verified link');
 if(e20.includes('공식 밝기와 사용 시간을 구별해야 합니다')||e20.includes('pageKey=2211811247'))throw Error('Technical tracking or dense old table leaked into shopping landing');
