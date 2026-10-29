@@ -151,7 +151,7 @@ function renderProtocol(){
    check.textContent=!saved.valid?'저장된 기록을 읽을 수 없습니다':!saved.known?'상세 체크 기록 없음':saved.ids.has(id)?'상세 항목 체크됨 · 상태 재확인':'상세 미체크 · 보유 여부 확인';
   }
  });
- categories.forEach(category=>category.hidden===false?category.hidden=!category.querySelector('[data-protocol-item]:not([hidden])'):category.hidden=!category.querySelector('[data-protocol-item]:not([hidden])'));
+ categories.forEach(category=>{category.hidden=!category.querySelector('[data-protocol-item]:not([hidden])');});
  if(supplyStatus)supplyStatus.textContent=chosenDays+'일 기준 '+(onlyNew?'이번 단계 추가':'누적')+' 준비물 '+visible+'개 · 연결된 쿠팡 상품 '+offers+'종';
  updateWater();
 }
