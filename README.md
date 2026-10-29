@@ -57,44 +57,44 @@ Ownership code is installed globally:
 
 The published `src/site.ts` enables indexing for public, reviewed pages. Only 404/unpublished pages remain excluded.
 
-## Google Analytics 4 (consent-first)
+## Google Analytics 4 (standard head tag, no pop-up)
 
-### Activated measurement ID
+The website uses **G-6YFWRC72RG**, provided by its publisher. The production
+GitHub Actions build sets `PUBLIC_GA4_MEASUREMENT_ID` to that public measurement ID.
 
-The publisher-supplied GA4 web-stream ID for
-**https://ready.guidehollow.com** is **`G-6YFWRC72RG`**.
-The GitHub Actions production build sets
-`PUBLIC_GA4_MEASUREMENT_ID: G-6YFWRC72RG` in the `build` job. This ID is a
-public browser tag ID, not a secret or a Google Analytics API credential.
-The older `READY_GA4_MEASUREMENT_ID` repository variable is **not required**.
+The **Google tag (gtag.js)** now appears exactly once in the HTML `<head>` of
+every page, together with `gtag('config', ...)`. This is the normal Google
+Analytics installation and can be detected immediately by **Tag Assistant /
+웹사이트 테스트** without pressing an on-site consent button.
 
-The app does **not** load the Google tag until the visitor explicitly
-selects **분석에 동의**. A refusal or no decision causes no Google Analytics
-script request. The visitor may change their decision using the
-**방문 통계 설정** control in the footer; details are disclosed on
-`/privacy/`.
+No automatic analytics popup or modal is displayed (including on the homepage).
+Pageviews are measured by default unless the visitor disables analytics. A
+permanent unobtrusive **방문 통계 끄기 / 켜기** toggle in the site footer allows
+opt-out and restoration; an older explicitly declined preference remains off.
+Analytics and GA cookies are described in the public `/privacy/` page. Ads
+storage, ad-personalization, and Google signals remain disabled.
 
-### What to verify in GA4
+### Verification
 
-1. Open [Google Analytics](https://analytics.google.com/) and select the
-   property/web stream whose ID is **`G-6YFWRC72RG`**.
-2. Open the production site in a clean/private browser window, choose
-   **분석에 동의**, and visit the `/buying/` page.
-3. Check **Realtime** for `page_view`, and click one existing Coupang affiliate
-   product link to confirm the **`affiliate_click`** event.
-4. The click event has `offer_code`, `page_path`, and `placement`. To analyze
-   clicks by product in standard GA4 reports, register `offer_code` and
-   optionally `placement` as event-scoped custom dimensions.
-5. `affiliate_click` counts outbound **clicks**, **not purchases** or commission
-   revenue. Compare conversions with the separate Coupang Partners dashboard.
+1. Open a fresh/private window at `https://ready.guidehollow.com/`.
+2. Open GA4 for `G-6YFWRC72RG`, then use **웹사이트 테스트** with that URL.
+   Tag Assistant should see a tag immediately in `<head>`.
+3. Open GA4 **Realtime** and visit `/buying/`. Check for `page_view`.
+4. Click an existing Coupang Partners product link. This should produce an
+   **`affiliate_click`** event with `offer_code`, `page_path`, and
+   `placement`. Product-level reporting requires event-scoped custom
+   dimensions for those event parameters.
+5. If the footer says **방문 통계 켜기**, an opt-out is currently active; click
+   it to restore pageview collection. Browser privacy extensions may also
+   block Google's script and prevent Tag Assistant connection.
 
-No checklist values, family emergency contacts, phone numbers, or user-written
-inputs are submitted to GA4. Advertising storage and personalized ads consent
-remain denied by default.
+Affiliate clicks do **not** prove purchases or commissions. Compare actual
+sales only through the Coupang Partners dashboard. No family contact data,
+checklist contents, or user text fields are submitted as event parameters.
 
-The Playwright browser QA deliberately substitutes a **synthetic test ID**
-(`G-READYTEST123`) and blocks requests to Google; test results do not count
-toward the live property.
+The Playwright CI/browser tests substitute the synthetic ID
+`G-READYTEST123` and block external Google endpoints. They verify markup and
+browser event behavior without sending test data to the actual GA4 property.
 
 ## Safety
 
