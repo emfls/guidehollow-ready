@@ -671,3 +671,23 @@ main{min-width:0}
 .starter-secondary-affiliates-grid .starter-affiliate-product-visual{height:172px;min-height:172px;width:86px;padding:2px}
 }
 @media print{.ready-shop-section,.starter-essential-offers{break-inside:avoid}.ready-shop-card a.partner-check-action{display:none!important}}
+
+
+/* Detailed checklist-aware purchasing. The toggle is read-only and never
+   substitutes a purchase for the recorded preparedness checklist. */
+.starter-offer-filter{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:14px 22px;margin:22px 0 12px;padding:19px 21px;border:1px solid #58736b;border-radius:15px;background:#233d3d}
+.starter-offer-filter h3{font-size:1.11rem;color:#fff0d5;line-height:1.45;margin:4px 0 6px}
+.starter-offer-filter p{font-size:.82rem;color:#d1e2d9;line-height:1.6;margin:0}
+.starter-offer-filter-actions{display:flex;flex-direction:column;gap:8px;align-items:stretch;min-width:205px}
+.starter-offer-filter-actions button{min-height:46px;font-size:.85rem;font-weight:850;border-radius:9px;background:#edbb7d;color:#15222a;border:1px solid #edbb7d;padding:8px 12px;cursor:pointer}
+.starter-offer-filter-actions button[aria-pressed="true"]{background:#f7e2c4;border-color:#f7e2c4}
+.starter-offer-filter-actions button:disabled{background:#455b5a;color:#c2cdcc;border-color:#58716d;cursor:not-allowed}
+.starter-offer-filter-actions a{display:inline-flex;justify-content:center;align-items:center;color:#caf4e3;font-weight:750;font-size:.82rem;min-height:44px;padding:7px 10px;text-align:center}
+.starter-offer-filter #starter-offer-status{grid-column:1/-1;border-top:1px solid #517169;padding-top:11px;color:#d6e6df}
+.starter-offer-filter #starter-offer-empty{grid-column:1/-1;color:#f1dfbf;padding:10px 0 2px;font-weight:750}
+.ready-shop-checkstatus{display:inline-flex;align-items:center;padding:5px 8px;border-radius:6px;background:#31505a;color:#d0e9e9;font-size:.73rem;font-weight:800;line-height:1.5;margin:1px 0 9px}
+.ready-shop-checkstatus[data-offer-status="checked"]{background:#314b43;color:#d0e6d6}
+.starter-list-section [data-offer-check-id][hidden],.starter-list-section .ready-shop-card[hidden],.starter-list-section .starter-secondary-affiliates[hidden],.starter-list-section .starter-essential-offers[hidden]{display:none!important}
+@media(max-width:720px){.starter-offer-filter{grid-template-columns:1fr;padding:16px}.starter-offer-filter-actions{min-width:0;flex-direction:row;align-items:center;flex-wrap:wrap}.starter-offer-filter-actions button{flex:1;min-width:190px}.starter-offer-filter-actions a{flex:1;min-width:150px}}
+@media(max-width:380px){.starter-offer-filter-actions{flex-direction:column;align-items:stretch}.starter-offer-filter-actions button,.starter-offer-filter-actions a{width:100%}}
+@media print{.starter-offer-filter-actions{display:none}.starter-offer-filter{grid-template-columns:1fr}}
