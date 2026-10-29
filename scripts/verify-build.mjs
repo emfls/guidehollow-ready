@@ -101,6 +101,21 @@ for(const [slug,offer] of [
  if(!html.includes('이 포스팅은 쿠팡 파트너스 활동의 일환'))throw Error('Published affiliate review has no up-front sponsorship notice '+slug);
  if(!reviewRouting.includes("'"+slug+"':["))throw Error('Review offer crosswalk missing '+slug);
 }
+// Buying guides must expose independently sourced selection criteria without
+// forcing readers to open a collapsed technical appendix.
+for(const [slug,requiredTerms] of [
+ ['emergency-power-banks-10000-vs-20000',['review-decision readable','각각 최대 9W','EB-P3401XUKGKR']],
+ ['emergency-am-fm-radios',['review-decision readable','ICF-P26','100시간']],
+ ['emergency-first-aid-kit-and-dressings',['review-decision readable','19종','구매 보류']],
+]){
+ const doc=file('reviews/'+slug+'/index.html');
+ for(const term of requiredTerms)if(!doc.includes(term))throw Error('Missing buyer decision evidence in '+slug+': '+term);
+ if(!doc.includes('id="review-decision-title"'))throw Error('Review buyer evidence not directly readable: '+slug);
+}
+if(!file('reviews/fenix-e20-v2-flashlight/index.html').includes('350루멘')||
+   !file('reviews/fenix-e20-v2-flashlight/index.html').includes('최저 밝기 모드'))throw Error('Fenix review must distinguish peak lumens from long runtime');
+const foodDecision=file('buying/food/index.html');
+for(const term of ['food-buying-decision','id="food-decision-title"','60개를 60끼','foodsafety.gov/keep-food-safe/food-safety-in-disaster-or-emergency'])if(!foodDecision.includes(term))throw Error('Food buyer choice or official safety evidence missing: '+term);
 if(!file('about/index.html').includes('30개 준비 품목')||file('about/index.html').includes('손전등의 개별 구매 링크가 연결돼 있고'))throw Error('About page incorrectly describes legacy one-link catalog');
 if(!file('disclosure/index.html').includes('30개 준비 품목'))throw Error('Disclosure page outdated');
 if (!home.includes('href="/reviews/"')) throw Error('Product comparison discoverability missing from home');
