@@ -75,6 +75,7 @@ const verifiedCoupangPhoto='https://thumbnail1.coupangcdn.com/thumbnails/remote/
  {products.length>0 && <div class="review-product-grid" aria-label="제품별 쉬운 비교">
   {products.map((p,i)=><section class="review-product-compact">
    <div class="review-product-top"><span>제품 {i+1}</span><span>{p.partner?'구매 링크 확인':'구매 링크 미확인'}</span></div>
+   {p.partner?.imageUrl && <a class="review-product-photo" href={p.partner.url} target="_blank" rel="sponsored nofollow noopener noreferrer" aria-label={p.name+' 상품 이미지에서 쿠팡 상세 페이지 열기'}><img src={p.partner.imageUrl} width="180" height="180" loading="lazy" decoding="async" referrerpolicy="no-referrer" alt={p.name+' '+p.modelNumber+' 상품 사진'}/></a>}
    <h2>{p.name}</h2>
    <p class="review-model">{p.modelNumber}</p>
    <p class="review-product-for">{p.bestFor}</p>

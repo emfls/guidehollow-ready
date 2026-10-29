@@ -88,6 +88,11 @@ try{
   }
   if(route==='/situations/'&&await page.locator('.first-three-visible').count()!==3)failed.push('air chemical nuclear first three steps are collapsed');
   if(route==='/starter-kit/'&&!details.hasKit)failed.push('product photo card missing');
+  if(route==='/starter-kit/'&&await page.locator('.starter-affiliate-product-visual').count()!==2)failed.push('radio and battery media tiles not ready');
+  if(route==='/buying/gear/'){
+   if(await page.locator('.partner-product-visual').count()!==2)failed.push('radio and battery photo tiles missing');
+   if(await page.locator('.guide-product-visual img').count()!==1)failed.push('existing verified Fenix product photo missing');
+  }
   if(route==='/starter-kit/'||route==='/buying/gear/'){
    const urls=['https://link.coupang.com/a/iekaW7GSFE','https://link.coupang.com/a/iekgMwsEmq'];
    for(const u of urls){
