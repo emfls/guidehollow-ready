@@ -36,6 +36,9 @@ export const newlyLinkedBuyingIds = [
  'ready-meals', 'charging-cable', 'hand-soap', 'waste-bags', 'sterile-gauze', 'backpack', 'ready-snacks', 'led-lantern', 'whistle', 'water-container', 'food-bins', 'document-pouch', 'rain-poncho', 'utensils', 'car-charger'
 ] as const;
 
+/** Three newest personally issued individual-product partner HTML offers. */
+export const latestLinkedBuyingIds = ['portable-toilet', 'baby-diapers', 'pet-food'] as const;
+
 /** Exclude named seller/product explicitly blacklisted by the publisher.
  * A safe alternative may be linked to portable-toilet only after review.
  */
@@ -70,7 +73,7 @@ export const buyingGuideProducts:GuideProduct[]=[
  {id:'wet-wipes',title:'위생용 물티슈',group:'hygiene',days:3,priority:'필수 확인',why:'단수 때 제한적인 표면·피부 청결 보조',criteria:'피부 용도·성분·밀봉 상태·보관 조건 확인',caution:'물티슈는 비누 손 씻기 또는 손 소독제를 대신하지 않습니다.',guide:'/reviews/emergency-blankets-and-hygiene-wipes/',checkId:'hygiene',offer:'wipes'},
  {id:'hand-soap',title:'비누·손 세정제',group:'hygiene',days:3,priority:'필수 확인',why:'감염 위험을 낮추기 위한 기본 위생',criteria:'가족 수·알레르기·물 사용 가능 여부 확인',caution:'물과 비누가 가능한 상황에서는 기본 손 씻기를 우선하세요.',guide:'/checklist/',checkId:'handwashing',offer:'soap'},
  {id:'waste-bags',title:'튼튼한 쓰레기봉투',group:'hygiene',days:3,priority:'필수 확인',why:'단수·정전 시 위생 폐기물과 오염물 분리',criteria:'누수·찢김에 대한 내구성, 밀봉 편의성 확인',caution:'지자체 폐기물 처리 지시를 따르세요.',guide:'/checklist/',checkId:'toilet',offer:'bags'},
- {id:'portable-toilet',title:'비상용 화장실 봉투·흡수재',group:'hygiene',days:7,priority:'상황별',why:'급수·하수도가 일시 중단될 때 위생 관리',criteria:'흡수재 성능·누수 방지·처리 방법·가족 사용량 확인',caution:'사용 후 처리 및 보관은 지자체·재난 현장 안내를 우선하세요.',guide:'/checklist/',checkId:'toilet'},
+ {id:'portable-toilet',title:'비상용 화장실 봉투·응고제 세트',group:'hygiene',days:7,priority:'상황별',why:'단수로 화장실 이용이 어려울 때를 대비한 봉투·응고제 묶음 후보',criteria:'제휴 상품명 기준 응고제 10개+용변봉투 10장. 실제 설치·사용 가능한 변기 형태, 봉투 내구성, 보관과 지역별 배출 방법 확인',caution:'상품명에는 응고제 10개와 용변봉투 10장이 표기되어 있습니다. 누수 차단·탈취 성능은 검증하지 않았으며 사용 후 처리·보관은 지자체 및 재난 현장 안내가 우선입니다.',guide:'/checklist/',checkId:'toilet',offer:'toilet'},
  {id:'thermal-blanket',title:'비상담요·보온용 담요',group:'hygiene',days:7,priority:'상황별',why:'옷이 젖거나 기온이 떨어지는 상황 대비',criteria:'재질·크기·보온 방법·기존 담요 대체 가능성 확인',caution:'얇은 비상담요 하나만으로 극한 추위를 견디는 것은 위험합니다.',guide:'/reviews/emergency-blankets-and-hygiene-wipes/',checkId:'warmth',offer:'blanket'},
  // 대피·서류 4
  {id:'backpack',title:'비상 이동용 배낭',group:'carry',days:3,priority:'상황별',why:'대피 때 손을 자유롭게 하고 필수품을 함께 휴대',criteria:'이미 보유한 배낭의 크기·착용감·무게·어깨끈 확인',caution:'들 수 없는 무거운 비상가방은 이동에 방해됩니다.',guide:'/reviews/emergency-bags-dry-pouches/',checkId:'bag',offer:'backpack'},
@@ -78,8 +81,8 @@ export const buyingGuideProducts:GuideProduct[]=[
  {id:'document-pouch',title:'A4 서류 보관용 지퍼 파우치',group:'carry',days:7,priority:'상황별',why:'신분 확인 서류와 종이 연락처를 보호',criteria:'A4 수납·지퍼 구조·실제 방수 성능 표시 확인',caution:'판매 제목에는 PVC 지퍼 파우치라고 표기되어 있으며 완전 방수·침수 보호를 보증하지 않습니다. 개인정보를 많이 복사하거나 한곳에 두지 마세요.',guide:'/plan/',checkId:'documents',offer:'pouch'},
  {id:'rain-poncho',title:'우비·방수 겉옷',group:'carry',days:7,priority:'상황별',why:'안전한 이동 과정에서 비와 추위에 대비',criteria:'계절·사이즈·기존 우의 활용·시야 확보 확인',caution:'우비가 침수도로·급류를 통과해도 안전하게 해 주지는 않습니다.',guide:'/checklist/',checkId:'warmth',offer:'poncho'},
  // 해당 가족만 2
- {id:'baby-diapers',title:'영유아 기저귀·수유용품',group:'care',days:3,priority:'상황별',why:'영유아가 있는 가족만 연령과 수유 방식에 맞춰 준비',criteria:'실제 사이즈·피부 적합성·필요량·수유 위생 조건 확인',caution:'아기에게 맞지 않는 분유·식품을 비상용이라는 이유로 임의 변경하지 마세요.',guide:'/family-emergency/'},
- {id:'pet-food',title:'반려동물 사료·배변용품',group:'care',days:3,priority:'상황별',why:'반려동물 동반 가족의 먹이·위생·이동 대비',criteria:'동물별 식이·건강 상태·소비기한·이동장 규격 확인',caution:'대피시설 동반 가능 여부는 해당 시설의 공식 규정을 확인하세요.',guide:'/family-emergency/'},
+ {id:'baby-diapers',title:'영유아 기저귀 (밴드형 2단계)',group:'care',days:3,priority:'상황별',why:'밴드형 2단계를 사용하는 영유아가 있는 가정의 소모품 보충 후보',criteria:'실제 사용하는 밴드형·팬티형 구분, 아기 몸무게·체형·피부 반응과 현재 단계, 하루 사용량 확인',caution:'연결 상품은 하기스 맥스드라이 뉴 소형 밴드형 2단계 174매입니다. 팬티형이나 다른 단계는 포함되지 않습니다. 사이즈가 맞지 않는 아기에게 구매를 권하지 않으며 수유용품은 별도입니다.',guide:'/family-emergency/',offer:'diapers'},
+ {id:'pet-food',title:'반려견 사료 (연어 레시피 3kg)',group:'care',days:3,priority:'상황별',why:'평소 해당 사료를 먹거나 성분이 적합한 반려견이 있는 가정의 사료 보충 후보',criteria:'반려견의 평소 식단·연령·알레르기·질병 및 수의학적 식이 제한과 제품 소비기한 확인',caution:'연결 상품은 탐사 강아지 사료 연어 레시피 3kg 1개입니다. 고양이 사료나 배변용품이 아니고, 처방식 또는 특수 식이가 필요한 동물에게 임의로 대체하지 마세요. 급격한 식단 변경은 피하세요.',guide:'/family-emergency/',offer:'dogfood'},
 ];
 
 
@@ -90,31 +93,11 @@ export const buyingGuideProducts:GuideProduct[]=[
  * medical kit contents and product safety claims remain unverified; never
  * represent these as personally tested reviews.
  */
-/** Buyer-facing explanations for three categories with no publisher-issued partner URL.
- * A search-result title is NOT a verified listing, product recommendation or affiliate link.
- */
-export const pendingBuyingGuideNotes: Record<string,{state:string;candidate:string;reason:string;check:string}> = {
- 'portable-toilet':{
-  state:'대체 상품 구성 확인 중',
-  candidate:'응가맨 응고제 10개 + 용변봉투 10장 구성 (검색 결과 후보)',
-  reason:'검색 결과 제목에는 봉투와 응고제가 함께 표기되어 있습니다. 실제 구성과 폐기 방법은 아직 확인되지 않았습니다.',
-  check:'기존 검토에서 제외한 상품은 소개하지 않습니다. 봉투·응고제 포함 수량과 사용 후 처리 방법을 확인하기 전에는 구매 링크를 연결하지 않습니다.',
- },
- 'baby-diapers':{
-  state:'가족별 사이즈 확인 · 제휴 링크 미발급',
-  candidate:'기저귀는 실제 착용 중인 브랜드·단계·밴드형/팬티형 기준으로 선택',
-  reason:'열어둔 쿠팡 검색 탭에서 팬티형을 검색했지만 밴드형 2단계가 표시됩니다. 검색 결과를 그대로 확정 추천하지 않습니다.',
-  check:'아기 체중, 피부 적합성, 사용 중인 유형, 며칠분의 실제 사용량과 수유용품을 각각 확인해야 합니다.',
- },
- 'pet-food':{
-  state:'반려동물별 선택 필요 · 제휴 링크 미발급',
-  candidate:'평소 급여하는 강아지·고양이 사료와 배변용품을 따로 확인',
-  reason:'열어둔 검색 탭은 반려견 사료 검색 결과입니다. 반려묘나 처방식이 필요한 동물에게 그대로 추천할 수 없습니다.',
-  check:'동물 종·연령·기존 사료·식이 제한·소비기한을 확인하고 급격한 사료 변경을 피하세요.',
- },
-};
-
 export const buyingGuideShortlist:Record<string,{name:string;why:string;verify:string}>={
+ 'portable-toilet':{name:'응가맨 응고제10개+용변봉투10장, 1개, 혼합',why:'봉투와 응고제가 함께 표기된 구성으로, 단수 시 평소 화장실 사용이 어려운 가정의 선택지',verify:'상품명 기준 응고제 10개+봉투 10장입니다. 실제 내용물, 변기 호환, 누수·악취 관리, 지역별 배출 방법을 확인'},
+ 'baby-diapers':{name:'하기스 맥스드라이 뉴 공용 소형 밴드형, 2단계, 174매',why:'현재 밴드형 2단계를 사용하는 아기의 기저귀 재고를 보충할 때만 적합한 174매 구성',verify:'팬티형이 아닌 밴드형 2단계입니다. 현재 아이에게 맞는 사이즈·피부 적합성·사용량·보관 기간 확인'},
+ 'pet-food':{name:'탐사 강아지 사료 연어 레시피, 3kg, 1개',why:'평소 해당 사료를 급여하거나 식이 적합성이 확인된 반려견의 비축 사료 후보',verify:'반려견용 3kg이며 고양이/처방식용이 아닙니다. 기존 사료·알레르기·소비기한·급여 방식 확인'},
+
  'aa-batteries':{
   name:'벡셀 알카라인 AA 건전지, 20개입, 1개',
   why:'라디오·손전등에 쓰이는 AA 규격을 별도 비축하기 쉬운 구성. 20개입으로 확인됨',
