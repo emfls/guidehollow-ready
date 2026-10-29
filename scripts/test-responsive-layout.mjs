@@ -120,8 +120,8 @@ try{
   if(route==='/buying/gear/' && await page.locator('#drybag-coupang img').count()!==1)failed.push('Drybag photo missing');
   if(route==='/protocols/'){
     if(await page.locator('.protocol-stage-btn').count()!==6)failed.push('six period selector buttons missing');
-    if(await page.locator('.protocol-item:visible').count()!==15)failed.push('3-day initial essentials must render fifteen items');
-    if(await page.locator('.protocol-item-offer img').count()!==21)failed.push('all 21 approved protocol partner images must exist');
+    if(await page.locator('.protocol-item:visible').count()!==17)failed.push('3-day initial list must render seventeen items');
+    if(await page.locator('.protocol-item-offer img').count()!==24)failed.push('all 24 approved protocol partner images must exist');
     if(!(await page.locator('#protocol-water-warning').textContent()||'').includes('CDC'))failed.push('first-stage water safety guidance missing');
   }
   if(['/starter-kit/','/buying/food/','/buying/gear/','/protocols/','/reviews/','/reviews/emergency-am-fm-radios/'].includes(route)){
@@ -161,8 +161,8 @@ try{
   }
   if(route==='/buying/'){
     if(await page.locator('.shop-guide-item').count()!==30)failed.push('buyer hub does not have exactly 30 candidate products');
-    if(await page.locator('[data-shop-preset]').count()!==3)failed.push('missing connected and pending quick-filter buttons');
-    if(await page.locator('.shop-guide-buy').count()!==27)failed.push('twenty-seven genuine affiliate buttons not available');
+    if(await page.locator('[data-shop-preset]').count()!==3)failed.push('missing connected and newest-product quick-filter buttons');
+    if(await page.locator('.shop-guide-buy').count()!==30)failed.push('thirty genuine affiliate buttons not available');
     if(await page.locator('[data-buy-selected="yes"]').count()!==15)failed.push('fifteen newly linked product candidates missing');
     if(await page.locator('[data-buy-selected="yes"] .shop-guide-buy').count()!==15)failed.push('fifteen newest user-issued partner URLs must appear on selected products');
     if(await page.locator('[data-buy-linked="no"] .shop-guide-buy').count()>0)failed.push('unverified product has misleading buy button');
@@ -281,22 +281,32 @@ try{
   if(await page.locator('.shop-guide-item').count()!==30)errors.push({width,route:'/buying/',issues:['exactly thirty buying candidates required']});
   if(await page.locator('.shop-guide-item:visible').count()!==5)errors.push({width,route:'/buying/',issues:['initial buyer view should focus on five essential products']});
   await page.locator('[data-shop-preset="linked"]').click();
-  if(await page.locator('#shop-guide-duration').inputValue()!=='30'||await page.locator('#shop-guide-link-filter').inputValue()!=='linked'||await page.locator('.shop-guide-item:visible').count()!==27)
-    errors.push({width,route:'/buying/',issues:['one-click linked view must expose all 27 offers across preparation periods']});
-  await page.locator('[data-shop-preset="pending"]').click();
-  if(await page.locator('.shop-guide-item:visible').count()!==3 || await page.locator('.shop-guide-item:visible .shop-guide-buy').count()!==0)
-    errors.push({width,route:'/buying/',issues:['one-click pending view must show all three unlinked products and zero fake buttons']});
-  if(!(await page.locator('[data-buy-id="portable-toilet"]').textContent()||'').includes('응가맨 응고제 10개 + 용변봉투 10장'))
-    errors.push({width,route:'/buying/',issues:['portable-toilet candidate details missing or hidden in pending view']});
-  if(!(await page.locator('[data-buy-id="baby-diapers"]').textContent()||'').includes('밴드형') || !(await page.locator('[data-buy-id="pet-food"]').textContent()||'').includes('반려견'))
-    errors.push({width,route:'/buying/',issues:['pending animal and diaper options lack suitability warnings']});
+  if(await page.locator('#shop-guide-duration').inputValue()!=='30'||await page.locator('#shop-guide-link-filter').inputValue()!=='linked'||await page.locator('.shop-guide-item:visible').count()!==30)
+    errors.push({width,route:'/buying/',issues:['one-click linked view must expose all 30 offers across preparation periods']});
+  await page.locator('[data-shop-preset="fresh"]').click();
+  if(await page.locator('.shop-guide-item:visible').count()!==3||await page.locator('.shop-guide-item:visible .shop-guide-buy').count()!==3)
+    errors.push({width,route:'/buying/',issues:['latest three products must all show real purchase buttons']});
+  for(const [id,slug,photo] of [
+    ['portable-toilet','ie6X3NqmNo','ddfd6058600935242c091d59182480bc@2x.jpg'],
+    ['baby-diapers','ie6Y9sb1a0','e1fccea5f98fa0ac48e3254ee6e1b2c3@2x.jpg'],
+    ['pet-food','ie6Z9UwjsW','337c9eb358e795da292234e097bd988d@2x.jpg']
+  ]){
+    const product=page.locator('[data-buy-id="'+id+'"]');
+    const url=await product.locator('a.shop-guide-buy').getAttribute('href');
+    const banner=await product.locator('.product-photo-frame--banner img').getAttribute('src');
+    if(!await product.isVisible()||url!=='https://link.coupang.com/a/'+slug||!banner?.includes(photo))
+      errors.push({width,route:'/buying/',issues:['last partner tag mapping mismatch '+id]});
+  }
+  if(!(await page.locator('[data-buy-id="baby-diapers"]').textContent()||'').includes('팬티형')||
+     !(await page.locator('[data-buy-id="pet-food"]').textContent()||'').includes('고양이'))
+    errors.push({width,route:'/buying/',issues:['family suitability and species restrictions missing']});
   await page.locator('[data-shop-preset="initial"]').click();
   if(await page.locator('#shop-guide-duration').inputValue()!=='3'||await page.locator('#shop-guide-link-filter').inputValue()!=='all')
     errors.push({width,route:'/buying/',issues:['one-click initial view did not restore three-day preparation']});
   await page.locator('#shop-guide-duration').selectOption('30');
   if(await page.locator('.shop-guide-item:visible').count()!==30)errors.push({width,route:'/buying/',issues:['30-day filter should show all 30 candidates']});
   await page.locator('#shop-guide-link-filter').selectOption('linked');
-  if(await page.locator('.shop-guide-item:visible').count()!==27)errors.push({width,route:'/buying/',issues:['linked-only filter must show exactly 27 verified affiliate offers']});
+  if(await page.locator('.shop-guide-item:visible').count()!==30)errors.push({width,route:'/buying/',issues:['linked-only filter must show exactly 30 publisher-issued affiliate offers']});
   await page.locator('#shop-guide-link-filter').selectOption('selected');
   if(await page.locator('.shop-guide-item:visible').count()!==15)errors.push({width,route:'/buying/',issues:['selected-only filter must show exactly fifteen newest products']});
   for(const id of ['ready-meals','charging-cable','hand-soap','waste-bags','sterile-gauze','backpack','ready-snacks','led-lantern','whistle','water-container','food-bins','document-pouch','rain-poncho','utensils','car-charger']){
@@ -316,11 +326,9 @@ try{
     if(await card.locator('.product-photo-frame--banner').count()!==1)
       errors.push({width,route:'/buying/',issues:['new offer missing supplier product photo '+item]});
   }
-  await page.locator('#shop-guide-link-filter').selectOption('pending');
-  if(await page.locator('.shop-guide-item:visible').count()!==3)errors.push({width,route:'/buying/',issues:['pending filter must show exactly three product categories without URLs']});
-  const blocked=page.locator('[data-buy-id="portable-toilet"]');
-  if(await blocked.locator('.shop-guide-buy').count()!==0 || !(await blocked.textContent()||'').includes('대체 상품 구성 확인 중'))
-    errors.push({width,route:'/buying/',issues:['publisher-blacklisted portable toilet must remain unlinked']});
+  await page.locator('#shop-guide-link-filter').selectOption('fresh');
+  if(await page.locator('.shop-guide-item:visible').count()!==3)errors.push({width,route:'/buying/',issues:['new three-only filter is broken']});
+  if(await page.locator('[data-buy-linked="no"]').count()!==0)errors.push({width,route:'/buying/',issues:['still has unlinked item']});
   await page.locator('#shop-guide-link-filter').selectOption('all');
   await page.locator('#shop-guide-category').selectOption('food');
   if(await page.locator('.shop-guide-item:visible').count()!==8)errors.push({width,route:'/buying/',issues:['food category should show eight candidates']});
@@ -339,7 +347,7 @@ try{
   await page.reload();
   if(!await page.locator('#shop-guide-unchecked').isDisabled())errors.push({width,route:'/buying/',issues:['empty record should not claim to know owned products']});
   await page.goto(`http://127.0.0.1:${PORT}/protocols/`);
-  if(await page.locator('.protocol-item:visible').count()!==15)errors.push({width,route:'/protocols/',issues:['3-day initial card count incorrect']});
+  if(await page.locator('.protocol-item:visible').count()!==17)errors.push({width,route:'/protocols/',issues:['3-day initial card count incorrect']});
   await page.locator('#protocol-people').fill('3');
   await page.locator('#protocol-water-owned').fill('10');
   if((await page.locator('#protocol-water-total').textContent())!=='34.2 L'||(await page.locator('#protocol-water-gap').textContent())!=='24.2 L'||(await page.locator('#protocol-water-cartons').textContent())!=='2묶음')errors.push({width,route:'/protocols/',issues:['3-day family water 24L-package estimate incorrect']});

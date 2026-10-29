@@ -124,10 +124,11 @@ if(!buyingSource.includes("get('from')==='quick'")||!buyingSource.includes('quic
 if(!design.includes('.home-fast-water-plan')||!design.includes('.review-matched-offer'))throw Error('Buyer water and exact-model review design missing');
 const reviewPage=readFileSync('src/pages/reviews/[slug].astro','utf8');
 if(!reviewPage.includes("row.id==='emergency-power-banks-10000-vs-20000'")||!reviewPage.includes("row.id==='emergency-first-aid-kit-and-dressings'")||!reviewPage.includes('PartnerOfferCard offer={actualSaleOffer}'))throw Error('Exact linked models must be visible above unlike-model comparison reviews');
-if((buyingHub.match(/data-shop-preset="/g)||[]).length!==3||!buyingHub.includes('data-shop-preset="linked"')||!buyingHub.includes('data-shop-preset="pending"'))throw Error('Buyer quick filter controls missing');
-if(!buyingHub.includes('응가맨 응고제 10개 + 용변봉투 10장')||!buyingHub.includes('기저귀는 실제 착용 중인')||!buyingHub.includes('평소 급여하는'))throw Error('Pending-category suitability guidance missing');
+if((buyingHub.match(/data-shop-preset="/g)||[]).length!==3||!buyingHub.includes('data-shop-preset="linked"')||!buyingHub.includes('data-shop-preset="fresh"'))throw Error('Buyer quick filter controls missing');
+if(!buyingHub.includes('응고제10개+용변봉투10장')||!buyingHub.includes('밴드형 2단계')||!buyingHub.includes('반려견 사료'))throw Error('New buyer product suitability guidance missing');
 if(!design.includes('.shop-guide-shortcut-actions'))throw Error('Quick filter responsive dark styles missing');
-if((buyingHub.match(/data-buy-linked="yes"/g)||[]).length!==27||(buyingHub.match(/data-buy-linked="no"/g)||[]).length!==3)throw Error('Exactly 27 user-issued affiliate offers and three honest pending slots expected');
+if((buyingHub.match(/data-buy-linked="yes"/g)||[]).length!==30||(buyingHub.match(/data-buy-linked="no"/g)||[]).length!==0)throw Error('Exactly 30 publisher-issued product offers and zero pending slots expected');
+if((buyingHub.match(/data-buy-fresh="yes"/g)||[]).length!==3)throw Error('Three newest product categories need independent quick filter');
 if((buyingHub.match(/data-buy-selected="yes"/g)||[]).length!==15)throw Error('Fifteen newest links must appear under latest-products filter');
 for(const [id,needle] of [
  ['aa-batteries','벡셀 알카라인 AA 건전지'],
@@ -147,12 +148,21 @@ for(const id of ['water','tuna','flashlight','radio','battery','drybag']){
 }
 for(const id of ['ienLu8j8IC','ienNhlQsPk','ienOFQc21I','ienRftVDYy','ienSxmfDUW','idtdhvDZ3A','ieCtE2caFU','ieCuYrnIu4','ieCxqq6mui','ieCyTiU5ts','ieCBNk88su','ieCDsQuq84'])
  if(!buyingHub.includes('https://link.coupang.com/a/'+id))throw Error('A previously verified buyer offer was lost '+id);
-if((buyingHub.match(/class="shop-guide-buy"/g)||[]).length!==27)throw Error('Buying guide must have 27 real CTA links and zero fabricated pending links');
+if((buyingHub.match(/class="shop-guide-buy"/g)||[]).length!==30)throw Error('Buying guide must have exactly 30 genuine product CTA links');
 const newOfferIds=['ieOGyQEiDQ','ieOIzHSJZk','ieOLFFT9Ua','ieONgl6IV2','ieOPxyN1VI','iePsXGU1F6','iePvyD2Ywe','iePwJgYiAK','iePyyD8lZk','ieQaqXhm9Y','ieQi5ugNwG','ieQkYMMM9Y','ieQmvw3VzU','ieQnVXXJ36','ieQsAO8UbQ'];
 for(const id of newOfferIds)if(!buyingHub.includes('https://link.coupang.com/a/'+id))throw Error('New affiliate link missing from buyer hub: '+id);
-if(!buyingHub.includes('대체 상품 구성 확인 중')||!buyingData.includes('온리빙 쉬포켓'))throw Error('Blacklisted portable toilet must remain excluded and traceable');
-if((readFileSync('src/data/protocols.ts','utf8').match(/offer:'/g)||[]).length!==21)throw Error('Staged protocol should contain 21 distinct original and optional affiliate offers');
+if(!buyingData.includes('온리빙 쉬포켓')||buyingHub.includes('온리빙 쉬포켓'))throw Error('Blacklisted toilet must remain excluded and traceable without appearing to shoppers');
+if((readFileSync('src/data/protocols.ts','utf8').match(/offer:'/g)||[]).length!==24)throw Error('Staged protocol should contain 24 original and optional affiliate offers');
 const verifiedImageCatalog=readFileSync('src/data/affiliate-product-visuals.ts','utf8');
+for(const [id,key,banner,product] of [
+ ['ie6X3NqmNo','toilet','ddfd6058600935242c091d59182480bc@2x.jpg','portable-toilet'],
+ ['ie6Y9sb1a0','diapers','e1fccea5f98fa0ac48e3254ee6e1b2c3@2x.jpg','baby-diapers'],
+ ['ie6Z9UwjsW','dogfood','337c9eb358e795da292234e097bd988d@2x.jpg','pet-food'],
+]){
+ if(!verifiedImageCatalog.includes('https://link.coupang.com/a/'+id)||!verifiedImageCatalog.includes(banner)||!buyingHub.includes('https://link.coupang.com/a/'+id)||!protocolHtml.includes('https://link.coupang.com/a/'+id))throw Error('Final verified publisher offer not wired into all sale surfaces '+id);
+ if(!buyingData.includes("offer:'"+key+"'")||!buyingHub.includes('data-buy-id="'+product+'"'))throw Error('Incorrect exact product category for new affiliate '+product);
+}
+if(buyingHub.includes('연결 대기 3종')||buyingHub.includes('제휴 링크 미발급'))throw Error('Outdated pending-product copy still visible to shoppers');
 for(const id of ['ieCtE2caFU','ieCuYrnIu4','ieCxqq6mui','ieCyTiU5ts','ieCBNk88su','ieCDsQuq84']){
  if(!verifiedImageCatalog.includes('https://link.coupang.com/a/'+id)||!protocolHtml.includes('https://link.coupang.com/a/'+id))throw Error('New affiliate offer not wired through central catalog and staged protocols: '+id);
 }

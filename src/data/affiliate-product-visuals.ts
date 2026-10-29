@@ -33,11 +33,14 @@ export const affiliateOffers = {
  poncho: { url:'https://link.coupang.com/a/ieQmvw3VzU', emoji:'🌧️', alt:"데이브렉 캠프용 판쵸우의 방수, 혼합색상, 1개" },
  cup: { url:'https://link.coupang.com/a/ieQnVXXJ36', emoji:'🥛', alt:"캠핑 휴대용 접이식 스텐컵 150ml 중형, 2개, 스테인리스" },
  carcharger: { url:'https://link.coupang.com/a/ieQsAO8UbQ', emoji:'🔋', alt:"벨킨 부스트차지 PPS 30W USB C 차량용 충전기, CCA004qcBK, 블랙" },
+ toilet: { url:'https://link.coupang.com/a/ie6X3NqmNo', emoji:'🚽', alt:'응가맨 응고제10개+용변봉투10장 재난 캠핑 급한용변 단수 노지 차박 비박 여행 야외 양변기겸용, 1개, 혼합' },
+ diapers: { url:'https://link.coupang.com/a/ie6Y9sb1a0', emoji:'👶', alt:'하기스 맥스드라이 뉴 공용 소형 밴드형, 2단계, 174매' },
+ dogfood: { url:'https://link.coupang.com/a/ie6Z9UwjsW', emoji:'🐕', alt:'탐사 강아지 사료 연어 레시피, 3kg, 1개' },
 } as const;
 export type AffiliateOfferKey=keyof typeof affiliateOffers;
 const originalFenixPhoto='https://thumbnail1.coupangcdn.com/thumbnails/remote/212x212ex/image/vendor_inventory/9c13/0524ccbea15e678332b3299a00596c66101a6e50f267850bb9970650169a.jpg';
 
-/** Partner banner HTML for the 26 non-flashlight offers was provided by the publisher. */
+/** Partner banner HTML for the 29 non-flashlight offers was provided by the publisher. */
 const officialImageTags: Partial<Record<AffiliateOfferKey,string>>={
  radio: '<a href="https://link.coupang.com/a/ienLu8j8IC" target="_blank" referrerpolicy="unsafe-url"><img src="https://img2a.coupangcdn.com/image/affiliate/banner/2773295bd616eb0be0db4e5b696d0f9f@2x.jpg" alt="소니 핸디 휴대용 라디오 ICF-P26 : FMAM와이드 FM 대응 세로 두어형 블랙 ICF-P26 B, Black" width="120" height="240"></a>',
  battery: '<a href="https://link.coupang.com/a/ienNhlQsPk" target="_blank" referrerpolicy="unsafe-url"><img src="https://img1c.coupangcdn.com/image/affiliate/banner/aecd5934fa73209063d8c1885451b8ce@2x.jpg" alt="삼성전자 25W 고속 충전 대용량 PD 보조 배터리팩 10000mAh, 베이지, EB-P3401XUKGKR" width="120" height="240"></a>',
@@ -65,6 +68,9 @@ const officialImageTags: Partial<Record<AffiliateOfferKey,string>>={
  poncho: '<a href="https://link.coupang.com/a/ieQmvw3VzU" target="_blank" referrerpolicy="unsafe-url"><img src="https://img2a.coupangcdn.com/image/affiliate/banner/45e2c402e5293b550404b1690e13189b@2x.jpg" alt="데이브렉 캠프용 판쵸우의 방수, 혼합색상, 1개" width="120" height="240"></a>',
  cup: '<a href="https://link.coupang.com/a/ieQnVXXJ36" target="_blank" referrerpolicy="unsafe-url"><img src="https://img2a.coupangcdn.com/image/affiliate/banner/01aa8216f454f2dd220adab5956e1f76@2x.jpg" alt="캠핑 휴대용 접이식 스텐컵 150ml 중형, 2개, 스테인리스" width="120" height="240"></a>',
  carcharger: '<a href="https://link.coupang.com/a/ieQsAO8UbQ" target="_blank" referrerpolicy="unsafe-url"><img src="https://img1c.coupangcdn.com/image/affiliate/banner/9f4c1f533b233fa0eb1b48df99db94f2@2x.jpg" alt="벨킨 부스트차지 PPS 30W USB C 차량용 충전기, CCA004qcBK, 블랙" width="120" height="240"></a>',
+ toilet: '<a href="https://link.coupang.com/a/ie6X3NqmNo" target="_blank" referrerpolicy="unsafe-url"><img src="https://img5a.coupangcdn.com/image/affiliate/banner/ddfd6058600935242c091d59182480bc@2x.jpg" alt="응가맨 응고제10개+용변봉투10장 재난 캠핑 급한용변 단수 노지 차박 비박 여행 야외 양변기겸용, 1개, 혼합" width="120" height="240"></a>',
+ diapers: '<a href="https://link.coupang.com/a/ie6Y9sb1a0" target="_blank" referrerpolicy="unsafe-url"><img src="https://img3a.coupangcdn.com/image/affiliate/banner/e1fccea5f98fa0ac48e3254ee6e1b2c3@2x.jpg" alt="하기스 맥스드라이 뉴 공용 소형 밴드형, 2단계, 174매" width="120" height="240"></a>',
+ dogfood: '<a href="https://link.coupang.com/a/ie6Z9UwjsW" target="_blank" referrerpolicy="unsafe-url"><img src="https://image11.coupangcdn.com/image/affiliate/banner/337c9eb358e795da292234e097bd988d@2x.jpg" alt="탐사 강아지 사료 연어 레시피, 3kg, 1개" width="120" height="240"></a>',
 };
 
 export function affiliatePhoto(key:AffiliateOfferKey):string|undefined {
