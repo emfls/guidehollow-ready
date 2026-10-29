@@ -59,19 +59,42 @@ The published `src/site.ts` enables indexing for public, reviewed pages. Only 40
 
 ## Google Analytics 4 (consent-first)
 
-Google Analytics is NOT transmitting traffic data until a real GA4 **web data stream**
-measurement ID (e.g. `G-...`) is configured specifically for
-`https://ready.guidehollow.com`.
+### Activated measurement ID
 
-1. In [Google Analytics](https://analytics.google.com/), go to **관리 → 데이터 스트림 → 웹 스트림** and create/select the `ready.guidehollow.com` stream; copy its `G-...` **측정 ID** (not the numeric property or stream ID).
-2. In **GitHub → emfls/guidehollow-ready → Settings → Secrets and variables → Actions → Variables**, add the repository variable `READY_GA4_MEASUREMENT_ID` with that measurement ID. Only the measurement ID is needed; do not publish any API secrets or service-account keys.
-3. Re-run the `Build and deploy GuideHollow Ready (Astro)` workflow (or merge a change to `main`). The build injects `PUBLIC_GA4_MEASUREMENT_ID`. When absent or invalid, the generated pages contain no Google tracking tag or consent popup.
-4. Visit the site, choose **분석에 동의**, and verify `page_view` in GA4's Realtime/DebugView. Click a real Coupang product link (you can cancel checkout) and verify the custom `affiliate_click` event with `offer_code`, `page_path`, and `placement`. It measures click intent, **not completed orders/commission**. For per-product reporting, register `offer_code` and optionally `placement` as **event-scoped custom dimensions** in GA4.
-5. Test the **방문 통계 설정** button in the footer. Declining must prevent the Google script from loading and accepting must enable events. Visit `/privacy/` for the published disclosure.
+The publisher-supplied GA4 web-stream ID for
+**https://ready.guidehollow.com** is **`G-6YFWRC72RG`**.
+The GitHub Actions production build sets
+`PUBLIC_GA4_MEASUREMENT_ID: G-6YFWRC72RG` in the `build` job. This ID is a
+public browser tag ID, not a secret or a Google Analytics API credential.
+The older `READY_GA4_MEASUREMENT_ID` repository variable is **not required**.
 
-Consent is opt-in, only analytics storage may be granted, no ads storage is requested.
-Google receives no values from household checklist, contact fields, family planning, or user-generated form inputs.
-The Playwright QA uses a **test-only synthetic measurement ID** and blocks Google endpoints; it cannot contaminate the actual GA4 property.
+The app does **not** load the Google tag until the visitor explicitly
+selects **분석에 동의**. A refusal or no decision causes no Google Analytics
+script request. The visitor may change their decision using the
+**방문 통계 설정** control in the footer; details are disclosed on
+`/privacy/`.
+
+### What to verify in GA4
+
+1. Open [Google Analytics](https://analytics.google.com/) and select the
+   property/web stream whose ID is **`G-6YFWRC72RG`**.
+2. Open the production site in a clean/private browser window, choose
+   **분석에 동의**, and visit the `/buying/` page.
+3. Check **Realtime** for `page_view`, and click one existing Coupang affiliate
+   product link to confirm the **`affiliate_click`** event.
+4. The click event has `offer_code`, `page_path`, and `placement`. To analyze
+   clicks by product in standard GA4 reports, register `offer_code` and
+   optionally `placement` as event-scoped custom dimensions.
+5. `affiliate_click` counts outbound **clicks**, **not purchases** or commission
+   revenue. Compare conversions with the separate Coupang Partners dashboard.
+
+No checklist values, family emergency contacts, phone numbers, or user-written
+inputs are submitted to GA4. Advertising storage and personalized ads consent
+remain denied by default.
+
+The Playwright browser QA deliberately substitutes a **synthetic test ID**
+(`G-READYTEST123`) and blocks requests to Google; test results do not count
+toward the live property.
 
 ## Safety
 
