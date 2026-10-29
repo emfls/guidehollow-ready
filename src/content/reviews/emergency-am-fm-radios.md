@@ -1,5 +1,5 @@
 ---
-title: "정전 때 쓸 비상 라디오, 건전지형과 충전형 비교"
+title: "소니 ICF-P26 비상 라디오, 구매 전 확인할 점"
 description: "정전 대비 라디오는 우리 동네 방송이 잘 들리고 전원을 준비하기 쉬운 제품이 좋습니다."
 category: general
 publishedDate: 2026-10-28
