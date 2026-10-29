@@ -121,7 +121,7 @@ try{
   if(route==='/protocols/'){
     if(await page.locator('.protocol-stage-btn').count()!==6)failed.push('six period selector buttons missing');
     if(await page.locator('.protocol-item:visible').count()!==9)failed.push('3-day initial essentials must render nine items');
-    if(await page.locator('.protocol-item-offer img').count()!==6)failed.push('all six approved partner images must exist');
+    if(await page.locator('.protocol-item-offer img').count()!==12)failed.push('all twelve approved partner images must exist');
     if(!(await page.locator('#protocol-water-warning').textContent()||'').includes('CDC'))failed.push('first-stage water safety guidance missing');
   }
   if(['/starter-kit/','/buying/food/','/buying/gear/','/protocols/','/reviews/','/reviews/emergency-am-fm-radios/'].includes(route)){
