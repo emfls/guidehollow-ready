@@ -44,6 +44,7 @@ const configured=/^G-[A-Z0-9]{6,}$/.test(measurementId);
       try {window.localStorage.setItem(storageKey,choice);} catch {/* browsing without storage */}
     };
     let active=false;
+    let choice=getChoice();
     function start(){
       if(active)return;
       active=true;
@@ -70,7 +71,8 @@ const configured=/^G-[A-Z0-9]{6,}$/.test(measurementId);
     function hide(){panel.hidden=true;}
     function show(){panel.hidden=false;}
     function choose(allowed){
-      setChoice(allowed?'yes':'no');
+      choice=allowed?'yes':'no';
+      setChoice(choice);
       if(allowed){
         hide();
         start();
@@ -84,13 +86,12 @@ const configured=/^G-[A-Z0-9]{6,}$/.test(measurementId);
     yes.addEventListener('click',()=>choose(true));
     no.addEventListener('click',()=>choose(false));
     settings?.addEventListener('click',()=>show());
-    const initial=getChoice();
-    if(initial==='yes')start();
-    else if(initial!=='no')show();
+    if(choice==='yes')start();
+    else if(choice!=='no')show();
     // This event measures affiliate OUTBOUND CLICKS, not orders or commissions.
     // No link query strings, checkout data, names, or user-supplied text are sent.
     document.addEventListener('click',(event)=>{
-      if(!active || getChoice()!=='yes')return;
+      if(!active || choice!=='yes')return;
       const element=event.target;
       if(!(element instanceof Element))return;
       const anchor=element.closest('a[href^="https://link.coupang.com/a/"]');
