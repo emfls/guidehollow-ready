@@ -1,6 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
 import { sources } from '../../data/resources';
+import PartnerOfferCard from '../../components/PartnerOfferCard.astro';
 ---
 <Base title="비상식량·식수 준비: 72시간과 장기 비축" description="전시·재난 대비 비상식량의 선택 기준, 식수 72시간 계산, 소비기한 관리, 영유아·고령자 가족 준비, 정전·단수 대응을 공식 근거로 정리했습니다.">
 <div class="container">
@@ -16,6 +17,15 @@ import { sources } from '../../data/resources';
 <nav class="guide-quick-links" aria-label="비상식량 가이드 빠른 이동">
  <a href="#water">① 식수 계산</a><a href="#conditions">② 음식 고르기</a><a href="#rotation">③ 보관·교체</a>
  </nav>
+ <section class="ready-shop-section" aria-labelledby="food-partner-offers-title">
+  <h2 id="food-partner-offers-title">필요한 만큼 구매할 식수·상온식품 예시</h2>
+  <p>집에 있는 물과 식품부터 확인하세요. 아래 두 가지는 사용자가 제공한 쿠팡파트너스 등록 상품이며, 한 제품만으로 가족의 비축 계획을 완성할 수는 없습니다.</p>
+  <p class="partner-full-disclosure">이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다. 구매 전 소비기한·보관 조건·판매자·가격·배송을 다시 확인하세요.</p>
+  <div class="ready-shop-grid">
+   <PartnerOfferCard offer="water" title="아이시스 화이트캡 무라벨 생수 2L × 12개" note="총 24L 상품입니다. 아래 식수 계산기로 가족별 부족분을 먼저 구하고, 생수 보관 조건과 표시 날짜를 확인하세요."/>
+   <PartnerOfferCard offer="tuna" title="동원 라이트 스탠다드 참치 100g × 10개" note="그대로 먹을 수 있는 상온 식품 예시입니다. 영양 균형을 위해 다른 음식도 필요하며, 소비기한과 캔따개 필요 여부를 확인하세요."/>
+  </div>
+ </section>
  <div class="article-layout">
 <article class="article-main readable">
  
