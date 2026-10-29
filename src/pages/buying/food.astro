@@ -36,6 +36,26 @@ const extraFoodOffers=buyingGuideProducts.filter(p=>p.group==='food'&&p.offer&&!
    {extraFoodOffers.map(item=><PartnerOfferCard offer={item.offer!} title={affiliateOffers[item.offer!].alt} note={item.caution}/>)}
   </div>
  </details>
+ <section class="food-buying-decision" aria-labelledby="food-decision-title">
+  <span class="section-label">실제 등록된 상품만 비교</span>
+  <h2 id="food-decision-title">우리 집에는 무엇부터 필요할까요?</h2>
+  <p>쿠팡 판매 링크가 등록된 상품 중에서도 <strong>가족별로 필요한 품목만</strong> 고르세요. 제품의 정확한 옵션·남은 소비기한·실온보관 가능 여부는 구매 전에 다시 확인해야 합니다.</p>
+  <div class="comparison-scroll" role="region" tabindex="0" aria-label="등록된 상온 식품 상품별 선택 기준">
+   <table>
+    <thead><tr><th scope="col">현재 준비 상태</th><th scope="col">고려할 등록 상품</th><th scope="col">사지 않아도 되는 경우</th></tr></thead>
+    <tbody>
+     <tr><th scope="row">식수가 부족함</th><td>아이시스 생수 <strong>2L × 12개</strong></td><td>가족 기준량을 이미 확보하고 보관 상태가 양호할 때</td></tr>
+     <tr><th scope="row">조리 없이 먹는 단백질 식품 부족</th><td>동원 참치 <strong>100g × 10개</strong> 또는 아침 바로드숑 실온 닭가슴살 <strong>100g × 60개</strong></td><td>평소 먹는 상온식품이 충분하거나 대량 구매분을 소비하기 어려울 때</td></tr>
+     <tr><th scope="row">끼니 사이 간식이 필요함</th><td>닥터유 에너지바 미니 <strong>310g × 3개</strong></td><td>주식 대신 먹으려는 경우 또는 당·알레르기·식이 제한에 맞지 않을 때</td></tr>
+     <tr><th scope="row">통조림을 수동으로 열어야 함</th><td>코멧 키친 캔오프너·병따개</td><td>준비한 캔이 전부 안전하게 손으로 여는 방식이고 별도 따개가 있을 때</td></tr>
+    </tbody>
+   </table>
+  </div>
+  <p class="table-help">모바일에서는 표를 좌우로 밀어 확인하세요.</p>
+  <p><strong>실온 닭가슴살 60개를 60끼 식사로 계산하지 마세요.</strong> 제품 한 종류로 영양 균형을 완성할 수 없고, 닭가슴살도 <strong>정확한 상품의 미개봉 보관 조건</strong>을 확인해야 합니다. 음식을 보관할 박스나 10L 용기는 식품 자체가 아닙니다. 용기가 식수용으로 적합한지도 제품별 확인이 필요합니다.</p>
+  <p>침수되거나 포장이 부풀고 파손된 식품은 소비기한이 남았다는 이유만으로 먹지 마세요. <a href="https://www.foodsafety.gov/keep-food-safe/food-safety-in-disaster-or-emergency" target="_blank" rel="noopener noreferrer">FoodSafety.gov 비상시 식품 안전 안내(해외 참고) ↗</a></p>
+  <p class="food-decision-jump"><a href="#food-partner-offers-title">생수·참치 등록 상품 다시 보기 →</a> <a href="#food-extra-buying">추가 등록 상품 6종 펼쳐보기 →</a></p>
+ </section>
  <div class="article-layout">
 <article class="article-main readable">
  

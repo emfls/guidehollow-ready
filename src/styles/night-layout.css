@@ -1108,3 +1108,30 @@ main{min-width:0}
  .starter-secondary-affiliates-grid .starter-affiliate-product-visual,
  .simple-product-media>a
 ){border:0;box-shadow:none}
+
+/* Buyer-first editorial evidence: readable decision guides, not hidden behind
+   the supplementary source accordion. Cards and affiliate images retain style. */
+.review-decision{max-width:100%;min-width:0;overflow-x:auto;overscroll-behavior-x:contain;margin:19px 0 24px;padding:22px 23px;border-top:1px solid #4b6971;border-bottom:1px solid #4b6971;color:#e3eeeb}
+.review-decision>h2{margin:0 0 14px!important;font-size:1.23rem!important;color:#ffe2bd!important}
+.review-decision :is(h2,h3){scroll-margin-top:95px}
+.review-decision p,.review-decision li{line-height:1.8;overflow-wrap:break-word;word-break:keep-all}
+.review-decision table{border-collapse:collapse;min-width:490px;width:100%;margin:14px 0 20px}
+.review-decision th,.review-decision td{border:1px solid #587179;text-align:left;vertical-align:top;padding:11px 12px;color:#e4eeeb;line-height:1.6;font-size:.85rem}
+.review-decision th{background:#28413f;color:#ffe3b6}
+.review-decision a,.food-buying-decision a{color:#bcebd9;text-decoration:underline;text-underline-offset:3px}
+.review-decision a:focus-visible,.food-buying-decision a:focus-visible{outline:3px solid #f4c68d;outline-offset:3px;border-radius:3px}
+.food-buying-decision{margin:22px 0 30px;padding:22px 23px;max-width:100%;min-width:0;background:#1a323b;border:1px solid #4d6d73;border-radius:15px;color:#e0ece9}
+.food-buying-decision h2{font-size:1.25rem;color:#ffe1b7;margin:5px 0 10px}
+.food-buying-decision p{font-size:.88rem;line-height:1.77;color:#d7e4e0;margin:11px 0}
+.food-buying-decision :is(th,td){padding:11px;vertical-align:top;font-size:.84rem;color:#e2ece6;word-break:keep-all}
+.food-buying-decision th{color:#f6d4a4}
+.food-decision-jump{display:flex;gap:12px 18px;flex-wrap:wrap;margin-top:16px!important}
+.food-decision-jump a{min-height:44px;display:inline-flex;align-items:center}
+@media(max-width:600px){
+ .review-decision{padding:17px 13px}
+ .review-decision>h2{font-size:1.13rem!important}
+ .review-decision th,.review-decision td{padding:9px;font-size:.81rem}
+ .food-buying-decision{padding:16px 13px}
+ .food-buying-decision .comparison-scroll{max-width:100%}
+ .food-decision-jump{flex-direction:column;align-items:stretch}
+}
