@@ -120,7 +120,7 @@ try{
   if(route==='/buying/gear/' && await page.locator('#drybag-coupang img').count()!==1)failed.push('Drybag photo missing');
   if(route==='/protocols/'){
     if(await page.locator('.protocol-stage-btn').count()!==6)failed.push('six period selector buttons missing');
-    if(await page.locator('.protocol-item:visible').count()!==9)failed.push('3-day initial essentials must render nine items');
+    if(await page.locator('.protocol-item:visible').count()!==15)failed.push('3-day initial essentials must render fifteen items');
     if(await page.locator('.protocol-item-offer img').count()!==21)failed.push('all 21 approved protocol partner images must exist');
     if(!(await page.locator('#protocol-water-warning').textContent()||'').includes('CDC'))failed.push('first-stage water safety guidance missing');
   }
@@ -162,7 +162,7 @@ try{
   if(route==='/buying/'){
     if(await page.locator('.shop-guide-item').count()!==30)failed.push('buyer hub does not have exactly 30 candidate products');
     if(await page.locator('.shop-guide-buy').count()!==27)failed.push('twenty-seven genuine affiliate buttons not available');
-    if(await page.locator('[data-buy-selected="yes"]').count()!==6)failed.push('six selected candidate products missing');
+    if(await page.locator('[data-buy-selected="yes"]').count()!==15)failed.push('fifteen newly linked product candidates missing');
     if(await page.locator('[data-buy-selected="yes"] .shop-guide-buy').count()!==15)failed.push('fifteen newest user-issued partner URLs must appear on selected products');
     if(await page.locator('[data-buy-linked="no"] .shop-guide-buy').count()>0)failed.push('unverified product has misleading buy button');
     if(await page.locator('.shop-guide-item:visible').count()<=0||await page.locator('.shop-guide-item:visible').count()>=30)failed.push('initial 3-day priority filter not effective');
@@ -308,7 +308,7 @@ try{
   await page.reload();
   if(!await page.locator('#shop-guide-unchecked').isDisabled())errors.push({width,route:'/buying/',issues:['empty record should not claim to know owned products']});
   await page.goto(`http://127.0.0.1:${PORT}/protocols/`);
-  if(await page.locator('.protocol-item:visible').count()!==9)errors.push({width,route:'/protocols/',issues:['3-day initial card count incorrect']});
+  if(await page.locator('.protocol-item:visible').count()!==15)errors.push({width,route:'/protocols/',issues:['3-day initial card count incorrect']});
   await page.locator('#protocol-people').fill('3');
   await page.locator('#protocol-water-owned').fill('10');
   if((await page.locator('#protocol-water-total').textContent())!=='34.2 L'||(await page.locator('#protocol-water-gap').textContent())!=='24.2 L'||(await page.locator('#protocol-water-cartons').textContent())!=='2묶음')errors.push({width,route:'/protocols/',issues:['3-day family water 24L-package estimate incorrect']});
