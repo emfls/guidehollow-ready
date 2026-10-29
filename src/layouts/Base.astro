@@ -42,6 +42,7 @@ const path=Astro.url.pathname;
     <a href="/" aria-current={path==='/' ? 'page':undefined}>홈</a>
     <a class="nav-emergency" href="/emergency/" aria-current={path==='/emergency/'?'page':undefined}>긴급 행동</a>
     <a href="https://www.safekorea.go.kr/safekorea-kor/flsm/flsm/facilitiesSafteyMap.do" target="_blank" rel="noopener noreferrer">대피소 찾기 ↗</a>
+    <a href="/protocols/" aria-current={path==='/protocols/'?'page':undefined}>기간별 대비</a>
     <a href="/checklist/" aria-current={path==='/checklist/'||path==='/starter-kit/'?'page':undefined}>준비</a>
     <a href="/family-card/" aria-current={path==='/family-card/'||path==='/plan/'||path==='/family-emergency/'?'page':undefined}>가족</a>
    </nav>
