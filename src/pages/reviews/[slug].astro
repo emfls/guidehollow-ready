@@ -3,6 +3,7 @@ import Base from '../../layouts/Base.astro';
 import { render } from 'astro:content';
 import { getPublishedReviews } from '../../lib/reviews';
 import { resolvePartnerLink } from '../../lib/partner-code';
+import ProductPhoto from '../../components/ProductPhoto.astro';
 export async function getStaticPaths() {
  const rows=await getPublishedReviews();
  return rows.map(row=>({params:{slug:row.id},props:{row}}));
@@ -75,13 +76,13 @@ const verifiedCoupangPhoto='https://thumbnail1.coupangcdn.com/thumbnails/remote/
  {products.length>0 && <div class="review-product-grid" aria-label="제품별 쉬운 비교">
   {products.map((p,i)=><section class="review-product-compact">
    <div class="review-product-top"><span>제품 {i+1}</span><span>{p.partner?'구매 링크 확인':'구매 링크 미확인'}</span></div>
-   {p.partner?.imageUrl && <a class="review-product-photo" href={p.partner.url} target="_blank" rel="sponsored nofollow noopener noreferrer" aria-label={p.name+' 상품 이미지에서 쿠팡 상세 페이지 열기'}><img src={p.partner.imageUrl} width="180" height="180" loading="lazy" decoding="async" referrerpolicy="no-referrer" alt={p.name+' '+p.modelNumber+' 상품 사진'}/></a>}
+   {p.partner?.imageUrl && <div class="review-product-photo"><ProductPhoto src={p.partner.imageUrl} alt={p.name+' '+p.modelNumber+' 제품 사진'}/></div>}
    <h2>{p.name}</h2>
    <p class="review-model">{p.modelNumber}</p>
    <p class="review-product-for">{p.bestFor}</p>
    <div class="review-procon"><strong>좋은 점</strong><p>{p.strengths[0]}</p></div>
    <div class="review-procon review-procon--caution"><strong>아쉬운 점</strong><p>{p.limitations[0]}</p></div>
-   {p.partner ? <a class="btn primary review-cta" href={p.partner.url} target="_blank" rel="sponsored nofollow noopener noreferrer">쿠팡에서 이 제품 확인하기 ↗</a> : <span class="review-not-ready">검증된 쿠팡 구매 링크가 아직 없습니다</span>}
+   {p.partner ? <a class="btn primary review-cta" href={p.partner.url} target="_blank" rel="sponsored nofollow noopener noreferrer">쇼핑하기 ↗</a> : <span class="review-not-ready">검증된 쿠팡 구매 링크가 아직 없습니다</span>}
    <details class="review-card-details">
     <summary>다른 특징·주의사항 보기</summary>
     <h3>장점 더 보기</h3><ul>{p.strengths.slice(1).map(s=><li>{s}</li>)}</ul>

@@ -1,0 +1,18 @@
+---
+/**
+ * Visually crops the middle product-photo segment of a verified 120x240
+ * Coupang Partners banner. No logo, listing text or embedded CTA is shown.
+ * The original image URL is preserved; no third-party HTML is executed.
+ */
+interface Props {
+ src?: string;
+ alt: string;
+ offer?: string;
+ fallback?: string;
+}
+const {src,alt,offer,fallback='▣'}=Astro.props;
+const isBanner=Boolean(src?.includes('/image/affiliate/banner/'));
+---
+<div class:list={['product-photo-frame',isBanner?'product-photo-frame--banner':'product-photo-frame--standalone']} data-photo-offer={offer||undefined}>
+ {src ? <div class="product-photo-window"><img src={src} width={isBanner?120:212} height={isBanner?240:212} alt={alt} loading="lazy" decoding="async" referrerpolicy="no-referrer"/></div> : <span class="product-photo-fallback" role="img" aria-label={alt}>{fallback}</span>}
+</div>

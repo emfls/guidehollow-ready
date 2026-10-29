@@ -2,6 +2,7 @@
 import Base from '../../layouts/Base.astro';
 import { getPublishedReviews } from '../../lib/reviews';
 import { affiliatePhoto } from '../../data/affiliate-product-visuals';
+import ProductPhoto from '../../components/ProductPhoto.astro';
 const reviews = await getPublishedReviews();
 const date=(d:Date)=>d.toISOString().slice(0,10);
 const featured=reviews.filter(r=>r.data.affiliate);
@@ -31,7 +32,7 @@ const shortTitles:Record<string,string>={
   {featured.length>0 && <section class="review-featured" aria-labelledby="review-featured-title">
    <div class="section-head"><span class="section-label">검증된 구매 링크</span><h2 id="review-featured-title">바로 상품 확인하기</h2></div>
    <div class="review-featured-grid">{featured.map(r=><article class="review-featured-card">
-    <div class="review-featured-image">{r.id==='fenix-e20-v2-flashlight' && affiliatePhoto('flashlight') && <img src={affiliatePhoto('flashlight')} width="212" height="212" loading="lazy" decoding="async" referrerpolicy="no-referrer" alt="페닉스 E20 V2.0 손전등 제품 사진"/>}{r.id==='emergency-am-fm-radios' && (affiliatePhoto('radio') ? <img src={affiliatePhoto('radio')} width="212" height="212" loading="lazy" decoding="async" referrerpolicy="no-referrer" alt="소니 ICF-P26 블랙 라디오 상품 사진"/> : <span class="review-featured-fallback" aria-hidden="true">📻</span>)}</div>
+    <div class="review-featured-image">{r.id==='fenix-e20-v2-flashlight' && <ProductPhoto src={affiliatePhoto('flashlight')} offer="flashlight" alt="페닉스 E20 V2.0 손전등 상품 사진" fallback="🔦"/>}{r.id==='emergency-am-fm-radios' && <ProductPhoto src={affiliatePhoto('radio')} offer="radio" alt="소니 ICF-P26 블랙 라디오 상품 사진" fallback="📻"/>}</div>
     <div><span class="review-chip">등록 당시 동일 모델 확인</span><h3>{r.data.title}</h3><p>{r.data.description}</p><a href={'/reviews/'+r.id+'/'} class="btn primary">장점·단점과 구매 정보 →</a></div>
    </article>)}</div>
   </section>}

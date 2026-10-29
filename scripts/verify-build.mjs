@@ -104,6 +104,16 @@ for(const id of ['ienLu8j8IC','ienNhlQsPk']){
  if(!gear.includes('rel="sponsored nofollow noopener noreferrer"')||!starter.includes('rel="sponsored nofollow noopener noreferrer"'))throw Error('Supplied affiliate URL requires disclosure and safe link attributes');
 }
 if(!gear.includes('소니 ICF-P26, 블랙')||!gear.includes('삼성 EB-P3401XUKGKR, 베이지')||!gear.includes('쿠팡 파트너스 활동의 일환')||!starter.includes('삼성 EB-P3401'))throw Error('Coupang model and affiliate notices must reflect observed product options');
+// Product-only commerce design: the original partner banner may remain as
+// the source image, but branding/title/embedded CTA must be CLIPPED in UI.
+const productPhotoComponent=readFileSync('src/components/ProductPhoto.astro','utf8');
+if(!productPhotoComponent.includes('product-photo-frame--banner') && !productPhotoComponent.includes("product-photo-frame--banner"))throw Error('Missing product-only banner crop component');
+if(!design.includes('.product-photo-frame--banner .product-photo-window img')||!design.includes('top:-30%')||!design.includes('.ready-shop-footer')||!design.includes('.review-product-compact .review-cta'))throw Error('Product photo crop or bottom-right CTAs missing');
+for(const path of ['src/components/PartnerOfferCard.astro','src/pages/starter-kit.astro','src/pages/buying/gear.astro','src/pages/protocols/index.astro','src/pages/reviews/[slug].astro']){
+ const source=readFileSync(path,'utf8');
+ if(!source.includes('<ProductPhoto'))throw Error('Legacy uncut partner banner remains in '+path);
+}
+if(!starter.includes('class="starter-affiliate-links"')||!starter.includes('class="ready-shop-footer"'))throw Error('Shopping buttons not moved out of the image and to card bottom-right');
 const radioReview=file('reviews/emergency-am-fm-radios/index.html');
 if(!radioReview.includes('ienLu8j8IC')||!radioReview.includes('7757158175')||!radioReview.includes('20909933080')||!radioReview.includes('sponsored nofollow'))throw Error('Matched ICF-P26 radio purchase card not displayed');
 if(!file('reviews/coupang-stock-audit-samsung-p3400-p3401/index.html').includes('EB-P3401XUKGKR'))throw Error('Stock audit has not been updated with verified 2026 Samsung model');

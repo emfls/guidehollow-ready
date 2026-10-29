@@ -1,5 +1,6 @@
 ---
 import { affiliateOffers, affiliatePhoto, type AffiliateOfferKey } from '../data/affiliate-product-visuals';
+import ProductPhoto from './ProductPhoto.astro';
 interface Props {
  offer:AffiliateOfferKey;
  title:string;
@@ -12,14 +13,12 @@ const item=affiliateOffers[offer];
 const image=affiliatePhoto(offer);
 ---
 <article class="ready-shop-card" data-affiliate-offer={offer} data-offer-check-id={checkId}>
- <div class="ready-shop-image">
-  {image ? <img src={image} width="120" height="240" loading="lazy" decoding="async" referrerpolicy="no-referrer" alt={item.alt+' 쿠팡파트너스 상품 배너'}/> : <span role="img" aria-label={item.alt+' 사진 미등록'}>{item.emoji}</span>}
- </div>
+ <div class="ready-shop-image"><ProductPhoto src={image} alt={item.alt+' 제품 사진'} offer={offer} fallback={item.emoji}/></div>
  <div class="ready-shop-body">
   <span class="ready-shop-chip">쿠팡파트너스 등록 상품</span>
   <h3>{title}</h3>
   {checkId && <small class="ready-shop-checkstatus" data-offer-check-status>상세 체크 기록 확인 중</small>}
   <p>{note}</p>
-  <a href={item.url} class="partner-check-action" target="_blank" rel="sponsored nofollow noopener noreferrer">{buttonText}</a>
  </div>
+ <div class="ready-shop-footer"><a href={item.url} class="partner-check-action" target="_blank" rel="sponsored nofollow noopener noreferrer">{buttonText}</a></div>
 </article>

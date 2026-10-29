@@ -785,3 +785,82 @@ main{min-width:0}
 .starter-protocol-route{margin:12px 0 16px}
 .starter-protocol-route a,.checklist-protocol-route{display:inline-flex;align-items:center;min-height:44px;padding:9px 13px;font-size:.85rem;color:#c7f0dd;background:#27463f;border:1px solid #668d7d;border-radius:9px;text-decoration:none;font-weight:850}
 @media(max-width:540px){.home-protocol-banner{gap:11px;padding:15px}.home-protocol-banner>span:first-child{width:40px;height:40px}.home-protocol-banner strong{font-size:.92rem}.home-protocol-banner p{font-size:.78rem}}
+
+
+/*
+ * Product-only media treatment (2026-10-29).
+ * Official supplied 120x240 static banner: show ONLY its photo middle,
+ * clipping brand header, listing text and embedded commerce CTA.
+ * Media stage matches the white image background, with no grey letterbox.
+ * Link to checkout stays separate below / bottom-right.
+ */
+.product-photo-frame{--photo-paper:#fff;background:var(--photo-paper);display:grid;place-items:center;width:100%;aspect-ratio:1/1;border-radius:12px;overflow:hidden;isolation:isolate;padding:8px;box-sizing:border-box}
+.product-photo-window{width:100%;max-width:190px;aspect-ratio:1/1;position:relative;overflow:hidden;background:var(--photo-paper);border-radius:3px;flex:none}
+.product-photo-frame--banner .product-photo-window img{position:absolute;top:-30%;left:0;display:block;width:100%;max-width:none;height:200%;max-height:none;object-fit:fill}
+.product-photo-frame--banner[data-photo-offer="radio"] .product-photo-window img{top:-28%}
+.product-photo-frame--banner[data-photo-offer="battery"] .product-photo-window img{top:-31%}
+.product-photo-frame--standalone .product-photo-window img{display:block;width:100%;height:100%;object-fit:contain;position:static;max-width:none;max-height:none}
+.product-photo-fallback{color:#203940;font-size:2.6rem}
+.ready-shop-card{grid-template-columns:132px minmax(0,1fr);align-items:center;gap:14px 18px;padding:17px;background:#213741}
+.ready-shop-image{width:132px;min-height:0;height:auto;padding:0;aspect-ratio:1/1;overflow:visible;background:#fff;border-radius:12px}
+.ready-shop-image .product-photo-frame{width:100%;height:auto}
+.ready-shop-body{align-self:center}
+.ready-shop-footer{grid-column:1/-1;display:flex;justify-content:flex-end;align-items:center;border-top:1px solid #49636b;padding-top:12px;margin-top:1px}
+.ready-shop-footer .partner-check-action{margin:0 0 0 auto;min-height:44px;width:auto;max-width:100%;padding:10px 19px;text-align:center}
+.ready-shop-body h3{font-size:.99rem}
+.starter-secondary-affiliates-grid article{grid-template-columns:124px minmax(0,1fr);align-items:start;gap:14px}
+.starter-secondary-affiliates-grid .starter-affiliate-product-visual{width:124px;height:124px;min-height:124px;background:#fff;padding:0;margin:0;border-color:#fff}
+.starter-secondary-affiliates-grid .starter-affiliate-product-visual .product-photo-frame{padding:6px}
+.starter-affiliate-links{display:flex;align-items:center;justify-content:flex-end;gap:8px;flex-wrap:wrap;margin-top:9px}
+.starter-secondary-affiliates-grid .starter-affiliate-links a{margin:0}
+.starter-secondary-affiliates-grid .starter-affiliate-links a[href^="https://link.coupang.com/"]{margin-left:auto;padding:10px 16px}
+.partner-model-pending{grid-template-columns:140px minmax(0,1fr);align-items:start}
+.partner-model-pending .partner-product-visual{width:140px;height:140px;min-height:140px;padding:0;background:#fff;border-color:#fff}
+.partner-model-pending .partner-product-visual .product-photo-frame{padding:7px}
+.partner-model-pending .partner-product-copy{display:flex;flex-direction:column;align-items:flex-start}
+.partner-model-pending .partner-product-copy .partner-check-action{align-self:flex-end;margin:5px 0 0;min-height:44px;width:auto;max-width:100%}
+.review-product-compact{gap:10px}
+.review-product-photo{display:grid;place-items:center;height:auto;min-height:0;max-height:none;width:100%;padding:13px 0;margin:0;background:#1c2c37;border:0}
+.review-product-photo .product-photo-frame{width:min(100%,190px);padding:10px}
+.review-product-compact .review-cta{align-self:flex-end;width:auto;max-width:100%;padding:11px 19px;min-height:44px;margin-top:15px}
+.review-featured-image{background:#1b2c37;border-color:#496770;min-height:210px;padding:12px}
+.review-featured-image .product-photo-frame{width:min(100%,170px)}
+.protocol-item-offer{width:116px;align-items:stretch}
+.protocol-item-offer .product-photo-frame{width:100%;padding:7px;aspect-ratio:1/1}
+.protocol-item-offer a{width:100%;margin:0;min-height:44px}
+@media(max-width:900px){
+ .ready-shop-card{grid-template-columns:110px minmax(0,1fr)}
+ .ready-shop-image{width:110px}
+ .starter-secondary-affiliates-grid article{grid-template-columns:110px minmax(0,1fr)}
+ .starter-secondary-affiliates-grid .starter-affiliate-product-visual{width:110px;height:110px;min-height:110px}
+}
+@media(max-width:680px){
+ .ready-shop-footer .partner-check-action{width:auto;max-width:100%}
+ .partner-model-pending{grid-template-columns:118px minmax(0,1fr)}
+ .partner-model-pending .partner-product-visual{width:118px;height:118px;min-height:118px}
+ .partner-model-pending .partner-product-copy .partner-check-action{width:auto;max-width:100%}
+ .starter-secondary-affiliates-grid article{grid-template-columns:112px minmax(0,1fr)}
+ .starter-secondary-affiliates-grid .starter-affiliate-product-visual{width:112px;height:112px;min-height:112px}
+}
+@media(max-width:540px){
+ .ready-shop-card{grid-template-columns:104px minmax(0,1fr);gap:10px;padding:12px}
+ .ready-shop-image{width:104px;min-height:0;height:auto}
+ .ready-shop-footer{padding-top:10px}
+ .review-product-compact .review-cta{padding:11px 16px}
+ .starter-secondary-affiliates-grid article{grid-template-columns:103px minmax(0,1fr);gap:10px}
+ .starter-secondary-affiliates-grid .starter-affiliate-product-visual{width:103px;height:103px;min-height:103px}
+ .partner-model-pending{grid-template-columns:104px minmax(0,1fr);gap:10px}
+ .partner-model-pending .partner-product-visual{width:104px;height:104px;min-height:104px}
+ .protocol-item-offer{width:95px}
+ .protocol-item-offer .product-photo-frame{width:100%;padding:4px}
+}
+@media(max-width:370px){
+ .ready-shop-card{grid-template-columns:91px minmax(0,1fr);gap:9px}
+ .ready-shop-image{width:91px}
+ .starter-secondary-affiliates-grid article{grid-template-columns:88px minmax(0,1fr)}
+ .starter-secondary-affiliates-grid .starter-affiliate-product-visual{width:88px;height:88px;min-height:88px}
+ .partner-model-pending{grid-template-columns:91px minmax(0,1fr)}
+ .partner-model-pending .partner-product-visual{width:91px;height:91px;min-height:91px}
+ .protocol-item-offer{width:82px}
+}
+@media print{.ready-shop-footer,.review-cta,.protocol-item-offer a,.starter-affiliate-links a[href^="https://link.coupang.com/"]{display:none!important}}
