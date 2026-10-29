@@ -2,9 +2,10 @@
 import Base from '../../layouts/Base.astro';
 import ProductPhoto from '../../components/ProductPhoto.astro';
 import { affiliateOffers, affiliatePhoto } from '../../data/affiliate-product-visuals';
-import { buyingGuideProducts, guideGroups, buyingGuideShortlist } from '../../data/buying-guide';
+import { buyingGuideProducts, guideGroups, buyingGuideShortlist, newlyLinkedBuyingIds } from '../../data/buying-guide';
 const linked=buyingGuideProducts.filter(item=>item.offer);
-const recentlyLinked=buyingGuideProducts.filter(item=>buyingGuideShortlist[item.id]&&item.offer);
+const newlyLinkedSet=new Set<string>(newlyLinkedBuyingIds);
+const recentlyLinked=buyingGuideProducts.filter(item=>newlyLinkedSet.has(item.id)&&item.offer);
 ---
 <Base title="재난 대비 구매 가이드: 30가지 준비물과 검증된 쿠팡 상품" description="3일~90일 대비를 위한 30개 구매 후보의 선택 기준과 주의점, 보유 체크를 정리합니다. 쿠팡파트너스 링크는 실제 제공된 상품에만 연결합니다.">
 <div class="container shop-guide-page">
@@ -65,12 +66,12 @@ const recentlyLinked=buyingGuideProducts.filter(item=>buyingGuideShortlist[item.
   {guideGroups.map(group=><section class="shop-guide-group" data-buy-group={group.id} aria-labelledby={'shop-group-'+group.id}>
    <div class="shop-guide-group-heading"><span aria-hidden="true">{group.icon}</span><div><h3 id={'shop-group-'+group.id}>{group.title}</h3><p>{group.description}</p></div></div>
    <div class="shop-guide-product-grid">
-    {buyingGuideProducts.filter(item=>item.group===group.id).map(item=><article class="shop-guide-item" data-buy-id={item.id} data-buy-days={item.days} data-buy-category={item.group} data-buy-linked={item.offer?'yes':'no'} data-buy-selected={buyingGuideShortlist[item.id]?'yes':'no'} data-buy-check-id={item.checkId||undefined} hidden={item.days>3}>
+    {buyingGuideProducts.filter(item=>item.group===group.id).map(item=><article class="shop-guide-item" data-buy-id={item.id} data-buy-days={item.days} data-buy-category={item.group} data-buy-linked={item.offer?'yes':'no'} data-buy-selected={newlyLinkedSet.has(item.id)?'yes':'no'} data-buy-check-id={item.checkId||undefined} hidden={item.days>3}>
      <div class="shop-guide-item-main">
       <div class="shop-guide-item-top"><span class:list={['shop-guide-state',item.offer?'is-linked':buyingGuideShortlist[item.id]?'is-selected':'is-pending']}>{item.offer?'쿠팡 연결됨':buyingGuideShortlist[item.id]?'상품 후보 선정':'상품 검증 대기'}</span><span class="shop-guide-days">{item.days}일부터</span><span class="shop-guide-priority">{item.priority}</span></div>
       <h4>{item.title}</h4>
       <p class="shop-guide-item-why">{item.why}</p>
-      {item.offer && buyingGuideShortlist[item.id] && <div class="shop-guide-selected-info"><strong>이번에 고른 상품</strong><p>{buyingGuideShortlist[item.id].why}</p><small>구매 전 확인: {buyingGuideShortlist[item.id].verify}</small></div>}
+      {item.offer && buyingGuideShortlist[item.id] && <div class="shop-guide-selected-info"><strong>상품 선택 참고</strong><p>{buyingGuideShortlist[item.id].why}</p><small>구매 전 확인: {buyingGuideShortlist[item.id].verify}</small></div>}
       <dl>
        <div><dt>고르는 기준</dt><dd>{item.criteria}</dd></div>
        <div><dt>주의할 점</dt><dd>{item.caution}</dd></div>
@@ -89,8 +90,8 @@ const recentlyLinked=buyingGuideProducts.filter(item=>buyingGuideShortlist[item.
         <p class="shop-guide-selected-why">{buyingGuideShortlist[item.id].why}</p>
         <small>구매 전 확인: {buyingGuideShortlist[item.id].verify}</small>
        </> : <>
-        <strong>구매 링크 준비 중</strong>
-        <small>정확한 판매 상품·옵션 및 제휴 링크 확인 전에는 구매 버튼을 표시하지 않습니다.</small>
+        <strong>{item.id==='portable-toilet'?'운영자 제외 상품 · 대체 모델 선정 대기':'구매 링크 준비 중'}</strong>
+        <small>{item.id==='portable-toilet'?'블랙리스트로 지정된 상품은 연결하지 않습니다. 대체품의 실제 구성과 제휴 링크를 검증한 뒤 등록합니다.':'정확한 판매 상품·옵션 및 제휴 링크 확인 전에는 구매 버튼을 표시하지 않습니다.'}</small>
        </>}
       </div>}
     </article>)}
