@@ -1,6 +1,6 @@
 ---
-title: "정전 대비 보조배터리, 만과 이만 중 무엇이 좋을까요?"
-description: "가볍게 들고 다닐지, 충전할 기기가 많을지에 따라 보조배터리 용량을 고르세요."
+title: "삼성 EB-P3401 10,000mAh 보조배터리 고르는 법"
+description: "구매 링크가 연결된 삼성 EB-P3401 10,000mAh의 호환성과 구매 전 확인사항을 안내합니다."
 category: power
 publishedDate: 2026-10-28
 updatedDate: 2026-10-29
