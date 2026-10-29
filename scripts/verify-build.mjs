@@ -16,6 +16,14 @@ const design=readFileSync('src/styles/night-layout.css','utf8');
 if(!design.includes('Publisher-linked product photography: no decorative border')||!design.includes('.review-featured-image,')||!design.includes('.starter-secondary-affiliates-grid .starter-affiliate-product-visual,'))throw Error('Affiliate product media border removal missing');
 for(const rule of ['.mobile-tabbar','.review-directory-grid','.starter-set-grid','@media(max-width:540px)','word-break:keep-all','grid-auto-rows:auto']) if(!design.includes(rule))throw Error('Mobile-first shared design contract missing: '+rule);
 const home=file('index.html');
+const ga4Id=(process.env.PUBLIC_GA4_MEASUREMENT_ID||'').trim();
+if(ga4Id&&!/^G-[A-Z0-9]{6,}$/.test(ga4Id))throw Error('Invalid GA4 web measurement ID');
+if(ga4Id){
+ if(!home.includes('id="ga4-consent-panel"')||!home.includes('id="ga4-settings"')||!home.includes(ga4Id))throw Error('Opt-in GA4 analytics missing from generated public pages');
+ if(!home.includes('analytics_storage')||!home.includes('affiliate_click')||!home.includes('ad_personalization'))throw Error('GA4 consent or safe outbound click instrumentation missing');
+}else if(home.includes('id="ga4-consent-panel"')||home.includes('googletagmanager.com/gtag/js'))throw Error('Unconfigured site must not emit Google tracking code');
+const privacy=file('privacy/index.html');
+if(!privacy.includes('Google 애널리틱스 4(GA4)')||!privacy.includes('쿠팡파트너스 링크 클릭 이벤트'))throw Error('Google Analytics disclosure missing from privacy page');
 if (!home.includes('mobile-tabbar') || !home.includes('aria-label="모바일 빠른 메뉴"')) throw Error('Unified mobile navigation missing');
 if (home.includes('home-three-steps') || home.includes('ui-refresh.css')) throw Error('Redundant light homepage design still present');
 if (!design.includes('color-scheme:dark') || !design.includes('#0e151d')) throw Error('Dark theme regression');
